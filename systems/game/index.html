@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strata-Dom-3D · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/></svg>">
+  <style>
+    :root { --bg:#020108; --fg:#e6e3f5; --muted:#6a6480; --accent:#b6a4ff; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); height:100vh; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,0.75) 100%); }
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+
+    main { position:relative; z-index:5; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 6vw; text-align:center; }
+    .label { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.34em; text-transform:uppercase; margin-bottom:24px; }
+    h1 { font-weight:200; letter-spacing:-0.01em; font-size:clamp(48px, 8vw, 92px); margin:0 0 8px; }
+    h1 .accent { color:var(--accent); font-weight:300; }
+    .sub { color:#9d96b5; font-size:16px; font-weight:300; letter-spacing:0.01em; margin:0 0 56px; max-width:480px; line-height:1.6; }
+    .enter-game {
+      display:inline-flex; align-items:center; gap:14px;
+      padding:18px 42px; border-radius:999px;
+      background:rgba(0,0,0,0); border:1.5px solid var(--accent);
+      color:var(--fg); text-decoration:none; font-size:13px; font-weight:400; letter-spacing:0.42em; text-transform:uppercase;
+      cursor:pointer; transition:all 380ms cubic-bezier(.4,0,.2,1);
+    }
+    .enter-game:hover { background:rgba(182,164,255,0.10); letter-spacing:0.50em; padding:18px 50px; }
+    .enter-game .arrow { color:var(--accent); }
+    .warn { margin-top:48px; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.20em; text-transform:uppercase; max-width:420px; line-height:1.7; }
+    .warn b { color:var(--accent); }
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a>
+    <span class="sep">/</span>
+    <a href="/systems/">systems</a>
+    <span class="sep">/</span>
+    <span class="here">strata-dom-3d</span>
+  </div>
+
+  <main>
+    <p class="label">— Layer II · ludic substrate</p>
+    <h1>Strata-Dom<span class="accent">-3D</span></h1>
+    <p class="sub">A simultaneous-reveal toroidal commitment game. Every move is a sealed promise.</p>
+
+    <a class="enter-game" href="/play/">
+      Begin
+      <span class="arrow">→</span>
+    </a>
+
+    <div class="warn">
+      <b>Mode shift.</b><br>
+      Crossing this threshold loads the game environment. Camera, controls, and chrome change.
+    </div>
+  </main>
+
+  <footer>layer ii · substrate</footer>
+</body>
+</html>

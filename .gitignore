@@ -43,8 +43,11 @@ build/
 .next/
 .nuxt/
 
-# Cloudflare local dev
+# Cloudflare local dev + secrets
 .wrangler/
+.cf-deploy-secret
+.env
+.env.*
 
 # Logs / temp
 *.log
