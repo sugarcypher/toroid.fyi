@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polymorphic Matrix of Systemic Political Pressure</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#e8e8e4;color:#222;font-family:'SF Mono',Consolas,'Courier New',monospace;overflow:hidden;height:100vh}
+canvas{display:block}
+#ui{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+#title{position:absolute;top:14px;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none}
+#title h1{font-size:17px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#222}
+#title .sub{font-size:10px;color:#888;letter-spacing:2px;margin-top:4px}
+#legend{position:absolute;top:72px;right:14px;pointer-events:all;background:rgba(255,255,252,0.94);border:1px solid #ccc;border-radius:8px;padding:12px;width:230px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+#legend h3{font-size:9px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px}
+.leg-item{display:flex;align-items:center;gap:7px;padding:3px 5px;border-radius:4px;cursor:pointer;font-size:10px;color:#444;margin:1px 0;transition:background 0.2s}
+.leg-item:hover{background:rgba(0,0,0,0.05)}
+.leg-item.active{background:rgba(0,0,0,0.1);color:#000;font-weight:700}
+.leg-line{width:22px;height:0;flex-shrink:0;border-radius:1px}
+#families{position:absolute;top:72px;left:14px;pointer-events:all;background:rgba(255,255,252,0.94);border:1px solid #ccc;border-radius:8px;padding:12px;width:210px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+#families h3{font-size:9px;letter-spacing:2px;color:#888;text-transform:uppercase;margin-bottom:8px}
+.fam-row{display:flex;align-items:center;gap:5px;padding:3px 0;font-size:10px;color:#444;cursor:pointer;border-radius:4px;transition:background 0.2s}
+.fam-row:hover{background:rgba(0,0,0,0.05)}
+.fam-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;border:2px solid}
+.fam-arrow{color:#999;font-size:12px}
+#info{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);pointer-events:all;background:rgba(255,255,252,0.96);border:1px solid #bbb;border-radius:10px;padding:16px 22px;max-width:620px;width:92%;display:none;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
+#info h2{font-size:15px;font-weight:700;letter-spacing:1px;margin-bottom:4px}
+#info .meta{font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+#info .conns{font-size:11px;color:#555;line-height:1.7;max-height:100px;overflow-y:auto}
+#info .conn-tag{display:inline-block;padding:2px 7px;border-radius:4px;margin:2px;font-size:10px}
+#hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);font-size:10px;color:#999;letter-spacing:1px;pointer-events:none;text-align:center;max-width:80%}
+#topo{position:absolute;left:14px;bottom:14px;font-size:9px;color:#aaa;letter-spacing:0.5px;pointer-events:none;line-height:1.8}
+</style>
+</head>
+<body>
+<div id="ui">
+  <div id="title">
+    <h1>Polymorphic Matrix of Systemic Political Pressure</h1>
+    <div class="sub">Toroidal topology — pressure apparatus → convergence field → systemic erosion → feedback</div>
+  </div>
+  <div id="legend">
+    <h3>Connection types (7)</h3>
+    <div class="leg-item" data-type="structural"><div class="leg-line" style="border-top:3px solid #555"></div>Structural chain</div>
+    <div class="leg-item" data-type="radial"><div class="leg-line" style="border-top:4px solid #0033aa"></div>Radial pressure</div>
+    <div class="leg-item" data-type="coupling"><div class="leg-line" style="border-top:5px solid #991100"></div>Enforcement coupling</div>
+    <div class="leg-item" data-type="reinforce"><div class="leg-line" style="border-top:4px dashed #005522"></div>Cross-vector reinforcement</div>
+    <div class="leg-item" data-type="threshold"><div class="leg-line" style="border-top:4px solid #995500"></div>Cross-matrix threshold</div>
+    <div class="leg-item" data-type="interlink"><div class="leg-line" style="border-top:4px dashed #771155"></div>Causal interlink</div>
+    <div class="leg-item" data-type="feedback"><div class="leg-line" style="border-top:5px solid #006677"></div>Systemic feedback loop</div>
+  </div>
+  <div id="families">
+    <h3>Vector families</h3>
+  </div>
+  <div id="info">
+    <h2 id="info-name"></h2>
+    <div class="meta" id="info-meta"></div>
+    <div class="conns" id="info-conns"></div>
+  </div>
+  <div id="hint">Drag to orbit · Scroll to zoom · Click node to inspect<br/>Cyan arcs = feedback loops wrapping erosion back into apparatus</div>
+  <div id="topo">TOROIDAL TOPOLOGY<br/>Major ring: five-vector pentagon<br/>Minor ring: apparatus → MIF → erosion → feedback<br/>Center: Convergence field (dense, not void)</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============ RESTRUCTURED DATA ============
+const VECTORS = {
+  eco:  { label:'Economic pressure',     color:'#1155aa', colorDark:'#0a3366',
+    nodes:['Plutocracy','Corporatocracy','Oligarchy','Extractive exploitation','Asset management hegemony','Lobbying infrastructure'] },
+  cog:  { label:'Cognitive pressure',     color:'#6633aa', colorDark:'#3a1a66',
+    nodes:['Narrative control','Perception management','Strategic opacity','Spectacle saturation','Information flooding','Reality framing'] },
+  inst: { label:'Institutional pressure', color:'#bb2222', colorDark:'#661111',
+    nodes:['Technocracy','Algorithmic governance','Bureaucratic entrenchment','Crisis expansion','Regulatory capture','Administrative fragmentation'] },
+  cov:  { label:'Covert pressure',        color:'#118844', colorDark:'#0a4422',
+    nodes:['Cryptocracy','Coercive leverage','Intelligence dominance','Puppet governance','Blackmail networks','Strategic secrecy'] },
+  leg:  { label:'Legitimacy pressure',    color:'#aa8811', colorDark:'#665500',
+    nodes:['Fear mobilization','Supremacy ideology','Mythic nostalgia','Moral shielding','Identity polarization','Evangelical institutional capture'] },
+  dem:  { label:'Democratic erosion',     color:'#2277aa', colorDark:'#114466',
+    nodes:['Wealth-gated access','Legislative capture','Electoral commodification','Public resource extraction','Fiscal sovereignty loss','Austerity entrenchment'] },
+  epi:  { label:'Epistemic collapse',     color:'#774499', colorDark:'#3d2255',
+    nodes:['Truth fragmentation','Collective disorientation','Historical revisionism','Expertise delegitimization','Attention capture','Consensus dissolution'] },
+  ydec: { label:'Institutional decay',    color:'#aa3333', colorDark:'#5c1a1a',
+    nodes:['Regulatory hollowing','Judicial politicization','Agency capture','Constitutional erosion','Procedural weaponization','Accountability collapse'] },
+  sov:  { label:'Sovereignty transfer',   color:'#229955', colorDark:'#114d2a',
+    nodes:['Shadow governance','Extrajudicial authority','Surveillance normalization','Democratic bypass','Coerced compliance','Parallel power structures'] },
+  soc:  { label:'Social fracture',        color:'#998811', colorDark:'#554d0a',
+    nodes:['Identity weaponization','Solidarity destruction','Civic alienation','Trust collapse','Scapegoat economics','Manufactured division'] },
+};
+const INPUT_KEYS = ['eco','cog','inst','cov','leg'];
+const OUTPUT_KEYS = ['dem','epi','ydec','sov','soc'];
+const FAMILIES = [
+  {in:'eco',out:'dem'},{in:'cog',out:'epi'},{in:'inst',out:'ydec'},{in:'cov',out:'sov'},{in:'leg',out:'soc'}
+];
+
+const nodes = {};
+const nid = (vec,i) => vec+'_'+i;
+for (const k of [...INPUT_KEYS,...OUTPUT_KEYS]) {
+  const plane = INPUT_KEYS.includes(k) ? 'apparatus' : 'erosion';
+  VECTORS[k].nodes.forEach((label,i) => {
+    nodes[nid(k,i)] = { vector:k, index:i, label, plane };
+  });
+}
+nodes['mif'] = { vector:'mif', index:0, label:'Matrix Interaction Field', plane:'convergence' };
+nodes['partisan'] = { vector:'partisan', index:0, label:'Partisan Theater', plane:'convergence' };
+
+const edges = [];
+const addEdge = (s,t,type) => edges.push({source:s, target:t, type});
+
+// Structural chains
+for (const k of [...INPUT_KEYS,...OUTPUT_KEYS]) {
+  for (let i=0;i<5;i++) addEdge(nid(k,i), nid(k,i+1), 'structural');
+}
+
+// MIF ↔ Partisan Theater
+addEdge('mif','partisan','coupling');
+
+// Radial to MIF
+for (const k of INPUT_KEYS) {
+  addEdge(nid(k,0), 'mif', 'radial');
+  addEdge(nid(k,2), 'mif', 'radial');
+  addEdge(nid(k,5), 'mif', 'radial');
+}
+// Radial from Partisan Theater to output (pressure is laundered through theater)
+for (const k of OUTPUT_KEYS) {
+  addEdge('partisan', nid(k,0), 'radial');
+  addEdge('mif', nid(k,2), 'radial');
+  addEdge('mif', nid(k,5), 'radial');
+}
+
+// Input enforcement couplings
+addEdge(nid('eco',0),nid('inst',0),'coupling');
+addEdge(nid('inst',0),nid('inst',1),'coupling');
+addEdge(nid('cov',0),nid('cov',1),'coupling');
+addEdge(nid('cog',0),nid('leg',0),'coupling');
+addEdge(nid('eco',1),nid('eco',5),'coupling');  // Corporatocracy → Lobbying
+addEdge(nid('inst',1),nid('cog',1),'coupling');  // Algo gov → Perception mgmt
+addEdge(nid('eco',4),nid('cog',0),'coupling');   // Asset mgmt → Narrative control
+addEdge(nid('eco',5),nid('inst',4),'coupling');   // Lobbying → Regulatory capture
+
+// Input cross-vector reinforcement ring
+addEdge(nid('eco',0),nid('cog',0),'reinforce');
+addEdge(nid('cog',0),nid('inst',0),'reinforce');
+addEdge(nid('inst',0),nid('cov',0),'reinforce');
+addEdge(nid('cov',0),nid('leg',0),'reinforce');
+addEdge(nid('leg',0),nid('eco',0),'reinforce');
+
+// Input secondary cross-vector
+addEdge(nid('eco',2),nid('cov',2),'reinforce');
+addEdge(nid('cog',2),nid('leg',2),'reinforce');
+addEdge(nid('inst',2),nid('eco',2),'reinforce');
+addEdge(nid('leg',1),nid('cog',3),'reinforce');
+addEdge(nid('cov',3),nid('inst',3),'reinforce');
+addEdge(nid('inst',0),nid('leg',4),'reinforce');  // Technocracy → Identity polarization
+addEdge(nid('inst',1),nid('cog',4),'reinforce');  // Algo gov → Info flooding
+addEdge(nid('eco',3),nid('leg',0),'reinforce');   // Extractive exploitation → Fear mobilization
+addEdge(nid('cov',2),nid('cog',2),'reinforce');   // Intelligence dominance → Strategic opacity
+addEdge(nid('leg',5),nid('leg',4),'coupling');     // Evangelical capture → Identity polarization
+
+// Cross-matrix threshold
+addEdge(nid('eco',0),nid('dem',0),'threshold');
+addEdge(nid('inst',0),nid('ydec',0),'threshold');
+addEdge(nid('cog',0),nid('epi',0),'threshold');
+addEdge(nid('cov',0),nid('sov',0),'threshold');
+addEdge(nid('leg',0),nid('soc',0),'threshold');
+addEdge(nid('eco',1),nid('ydec',1),'threshold');
+addEdge(nid('cog',3),nid('soc',3),'threshold');
+addEdge(nid('cov',2),nid('epi',2),'threshold');
+addEdge(nid('inst',2),nid('dem',2),'threshold');
+addEdge(nid('leg',1),nid('sov',1),'threshold');
+addEdge(nid('inst',0),nid('soc',0),'threshold');  // Technocracy → Identity weaponization
+addEdge(nid('inst',1),nid('epi',1),'threshold');  // Algo gov → Collective disorientation
+addEdge(nid('eco',4),nid('dem',0),'threshold');   // Asset mgmt → Wealth-gated access
+addEdge(nid('cog',3),nid('epi',4),'threshold');   // Spectacle → Attention capture
+addEdge(nid('cov',2),nid('sov',0),'threshold');   // Intel dominance → Shadow governance
+addEdge(nid('leg',0),nid('soc',2),'threshold');   // Fear mob → Civic alienation
+addEdge(nid('inst',2),nid('ydec',4),'threshold'); // Bureaucratic ent → Procedural weaponization
+addEdge(nid('cov',5),nid('sov',5),'threshold');   // Strategic secrecy → Parallel power structures
+// Tax extraction pipeline
+addEdge(nid('eco',3),nid('sov',2),'threshold');   // Extractive exploitation → Surveillance normalization
+addEdge(nid('eco',3),nid('dem',3),'threshold');   // Extractive exploitation → Public resource extraction
+// Evangelical pipeline
+addEdge(nid('leg',5),nid('soc',0),'threshold');   // Evangelical capture → Identity weaponization
+// Military-industrial
+addEdge(nid('inst',0),nid('dem',3),'threshold');  // Technocracy → Public resource extraction
+
+// Output enforcement couplings
+addEdge(nid('dem',0),nid('ydec',0),'coupling');
+addEdge(nid('ydec',0),nid('ydec',1),'coupling');
+addEdge(nid('sov',0),nid('sov',1),'coupling');
+addEdge(nid('epi',0),nid('soc',0),'coupling');
+addEdge(nid('dem',1),nid('dem',5),'coupling');
+
+// Output cross-vector reinforcement ring
+addEdge(nid('dem',0),nid('epi',0),'reinforce');
+addEdge(nid('epi',0),nid('ydec',0),'reinforce');
+addEdge(nid('ydec',0),nid('sov',0),'reinforce');
+addEdge(nid('sov',0),nid('soc',0),'reinforce');
+addEdge(nid('soc',0),nid('dem',0),'reinforce');
+
+// Output secondary cross-vector
+addEdge(nid('dem',2),nid('sov',2),'reinforce');
+addEdge(nid('epi',2),nid('soc',2),'reinforce');
+addEdge(nid('ydec',2),nid('dem',2),'reinforce');
+addEdge(nid('soc',1),nid('epi',3),'reinforce');
+addEdge(nid('sov',3),nid('ydec',3),'reinforce');
+
+// Cross-output causal interlinks
+addEdge(nid('epi',3),nid('soc',3),'interlink');   // Expertise deleg → Trust collapse
+addEdge(nid('ydec',2),nid('sov',4),'interlink');  // Agency capture → Coerced compliance
+addEdge(nid('dem',3),nid('ydec',3),'interlink');  // Public resource extraction → Constitutional erosion
+addEdge(nid('epi',5),nid('soc',5),'interlink');   // Consensus dissolution → Manufactured division
+addEdge(nid('sov',2),nid('soc',2),'interlink');   // Surveillance norm → Civic alienation
+addEdge(nid('epi',1),nid('soc',0),'interlink');   // Collective disorientation → Identity weaponization
+addEdge(nid('epi',1),nid('soc',5),'interlink');   // Collective disorientation → Manufactured division
+addEdge(nid('ydec',5),nid('sov',5),'interlink');  // Accountability collapse → Parallel power structures
+addEdge(nid('soc',3),nid('sov',3),'interlink');   // Trust collapse → Democratic bypass
+addEdge(nid('dem',5),nid('soc',4),'interlink');   // Austerity → Scapegoat economics
+
+// Feedback loops (erosion → apparatus — the circuit closes)
+addEdge(nid('dem',0),nid('eco',0),'feedback');    // Wealth-gated access → Plutocracy
+addEdge(nid('epi',0),nid('cog',0),'feedback');    // Truth fragmentation → Narrative control
+addEdge(nid('ydec',0),nid('inst',0),'feedback');  // Regulatory hollowing → Technocracy
+addEdge(nid('sov',0),nid('cov',0),'feedback');    // Shadow governance → Cryptocracy
+addEdge(nid('soc',0),nid('leg',0),'feedback');    // Identity weaponization → Fear mobilization
+
+// ============ AUDIT: LENS 1 — MECHANISTIC ============
+// Partisan Theater connections
+addEdge(nid('eco',5),'partisan','coupling');       // 1. Lobbying → Partisan Theater
+addEdge(nid('eco',1),'partisan','coupling');       // 2. Corporatocracy → Partisan Theater
+addEdge(nid('eco',4),'partisan','coupling');       // 3. Asset mgmt hegemony → Partisan Theater
+addEdge('partisan',nid('cog',0),'coupling');       // 4. Partisan Theater → Narrative control
+addEdge('partisan',nid('cog',3),'reinforce');      // 5. Partisan Theater → Spectacle saturation
+addEdge('partisan',nid('leg',4),'coupling');       // 6. Partisan Theater → Identity polarization
+addEdge('partisan',nid('leg',0),'reinforce');      // 7. Partisan Theater → Fear mobilization
+addEdge('partisan',nid('dem',2),'threshold');      // 8. Partisan Theater → Electoral commodification
+addEdge('partisan',nid('dem',1),'threshold');      // 9. Partisan Theater → Legislative capture
+addEdge('partisan',nid('epi',0),'threshold');      // 10. Partisan Theater → Truth fragmentation
+addEdge('partisan',nid('soc',5),'threshold');      // 11. Partisan Theater → Manufactured division
+addEdge(nid('cov',4),'partisan','coupling');       // 12. Blackmail networks → Partisan Theater
+
+// Lobbying Infrastructure connections
+addEdge(nid('eco',0),nid('eco',5),'coupling');     // 13. Plutocracy → Lobbying
+addEdge(nid('eco',5),nid('dem',1),'threshold');    // 15. Lobbying → Legislative capture
+addEdge(nid('eco',5),nid('inst',0),'reinforce');   // 16. Lobbying → Technocracy
+addEdge(nid('eco',5),nid('inst',2),'reinforce');   // 17. Lobbying → Bureaucratic entrenchment
+addEdge(nid('eco',5),nid('inst',3),'reinforce');   // 18. Lobbying → Crisis expansion
+addEdge(nid('eco',5),nid('cog',0),'reinforce');    // 19. Lobbying → Narrative control
+addEdge(nid('eco',5),nid('leg',0),'reinforce');    // 20. Lobbying → Fear mobilization
+addEdge(nid('eco',5),nid('leg',5),'coupling');     // 21. Lobbying → Evangelical institutional capture
+addEdge(nid('eco',5),nid('ydec',4),'threshold');   // 22. Lobbying → Procedural weaponization
+addEdge(nid('eco',5),nid('dem',0),'threshold');    // 23. Lobbying → Wealth-gated access
+
+// ============ AUDIT: LENS 2 — FOLLOW THE MONEY ============
+addEdge(nid('eco',4),nid('inst',1),'coupling');    // 24. Asset mgmt → Algorithmic governance
+addEdge(nid('eco',1),nid('cog',0),'coupling');     // 25. Corporatocracy → Narrative control
+addEdge(nid('eco',3),nid('inst',3),'reinforce');   // 26. Extractive exploitation → Crisis expansion
+addEdge(nid('eco',2),nid('cov',3),'reinforce');    // 27. Oligarchy → Puppet governance
+addEdge(nid('eco',2),nid('cov',4),'reinforce');    // 28. Oligarchy → Blackmail networks
+
+// ============ AUDIT: LENS 3 — INFORMATION WARFARE ============
+addEdge(nid('inst',1),nid('cog',5),'coupling');    // 29. Algorithmic governance → Reality framing
+addEdge(nid('cov',2),nid('cog',0),'coupling');     // 30. Intelligence dominance → Narrative control
+addEdge(nid('cov',2),nid('cog',1),'reinforce');    // 31. Intelligence dominance → Perception management
+addEdge(nid('cov',5),nid('cog',2),'reinforce');    // 32. Strategic secrecy → Strategic opacity
+addEdge('partisan',nid('epi',2),'interlink');      // 33. Partisan Theater → Historical revisionism
+addEdge(nid('inst',1),nid('epi',0),'threshold');   // 34. Algorithmic governance → Truth fragmentation
+
+// ============ AUDIT: LENS 4 — REVERSE FLOWS & GRANULAR FEEDBACK ============
+addEdge(nid('soc',2),'partisan','feedback');        // 35. Civic alienation → Partisan Theater
+addEdge(nid('soc',3),'partisan','feedback');        // 36. Trust collapse → Partisan Theater
+addEdge(nid('ydec',5),nid('eco',5),'feedback');    // 37. Accountability collapse → Lobbying
+addEdge(nid('dem',5),nid('leg',0),'feedback');     // 38. Austerity entrenchment → Fear mobilization
+addEdge(nid('dem',4),nid('eco',3),'feedback');     // 39. Fiscal sovereignty loss → Extractive exploitation
+addEdge(nid('sov',3),'partisan','feedback');        // 40. Democratic bypass → Partisan Theater
+
+// ============ SCENE ============
+const W = window.innerWidth, H = window.innerHeight;
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0xe8e8e4, 0.0004);
+const camera = new THREE.PerspectiveCamera(50, W/H, 1, 4000);
+camera.position.set(480, 280, 380);
+camera.lookAt(0, 0, 0);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0xe8e8e4);
+document.body.insertBefore(renderer.domElement, document.getElementById('ui'));
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+const dl = new THREE.DirectionalLight(0xffffff, 0.6);
+dl.position.set(300, 500, 300);
+scene.add(dl);
+const dl2 = new THREE.DirectionalLight(0x88aacc, 0.25);
+dl2.position.set(-300, -200, 200);
+scene.add(dl2);
+
+// ============ TORUS ============
+const R = 280, r = 140;
+
+function torusPoint(theta, phi) {
+  return new THREE.Vector3(
+    (R + r * Math.cos(phi)) * Math.cos(theta),
+    r * Math.sin(phi),
+    (R + r * Math.cos(phi)) * Math.sin(theta)
+  );
+}
+
+// Wireframe torus
+// Solid semi-transparent torus surface
+const torusSolid = new THREE.Mesh(
+  new THREE.TorusGeometry(R, r, 48, 80),
+  new THREE.MeshPhongMaterial({ color: 0x667788, transparent: true, opacity: 0.06, side: THREE.DoubleSide, depthWrite: false })
+);
+torusSolid.rotation.x = Math.PI / 2;
+scene.add(torusSolid);
+
+// Wireframe torus
+const torusWire = new THREE.LineSegments(
+  new THREE.WireframeGeometry(new THREE.TorusGeometry(R, r, 48, 80)),
+  new THREE.LineBasicMaterial({ color: 0x556677, transparent: true, opacity: 0.25 })
+);
+torusWire.rotation.x = Math.PI / 2;
+scene.add(torusWire);
+
+// Convergence zone glow (sphere at center, NOT a torus)
+const convGlow1 = new THREE.Mesh(
+  new THREE.SphereGeometry(50, 32, 32),
+  new THREE.MeshBasicMaterial({ color: 0x223366, transparent: true, opacity: 0.1 })
+);
+scene.add(convGlow1);
+const convGlow2 = new THREE.Mesh(
+  new THREE.SphereGeometry(35, 24, 24),
+  new THREE.MeshBasicMaterial({ color: 0x663322, transparent: true, opacity: 0.08 })
+);
+scene.add(convGlow2);
+
+// ============ POSITION NODES ============
+const ANGLES = [0,1,2,3,4].map(i => (-Math.PI/2) + i * (2*Math.PI/5));
+const nodePositions = {};
+
+const INPUT_PHIS = [0.75, 0.62, 0.50, 0.38, 0.28, 0.18].map(f => f * Math.PI);
+const OUTPUT_PHIS = [-0.75, -0.62, -0.50, -0.38, -0.28, -0.18].map(f => f * Math.PI);
+
+INPUT_KEYS.forEach((k, vi) => {
+  const theta = ANGLES[vi];
+  VECTORS[k].nodes.forEach((_, ni) => {
+    const thetaOffset = (ni - 2.5) * 0.04;
+    nodePositions[nid(k,ni)] = torusPoint(theta + thetaOffset, INPUT_PHIS[ni]);
+  });
+});
+OUTPUT_KEYS.forEach((k, vi) => {
+  const theta = ANGLES[vi];
+  VECTORS[k].nodes.forEach((_, ni) => {
+    const thetaOffset = (ni - 2.5) * 0.04;
+    nodePositions[nid(k,ni)] = torusPoint(theta + thetaOffset, OUTPUT_PHIS[ni]);
+  });
+});
+
+// MIF at inner ring center point (average of inner surface positions)
+nodePositions['mif'] = new THREE.Vector3(0, 20, 0);
+// Partisan Theater slightly below MIF
+nodePositions['partisan'] = new THREE.Vector3(0, -20, 0);
+
+// ============ TEXT SPRITES ============
+function makeTextSprite(text, fontSize, color, bold) {
+  const c = document.createElement('canvas');
+  const ctx = c.getContext('2d');
+  const f = (bold?'bold ':'')+fontSize+'px SF Mono, Consolas, monospace';
+  ctx.font = f;
+  const m = ctx.measureText(text);
+  const w = m.width + 20;
+  const h = fontSize * 1.4 + 10;
+  c.width = w * 2; c.height = h * 2;
+  ctx.scale(2,2);
+  ctx.font = f;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = color;
+  ctx.fillText(text, w/2, h/2);
+  const tex = new THREE.CanvasTexture(c);
+  tex.minFilter = THREE.LinearFilter;
+  const mat = new THREE.SpriteMaterial({ map:tex, transparent:true, depthTest:false });
+  const sprite = new THREE.Sprite(mat);
+  sprite.scale.set(w * 0.45, h * 0.45, 1);
+  return sprite;
+}
+
+const appLabel = makeTextSprite('P R E S S U R E   A P P A R A T U S', 22, '#1a3355', true);
+appLabel.position.set(0, r + 40, 0);
+scene.add(appLabel);
+const eroLabel = makeTextSprite('S Y S T E M I C   E R O S I O N', 22, '#553318', true);
+eroLabel.position.set(0, -r - 40, 0);
+scene.add(eroLabel);
+
+// Vector labels at outer equator
+FAMILIES.forEach((fam, i) => {
+  const theta = ANGLES[i];
+  const pos = torusPoint(theta, 0);
+  const inV = VECTORS[fam.in], outV = VECTORS[fam.out];
+  const s1 = makeTextSprite(inV.label.toUpperCase(), 12, inV.color, true);
+  s1.position.copy(pos); s1.position.y += 18;
+  scene.add(s1);
+  const s2 = makeTextSprite(outV.label.toUpperCase(), 12, outV.color, true);
+  s2.position.copy(pos); s2.position.y -= 18;
+  scene.add(s2);
+});
+
+// ============ NODE MESHES ============
+const TYPE_COLORS = {
+  structural: 0x555555,
+  radial: 0x0033aa,
+  coupling: 0x991100,
+  reinforce: 0x005522,
+  threshold: 0x995500,
+  interlink: 0x771155,
+  feedback: 0x006677,
+};
+
+const nodeMeshes = {};
+const clickTargets = [];
+
+function createNode(id) {
+  const data = nodes[id];
+  const pos = nodePositions[id];
+  const isCenter = id === 'mif' || id === 'partisan';
+  let color;
+  if (id === 'mif') color = 0x2255aa;
+  else if (id === 'partisan') color = 0xaa2244;
+  else color = parseInt(VECTORS[data.vector].color.slice(1), 16);
+
+  const size = isCenter ? 18 : 10;
+  let geo;
+  if (id === 'mif') geo = new THREE.IcosahedronGeometry(size, 1);
+  else if (id === 'partisan') geo = new THREE.OctahedronGeometry(size, 0);
+  else geo = new THREE.BoxGeometry(size, size, size);
+
+  const mat = new THREE.MeshPhongMaterial({
+    color,
+    emissive: color,
+    emissiveIntensity: isCenter ? 0.35 : 0.15,
+    transparent: true,
+    opacity: 0.95,
+    shininess: 80
+  });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.copy(pos);
+  mesh.userData = { id, data };
+  scene.add(mesh);
+  clickTargets.push(mesh);
+
+  const labelSize = isCenter ? 13 : 10;
+  const labelColor = isCenter ? '#000' : VECTORS[data.vector] ? VECTORS[data.vector].colorDark : '#333';
+  const sprite = makeTextSprite(data.label, labelSize, labelColor, isCenter);
+  sprite.position.copy(pos);
+  sprite.position.y += size * 0.8 + 6;
+  scene.add(sprite);
+
+  nodeMeshes[id] = { mesh, sprite, color, mat };
+}
+Object.keys(nodes).forEach(id => createNode(id));
+
+// ============ EDGES ============
+const edgeMeshes = [];
+
+edges.forEach(e => {
+  const p1 = nodePositions[e.source];
+  const p2 = nodePositions[e.target];
+  if (!p1 || !p2) return;
+
+  const color = TYPE_COLORS[e.type];
+  const opacity = e.type === 'structural' ? 0.55 :
+                  e.type === 'feedback' ? 0.95 :
+                  e.type === 'coupling' ? 0.85 : 0.7;
+
+  let points;
+  if (e.type === 'feedback') {
+    const srcTheta = Math.atan2(p1.z, p1.x);
+    const dstTheta = Math.atan2(p2.z, p2.x);
+    points = [];
+    const steps = 36;
+    for (let s = 0; s <= steps; s++) {
+      const t = s / steps;
+      const phi = -0.75 * Math.PI + t * 1.5 * Math.PI;
+      const theta = srcTheta + t * (dstTheta - srcTheta);
+      points.push(torusPoint(theta, phi));
+    }
+  } else {
+    points = [p1.clone(), p2.clone()];
+  }
+
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const mat = new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+  const line = new THREE.Line(geo, mat);
+  line.userData = { edge: e };
+  scene.add(line);
+  edgeMeshes.push({ line, mat, edge: e, color });
+
+  if (e.type === 'coupling' || e.type === 'threshold' || e.type === 'feedback') {
+    const offset = new THREE.Vector3(1.5, 1.5, 0);
+    const pts2 = points.map(p => p.clone().add(offset));
+    const geo2 = new THREE.BufferGeometry().setFromPoints(pts2);
+    const mat2 = new THREE.LineBasicMaterial({ color, transparent:true, opacity: opacity * 0.5 });
+    const l2 = new THREE.Line(geo2, mat2);
+    scene.add(l2);
+    edgeMeshes.push({ line: l2, mat: mat2, edge: e, color, isDouble: true });
+  }
+});
+
+// MIF glow
+const glowMat = new THREE.MeshBasicMaterial({ color: 0x223366, transparent: true, opacity: 0.12 });
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(30, 32, 32), glowMat));
+// Partisan glow
+const partGlow = new THREE.MeshBasicMaterial({ color: 0x882244, transparent: true, opacity: 0.1 });
+scene.add(new THREE.Mesh(new THREE.SphereGeometry(24, 32, 32), partGlow));
+partGlow.__mesh = scene.children[scene.children.length - 1];
+partGlow.__mesh.position.copy(nodePositions['partisan']);
+
+// ============ ORBIT ============
+let isDragging = false, prevMouse = {x:0,y:0};
+let spherical = new THREE.Spherical().setFromVector3(camera.position);
+
+renderer.domElement.addEventListener('mousedown', e => { isDragging = true; prevMouse = {x:e.clientX, y:e.clientY}; });
+window.addEventListener('mouseup', () => isDragging = false);
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  spherical.theta -= (e.clientX - prevMouse.x) * 0.005;
+  spherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, spherical.phi + (e.clientY - prevMouse.y) * 0.005));
+  camera.position.setFromSpherical(spherical);
+  camera.lookAt(0, 0, 0);
+  prevMouse = {x:e.clientX, y:e.clientY};
+});
+renderer.domElement.addEventListener('wheel', e => {
+  spherical.radius = Math.max(300, Math.min(2000, spherical.radius + e.deltaY * 0.8));
+  camera.position.setFromSpherical(spherical);
+  camera.lookAt(0, 0, 0);
+}, {passive:true});
+renderer.domElement.addEventListener('touchstart', e => {
+  if (e.touches.length===1) { isDragging=true; prevMouse={x:e.touches[0].clientX,y:e.touches[0].clientY}; }
+}, {passive:true});
+window.addEventListener('touchend', () => isDragging = false);
+window.addEventListener('touchmove', e => {
+  if (!isDragging || e.touches.length!==1) return;
+  spherical.theta -= (e.touches[0].clientX - prevMouse.x) * 0.005;
+  spherical.phi = Math.max(0.1, Math.min(Math.PI-0.1, spherical.phi + (e.touches[0].clientY - prevMouse.y) * 0.005));
+  camera.position.setFromSpherical(spherical);
+  camera.lookAt(0, 0, 0);
+  prevMouse = {x:e.touches[0].clientX, y:e.touches[0].clientY};
+}, {passive:true});
+
+// ============ INTERACTION ============
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let selectedNode = null, selectedType = null;
+
+function getConnections(nId) { return edges.filter(e => e.source === nId || e.target === nId); }
+function getConnectedNodeIds(nId) {
+  const c = getConnections(nId), s = new Set();
+  c.forEach(e => { s.add(e.source); s.add(e.target); });
+  s.delete(nId);
+  return s;
+}
+
+function highlightNode(nId) {
+  selectedNode = nId; selectedType = null;
+  document.querySelectorAll('.leg-item').forEach(el => el.classList.remove('active'));
+  const cIds = getConnectedNodeIds(nId), nConns = getConnections(nId);
+  Object.entries(nodeMeshes).forEach(([id, n]) => {
+    if (id === nId) { n.mat.opacity=1; n.mat.emissiveIntensity=0.5; n.sprite.material.opacity=1; }
+    else if (cIds.has(id)) { n.mat.opacity=0.85; n.mat.emissiveIntensity=0.3; n.sprite.material.opacity=0.95; }
+    else { n.mat.opacity=0.06; n.mat.emissiveIntensity=0; n.sprite.material.opacity=0.08; }
+  });
+  edgeMeshes.forEach(em => { em.mat.opacity = nConns.some(c => c === em.edge) ? 1.0 : 0.02; });
+  const data = nodes[nId];
+  const vec = VECTORS[data.vector];
+  document.getElementById('info-name').textContent = data.label;
+  document.getElementById('info-name').style.color = vec ? vec.color : nId === 'partisan' ? '#aa2244' : '#2255aa';
+  document.getElementById('info-meta').textContent = (vec ? vec.label : data.label) + ' · ' + data.plane.toUpperCase();
+  const connsEl = document.getElementById('info-conns');
+  connsEl.innerHTML = '';
+  nConns.forEach(e => {
+    const oId = e.source === nId ? e.target : e.source;
+    const o = nodes[oId];
+    const tc = '#' + TYPE_COLORS[e.type].toString(16).padStart(6,'0');
+    connsEl.innerHTML += `<span class="conn-tag" style="background:${tc}22;color:${tc};border:1px solid ${tc}44">${e.type}: ${o.label}</span> `;
+  });
+  document.getElementById('info').style.display = 'block';
+  document.getElementById('hint').style.display = 'none';
+}
+
+function highlightType(type) {
+  selectedType = type; selectedNode = null;
+  document.querySelectorAll('.leg-item').forEach(el => el.classList.toggle('active', el.dataset.type === type));
+  const rE = edges.filter(e => e.type === type), rN = new Set();
+  rE.forEach(e => { rN.add(e.source); rN.add(e.target); });
+  Object.entries(nodeMeshes).forEach(([id, n]) => {
+    if (rN.has(id)) { n.mat.opacity=0.92; n.mat.emissiveIntensity=0.3; n.sprite.material.opacity=1; }
+    else { n.mat.opacity=0.06; n.mat.emissiveIntensity=0; n.sprite.material.opacity=0.08; }
+  });
+  edgeMeshes.forEach(em => { em.mat.opacity = em.edge.type === type ? 1.0 : 0.02; });
+  document.getElementById('info').style.display = 'none';
+}
+
+function resetHighlight() {
+  selectedNode = null; selectedType = null;
+  document.querySelectorAll('.leg-item').forEach(el => el.classList.remove('active'));
+  Object.values(nodeMeshes).forEach(n => { n.mat.opacity=0.95; n.mat.emissiveIntensity=0.15; n.sprite.material.opacity=0.9; });
+  edgeMeshes.forEach(em => {
+    em.mat.opacity = em.edge.type==='structural'?0.55:em.edge.type==='feedback'?0.95:em.edge.type==='coupling'?0.85:0.7;
+  });
+  document.getElementById('info').style.display = 'none';
+  document.getElementById('hint').style.display = 'block';
+}
+
+renderer.domElement.addEventListener('click', e => {
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(clickTargets);
+  if (hits.length > 0) highlightNode(hits[0].object.userData.id);
+  else resetHighlight();
+});
+
+document.querySelectorAll('.leg-item').forEach(el => {
+  el.addEventListener('click', () => {
+    if (selectedType === el.dataset.type) resetHighlight();
+    else highlightType(el.dataset.type);
+  });
+});
+
+const famEl = document.getElementById('families');
+FAMILIES.forEach(f => {
+  const inV = VECTORS[f.in], outV = VECTORS[f.out];
+  const row = document.createElement('div');
+  row.className = 'fam-row';
+  row.innerHTML = `<div class="fam-dot" style="background:${inV.colorDark};border-color:${inV.color}"></div>
+    <span style="flex:1;font-size:9px">${inV.label}</span>
+    <span class="fam-arrow">→</span>
+    <div class="fam-dot" style="background:${outV.colorDark};border-color:${outV.color}"></div>
+    <span style="flex:1;font-size:9px">${outV.label}</span>`;
+  row.addEventListener('click', () => {
+    selectedNode=null; selectedType=null;
+    document.querySelectorAll('.leg-item').forEach(el => el.classList.remove('active'));
+    const fIds = new Set();
+    for (let i=0;i<6;i++) { fIds.add(nid(f.in,i)); fIds.add(nid(f.out,i)); }
+    fIds.add('mif'); fIds.add('partisan');
+    const fEdges = edges.filter(e => fIds.has(e.source) && fIds.has(e.target));
+    Object.entries(nodeMeshes).forEach(([id, n]) => {
+      if (fIds.has(id)) { n.mat.opacity=0.92; n.mat.emissiveIntensity=0.4; n.sprite.material.opacity=1; }
+      else { n.mat.opacity=0.04; n.mat.emissiveIntensity=0; n.sprite.material.opacity=0.05; }
+    });
+    edgeMeshes.forEach(em => { em.mat.opacity = fEdges.includes(em.edge) ? 0.9 : 0.015; });
+    document.getElementById('info').style.display = 'none';
+  });
+  famEl.appendChild(row);
+});
+
+// ============ ANIMATE ============
+let time = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  time += 0.008;
+  if (!isDragging && !selectedNode && !selectedType) {
+    spherical.theta += 0.0008;
+    camera.position.setFromSpherical(spherical);
+    camera.lookAt(0, 0, 0);
+  }
+  Object.values(nodeMeshes).forEach(n => {
+    n.mesh.rotation.y = time * 0.3;
+    n.mesh.rotation.x = time * 0.15;
+  });
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>toroid.fyi — ThinkWell Labs Metrology</title>
+<meta name="description" content="A guided walkthrough of three toroidal instruments by B. Greenway: a relational instrument documenting operating-coalition architecture, a signature instrument measuring engineered incompetence, and a research game exercising the upstream-commitment pattern.">
+<meta property="og:title" content="toroid.fyi — ThinkWell Labs Metrology">
+<meta property="og:description" content="The first emanation of ThinkWell Labs Metrology. A walkthrough of three instruments on bounded-but-edgeless substrates.">
+<meta property="og:type" content="website">
+<style>
+  :root {
+    --bg: #0a0712;
+    --bg-2: #14102a;
+    --bg-3: #1a1432;
+    --fg: #ece8e0;
+    --muted: #8c8298;
+    --dim: #5d536a;
+    --accent: #b6a4ff;
+    --accent-cyan: #5cc8d1;
+    --accent-warm: #f1b067;
+    --accent-rust: #e08b54;
+    --accent-magenta: #d56fc4;
+    --accent-green: #9adf86;
+    --warn: #f1b067;
+    --border: rgba(150,135,180,0.22);
+    --border-strong: rgba(182,164,255,0.45);
+    --panel: rgba(20,16,32,0.85);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior:smooth; }
+  html, body { margin:0; padding:0; min-height:100%; background:var(--bg); color:var(--fg);
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif; line-height:1.6; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { color:#d6c8ff; text-decoration:underline; }
+  em { color:var(--accent); font-style:normal; }
+  code { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:0.92em; color:var(--accent-cyan);
+    background:rgba(92,200,209,0.08); padding:1px 6px; border-radius:3px; }
+
+  /* ========== STICKY NAV ========== */
+  nav.toc {
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,7,18,0.88); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+    padding:10px 24px; display:flex; align-items:center; gap:18px;
+    font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.08em;
+  }
+  nav.toc .brand { color:var(--accent); font-weight:700; letter-spacing:0.16em; text-transform:uppercase; }
+  nav.toc .links { display:flex; gap:14px; flex-wrap:wrap; flex:1; }
+  nav.toc .links a { color:var(--muted); text-decoration:none; padding:4px 0; }
+  nav.toc .links a:hover { color:var(--fg); }
+  nav.toc .links a.active { color:var(--accent); }
+  @media (max-width:760px) {
+    nav.toc { flex-direction:column; align-items:flex-start; gap:8px; padding:10px 16px; }
+    nav.toc .links { font-size:10px; gap:10px; }
+  }
+
+  /* ========== HERO ========== */
+  header.hero {
+    position:relative; min-height:88vh; padding:64px 32px 48px;
+    display:flex; flex-direction:column; justify-content:center;
+    background: radial-gradient(ellipse at center top, rgba(182,164,255,0.20), rgba(10,7,18,0) 65%);
+    overflow:hidden;
+  }
+  header.hero canvas { position:absolute; inset:0; z-index:0; opacity:0.85; }
+  header.hero .hero-inner { position:relative; z-index:1; max-width:960px; margin:0 auto; text-align:center; }
+  header.hero .pre {
+    color:var(--muted); font-family:ui-monospace,Menlo,monospace; font-size:12px;
+    letter-spacing:0.20em; text-transform:uppercase; margin-bottom:18px;
+  }
+  header.hero h1 {
+    font-size: clamp(44px, 8vw, 104px); margin:0 0 18px;
+    font-weight:700; letter-spacing:-0.025em;
+    background: linear-gradient(180deg, #ece8e0 30%, #b6a4ff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  header.hero .tag {
+    font-size: clamp(17px,1.5vw,21px); color:var(--fg); max-width:680px; margin:0 auto 36px;
+    line-height:1.5;
+  }
+  header.hero .tag .muted { color:var(--muted); }
+  header.hero .cta { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:8px; }
+  header.hero .cta a {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 26px; border-radius:10px;
+    border:1px solid var(--accent); color:var(--accent);
+    font-weight:600; font-size:14px; letter-spacing:0.02em;
+    background:rgba(182,164,255,0.08); transition: all 160ms ease;
+  }
+  header.hero .cta a:hover { background:rgba(182,164,255,0.20); transform:translateY(-1px); text-decoration:none; }
+  header.hero .cta a.secondary { color:var(--muted); border-color:var(--border); background:transparent; }
+  header.hero .cta a.secondary:hover { color:var(--fg); border-color:var(--accent); }
+  header.hero .scroll-hint { margin-top:48px; color:var(--dim); font-family:ui-monospace,Menlo,monospace;
+    font-size:11px; letter-spacing:0.18em; text-transform:uppercase; animation:pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:0.45; transform:translateY(0); } 50% { opacity:1; transform:translateY(3px); } }
+
+  /* ========== CHAPTER STRUCTURE ========== */
+  main { max-width:1180px; margin:0 auto; padding:0 32px; }
+  section.chapter { padding:88px 0 64px; border-top:1px solid var(--border); position:relative; }
+  section.chapter:first-of-type { border-top:none; }
+  .chap-meta {
+    display:flex; align-items:center; gap:14px; margin-bottom:18px;
+    font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.20em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  .chap-meta .num { font-weight:700; }
+  .chap-meta .line { flex:1; height:1px; background:linear-gradient(90deg, var(--border-strong), transparent); }
+  section.chapter h2 {
+    font-size: clamp(28px, 4vw, 42px); margin:0 0 22px;
+    font-weight:700; letter-spacing:-0.015em; line-height:1.18;
+    color:var(--fg);
+  }
+  section.chapter h2 .accent { color:var(--accent); }
+  section.chapter .lede { font-size:18px; color:var(--fg); max-width:760px; margin:0 0 18px; line-height:1.55; }
+  section.chapter p { font-size:15.5px; color:var(--fg); max-width:760px; margin:0 0 16px; line-height:1.65; }
+  section.chapter p.muted { color:var(--muted); }
+  section.chapter p .em { color:var(--accent); }
+  section.chapter blockquote {
+    border-left:2px solid var(--accent); margin:24px 0; padding:6px 22px;
+    color:var(--muted); font-style:italic; max-width:760px; font-size:15.5px; line-height:1.6;
+  }
+
+  /* ========== ARTIFACT EMBED ========== */
+  .artifact {
+    margin:36px 0 8px; border:1px solid var(--border);
+    border-radius:14px; overflow:hidden;
+    background:rgba(20,16,40,0.4);
+    box-shadow:0 14px 50px rgba(10,7,18,0.6);
+  }
+  .artifact .frame-header {
+    display:flex; align-items:center; gap:14px;
+    padding:12px 18px; border-bottom:1px solid var(--border);
+    background:rgba(10,7,18,0.72);
+    font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.10em;
+  }
+  .artifact .frame-header .dot {
+    width:9px; height:9px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 10px var(--accent);
+  }
+  .artifact .frame-header .label { color:var(--accent); text-transform:uppercase; font-weight:700; letter-spacing:0.14em; }
+  .artifact .frame-header .desc { color:var(--muted); flex:1; }
+  .artifact .frame-header .actions { display:flex; gap:14px; }
+  .artifact .frame-header .actions a {
+    color:var(--muted); text-decoration:none; padding:3px 0;
+    border-bottom:1px solid transparent; transition: all 140ms;
+  }
+  .artifact .frame-header .actions a:hover { color:var(--accent); border-bottom-color:var(--accent); }
+  .artifact iframe {
+    display:block; width:100%; border:0; background:#000;
+    min-height:600px;
+  }
+  .artifact.tall iframe   { height: 85vh; min-height:680px; }
+  .artifact.medium iframe { height: 78vh; min-height:620px; }
+  .artifact.short iframe  { height: 72vh; min-height:560px; }
+  .artifact .frame-caption {
+    padding:14px 18px; color:var(--muted); font-size:13px; line-height:1.55;
+    border-top:1px solid var(--border); background:rgba(10,7,18,0.4);
+  }
+  .artifact .frame-caption strong { color:var(--accent); font-weight:600; }
+
+  /* ========== INLINE DIAGRAMS ========== */
+  .specblock {
+    display:flex; flex-wrap:wrap; gap:10px; margin:22px 0;
+  }
+  .specblock span {
+    font-family:ui-monospace,Menlo,monospace; font-size:11.5px; letter-spacing:0.04em;
+    color:var(--muted); border:1px solid var(--border); border-radius:5px;
+    padding:5px 11px; background:rgba(20,16,40,0.6);
+  }
+  .specblock span.accent { color:var(--accent); border-color:var(--border-strong); }
+
+  /* ========== SIGNATURE DIMENSIONS GRID ========== */
+  .sig-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+    gap:14px; margin:28px 0 8px;
+  }
+  .sig-card {
+    border:1px solid var(--border); border-radius:10px;
+    padding:18px 18px 22px; background:rgba(20,16,40,0.45);
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+  .sig-card:hover { border-color:var(--border-strong); transform:translateY(-2px); }
+  .sig-card .id {
+    display:flex; align-items:baseline; gap:10px; margin-bottom:6px;
+  }
+  .sig-card .id .tag {
+    font-family:ui-monospace,Menlo,monospace; font-size:14px; font-weight:700;
+    color:var(--accent); letter-spacing:0.06em;
+  }
+  .sig-card .id .weight {
+    font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted);
+    border:1px solid var(--border); border-radius:3px; padding:1px 6px;
+    margin-left:auto;
+  }
+  .sig-card h4 { margin:0 0 8px; font-size:16px; font-weight:600; color:var(--fg); line-height:1.3; }
+  .sig-card p { margin:0; font-size:13.5px; color:var(--muted); line-height:1.55; max-width:none; }
+
+  /* ========== FINDINGS TABLE ========== */
+  .findings {
+    margin:28px 0; border:1px solid var(--border); border-radius:10px; overflow:hidden;
+    background:rgba(20,16,40,0.5);
+  }
+  .findings table { width:100%; border-collapse:collapse; font-size:14px; }
+  .findings thead {
+    background:rgba(10,7,18,0.6);
+    font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  .findings th { padding:11px 16px; text-align:left; font-weight:700; }
+  .findings th.num, .findings td.num { text-align:right; }
+  .findings td { padding:12px 16px; border-top:1px solid var(--border); color:var(--fg); }
+  .findings td.band { font-family:ui-monospace,Menlo,monospace; font-size:12.5px; letter-spacing:0.04em; }
+  .findings td.band.extreme { color:var(--accent-rust); }
+  .findings td.band.engineered { color:var(--accent-warm); }
+  .findings td.score { font-family:ui-monospace,Menlo,monospace; font-weight:700; color:var(--accent); }
+
+  /* ========== STACK DIAGRAM (compact) ========== */
+  .stack-row {
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:28px 0 8px;
+  }
+  .stack-row .layer {
+    border:1px solid var(--border); border-radius:10px; padding:20px 18px 22px;
+    background:rgba(20,16,40,0.5);
+  }
+  .stack-row .layer .role {
+    font-family:ui-monospace,Menlo,monospace; font-size:10.5px; letter-spacing:0.14em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:8px;
+  }
+  .stack-row .layer h4 { margin:0 0 10px; font-size:16px; font-weight:600; line-height:1.3; }
+  .stack-row .layer p { margin:0; color:var(--muted); font-size:13.5px; line-height:1.55; max-width:none; }
+  @media (max-width: 760px) { .stack-row { grid-template-columns:1fr; } }
+
+  /* ========== WORKFLOW STEPS ========== */
+  .workflow ol {
+    list-style:none; padding:0; margin:24px 0 8px; counter-reset:step;
+  }
+  .workflow ol li {
+    counter-increment:step; position:relative;
+    padding:14px 16px 14px 56px; margin-bottom:10px;
+    border:1px solid var(--border); border-radius:8px;
+    background:rgba(20,16,40,0.45);
+    font-size:14.5px; color:var(--fg); line-height:1.55; max-width:760px;
+  }
+  .workflow ol li::before {
+    content: counter(step, decimal-leading-zero);
+    position:absolute; left:14px; top:14px;
+    font-family:ui-monospace,Menlo,monospace; font-size:14px; font-weight:700;
+    color:var(--accent); letter-spacing:0.04em;
+  }
+  .workflow ol li strong { color:var(--accent); font-weight:600; }
+
+  /* ========== VOCAB CARDS ========== */
+  .vocab-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:14px; margin:28px 0 8px;
+  }
+  .vocab {
+    border:1px solid var(--border); border-radius:10px; padding:18px 18px 22px;
+    background:rgba(20,16,40,0.5);
+  }
+  .vocab .term {
+    font-family:ui-monospace,Menlo,monospace; font-size:13px; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:4px; font-weight:700;
+  }
+  .vocab .etym { color:var(--muted); font-size:12px; font-family:ui-monospace,Menlo,monospace;
+    margin-bottom:10px; letter-spacing:0.02em; }
+  .vocab p { margin:0; font-size:13.5px; color:var(--fg); line-height:1.55; max-width:none; }
+
+  /* ========== CALLOUT (the bipartite quote) ========== */
+  .callout {
+    margin:28px 0; padding:22px 26px;
+    border:1px solid var(--border-strong); border-radius:12px;
+    background:linear-gradient(180deg, rgba(182,164,255,0.06), rgba(20,16,40,0.55));
+  }
+  .callout p { color:var(--fg); font-size:16px; max-width:none; margin:0; line-height:1.55; }
+  .callout p + p { margin-top:12px; }
+  .callout .em { color:var(--accent); }
+
+  /* ========== FOOTER ========== */
+  footer { padding:48px 32px 40px; text-align:center; color:var(--muted); font-size:12.5px; border-top:1px solid var(--border); margin-top:36px; }
+  footer .citation { max-width:680px; margin:0 auto 20px; color:var(--muted); font-style:italic; font-size:13.5px; line-height:1.55; }
+  footer .links { margin-bottom:10px; }
+  footer .links a { margin:0 10px; color:var(--muted); }
+  footer .links a:hover { color:var(--fg); }
+  footer .stamp { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; }
+  footer .pillrow { margin:0 auto 20px; max-width:600px; }
+  .pill {
+    display:inline-block; padding:3px 10px; border-radius:999px;
+    border:1px solid var(--border); font-size:11px; color:var(--muted);
+    font-family:ui-monospace,Menlo,monospace; letter-spacing:0.04em;
+    margin:3px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="toc" id="toc">
+  <span class="brand">toroid.fyi</span>
+  <div class="links">
+    <a href="#why">I · Why a torus</a>
+    <a href="#lineage">II · Lineage</a>
+    <a href="#poly">III · Catalysis Toroid</a>
+    <a href="#stack">IV · The stack</a>
+    <a href="#sabbot">V · Deception Arcane</a>
+    <a href="#vocab">VI · Vocabulary</a>
+    <a href="#play">VII · The game</a>
+    <a href="#workflow">VIII · Use</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-inner">
+    <div class="pre">ThinkWell Labs · Metrology · v0.1</div>
+    <h1>toroid.fyi</h1>
+    <p class="tag">Three instruments for studying systems where pressure loops back. <span class="muted">A walkthrough — start at the beginning, end at the game.</span></p>
+    <div class="cta">
+      <a href="#why">Begin the walkthrough ↓</a>
+      <a class="secondary" href="https://twl.today" rel="noopener">↗ ThinkWell Labs</a>
+    </div>
+    <div class="scroll-hint">scroll · or pick a chapter above</div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════ CHAPTER I ═══════════════════════ -->
+<section class="chapter" id="why">
+  <div class="chap-meta"><span class="num">I</span><span>Why a torus</span><span class="line"></span></div>
+  <h2>The systems we live inside <span class="accent">don't have edges.</span></h2>
+
+  <p class="lede">Most strategic analysis is done on grids. A grid has edges; an edge has an outside. Outside the grid is where the analyst stands. The analyst assumes a vantage that the system itself never occupies.</p>
+
+  <p>This works for chess. It does not work for the systems that actually shape upstream outcomes — political pressure architectures, multi-agent commitment regimes, perception apparatuses, capital and attention circulation, regulatory captures. In those systems, pressure does not exit. It loops back. It re-enters the apparatus that produced it. Flanking is not a maneuver; it is a permanent topological condition. The actors who appear to be at the periphery are simultaneously at the center, because there is no periphery.</p>
+
+  <p>A torus is the simplest surface that captures this structurally: <em>bounded</em> (you cannot leave it), <em>edgeless</em> (there is no outside to step into), <em>doubly periodic</em> (motion in either direction returns to origin). Treating the substrate as toroidal is not aesthetic. It is an instrument-design commitment to letting the geometry do work the analyst would otherwise have to do by hand — and would, almost always, get wrong.</p>
+
+  <blockquote>The decision to use a torus is the decision to stop pretending the system has an outside the analyst can stand on.</blockquote>
+
+  <p class="muted">Each artifact on this site uses toroidal substrate as a research instrument, not as decoration. The three instruments study three different layers: relational architecture of operating coalitions; signature pattern that distinguishes engineered incompetence from genuine incompetence; and the irrevocable-commitment dynamic that connects them. A fourth, the precursor, captures the moment the topology emerged.</p>
+</section>
+
+<!-- ═══════════════════════ CHAPTER II ═══════════════════════ -->
+<section class="chapter" id="lineage">
+  <div class="chap-meta"><span class="num">II</span><span>Lineage · The first artifact</span><span class="line"></span></div>
+  <h2>March 2026: a flat diagram that <span class="accent">refused to stay flat.</span></h2>
+
+  <p class="lede">The Polymorphic Matrix of Systemic Political Pressure mapped a four-stage circulation — apparatus, convergence, erosion, feedback. Drawn on a plane, it kept yielding the same structural observation: the circulation closes on itself. Stage four loops back to stage one. The flat geometry was hosting a topology it could not represent.</p>
+
+  <p>This is the moment the toroidal substrate emerged — not as a design choice, but as a structural discovery the analysis kept producing whether the visualization could render it or not. The Matrix is the precursor; the topology is what it surfaces.</p>
+
+  <div class="specblock">
+    <span class="accent">v1 · March 2026</span><span>62 nodes</span><span>200 edges</span><span>7 connection types</span><span>4-stage circulation</span><span>8 feedback loops</span>
+  </div>
+
+  <div class="artifact medium">
+    <div class="frame-header">
+      <span class="dot"></span>
+      <span class="label">Polymorphic Matrix</span>
+      <span class="desc">v1 · circulation framework · the precursor</span>
+      <span class="actions">
+        <a href="./matrix/" target="_blank" rel="noopener">↗ open standalone</a>
+        <a href="./matrix/circulatory_pressure_architectures_summary.pdf" target="_blank" rel="noopener">🗎 paper</a>
+      </span>
+    </div>
+    <iframe src="./matrix/" title="Polymorphic Matrix of Systemic Political Pressure" loading="lazy"></iframe>
+    <div class="frame-caption">
+      <strong>What to look for:</strong> the four-stage circulation closing back on itself. The Matrix was drawn flat; the toroidal topology is what the data was asking for. The Catalysis Toroid (next chapter) is the topology made native to its geometry.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CHAPTER III ═══════════════════════ -->
+<section class="chapter" id="poly">
+  <div class="chap-meta"><span class="num">III</span><span>The relational instrument</span><span class="line"></span></div>
+  <h2>May 2026: the topology, now <span class="accent">native to its geometry.</span></h2>
+
+  <p class="lede">The Polymorphic Catalysis Toroid (v0.33) is the Matrix in 3D, anchored to evidence. Nested tire-and-inner-tube architecture: an outer torus hosts actor spheres, an inner torus hosts target octahedra, and the central yellow icosahedron is the Intent-Action Catalyst — the point operations route through.</p>
+
+  <p>Four parallel edge layers carry different analytical primitives. <em>7.x cells</em> document actor-to-target operations across six intent channels — STRUCT, CONV, COORD, OPP, INACT, UNK — and the <em>INACT</em> channel is the one that makes engineered incompetence legible: every INACT cell pairs an inaction with its documented downstream consequence. <em>R-cells</em> document actor-to-actor coordination. <em>B-cells</em> (rendered as ghost-white aurora tubes outside the operational geometry) document benefit-inferred backchannels that operate without formal coordination — the substrate ecology that sustains operations across administrative transitions. <em>P-cells</em> document polarity tensions within the operating coalition, because coalitions are not internally uniform.</p>
+
+  <div class="specblock">
+    <span class="accent">v0.33 · May 2026</span><span>136 actors</span><span>118 targets</span><span>349 operational cells</span><span>130 R-cells</span><span>50 B-wormholes</span><span>17 P-cells</span><span>6 vortices</span>
+  </div>
+
+  <p class="muted">Selection isolates a node's network at 1°–5° BFS depth — the live degree counter exposes the network's multiplicative structure, where each step of separation multiplies reach in ways the flat list of nodes would suggest were independent. The 42-mode Multimalocracy taxonomy is the discriminative vocabulary the instrument's mode filter draws from.</p>
+
+  <div class="artifact tall">
+    <div class="frame-header">
+      <span class="dot"></span>
+      <span class="label">Catalysis Toroid</span>
+      <span class="desc">v0.33 · relational instrument · evidence layer</span>
+      <span class="actions">
+        <a href="./poly/" target="_blank" rel="noopener">↗ open standalone</a>
+        <a href="./poly/node_reference.md" target="_blank" rel="noopener">🗎 node reference</a>
+        <a href="./poly/governance_modes_methodology_paper.md" target="_blank" rel="noopener">🗎 methodology</a>
+      </span>
+    </div>
+    <iframe src="./poly/" title="Polymorphic Catalysis Toroid v0.33" loading="lazy"></iframe>
+    <div class="frame-caption">
+      <strong>How to use it:</strong> the instrument loads with a layered onboarding tour — outer wireframe, inner wireframe, equatorial boundary, actor nodes, target nodes, a sample selection, the degree-expansion mechanic, INACT (the Sabbotarchy fingerprint), then all channels and relationships. Dismiss the tour at any point and the operational state is clean for free exploration. Click any node to isolate its network; cycle the channel filter to see how different intent types route through the same structural architecture.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CHAPTER IV ═══════════════════════ -->
+<section class="chapter" id="stack">
+  <div class="chap-meta"><span class="num">IV</span><span>The two-instrument stack</span><span class="line"></span></div>
+  <h2>Documenting and measuring are <span class="accent">different epistemic operations.</span></h2>
+
+  <p class="lede">The Catalysis Toroid renders the WHO and HOW — relational architecture, intent channels, evidence tiers (Documented / Inferable / Speculative). The Deception Arcane scores the WHAT IT IS — regime character measured on five empirical signature dimensions. Each instrument is independently meaningful; together they support an iterative analytical workflow that neither could support alone.</p>
+
+  <div class="stack-row">
+    <div class="layer">
+      <div class="role">Layer 1 · Evidence</div>
+      <h4>Catalysis Toroid</h4>
+      <p>Who does what to whom, through which intent channel, anchored to evidence tiers. The relational architecture of operating coalitions, rendered toroidally because the topology demanded it.</p>
+    </div>
+    <div class="layer">
+      <div class="role">Layer 2 · Measurement</div>
+      <h4>Deception Arcane</h4>
+      <p>Scores government-services-redirection architectures on five signature dimensions. Distinguishes engineered incompetence from genuine incompetence by signature concentration, not by claim. Composite Obfuscratic Sabbotarchy Index.</p>
+    </div>
+    <div class="layer">
+      <div class="role">Layer 3 · Substrate</div>
+      <h4>Strata-Dom-3D</h4>
+      <p>A research game exercising the upstream-commitment pattern as gameplay. Players commit irrevocable plans in parallel; reveals are simultaneous; pre-committed weapons fire on schedule. The torus is not decoration here either.</p>
+    </div>
+  </div>
+
+  <p class="muted">Cell references in the toroid (<code>7.297</code>, <code>R040</code>, <code>B042</code>) anchor measurement rows in the Deception Arcane. The toroid is the evidence layer; the Deception Arcane is the measurement layer; Strata-Dom-3D is the ludic substrate where the pattern is exercised under controlled conditions. An analyst working with both instruments can identify an operation in the toroid, examine its cell content, consult the Arcane for the signature score of the broader architecture, and confirm or revise the score on cell-specific evidence.</p>
+</section>
+
+<!-- ═══════════════════════ CHAPTER V ═══════════════════════ -->
+<section class="chapter" id="sabbot">
+  <div class="chap-meta"><span class="num">V</span><span>The signature instrument</span><span class="line"></span></div>
+  <h2>Engineered incompetence has a <span class="accent">signature.</span> So does the genuine kind. They are different.</h2>
+
+  <p class="lede">The Obfuscratic Sabbotarchy — Deception Arcane is a measurement apparatus, not an accusation. It scores government-services-redirection architectures on five empirically-grounded dimensions, each constructed so the signature of engineered incompetence is structurally distinguishable from the signature of genuine incompetence. An architecture scoring below 30 is consistent with genuine incompetence or genuine competence and the framework provides no basis for further diagnostic claim.</p>
+
+  <div class="sig-grid">
+    <div class="sig-card">
+      <div class="id"><span class="tag">S1</span><span class="weight">w = 0.25</span></div>
+      <h4>Outcome-distribution asymmetry</h4>
+      <p>Divergence between the stated policy beneficiary and the realized beneficiary. Genuine policy produces symmetric distributions; engineered incompetence produces directional concentration toward extraction architectures.</p>
+    </div>
+    <div class="sig-card">
+      <div class="id"><span class="tag">S2</span><span class="weight">w = 0.20</span></div>
+      <h4>Domain-selective competence</h4>
+      <p>Differential between public-facing function delivery and extractive function delivery within the same operational architecture. Surgical precision in operations <em>against</em>, buffoonery in operations <em>for</em>, with the same personnel.</p>
+    </div>
+    <div class="sig-card">
+      <div class="id"><span class="tag">S3</span><span class="weight">w = 0.15</span></div>
+      <h4>Anti-remediation response</h4>
+      <p>Slope of resistance-intensity as a function of remediation cost. Genuine incompetence: positive slope (expensive fixes resisted more — budget logic). Obfuscratic sabbotarchy: flat-high or inverted slope (free fixes resisted as strongly as expensive ones — structural protection).</p>
+    </div>
+    <div class="sig-card">
+      <div class="id"><span class="tag">S4</span><span class="weight">w = 0.10</span></div>
+      <h4>Recruitment selection</h4>
+      <p>Three-axis pattern: technical-competence retention × loyalty-signal advancement × dissent-tolerance ratio. Engineered architectures concurrently produce low technical retention, high loyalty advancement, and near-zero dissent tolerance.</p>
+    </div>
+    <div class="sig-card" style="border-color:var(--border-strong);">
+      <div class="id"><span class="tag">S5</span><span class="weight">w = 0.30</span></div>
+      <h4>Information-architecture asymmetry</h4>
+      <p>Ratio of internal information coherence (within the regime) to external information coherence (the public information ecosystem the regime produces). The cleanest operational definition. Weighted highest because the asymmetry signature has the fewest alternative explanations.</p>
+    </div>
+  </div>
+
+  <p>Composite: <code>Index = 0.25·S1 + 0.20·S2 + 0.15·S3 + 0.10·S4 + 0.30·S5</code>. Four bands: <em>0–30 Genuine pattern</em>, <em>30–70 Mixed signature</em>, <em>70–85 Engineered pattern</em>, <em>85–100 Extreme signature</em>.</p>
+
+  <div class="findings">
+    <table>
+      <thead>
+        <tr><th>Architecture</th><th class="num">Index</th><th>Band</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>DOGE / federal workforce reduction</td><td class="num score">89</td><td class="band extreme">Extreme signature</td></tr>
+        <tr><td>IRS dismantling</td><td class="num score">89</td><td class="band extreme">Extreme signature</td></tr>
+        <tr><td>OBBBA / Medicaid administration</td><td class="num score">86</td><td class="band extreme">Extreme signature</td></tr>
+        <tr><td>ICE / DHS detention apparatus</td><td class="num score">86</td><td class="band extreme">Extreme signature</td></tr>
+        <tr><td>NIH research-funding compression</td><td class="num score">77</td><td class="band engineered">Engineered pattern</td></tr>
+        <tr><td>VA workforce restructuring</td><td class="num score">74</td><td class="band engineered">Engineered pattern</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="muted">The clustering itself is diagnostic. Genuine policy disagreement would produce architectures distributed across the full index range; coordinated obfuscratic operation produces architectures clustered in the engineered and extreme bands. The cross-architecture pattern matters analytically as much as any individual score.</p>
+
+  <div class="artifact medium">
+    <div class="frame-header">
+      <span class="dot"></span>
+      <span class="label">Deception Arcane</span>
+      <span class="desc">v0.1 · signature instrument · measurement layer</span>
+      <span class="actions">
+        <a href="./sabbot/" target="_blank" rel="noopener">↗ open standalone</a>
+        <a href="./sabbot/sabbotarchy_methodology_paper.md" target="_blank" rel="noopener">🗎 methodology</a>
+        <a href="./sabbot/sabbotarchy_scoring_rubric.md" target="_blank" rel="noopener">🗎 scoring rubric</a>
+      </span>
+    </div>
+    <iframe src="./sabbot/" title="Obfuscratic Sabbotarchy — Deception Arcane v0.1" loading="lazy"></iframe>
+    <div class="frame-caption">
+      <strong>How to use it:</strong> each architecture panel breaks down the per-dimension scores with evidence anchors — cell references into the Catalysis Toroid, citations, and the audit trail behind each scoring decision. The comparison table at the bottom ranks all six. Every score is revisable; the framework's authority is derivative of the documentation behind it, not constitutive of any analyst's claim.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CHAPTER VI ═══════════════════════ -->
+<section class="chapter" id="vocab">
+  <div class="chap-meta"><span class="num">VI</span><span>The vocabulary apparatus</span><span class="line"></span></div>
+  <h2>Three predicates the standard vocabulary <span class="accent">collapses.</span></h2>
+
+  <p class="lede">Naming is analytical work. The framework rests on three coined predicates, each naming a distinction the inherited governance vocabulary obscures by lumping it with something it isn't.</p>
+
+  <div class="vocab-grid">
+    <div class="vocab">
+      <div class="term">Sabbotarchy</div>
+      <div class="etym">sabotage + -archy</div>
+      <p>The regime form: rule by sabotage. The <em>-archy</em> suffix places the term in the etymological family of regime forms — monarchy, oligarchy, hierarchy, anarchy — where it always should have been.</p>
+    </div>
+    <div class="vocab">
+      <div class="term">Obfuscratic</div>
+      <div class="etym">obfuscation + -cratic</div>
+      <p>The operational signature: a regime operating through the deliberate production of confusion and manufactured incoherence. An adjective: it names <em>how</em> the regime operates, not <em>what type</em> it is.</p>
+    </div>
+    <div class="vocab">
+      <div class="term">Multimalocracy</div>
+      <div class="etym">multi- + mal- + -ocracy</div>
+      <p>The 42-mode discriminative-vocabulary taxonomy. Names the structural conditions Sabbotarchy operates within, alongside Imperocracy, Documentocracy, and the broader inherited apparatus.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>The bipartite construction <em>Obfuscratic Sabbotarchy</em> is the framework's central commitment: rule-by-sabotage operating through deliberate obfuscation that frames the sabotage as incompetence.</p>
+    <p>Neither half is sufficient. A Sabbotarchy operating transparently would be recognized and resisted. An Obfuscratic regime without sabotage would have nothing to obfuscate. The compound names what actually happens.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CHAPTER VII ═══════════════════════ -->
+<section class="chapter" id="play">
+  <div class="chap-meta"><span class="num">VII</span><span>The ludic substrate</span><span class="line"></span></div>
+  <h2>The pattern, made <span class="accent">playable.</span></h2>
+
+  <p class="lede">Strata-Dom-3D is a research game in which the upstream-commitment pattern is exercised as gameplay. Players commit irrevocable plans in parallel. Reveals are simultaneous. Pre-committed weapons fire on schedule, in directions chosen at game start, with no opportunity to retract once the round resolves.</p>
+
+  <p>What the game lets you test is the same structural property the analytical instruments document: irrevocable commitment under mutual blindness, topological flanking, no-edge environments. The 32×12 toroidal battlefield is bounded but has no edge; pieces sliding along path-traversed lanes wrap continuously; weapon vectors fire across the topology and chain through whatever they meet. Same-type clashes resolve via skill duels — Precision Aim, Connect-Four, Memory, Cup-Shuffle — never by chance.</p>
+
+  <div class="specblock">
+    <span class="accent">research preview</span><span>1–6 players</span><span>32 × 12 toroid</span><span>12 piece types</span><span>4 skill duels</span><span>simultaneous reveal</span><span>5% house rake</span><span>tokens only</span>
+  </div>
+
+  <p class="muted">The skill-based wager structure is part of the research: when commitment is irrevocable and the mini-game is purely skill, what emerges is whether players can pre-compute under uncertainty — the same question the upstream-commitment pattern asks of policy actors and the same question the instruments above measure analytically.</p>
+
+  <div class="artifact tall">
+    <div class="frame-header">
+      <span class="dot"></span>
+      <span class="label">Strata-Dom-3D</span>
+      <span class="desc">research preview · play tokens only</span>
+      <span class="actions">
+        <a href="./play/" target="_blank" rel="noopener">↗ open full screen</a>
+      </span>
+    </div>
+    <iframe src="./play/" title="Strata-Dom-3D research game" loading="lazy" allowfullscreen></iframe>
+    <div class="frame-caption">
+      <strong>Quickstart:</strong> the prototype handles AI fill for missing players, so you can run solo against bots. Setup phase: pick your piece formation and pre-commit your sun flare directions (fired every 3 rounds) and moonbeam direction (fired round 5). Plot phase: select moves in private. Reveal: all players' moves resolve simultaneously. Win: extinguish every other player's Sun — by direct capture, weapon-vector kill chain, or nova cascade from another Sun's death. The Gallery panel inside the game has full piece references and movement diagrams.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ CHAPTER VIII ═══════════════════════ -->
+<section class="chapter" id="workflow">
+  <div class="chap-meta"><span class="num">VIII</span><span>How to use it</span><span class="line"></span></div>
+  <h2>An iterative workflow across the <span class="accent">two-instrument stack.</span></h2>
+
+  <p class="lede">The instruments are designed for use together. An analyst with a question about a specific architecture follows this loop:</p>
+
+  <div class="workflow">
+    <ol>
+      <li><strong>Identify</strong> an operation of interest in the Catalysis Toroid. Click an actor or target; isolate its network at 1° depth; expand outward to 5° to see the multiplicative reach.</li>
+      <li><strong>Examine</strong> the operational cells (7.x) connected to that node. Read the INACT cells with particular care — those are where engineered incompetence is most legible, because each pairs an inaction with its documented downstream consequence.</li>
+      <li><strong>Trace</strong> the relevant R-cells (formal coordination) and B-cells (benefit-inferred wormholes). The B-cells often matter more than the R-cells for understanding sustainment across administrative transitions.</li>
+      <li><strong>Consult</strong> the Deception Arcane for the signature score of the broader architecture the operation belongs to. Read the per-dimension breakdown — especially S5 (information-architecture asymmetry), which carries the highest weight.</li>
+      <li><strong>Confirm or revise</strong> the score on cell-specific evidence. Every scoring decision is anchored to documented evidence; every anchor is auditable; every score is revisable when new evidence emerges or interpretation is challenged.</li>
+      <li><strong>If wanted, exercise</strong> the upstream-commitment pattern in Strata-Dom-3D to test intuitions about pre-committed plans under simultaneous reveal — the structural property the instruments document analytically.</li>
+    </ol>
+  </div>
+
+  <p class="muted">The framework is regime-character-agnostic with respect to political affiliation; it applies wherever the signature pattern emerges. Future versions will extend within the government-services domain (SSA, Department of Education, EPA, USDA, HUD, SEC architectures all warrant scoring) and beyond it. Cross-analyst replication is an open research program — the framework's external validity depends on whether independent analysts produce convergent rank-orderings of architectures.</p>
+
+  <div class="callout">
+    <p>It is a measurement procedure, not an accusation. It does not claim any specific architecture is engineered-incompetent; it provides the procedure by which an architecture can be measured on the signature dimensions and scored.</p>
+    <p>Naming Obfuscratic Sabbotarchy doesn't prove it; <em>signature analysis does</em>.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="pillrow">
+    <span class="pill">research preview</span>
+    <span class="pill">play tokens only</span>
+    <span class="pill">no real-money play yet</span>
+    <span class="pill">B. Greenway · ThinkWell Labs Metrology</span>
+  </div>
+  <div class="citation">
+    Greenway, B. (2026). <em>Toroidal Instruments for ThinkWell Labs Metrology.</em>
+    toroid.fyi v0.1 — Polymorphic Catalysis Toroid v0.33; Obfuscratic Sabbotarchy — Deception Arcane v0.1; Polymorphic Matrix (v1, precursor); Strata-Dom-3D research preview.
+  </div>
+  <div class="links">
+    <a href="https://twl.today">ThinkWell Labs</a> ·
+    <a href="https://twl.today/contact.html">Contact</a> ·
+    <a href="https://twl.today/privacy.html">Privacy</a> ·
+    <a href="https://twl.today/terms.html">Terms</a>
+  </div>
+  <div class="stamp">© ThinkWell Labs · toroid.fyi · v0.1 · first emanation</div>
+</footer>
+
+<script>
+/* Hero animated torus — minimal CSS+canvas, no Three.js needed.
+   Six accent nodes representing the six consolidation vortices
+   (Power, Capital, Money, Attention, Intelligence, Narrative). */
+(function(){
+  const c = document.getElementById('hero-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  function resize(){
+    c.width  = c.clientWidth  * (window.devicePixelRatio || 1);
+    c.height = c.clientHeight * (window.devicePixelRatio || 1);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  let yaw = 0.6, pitch = 0.45;
+  const R = 1.0, r = 0.32;
+  const U_STEPS = 56, V_STEPS = 16;
+
+  function render(t){
+    const W = c.width, H = c.height;
+    ctx.clearRect(0, 0, W, H);
+    yaw   = 0.6 + Math.sin(t * 0.0001) * 0.4;
+    pitch = 0.45 + Math.sin(t * 0.00013) * 0.15;
+    const cx = W / 2, cy = H / 2;
+    const scale = Math.min(W, H) * 0.32;
+    const cosY = Math.cos(yaw),  sinY = Math.sin(yaw);
+    const cosP = Math.cos(pitch), sinP = Math.sin(pitch);
+
+    const points = [];
+    for (let i = 0; i < U_STEPS; i++){
+      const phi = (i / U_STEPS) * Math.PI * 2;
+      for (let j = 0; j < V_STEPS; j++){
+        const theta = (j / V_STEPS) * Math.PI * 2;
+        const xR = (R + r * Math.cos(theta)) * Math.cos(phi);
+        const yR = r * Math.sin(theta);
+        const zR = (R + r * Math.cos(theta)) * Math.sin(phi);
+        const x1 = xR * cosY - zR * sinY;
+        const z1 = xR * sinY + zR * cosY;
+        const y2 = yR * cosP - z1 * sinP;
+        const z2 = yR * sinP + z1 * cosP;
+        const persp = 1 / (3 - z2 * 0.6);
+        points.push({ x: cx + x1 * scale * persp, y: cy + y2 * scale * persp, z: z2 });
+      }
+    }
+    for (let i = 0; i < U_STEPS; i++){
+      ctx.beginPath();
+      for (let j = 0; j <= V_STEPS; j++){
+        const idx = i * V_STEPS + (j % V_STEPS);
+        const p = points[idx];
+        if (j === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+      }
+      ctx.strokeStyle = `rgba(182,164,255,0.18)`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+    for (let j = 0; j < V_STEPS; j++){
+      ctx.beginPath();
+      for (let i = 0; i <= U_STEPS; i++){
+        const idx = (i % U_STEPS) * V_STEPS + j;
+        const p = points[idx];
+        if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+      }
+      ctx.strokeStyle = `rgba(140,130,200,0.10)`;
+      ctx.lineWidth = 0.6;
+      ctx.stroke();
+    }
+    const nodeColors = ['#8a8eff','#e08b54','#6dc472','#d56fc4','#f1c463','#5cc8d1'];
+    for (let k = 0; k < 6; k++){
+      const phi   = (k / 6) * Math.PI * 2 + t * 0.00015;
+      const theta = Math.sin(t * 0.0003 + k) * 0.7;
+      const xR = (R + r * Math.cos(theta)) * Math.cos(phi);
+      const yR = r * Math.sin(theta);
+      const zR = (R + r * Math.cos(theta)) * Math.sin(phi);
+      const x1 = xR * cosY - zR * sinY;
+      const z1 = xR * sinY + zR * cosY;
+      const y2 = yR * cosP - z1 * sinP;
+      const z2 = yR * sinP + z1 * cosP;
+      const persp = 1 / (3 - z2 * 0.6);
+      const px = cx + x1 * scale * persp;
+      const py = cy + y2 * scale * persp;
+      const rad = 4 * persp;
+      const grad = ctx.createRadialGradient(px, py, 0, px, py, rad * 5);
+      grad.addColorStop(0, nodeColors[k] + 'cc');
+      grad.addColorStop(1, nodeColors[k] + '00');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(px, py, rad * 5, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = nodeColors[k];
+      ctx.beginPath(); ctx.arc(px, py, rad, 0, Math.PI*2); ctx.fill();
+    }
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  /* Sticky-nav active-chapter highlight via IntersectionObserver */
+  const links = document.querySelectorAll('nav.toc .links a');
+  const sections = Array.from(links).map(a => document.querySelector(a.getAttribute('href')));
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const idx = sections.indexOf(en.target);
+        if (idx >= 0) links[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  sections.forEach(s => s && obs.observe(s));
+})();
+</script>
+</body>
+</html>

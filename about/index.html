@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · toroid.fyi</title>
+  <meta name="description" content="What toroid.fyi is, and why it lives on a torus.">
+  <meta name="theme-color" content="#0a0712">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23b6a4ff' stroke-width='1.5'/></svg>">
+  <style>
+    :root { --bg:#0a0712; --fg:#e6e3f5; --muted:#8a85a6; --accent:#b6a4ff; --warm:#e08b54; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body { min-height:100vh; display:flex; flex-direction:column; }
+    nav.top { display:flex; gap:18px; padding:18px 6vw; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; }
+    nav.top a { color:var(--muted); text-decoration:none; }
+    nav.top a:hover { color:var(--accent); }
+    nav.top a.brand { color:var(--fg); font-weight:600; margin-right:auto; }
+    main { flex:1; padding:64px 6vw 96px; max-width:760px; margin:0 auto; }
+    h1 { font-weight:300; font-size:clamp(34px, 5vw, 52px); margin:0 0 8px; letter-spacing:-0.02em; }
+    h1 .accent { color:var(--accent); font-weight:500; }
+    .lede { font-size:18px; color:var(--muted); line-height:1.55; margin:0 0 48px; }
+    h2 { font-size:14px; letter-spacing:0.10em; color:var(--accent); text-transform:uppercase; margin:40px 0 12px; font-weight:600; }
+    p { line-height:1.65; color:#cfc9e1; margin:0 0 18px; }
+    p b { color:var(--fg); font-weight:600; }
+    .pill-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+    .pill { padding:6px 14px; border-radius:999px; border:1px solid rgba(182,164,255,0.4); color:var(--accent); font-size:12px; letter-spacing:0.04em; font-family:ui-monospace,Menlo,monospace; }
+    footer { padding:24px 6vw; text-align:center; font-size:11px; color:var(--muted); border-top:1px solid rgba(255,255,255,0.05); font-family:ui-monospace,Menlo,monospace; letter-spacing:0.04em; }
+    footer .accent { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <a class="brand" href="/">toroid<span style="color:var(--accent)">.fyi</span></a>
+    <a href="/game/">Game</a>
+    <a href="/mechanics/">Mechanics</a>
+    <a href="/tour/">Instruments</a>
+    <a href="/updates/">Updates</a>
+  </nav>
+  <main>
+    <h1>About <span class="accent">toroid.fyi</span></h1>
+    <p class="lede">A torus is the simplest surface that captures what an edge can't: pressure that loops back, flanking that's constant, feedback that re-enters its own origin.</p>
+
+    <h2>Premise</h2>
+    <p>Most game boards and most diagrams assume an edge. Edges create corners. Corners create privilege — the player who holds the corner can be flanked from at most two sides instead of four. Edges also lie: in real systems where feedback loops back on itself, there is no corner to hold.</p>
+    <p>toroid.fyi treats the torus as a research substrate. <b>Bounded</b> (finite play surface). <b>Edgeless</b> (no corners to camp). <b>Doubly periodic</b> (pressure on the north wraps to the south; pressure on the east wraps to the west). What strategies survive when you cannot retreat into an edge?</p>
+
+    <h2>The three instruments</h2>
+    <p>The site hosts three artifacts of the same investigation:</p>
+    <ol style="line-height:1.7;color:#cfc9e1">
+      <li><b>Polymorphic Catalysis Toroid</b> — relational instrument. 136 actors, 118 targets, 349 operational cells, 130 actor-actor relationships, 50 wormhole backchannels.</li>
+      <li><b>Obfuscratic Sabbotarchy — Deception Arcane</b> — signature instrument. Five-dimensional scoring of government-services-redirection architectures.</li>
+      <li><b>Strata-Dom-3D</b> — ludic substrate. A playable game that exercises the toroidal commitment loop.</li>
+    </ol>
+    <p>The first two are evidence and measurement. The third is play. They share a topology because the topology is what they are about.</p>
+
+    <h2>Author</h2>
+    <p><b>B. Greenway</b> · ThinkWell Labs Metrology. May 2026.</p>
+
+    <div class="pill-row">
+      <span class="pill">v0.1</span>
+      <span class="pill">research preview</span>
+      <span class="pill">play tokens only</span>
+    </div>
+  </main>
+  <footer>
+    <span class="accent">B. Greenway</span> · ThinkWell Labs Metrology · v0.1
+  </footer>
+</body>
+</html>

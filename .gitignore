@@ -1,0 +1,51 @@
+# Originals — preserved on disk for reference, not deployed.
+# The deploy serves the consolidated copies in poly/, sabbot/, play/, papers/, matrix/.
+Polymorphic Matrix/
+Strat-Dom-3d/
+sabbotarchy/
+opmanifold/
+opmanifold.zip
+strat-dom-3d.rtf
+
+# Root-level stragglers — now homed in their proper subdirs
+# (matrix/circulatory_pressure_architectures.{docx,summary.pdf},
+#  poly/multimalocracy_v{2,3}.pdf, poly/multimalocracy_revision_proposal.md).
+# Keep these blocks here so the deploy stays clean even if root copies linger.
+/Multimalocracy2.pdf
+/multimalocracy3.pdf
+/multimalocracy_revision_proposal.md
+/circulatory_pressure_architectures.docx
+/circulatory_pressure_architectures_summary.pdf
+
+# Duplicate of matrix/index.html (verified identical via md5)
+matrix/indexM.html
+
+# OS noise
+.DS_Store
+Thumbs.db
+.AppleDouble
+.LSOverride
+Icon?
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local node_modules / build caches if any sneak in
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+.next/
+.nuxt/
+
+# Cloudflare local dev
+.wrangler/
+
+# Logs / temp
+*.log
+*.tmp

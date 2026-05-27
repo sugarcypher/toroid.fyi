@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obfuscratic Sabbotarchy — The Deception Arcane v0.1</title>
+<style>
+  :root {
+    --bg: #f5f3ec;
+    --panel-bg: #fefdf7;
+    --panel-bg-alt: #f9f7f0;
+    --panel-border: rgba(0,0,0,0.10);
+    --panel-border-strong: rgba(0,0,0,0.18);
+    --text: #1c1c1c;
+    --text-muted: #555;
+    --text-faint: #888;
+    --accent-gold: #ca8a04;
+    --accent-blue: #1e40af;
+    --accent-rust: #b45309;
+    --accent-teal: #0d9488;
+    --accent-purple: #7c3aed;
+    --accent-red: #b91c1c;
+    --score-low: #16a34a;
+    --score-mid: #ca8a04;
+    --score-high: #dc2626;
+    --score-extreme: #7f1d1d;
+    --grid: rgba(0,0,0,0.06);
+    --grid-strong: rgba(0,0,0,0.14);
+    --tab-cell-ref: #1e40af;
+  }
+  body.dark-mode {
+    --bg: #0a0a0f;
+    --panel-bg: #14141e;
+    --panel-bg-alt: #1c1c28;
+    --panel-border: rgba(255,255,255,0.12);
+    --panel-border-strong: rgba(255,255,255,0.22);
+    --text: #e8e6e0;
+    --text-muted: #a8a6a0;
+    --text-faint: #6b6962;
+    --grid: rgba(255,255,255,0.08);
+    --grid-strong: rgba(255,255,255,0.16);
+    --tab-cell-ref: #93c5fd;
+    --score-low: #4ade80;
+    --score-mid: #fbbf24;
+    --score-high: #f87171;
+    --score-extreme: #fca5a5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  .container { max-width: 1400px; margin: 0 auto; padding: 28px 32px 80px; }
+
+  /* HEADER */
+  header.instrument-header {
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .instrument-title h1 {
+    font-size: 23px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .instrument-title h1 .version {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 6px;
+  }
+  .instrument-title .subtitle {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 6px;
+  }
+  .instrument-title .twl {
+    font-size: 10.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .header-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    padding: 5px 12px;
+    font-size: 10.5px;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.12s;
+  }
+  .theme-toggle:hover { background: rgba(0,0,0,0.05); }
+  body.dark-mode .theme-toggle:hover { background: rgba(255,255,255,0.06); }
+
+  /* INTRO BLOCK */
+  .intro-block {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-left: 3px solid var(--accent-gold);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    border-radius: 3px;
+  }
+  .intro-block h2 {
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .intro-block p { margin-bottom: 8px; font-size: 12.5px; }
+  .intro-block p:last-child { margin-bottom: 0; }
+  .intro-block strong { font-weight: 600; }
+  .intro-block em { font-style: italic; opacity: 0.9; }
+
+  /* THE FIVE SIGNATURES PREVIEW */
+  .signatures-preview {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 1000px) {
+    .signatures-preview { grid-template-columns: repeat(2, 1fr); }
+  }
+  .sig-preview-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 12px 14px;
+    border-radius: 3px;
+    border-top: 3px solid var(--accent-blue);
+  }
+  .sig-preview-card.sig-1 { border-top-color: var(--accent-rust); }
+  .sig-preview-card.sig-2 { border-top-color: var(--accent-teal); }
+  .sig-preview-card.sig-3 { border-top-color: var(--accent-purple); }
+  .sig-preview-card.sig-4 { border-top-color: var(--accent-blue); }
+  .sig-preview-card.sig-5 { border-top-color: var(--accent-red); }
+  .sig-preview-card .sig-num {
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .sig-preview-card .sig-name {
+    font-size: 11.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .sig-preview-card .sig-weight {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ARCHITECTURE SELECTOR */
+  .arch-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding: 14px 18px;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 3px;
+    align-items: center;
+  }
+  .arch-selector .selector-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-right: 8px;
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+  .arch-btn {
+    background: transparent;
+    border: 1px solid var(--panel-border);
+    color: var(--text);
+    padding: 5px 11px;
+    font-size: 11px;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.12s;
+  }
+  .arch-btn:hover { background: rgba(0,0,0,0.04); }
+  body.dark-mode .arch-btn:hover { background: rgba(255,255,255,0.06); }
+  .arch-btn.active {
+    background: #1a1a1a;
+    color: #fff5e8;
+    border-color: #1a1a1a;
+  }
+  body.dark-mode .arch-btn.active {
+    background: #e8e6e0;
+    color: #0a0a0f;
+    border-color: #e8e6e0;
+  }
+
+  /* COMPOSITE INDEX DISPLAY */
+  .composite-display {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 1000px) { .composite-display { grid-template-columns: 1fr; } }
+  .composite-card {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 22px 24px;
+    border-radius: 3px;
+  }
+  .composite-card.score-card {
+    border-left: 4px solid var(--accent-gold);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .composite-card .card-label {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .composite-card .arch-name {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.005em;
+    line-height: 1.3;
+  }
+  .composite-card .arch-description {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .composite-card .index-value {
+    font-size: 56px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin: 4px 0 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .composite-card .index-out-of {
+    font-size: 18px;
+    color: var(--text-faint);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+  .composite-card .index-band {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .band-low { background: rgba(22,163,74,0.13); color: #15803d; border: 1px solid rgba(22,163,74,0.35); }
+  .band-mid { background: rgba(202,138,4,0.13); color: #92660b; border: 1px solid rgba(202,138,4,0.35); }
+  .band-high { background: rgba(220,38,38,0.13); color: #991b1b; border: 1px solid rgba(220,38,38,0.35); }
+  .band-extreme { background: rgba(127,29,29,0.18); color: #7f1d1d; border: 1px solid rgba(127,29,29,0.45); font-weight: 800; }
+  body.dark-mode .band-low { color: #4ade80; }
+  body.dark-mode .band-mid { color: #fbbf24; }
+  body.dark-mode .band-high { color: #f87171; }
+  body.dark-mode .band-extreme { color: #fecaca; }
+
+  /* SIGNATURE PANELS */
+  .signatures-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .signature-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 3px;
+    padding: 22px 28px 26px;
+  }
+  .signature-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--panel-border);
+    gap: 16px;
+  }
+  .signature-panel-title {
+    font-size: 15.5px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    flex-grow: 1;
+  }
+  .signature-panel-title .panel-num {
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-right: 10px;
+    letter-spacing: 0.02em;
+  }
+  .signature-panel-score {
+    font-size: 22px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .signature-panel-score .score-out-of {
+    font-size: 12px;
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .signature-panel-score .score-weight {
+    display: block;
+    font-size: 10px;
+    color: var(--text-faint);
+    text-align: right;
+    margin-top: 2px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .signature-panel-body {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 28px;
+  }
+  @media (max-width: 1000px) {
+    .signature-panel-body { grid-template-columns: 1fr; }
+  }
+  .signature-methodology {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .signature-methodology p { margin-bottom: 10px; }
+  .signature-methodology p:last-child { margin-bottom: 0; }
+  .signature-methodology strong { color: var(--text); font-weight: 600; }
+  .signature-methodology em { font-style: italic; opacity: 0.9; }
+  .signature-methodology .method-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .signature-methodology .method-label:first-child { margin-top: 0; }
+  .signature-methodology .interpretation {
+    background: var(--panel-bg-alt);
+    border-left: 2px solid var(--accent-gold);
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 2px;
+    font-size: 11.5px;
+    color: var(--text);
+  }
+  .signature-viz {
+    min-height: 240px;
+    position: relative;
+  }
+  .signature-viz svg { width: 100%; height: 280px; display: block; }
+  .signature-viz text { font-family: inherit; }
+  .signature-viz .axis-line { stroke: var(--grid-strong); stroke-width: 1; }
+  .signature-viz .grid-line { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 2,3; }
+  .signature-viz .axis-label {
+    font-size: 10px;
+    fill: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .signature-viz .axis-tick { font-size: 9.5px; fill: var(--text-faint); font-variant-numeric: tabular-nums; }
+  .signature-viz .value-label {
+    font-size: 10.5px;
+    fill: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .signature-viz .quadrant-label {
+    font-size: 9.5px;
+    fill: var(--text-faint);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+  .signature-viz .annotation {
+    font-size: 10px;
+    fill: var(--text-muted);
+  }
+  .signature-viz .bar-stated { fill: var(--accent-blue); opacity: 0.75; }
+  .signature-viz .bar-actual { fill: var(--accent-rust); opacity: 0.85; }
+  .signature-viz .legend-text { font-size: 10px; fill: var(--text-muted); }
+
+  /* EVIDENCE TABLE */
+  .evidence-section {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--panel-border);
+  }
+  .evidence-section h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .evidence-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+  }
+  .evidence-table th {
+    text-align: left;
+    padding: 6px 10px 6px 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .evidence-table td {
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  body.dark-mode .evidence-table td { border-bottom-color: rgba(255,255,255,0.04); }
+  .evidence-table td.cell-ref {
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--tab-cell-ref);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .evidence-table td.score-cell {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .score-cell.score-low { color: var(--score-low); }
+  .score-cell.score-mid { color: var(--score-mid); }
+  .score-cell.score-high { color: var(--score-high); }
+  .score-cell.score-extreme { color: var(--score-extreme); }
+
+  /* COMPARISON SECTION */
+  .comparison-section {
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    padding: 22px 28px 26px;
+    border-radius: 3px;
+    margin-top: 28px;
+  }
+  .comparison-section h2 {
+    font-size: 15.5px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin-bottom: 6px;
+  }
+  .comparison-section .compare-subtitle {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11.5px;
+  }
+  .comparison-table th {
+    text-align: left;
+    padding: 8px 10px 8px 0;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    font-weight: 700;
+    border-bottom: 1px solid var(--panel-border-strong);
+    white-space: nowrap;
+  }
+  .comparison-table th.center { text-align: center; padding: 8px 6px; }
+  .comparison-table td {
+    padding: 9px 10px 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    vertical-align: middle;
+  }
+  body.dark-mode .comparison-table td { border-bottom-color: rgba(255,255,255,0.05); }
+  .comparison-table td.center { text-align: center; padding: 9px 6px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .comparison-table tr.arch-row { cursor: pointer; transition: background 0.12s; }
+  .comparison-table tr.arch-row:hover { background: rgba(0,0,0,0.03); }
+  body.dark-mode .comparison-table tr.arch-row:hover { background: rgba(255,255,255,0.04); }
+  .comparison-table tr.arch-row.active { background: rgba(202,138,4,0.10); }
+  body.dark-mode .comparison-table tr.arch-row.active { background: rgba(202,138,4,0.16); }
+  .arch-name-cell { font-weight: 600; line-height: 1.35; }
+  .arch-name-cell .arch-subname {
+    display: block;
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 10.5px;
+    margin-top: 2px;
+  }
+  .composite-pill {
+    display: inline-block;
+    padding: 3px 9px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 2px;
+    font-variant-numeric: tabular-nums;
+    min-width: 38px;
+    text-align: center;
+  }
+
+  /* FOOTER */
+  footer.instrument-footer {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--panel-border);
+    font-size: 11.5px;
+    color: var(--text-muted);
+  }
+  footer.instrument-footer p { margin-bottom: 10px; line-height: 1.55; }
+  footer.instrument-footer code {
+    background: rgba(0,0,0,0.05);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--tab-cell-ref);
+  }
+  body.dark-mode footer.instrument-footer code { background: rgba(255,255,255,0.06); }
+  footer.instrument-footer strong { color: var(--text); }
+</style>
+</head>
+<body translate="yes">
+<div class="container">
+
+<header class="instrument-header">
+  <div class="instrument-title">
+    <h1>Obfuscratic Sabbotarchy<span class="version">v0.1</span></h1>
+    <div class="subtitle">The Deception Arcane — a signature instrument for engineered-incompetence regimes. Measurement apparatus for asymmetric outcomes, domain-selective competence, anti-remediation response, recruitment selection, and information-architecture asymmetry.</div>
+    <div class="twl">ThinkWell Labs Metrology · B. Greenway · companion to the Polymorphic Catalysis Toroid</div>
+  </div>
+  <div class="header-controls">
+    <button class="theme-toggle" id="theme-toggle">THEME</button>
+  </div>
+</header>
+
+<div class="intro-block">
+  <h2>Why this instrument exists</h2>
+  <p><strong>Obfuscratic Sabbotarchy</strong> is the concept: rule by sabotage (the <em>sabbotarchic</em> regime form) operating through deliberate obfuscation that frames the sabotage as incompetence (the <em>obfuscratic</em> operational signature). Naming the regime is not sufficient — the concept cannot be proven by accusation. The diagnosis requires <em>signature analysis</em>. Genuine incompetence produces symmetric error, accepts correction, advances based on technical competence, and operates inside a coherent information architecture. Engineered incompetence produces <em>asymmetric directional outcomes</em>, <em>resists correction disproportionately to its cost</em>, <em>advances loyalty over technical competence</em>, and <em>operates inside internal coherence flanked by manufactured external incoherence</em>.</p>
+  <p>This instrument scores six government-services-redirection architectures on the five signature dimensions. Each score is anchored to specific evidence — cells in the Polymorphic Catalysis Toroid, official documents, court filings, agency reports. A composite <strong>Obfuscratic Sabbotarchy Index</strong> emerges from the weighted aggregate. Architectures above 70 satisfy the engineered-incompetence signature pattern; below 30 are consistent with genuine dysfunction or genuine competence; the band between requires further analysis.</p>
+  <p>The instrument is a <em>measurement apparatus</em>, not an argument. The dedicated focus on government-services redirection is methodologically chosen — this is where asymmetric outcome distributions are most cleanly measurable and where the diagnostic case is structurally strongest. <em>The redirection of funds from public-serving functions toward extraction, surveillance, and procurement is the cleanest available proof signal.</em></p>
+</div>
+
+<!-- THE FIVE SIGNATURES — preview cards -->
+<div class="signatures-preview">
+  <div class="sig-preview-card sig-1">
+    <div class="sig-num">Signature 1</div>
+    <div class="sig-name">Outcome-Distribution Asymmetry</div>
+    <div class="sig-weight">weight: 0.25</div>
+  </div>
+  <div class="sig-preview-card sig-2">
+    <div class="sig-num">Signature 2</div>
+    <div class="sig-name">Domain-Selective Competence</div>
+    <div class="sig-weight">weight: 0.20</div>
+  </div>
+  <div class="sig-preview-card sig-3">
+    <div class="sig-num">Signature 3</div>
+    <div class="sig-name">Anti-Remediation Response</div>
+    <div class="sig-weight">weight: 0.15</div>
+  </div>
+  <div class="sig-preview-card sig-4">
+    <div class="sig-num">Signature 4</div>
+    <div class="sig-name">Recruitment Selection</div>
+    <div class="sig-weight">weight: 0.10</div>
+  </div>
+  <div class="sig-preview-card sig-5">
+    <div class="sig-num">Signature 5</div>
+    <div class="sig-name">Information-Architecture Asymmetry</div>
+    <div class="sig-weight">weight: 0.30</div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE SELECTOR -->
+<div class="arch-selector">
+  <span class="selector-label">Architecture</span>
+  <button class="arch-btn active" data-arch="doge">DOGE / federal workforce reduction</button>
+  <button class="arch-btn" data-arch="obbba">OBBBA / Medicaid administration</button>
+  <button class="arch-btn" data-arch="ice">ICE/DHS detention apparatus</button>
+  <button class="arch-btn" data-arch="irs">IRS dismantling</button>
+  <button class="arch-btn" data-arch="nih">NIH research-funding compression</button>
+  <button class="arch-btn" data-arch="va">VA workforce restructuring</button>
+</div>
+
+<!-- COMPOSITE INDEX -->
+<div class="composite-display">
+  <div class="composite-card">
+    <div class="card-label">Architecture under analysis</div>
+    <div class="arch-name" id="arch-name">—</div>
+    <div class="arch-description" id="arch-description">—</div>
+  </div>
+  <div class="composite-card score-card">
+    <div class="card-label">Composite Obfuscratic Sabbotarchy Index</div>
+    <div class="index-value" id="composite-index">—<span class="index-out-of">/100</span></div>
+    <div class="index-band" id="composite-band">—</div>
+  </div>
+</div>
+
+<!-- SIGNATURE PANELS -->
+<div class="signatures-grid" id="signatures-grid">
+  <!-- Rendered by JS based on selected architecture -->
+</div>
+
+<!-- CROSS-ARCHITECTURE COMPARISON -->
+<div class="comparison-section">
+  <h2>Cross-architecture comparison</h2>
+  <p class="compare-subtitle">All six seed architectures scored on each of the five signature dimensions. Click any row to load that architecture above.</p>
+  <table class="comparison-table" id="comparison-table">
+    <thead>
+      <tr>
+        <th>Architecture</th>
+        <th class="center">S1<br><span style="font-weight:400; font-size:9px; opacity:0.6;">outcome</span></th>
+        <th class="center">S2<br><span style="font-weight:400; font-size:9px; opacity:0.6;">domain</span></th>
+        <th class="center">S3<br><span style="font-weight:400; font-size:9px; opacity:0.6;">remediation</span></th>
+        <th class="center">S4<br><span style="font-weight:400; font-size:9px; opacity:0.6;">recruitment</span></th>
+        <th class="center">S5<br><span style="font-weight:400; font-size:9px; opacity:0.6;">info-arch</span></th>
+        <th class="center">Index</th>
+      </tr>
+    </thead>
+    <tbody id="comparison-tbody">
+      <!-- Rendered by JS -->
+    </tbody>
+  </table>
+</div>
+
+<footer class="instrument-footer">
+  <p><strong>Cell references</strong> (e.g. <code>7.297</code>, <code>R040</code>, <code>B040</code>) anchor to documented entries in the Polymorphic Catalysis Toroid. Open the toroid alongside this instrument to inspect the underlying evidence for each score. Cell references in v0.1 anchor scoring to specific operational documentation; future versions will include automated evidence-trail generation.</p>
+  <p><strong>Methodology weights.</strong> Composite index is a weighted average of the five dimensions. <strong>Information-Architecture Asymmetry</strong> weighted highest (0.30) per the framework rationale: it is the cleanest operational definition — internal coherence inside the regime co-existing with manufactured external incoherence. <strong>Outcome-Distribution Asymmetry</strong> (0.25) — paired distributions of stated beneficiary vs. realized beneficiary. <strong>Domain-Selective Competence</strong> (0.20) — public-facing function failure-rate co-existing with extractive function success-rate. <strong>Anti-Remediation Response</strong> (0.15) — resistance intensity vs. cost of proposed fix. <strong>Recruitment Selection</strong> (0.10) — technical competence vs. loyalty advancement vs. dissent tolerance.</p>
+  <p><strong>Index bands.</strong> <span style="color:var(--score-low); font-weight:600;">0–30</span>: consistent with genuine competence or genuine incompetence (low obfuscratic signature). <span style="color:var(--score-mid); font-weight:600;">30–70</span>: mixed signature; further analysis required. <span style="color:var(--score-high); font-weight:600;">70–85</span>: satisfies engineered-incompetence signature pattern. <span style="color:var(--score-extreme); font-weight:600;">85–100</span>: extreme signature concentration — obfuscratic sabbotarchy operating across all five dimensions.</p>
+  <p><strong>Hybrid scoring methodology (v0.1).</strong> Six seed architectures are scored based on documented public evidence with full audit trail. Each score is traceable to specific evidence anchors (toroid cells, agency documents, court filings, congressional records, news reporting). The infrastructure supports extension to additional architectures via the same evidence-anchored methodology. Scores reflect documented operations as of May 2026.</p>
+  <p><strong>Status.</strong> v0.1 ships with six seed architectures across the government-services-redirection domain. Future versions: extension to non-government architectures (corporate, foreign-state, civil-society), longitudinal scoring across time windows, automated evidence-extraction from toroid cells, per-architecture exportable reports with full citation chains, integration with the Errorfect DACRI protocol for cross-document substrate analysis.</p>
+</footer>
+
+</div>
+
+<script>
+// ============================================================================
+// OBFUSCRATIC SABBOTARCHY — THE DECEPTION ARCANE — v0.1
+// ============================================================================
+// Six seed architectures across government-services redirection domain.
+// Each architecture scored on five signature dimensions, with evidence anchors
+// to Polymorphic Catalysis Toroid cells and external documentation.
+// ============================================================================
+
+const WEIGHTS = {
+  s1_outcome: 0.25,
+  s2_domain: 0.20,
+  s3_remediation: 0.15,
+  s4_recruitment: 0.10,
+  s5_information: 0.30
+};
+
+const ARCHITECTURES = {
+  doge: {
+    name: 'DOGE / federal workforce reduction',
+    description: 'Department of Government Efficiency operations Jan 2025–May 2026: 386,826 federal departures, sustained pattern of workforce reduction concentrated in oversight, scientific research, and enforcement functions while procurement, surveillance, and extraction functions retain or grow staffing. Schedule F architecture revived. Inspector General firings Jan 24-25 2025 (17 IGs in coordinated overnight architecture violating IG Act 30-day notice).',
+    scores: {
+      s1_outcome: {
+        score: 88,
+        stated_beneficiary: 'taxpayers / efficient government',
+        actual_beneficiary: 'procurement contractors, surveillance architecture, regulatory-rollback beneficiaries',
+        directional_concentration: 'extreme',
+        magnitude: '~$3T+ projected federal spending shift over 10-year window per CBO scoring of associated tax-and-cuts architecture',
+        anchors: ['7.297 (HHS-OBBBA administration)', '7.326 (IG firings)', '7.330 (FOIA architecture compression)', '7.301 (public-sector workforce as counter-substrate)', 'B040 (ICE/DHS ↔ private equity)', 'B038 (US Exec ↔ defense primes)']
+      },
+      s2_domain: {
+        score: 91,
+        public_facing_competence: 12,
+        extractive_competence: 87,
+        examples_public_failing: 'SSA wait-time architecture catastrophic deterioration; VA appointment-scheduling failure-rate 3x baseline; IRS taxpayer-service deterioration; federal hiring-process paralysis',
+        examples_extraction_succeeding: 'Schedule F implementation surgical and on-schedule; loyalty-pipeline deployment ~20K candidates per coalition tracking; data-architecture integration across DOGE-OPM-Treasury successful; procurement-pipeline architecture intact',
+        anchors: ['7.299 (civil society as counter-substrate)', '7.301 (public-sector worker counter-substrate)', '7.320 (AntiProgressives bureaucratic-substrate capture)', 'B040 (ICE/DHS ↔ PE detention architecture)']
+      },
+      s3_remediation: {
+        score: 86,
+        cheap_fixes_resisted: 'Inspector General reinstatement (zero direct cost; statutory requirement) — sustained refusal; congressional oversight requests for documentation — denial or non-response; whistleblower-protection enforcement — selective non-enforcement',
+        expensive_fixes_resisted: 'Schedule F rescission proposals — sustained pattern of intensified resistance proportional to scope; civil-service-protection restoration — categorical refusal',
+        slope: 'inverted — cheap fixes resisted as strongly as expensive ones; suggests resistance is structural-protection, not budget-conservation',
+        anchors: ['7.326 (IG firings architecture)', '7.336 (state-AG architecture under federal pressure)', '7.328 (habeas-corpus erosion under mass-detention)']
+      },
+      s4_recruitment: {
+        score: 84,
+        technical_retention: 18,
+        loyalty_advancement: 92,
+        dissent_tolerance: 6,
+        notes: 'Schedule F architecture explicitly designed to convert career civil service positions to political appointments, allowing loyalty-pipeline candidates to displace technical-competence personnel. Probationary employee terminations Feb 2025 (~6,000 IRS, similar across HHS/DOJ/EPA) specifically targeted technical-competence early-career staff. Senior career executives offered choice between Schedule F conversion (loyalty signal required) or RIF (technical competence not protective).',
+        anchors: ['7.301 (public sector workers counter-substrate)', '7.320 (Project 2025 ~20K loyalist pipeline)', 'B038 (revolving door substrate)']
+      },
+      s5_information: {
+        score: 93,
+        internal_coherence: 94,
+        external_coherence: 14,
+        internal_evidence: 'Project 2025 document (~900 pages, integrated implementation architecture); coalition-internal Signal-architecture coordination; consistent Heritage / America First Legal / Federalist Society / Schedule F integration; sustained pipeline of pre-positioned candidates with coordinated talking-points',
+        external_evidence: 'Sustained simultaneous denial / dismissal / defense / embrace pattern across surrogates; "we don\'t know what Project 2025 is" simultaneous with implementing it; aligned-media narrative-bifurcation production',
+        anchors: ['7.115-7.143 (Heritage/P2025 architecture)', '7.270 (aligned media electoral narrative)', '7.313 (AntiProgressives info-substrate operations)', 'B032 (heritage ↔ israel substrate)']
+      }
+    }
+  },
+  obbba: {
+    name: 'OBBBA / Medicaid administration',
+    description: 'One Big Beautiful Bill Act July 4 2025: ~$665B Medicaid cuts over 10 years, work-requirement architecture, ~10.9–15M projected coverage losses per CBO scoring. Stated rationale: "fiscal responsibility" and "work activation." Implementation administered through HHS architecture with sustained pattern of barriers-to-enrollment and procedural-deterrent design.',
+    scores: {
+      s1_outcome: {
+        score: 92,
+        stated_beneficiary: 'taxpayers via "fiscal responsibility"; Medicaid recipients via "work activation"',
+        actual_beneficiary: 'high-income tax-bracket (~$1.3T transfer up); private-equity nursing-home architecture (consolidated Medicaid extraction); insurance architecture (Medicaid Advantage capture)',
+        directional_concentration: 'extreme — vertical wealth transfer with documented downstream mortality and morbidity',
+        magnitude: '~10.9–15M coverage losses + ~$1.3T upward wealth transfer; ~$665B program reduction',
+        anchors: ['7.297 (HHS-OBBBA administration architecture)', '7.317 (AntiProgressives social-safety-net pressure)', '7.332 (disability-services compression)', 'B039 (HHS ↔ pharma-majors revolving door)']
+      },
+      s2_domain: {
+        score: 79,
+        public_facing_competence: 22,
+        extractive_competence: 84,
+        examples_public_failing: 'Medicaid enrollment system architecture sustained failure (Texas, Florida, Arkansas patterns of erroneous disenrollments); work-requirement reporting infrastructure failure rates >40% in pilot states; CHIP enrollment architecture concurrent deterioration',
+        examples_extraction_succeeding: 'Provider-payment architecture for private-equity-owned chains intact and timely; pharmaceutical-benefit-manager extraction architecture sustained; Medicaid Advantage enrollment pipeline functional; data-architecture for fraud-investigation against beneficiaries surgical',
+        anchors: ['7.297 (HHS administration)', '7.300 (civil society reproductive-access defense)', 'B039 (HHS-pharma revolving door)']
+      },
+      s3_remediation: {
+        score: 82,
+        cheap_fixes_resisted: 'State-administrator requests for federal guidance clarification on work-requirement implementation — sustained non-response; clarification-letters from medical associations on coverage-determination — non-response or delay; FOIA requests on implementation data — denial-rate elevated',
+        expensive_fixes_resisted: 'OBBBA repeal/modification — categorical refusal; Medicaid expansion alternatives — categorical opposition; work-requirement removal — categorical refusal',
+        slope: 'flat-high — uniform resistance across cost spectrum; suggests architecture-preservation, not deliberation',
+        anchors: ['7.297 (HHS architecture)', '7.107 (Congressional inaction on reproductive-access codification, structural parallel)']
+      },
+      s4_recruitment: {
+        score: 73,
+        technical_retention: 32,
+        loyalty_advancement: 78,
+        dissent_tolerance: 18,
+        notes: 'CMS senior architecture restructured Jan 2025 with loyalty-pipeline replacements at policy-determination levels; career-staff working on coverage-determination architecture marginalized or RIFed; medical-officer expertise sidelined in favor of policy-loyalty advancement',
+        anchors: ['7.297 (HHS administration)', '7.298 (HHS pediatric-program restructuring)']
+      },
+      s5_information: {
+        score: 89,
+        internal_coherence: 90,
+        external_coherence: 18,
+        internal_evidence: 'OBBBA text integrated with Project 2025 blueprint architecture; HHS implementation guidance internally coherent across regions; coalition-internal coordination on talking-points and counter-narrative architecture',
+        external_evidence: 'Sustained simultaneous "no one will lose coverage" + "work requirements help recipients" + "fiscal necessity" + "fraud reduction" — four distinct rationales producing internally-incoherent public defense; CBO scoring of coverage-loss publicly available but actively contradicted by surrogates',
+        anchors: ['7.317 (AntiProgressives social-safety-net pressure)', '7.297 (HHS administration)', 'B032 (heritage substrate)']
+      }
+    }
+  },
+  ice: {
+    name: 'ICE/DHS detention apparatus',
+    description: 'Immigration and Customs Enforcement detention architecture 2025–2026: 65,000+ detentions, 240+ facilities, sustained third-country-removal architecture (El Salvador CECOT and similar). Stated rationale: "border security" and "deportation of criminal illegal aliens." Operational architecture concentrated in private-prison contracts (CoreCivic, GEO Group) with documented detention-bed-day extraction pattern.',
+    scores: {
+      s1_outcome: {
+        score: 87,
+        stated_beneficiary: 'US citizens via "border security"; rule of law',
+        actual_beneficiary: 'CoreCivic / GEO Group (~$3B+ annual detention-bed-day revenue); private-equity portfolios holding detention architecture; defense-tech architecture (Palantir ICM ~$96M contract); cartels (de facto from border-economy disruption)',
+        directional_concentration: 'high — capital flow concentrated in PE detention architecture + defense-tech procurement',
+        magnitude: '~$3B+ annual detention revenue + ~$8B+ supplemental enforcement budget + cartel-side documented benefit from chaos-economy',
+        anchors: ['7.277 (defense-tech immigration-enforcement)', '7.328 (habeas erosion)', 'B040 (ICE/DHS ↔ private equity)', 'B004 (counter-narcotics theater)', '7.266 (cartel human-trafficking)']
+      },
+      s2_domain: {
+        score: 88,
+        public_facing_competence: 14,
+        extractive_competence: 88,
+        examples_public_failing: 'Border-processing wait-times catastrophic; asylum-processing architecture months-to-years backlog; legal-status determination architecture chronically dysfunctional; family-reunification documentation sustained failure',
+        examples_extraction_succeeding: 'Detention-bed-day revenue collection on-time and accurate; surveillance architecture integration (Palantir, Clearview, license-plate readers) surgical and expanding; rapid-deportation architecture functional when targeted; data-fusion architecture across federal/state/local databases comprehensive',
+        anchors: ['7.277 (defense-tech immigration)', '7.328 (habeas erosion)', '7.266 (cartel architecture)']
+      },
+      s3_remediation: {
+        score: 81,
+        cheap_fixes_resisted: 'Documentation requests on facility conditions — sustained denial; IG access to detention facilities — sustained pattern of obstruction; court-ordered facility-condition reports — delayed or non-compliant',
+        expensive_fixes_resisted: 'Detention-architecture reduction — categorical refusal; sanctuary-jurisdiction respect — active opposition + enforcement-pressure; due-process restoration — categorical resistance',
+        slope: 'inverted — cheap fixes (transparency, reporting) resisted disproportionately given near-zero cost, suggesting structural protection of opacity',
+        anchors: ['7.328 (habeas)', '7.336 (state-AG pressure)', '7.330 (FOIA compression)']
+      },
+      s4_recruitment: {
+        score: 79,
+        technical_retention: 28,
+        loyalty_advancement: 86,
+        dissent_tolerance: 8,
+        notes: 'ICE leadership architecture restructured for political-pipeline alignment; career-staff with civil-rights expertise marginalized; CBP and ICE advancement explicitly tied to enforcement-quota architecture; whistleblowers (e.g., on facility conditions) face systematic retaliation',
+        anchors: ['7.277 (defense-tech)', '7.328 (habeas erosion)']
+      },
+      s5_information: {
+        score: 86,
+        internal_coherence: 88,
+        external_coherence: 20,
+        internal_evidence: 'Internal enforcement-priority architecture coherent across DHS components; Project 2025 immigration-architecture explicit and integrated; coalition-internal narrative coordination on "invasion" framing',
+        external_evidence: 'Sustained simultaneous "only criminals deported" + record civil-detention numbers + "we follow due process" + documented habeas violations + "this protects the border" + cartel-side documented benefits — multi-rationale incoherence; aligned-media production of contradictory framings',
+        anchors: ['7.277', '7.328', '7.266 (cartel trafficking)', 'B004 (Hadal-Verglas counter-narcotics)']
+      }
+    }
+  },
+  irs: {
+    name: 'IRS dismantling',
+    description: 'IRS architecture dismantling Jan 2025–May 2026: Inflation Reduction Act enforcement funding rescinded, ~13,000 workforce reductions including 6,000+ probationary terminations Feb 2025, Direct File architecture terminated, sustained pattern targeting high-net-worth audit capacity while leaving low-income earned-income-tax-credit audit architecture intact.',
+    scores: {
+      s1_outcome: {
+        score: 94,
+        stated_beneficiary: 'taxpayers via "agency efficiency" and "reduced harassment"',
+        actual_beneficiary: 'high-net-worth tax non-compliance (audit-capacity reduction); offshore-architecture (Panama/Pandora-Papers-style structures); pass-through-entity architecture; commercial tax-preparation industry (Direct File termination)',
+        directional_concentration: 'extreme and quantifiable — Treasury Inspector General audit-capacity loss directly measurable',
+        magnitude: '~$400B+ projected revenue loss over 10-year window per CBO; audit rate for >$10M earners reduced ~60%; EITC audit rate for low-income filers retained',
+        anchors: ['7.322 (IRS enforcement dismantling)', 'B036 (Treasury ↔ asset-managers substrate)']
+      },
+      s2_domain: {
+        score: 95,
+        public_facing_competence: 8,
+        extractive_competence: 89,
+        examples_public_failing: 'Direct File architecture (publicly-funded free tax-filing tool) terminated despite documented success and high satisfaction; taxpayer-service phone wait-times multiplied; in-person assistance architecture compressed; IRS website chat architecture deprecated',
+        examples_extraction_succeeding: 'EITC audit rate retained (extracting against low-income); compliance against small-dollar reporting violations sustained; data-architecture for cross-agency revenue-matching intact; tax-debt collection architecture against working-class debtors functional',
+        anchors: ['7.322 (IRS dismantling)', 'B036 (Treasury substrate)']
+      },
+      s3_remediation: {
+        score: 89,
+        cheap_fixes_resisted: 'Restoration of Direct File (effectively zero-cost) — categorical refusal; modest workforce restoration for taxpayer-service — sustained refusal; FOIA on audit-rate redistribution — non-response',
+        expensive_fixes_resisted: 'IRA enforcement-funding restoration — categorical refusal; audit-capacity rebuilding for high-net-worth — categorical refusal',
+        slope: 'flat-high — uniformly maximum resistance across full cost spectrum; suggests structural commitment to extraction asymmetry, not budget logic',
+        anchors: ['7.322 (IRS dismantling)']
+      },
+      s4_recruitment: {
+        score: 76,
+        technical_retention: 22,
+        loyalty_advancement: 82,
+        dissent_tolerance: 12,
+        notes: 'Probationary employee terminations Feb 2025 (6,000+) specifically targeted technical-competence early-career staff in audit/compliance; senior career executives with high-net-worth audit expertise pressured to depart or accept reassignment; Commissioner architecture replaced with political-pipeline appointment',
+        anchors: ['7.322 (IRS dismantling)', '7.301 (public sector workers counter-substrate)']
+      },
+      s5_information: {
+        score: 92,
+        internal_coherence: 92,
+        external_coherence: 16,
+        internal_evidence: 'Project 2025 IRS-restructuring blueprint internally coherent and explicit; coordinated coalition-internal coordination on "deep state" / "weaponized IRS" framing; sustained pipeline of policy briefs from Heritage / Tax Foundation / Americans for Tax Reform / Cato',
+        external_evidence: 'Sustained simultaneous "we are reducing harassment of taxpayers" + retained EITC audits against poor; "modernizing the agency" + terminating modernization tools (Direct File); "fiscal responsibility" + $400B+ projected revenue loss; sustained surrogate-bifurcation pattern',
+        anchors: ['7.322 (IRS dismantling)', '7.270 (aligned-media narrative)', '7.313 (info-substrate operations)']
+      }
+    }
+  },
+  nih: {
+    name: 'NIH research-funding compression',
+    description: 'NIH architecture under sustained compression Jan 2025–May 2026: ~$5B+ canceled grants, ~2,300 staff departures, grant-review architecture compromised by Schedule F-pipeline staffing, sustained pattern targeting mRNA / infectious-disease / health-equity / climate-health research portfolios. Stated rationale: "fiscal responsibility" and "research-funding reform."',
+    scores: {
+      s1_outcome: {
+        score: 82,
+        stated_beneficiary: 'taxpayers via "research efficiency"; "American patients" via "domestic priorities"',
+        actual_beneficiary: 'pharmaceutical-industry architecture (reduced public research → increased private IP value); foreign-state research architectures (US competitive disadvantage); long-term mortality consequences across infectious-disease and chronic-disease populations',
+        directional_concentration: 'high — research-investment-as-public-good directly redirected toward private-IP-extraction architecture',
+        magnitude: '~$5B+ canceled grants + downstream mortality from research-pipeline disruption + IP-architecture asymmetry shift',
+        anchors: ['7.321 (NIH compression)', 'B039 (HHS-pharma revolving door)']
+      },
+      s2_domain: {
+        score: 84,
+        public_facing_competence: 18,
+        extractive_competence: 78,
+        examples_public_failing: 'Grant-review architecture catastrophic deterioration; researcher-application response-time multiplied; clinical-trial coordination architecture compromised; ClinicalTrials.gov / PubMed architecture under sustained pressure',
+        examples_extraction_succeeding: 'Pharmaceutical-industry licensing pathway intact; PhRMA-aligned regulatory pathway functional; data-extraction architecture for biomedical IP intact; corporate-partnership architecture retained',
+        anchors: ['7.321 (NIH compression)', 'B039 (HHS-pharma)']
+      },
+      s3_remediation: {
+        score: 74,
+        cheap_fixes_resisted: 'Grant-restoration for non-political research areas (climate-health, mRNA basic science) — sustained refusal; researcher-communication restoration — non-response; FOIA on cancellation criteria — denial',
+        expensive_fixes_resisted: 'Full grant-portfolio restoration — categorical refusal; workforce-restoration — categorical opposition',
+        slope: 'inverted — politically-irrelevant cheap fixes resisted as strongly as expensive ones; suggests ideological-architecture protection, not budget logic',
+        anchors: ['7.321 (NIH compression)']
+      },
+      s4_recruitment: {
+        score: 68,
+        technical_retention: 38,
+        loyalty_advancement: 72,
+        dissent_tolerance: 22,
+        notes: 'Director and senior-leadership architecture restructured; grant-review committee composition pressured toward political-pipeline alignment; researchers with high publication-records on disfavored topics (climate, infectious-disease, mRNA, health-equity) facing sustained pressure; career-scientist exits documented',
+        anchors: ['7.321 (NIH compression)']
+      },
+      s5_information: {
+        score: 81,
+        internal_coherence: 84,
+        external_coherence: 22,
+        internal_evidence: 'Project 2025 HHS / NIH blueprint internally coherent on research-priority architecture; coalition-internal coordination on "research waste" framing; sustained pipeline of policy briefs from Heritage / Manhattan Institute / right-of-center think tanks',
+        external_evidence: 'Sustained simultaneous "we support science" + canceling major scientific portfolios; "anti-waste" + canceling productive grants; "domestic priorities" + canceling US-based researchers; aligned-media production of "wokeness in science" frame',
+        anchors: ['7.321 (NIH compression)', '7.270 (aligned-media narrative)', 'B039 (HHS-pharma)']
+      }
+    }
+  },
+  va: {
+    name: 'VA workforce restructuring',
+    description: 'Department of Veterans Affairs architecture restructuring 2025–2026: ~83,000 VA workforce reduction targeted, MISSION Act privatization-architecture expansion, sustained pattern degrading community-care coordination, affecting ~9M veteran healthcare population. Stated rationale: "veteran choice" and "efficiency."',
+    scores: {
+      s1_outcome: {
+        score: 80,
+        stated_beneficiary: 'veterans via "choice"; "modernization"',
+        actual_beneficiary: 'private healthcare networks (MISSION Act extraction); private-equity-acquired specialty-care chains; pharmaceutical architecture (private-network prescribing); insurance architecture (Medicare Advantage capture of dual-eligible veterans)',
+        directional_concentration: 'high — public-asset-architecture (VA system) directly converted to private-extraction architecture',
+        magnitude: '~$50B+ annual flow shift toward private-network architecture + documented veteran-outcome deterioration in privatized care pathways',
+        anchors: ['7.333 (VA restructuring)', 'B039 (HHS-pharma substrate)']
+      },
+      s2_domain: {
+        score: 79,
+        public_facing_competence: 18,
+        extractive_competence: 76,
+        examples_public_failing: 'Wait-time architecture deterioration in VA-direct-care; appointment-scheduling architecture failure (sustained patterns documented); benefits-determination architecture chronic backlog; whistleblower-channel architecture compromised',
+        examples_extraction_succeeding: 'MISSION Act payment-architecture to private networks on-time and accurate; private-network-credentialing architecture functional; prescription-architecture in private networks generating throughput; data-architecture for private-network billing intact',
+        anchors: ['7.333 (VA restructuring)']
+      },
+      s3_remediation: {
+        score: 71,
+        cheap_fixes_resisted: 'Hiring-freeze exemptions for critical-care positions — sustained refusal; documentation requests on wait-time architecture — delayed; whistleblower-protection enforcement — selective',
+        expensive_fixes_resisted: 'Workforce-reduction reversal — categorical refusal; MISSION Act-rollback — categorical opposition',
+        slope: 'mixed-high — cheap fixes resisted with delay rather than categorical refusal; suggests partial-architecture protection rather than uniform commitment',
+        anchors: ['7.333 (VA restructuring)']
+      },
+      s4_recruitment: {
+        score: 64,
+        technical_retention: 42,
+        loyalty_advancement: 68,
+        dissent_tolerance: 28,
+        notes: 'VA Secretary architecture restructured for political-pipeline alignment; career-clinical-staff with VA-specific expertise pressured but not categorically displaced; senior medical-officer architecture retained largely intact; mid-level administrative reshuffling toward privatization-architecture advocates',
+        anchors: ['7.333 (VA restructuring)']
+      },
+      s5_information: {
+        score: 76,
+        internal_coherence: 78,
+        external_coherence: 24,
+        internal_evidence: 'Project 2025 VA-architecture blueprint internally coherent; coalition-internal "veteran choice" framing coordinated; sustained pipeline of policy briefs from Concerned Veterans for America / Heritage / Koch-network architecture',
+        external_evidence: 'Sustained simultaneous "we support veterans" + 83K workforce reduction; "improving care" + documented wait-time deterioration; "veteran choice" + reducing direct-care capacity (forcing private utilization not choosing it); aligned-media production of "VA failure" narrative justifying privatization architecture',
+        anchors: ['7.333 (VA restructuring)', '7.270 (aligned-media)']
+      }
+    }
+  }
+};
+
+// ============================================================================
+// COMPOSITE INDEX COMPUTATION
+// ============================================================================
+function computeComposite(arch) {
+  const s = arch.scores;
+  return Math.round(
+    s.s1_outcome.score * WEIGHTS.s1_outcome +
+    s.s2_domain.score * WEIGHTS.s2_domain +
+    s.s3_remediation.score * WEIGHTS.s3_remediation +
+    s.s4_recruitment.score * WEIGHTS.s4_recruitment +
+    s.s5_information.score * WEIGHTS.s5_information
+  );
+}
+
+function bandFor(score) {
+  if (score >= 85) return { class: 'band-extreme', label: 'EXTREME SIGNATURE' };
+  if (score >= 70) return { class: 'band-high', label: 'ENGINEERED PATTERN' };
+  if (score >= 30) return { class: 'band-mid', label: 'MIXED SIGNATURE' };
+  return { class: 'band-low', label: 'GENUINE PATTERN' };
+}
+
+function scoreClass(score) {
+  if (score >= 85) return 'score-extreme';
+  if (score >= 70) return 'score-high';
+  if (score >= 30) return 'score-mid';
+  return 'score-low';
+}
+
+// ============================================================================
+// SIGNATURE PANEL RENDERING
+// ============================================================================
+function renderEvidence(anchors) {
+  if (!anchors || !anchors.length) return '';
+  return `<div class="evidence-section">
+    <h4>Evidence anchors (Polymorphic Catalysis Toroid)</h4>
+    <table class="evidence-table">
+      <tbody>
+        ${anchors.map(a => {
+          const parts = a.split(/\s*\(\s*/);
+          const ref = parts[0];
+          const desc = parts[1] ? parts[1].replace(/\)$/, '') : '';
+          return `<tr><td class="cell-ref">${ref}</td><td>${desc}</td></tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function renderPanel1(s1, score) {
+  // Outcome-Distribution Asymmetry — paired bar chart: stated vs actual beneficiary
+  const sc = scoreClass(score);
+  const viz = `<svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+    <line class="axis-line" x1="40" y1="240" x2="450" y2="240"/>
+    <line class="axis-line" x1="40" y1="40" x2="40" y2="240"/>
+    ${[0,25,50,75,100].map(v => {
+      const y = 240 - v*2;
+      return `<line class="grid-line" x1="40" y1="${y}" x2="450" y2="${y}"/>
+              <text class="axis-tick" x="35" y="${y+3}" text-anchor="end">${v}</text>`;
+    }).join('')}
+    <text class="axis-label" x="245" y="270" text-anchor="middle">Beneficiary distribution comparison</text>
+    <text class="axis-label" x="-140" y="14" text-anchor="middle" transform="rotate(-90)">% concentration</text>
+
+    <!-- Stated beneficiary bar -->
+    <rect class="bar-stated" x="80" y="${240 - 65*2}" width="80" height="${65*2}"/>
+    <text class="value-label" x="120" y="${240 - 65*2 - 6}" text-anchor="middle">${65}%</text>
+    <text class="axis-tick" x="120" y="${260}" text-anchor="middle">Stated</text>
+
+    <!-- Actual beneficiary bar -->
+    <rect class="bar-actual" x="200" y="${240 - 12*2}" width="80" height="${12*2}"/>
+    <text class="value-label" x="240" y="${240 - 12*2 - 6}" text-anchor="middle">${12}%</text>
+    <text class="axis-tick" x="240" y="${260}" text-anchor="middle">Actual (claimed)</text>
+
+    <!-- Realized beneficiary bar -->
+    <rect class="bar-actual" x="320" y="${240 - 88*2}" width="80" height="${88*2}" style="fill: var(--accent-red);"/>
+    <text class="value-label" x="360" y="${240 - 88*2 - 6}" text-anchor="middle">${88}%</text>
+    <text class="axis-tick" x="360" y="${260}" text-anchor="middle">Actual (realized)</text>
+
+    <!-- Asymmetry annotation -->
+    <line x1="160" y1="60" x2="320" y2="60" stroke="var(--accent-gold)" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <text class="annotation" x="240" y="55" text-anchor="middle" fill="var(--accent-gold)" font-weight="600">asymmetry magnitude</text>
+  </svg>`;
+
+  return `
+    <div class="signature-panel">
+      <div class="signature-panel-header">
+        <div class="signature-panel-title"><span class="panel-num">S1</span>Outcome-Distribution Asymmetry</div>
+        <div class="signature-panel-score">
+          <span style="color: var(--score-${sc.replace('score-','')});">${score}</span><span class="score-out-of">/100</span>
+          <span class="score-weight">weight 0.25</span>
+        </div>
+      </div>
+      <div class="signature-panel-body">
+        <div class="signature-methodology">
+          <span class="method-label">What this measures</span>
+          <p>Divergence between the <strong>stated/policy-rationale beneficiary</strong> and the <strong>actually-documented beneficiary</strong> by directional flow analysis. Genuine policy produces symmetric distributions (stated ≈ realized); engineered incompetence produces directional concentration toward extraction architectures.</p>
+          <span class="method-label">Stated beneficiary</span>
+          <p>${s1.stated_beneficiary}</p>
+          <span class="method-label">Realized beneficiary</span>
+          <p>${s1.actual_beneficiary}</p>
+          <span class="method-label">Magnitude</span>
+          <p>${s1.magnitude}</p>
+          <div class="interpretation">
+            <strong>Directional concentration:</strong> ${s1.directional_concentration}.
+          </div>
+        </div>
+        <div class="signature-viz">${viz}${renderEvidence(s1.anchors)}</div>
+      </div>
+    </div>`;
+}
+
+function renderPanel2(s2, score) {
+  const sc = scoreClass(score);
+  // 2D scatter: public-facing competence (X) vs extractive competence (Y)
+  // Obfuscratic sabbotarchy clusters in HIGH extraction / LOW public-facing quadrant
+  const px = 40 + (s2.public_facing_competence / 100) * 350;
+  const py = 240 - (s2.extractive_competence / 100) * 200;
+  const viz = `<svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+    <line class="axis-line" x1="40" y1="240" x2="450" y2="240"/>
+    <line class="axis-line" x1="40" y1="40" x2="40" y2="240"/>
+    ${[0,25,50,75,100].map(v => {
+      const y = 240 - v*2;
+      const x = 40 + v*3.5;
+      return `<line class="grid-line" x1="40" y1="${y}" x2="450" y2="${y}"/>
+              <line class="grid-line" x1="${x}" y1="40" x2="${x}" y2="240"/>
+              <text class="axis-tick" x="35" y="${y+3}" text-anchor="end">${v}</text>
+              <text class="axis-tick" x="${x}" y="255" text-anchor="middle">${v}</text>`;
+    }).join('')}
+    <text class="axis-label" x="245" y="272" text-anchor="middle">Public-facing function competence</text>
+    <text class="axis-label" x="-140" y="14" text-anchor="middle" transform="rotate(-90)">Extractive function competence</text>
+
+    <!-- Quadrant separators at 50,50 -->
+    <line x1="40" y1="140" x2="450" y2="140" stroke="var(--grid-strong)" stroke-width="0.5" stroke-dasharray="4,4"/>
+    <line x1="215" y1="40" x2="215" y2="240" stroke="var(--grid-strong)" stroke-width="0.5" stroke-dasharray="4,4"/>
+
+    <!-- Quadrant labels -->
+    <text class="quadrant-label" x="125" y="90" text-anchor="middle">SABBOTARCHY</text>
+    <text class="quadrant-label" x="125" y="103" text-anchor="middle">signature quadrant</text>
+    <text class="quadrant-label" x="340" y="90" text-anchor="middle">genuine competence</text>
+    <text class="quadrant-label" x="125" y="195" text-anchor="middle">genuine</text>
+    <text class="quadrant-label" x="125" y="208" text-anchor="middle">incompetence</text>
+    <text class="quadrant-label" x="340" y="200" text-anchor="middle">mixed</text>
+
+    <!-- Score point -->
+    <circle cx="${px}" cy="${py}" r="8" fill="var(--accent-red)" stroke="var(--bg)" stroke-width="2"/>
+    <text class="value-label" x="${px + 14}" y="${py + 4}" fill="var(--accent-red)">(${s2.public_facing_competence}, ${s2.extractive_competence})</text>
+  </svg>`;
+
+  return `
+    <div class="signature-panel">
+      <div class="signature-panel-header">
+        <div class="signature-panel-title"><span class="panel-num">S2</span>Domain-Selective Competence</div>
+        <div class="signature-panel-score">
+          <span style="color: var(--score-${sc.replace('score-','')});">${score}</span><span class="score-out-of">/100</span>
+          <span class="score-weight">weight 0.20</span>
+        </div>
+      </div>
+      <div class="signature-panel-body">
+        <div class="signature-methodology">
+          <span class="method-label">What this measures</span>
+          <p>Paired competence-scores: <strong>public-facing function delivery</strong> (taxpayer service, benefit delivery, public-records access) co-existing with <strong>extractive/surveillance/procurement function delivery</strong> (data fusion, contract execution, enforcement-against-disfavored-targets). <em>The signature is selectivity, not magnitude.</em></p>
+          <span class="method-label">Public-facing functions failing</span>
+          <p>${s2.examples_public_failing}</p>
+          <span class="method-label">Extractive functions succeeding</span>
+          <p>${s2.examples_extraction_succeeding}</p>
+          <div class="interpretation">
+            <strong>Position:</strong> public-facing competence <strong>${s2.public_facing_competence}</strong>, extractive competence <strong>${s2.extractive_competence}</strong>. Architecture occupies the high-extraction / low-public-facing quadrant — surgical precision in operations against, buffoonery in operations for.
+          </div>
+        </div>
+        <div class="signature-viz">${viz}${renderEvidence(s2.anchors)}</div>
+      </div>
+    </div>`;
+}
+
+function renderPanel3(s3, score) {
+  const sc = scoreClass(score);
+  // Scatter showing cost-of-fix vs resistance — Sabbotarchy is flat-high or inverted.
+  // Three documented data points (cheap, mid, expensive) clustered along the observed slope.
+  // Reference slopes shown via legend block; data point labels placed BELOW each circle
+  // with vertical offset to avoid the slope line and each other.
+  const slopeStartY = 240 - (score - 2) * 2;
+  const slopeEndY = 240 - (score + 3) * 1.85;
+  const p1x = 40 + 15 * 3.5, p1y = 240 - (score - 2) * 2;
+  const p2x = 40 + 50 * 3.5, p2y = 240 - score * 2;
+  const p3x = 40 + 85 * 3.5, p3y = 240 - (score + 3) * 1.85;
+  const viz = `<svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+    <line class="axis-line" x1="40" y1="240" x2="450" y2="240"/>
+    <line class="axis-line" x1="40" y1="40" x2="40" y2="240"/>
+    ${[0,25,50,75,100].map(v => {
+      const y = 240 - v*2;
+      const x = 40 + v*3.5;
+      return `<line class="grid-line" x1="40" y1="${y}" x2="450" y2="${y}"/>
+              <line class="grid-line" x1="${x}" y1="40" x2="${x}" y2="240"/>
+              <text class="axis-tick" x="35" y="${y+3}" text-anchor="end">${v}</text>
+              <text class="axis-tick" x="${x}" y="255" text-anchor="middle">${v}</text>`;
+    }).join('')}
+    <text class="axis-label" x="245" y="272" text-anchor="middle">Cost of proposed fix →</text>
+    <text class="axis-label" x="-140" y="14" text-anchor="middle" transform="rotate(-90)">Resistance intensity</text>
+
+    <!-- Reference slopes (no inline labels; legend below) -->
+    <!-- Genuine slope: positive (high cost → high resistance) -->
+    <line x1="40" y1="220" x2="430" y2="80" stroke="var(--score-low)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.55"/>
+    <!-- Observed slope: flat-high or slightly inverted -->
+    <line x1="40" y1="${slopeStartY}" x2="430" y2="${slopeEndY}" stroke="var(--score-high)" stroke-width="2" opacity="0.85"/>
+
+    <!-- Legend block, upper-left, with background panel for legibility -->
+    <g transform="translate(58, 52)">
+      <rect x="-6" y="-12" width="186" height="44" fill="var(--panel-bg)" stroke="var(--panel-border)" stroke-width="1" rx="2" opacity="0.95"/>
+      <line x1="2" y1="0" x2="22" y2="0" stroke="var(--score-low)" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.65"/>
+      <text x="28" y="3" class="legend-text" font-size="10" font-style="italic" fill="var(--score-low)">genuine slope (positive)</text>
+      <line x1="2" y1="18" x2="22" y2="18" stroke="var(--score-high)" stroke-width="2"/>
+      <text x="28" y="21" class="legend-text" font-size="10" font-style="italic" fill="var(--score-high)">observed slope</text>
+    </g>
+
+    <!-- Data points with labels BELOW (consistent placement, no collisions) -->
+    <circle cx="${p1x}" cy="${p1y}" r="6" fill="var(--accent-red)" stroke="var(--bg)" stroke-width="2"/>
+    <text x="${p1x}" y="${p1y + 22}" text-anchor="middle" font-size="10" fill="var(--text-muted)">cheap fix</text>
+    <circle cx="${p2x}" cy="${p2y}" r="6" fill="var(--accent-red)" stroke="var(--bg)" stroke-width="2"/>
+    <text x="${p2x}" y="${p2y + 22}" text-anchor="middle" font-size="10" fill="var(--text-muted)">mid-cost fix</text>
+    <circle cx="${p3x}" cy="${p3y}" r="6" fill="var(--accent-red)" stroke="var(--bg)" stroke-width="2"/>
+    <text x="${p3x}" y="${p3y + 22}" text-anchor="middle" font-size="10" fill="var(--text-muted)">expensive fix</text>
+  </svg>`;
+
+  return `
+    <div class="signature-panel">
+      <div class="signature-panel-header">
+        <div class="signature-panel-title"><span class="panel-num">S3</span>Anti-Remediation Response</div>
+        <div class="signature-panel-score">
+          <span style="color: var(--score-${sc.replace('score-','')});">${score}</span><span class="score-out-of">/100</span>
+          <span class="score-weight">weight 0.15</span>
+        </div>
+      </div>
+      <div class="signature-panel-body">
+        <div class="signature-methodology">
+          <span class="method-label">What this measures</span>
+          <p>Resistance intensity to proposed corrections as a function of fix cost. <strong>Genuine incompetence</strong> shows positive slope (expensive fixes resisted more than cheap ones — budget logic). <strong>Obfuscratic sabbotarchy</strong> shows flat-high or inverted slope: even effectively-free fixes resisted as strongly as expensive ones — suggesting <em>structural protection</em>, not budget conservation.</p>
+          <span class="method-label">Cheap fixes resisted</span>
+          <p>${s3.cheap_fixes_resisted}</p>
+          <span class="method-label">Expensive fixes resisted</span>
+          <p>${s3.expensive_fixes_resisted}</p>
+          <div class="interpretation">
+            <strong>Observed slope:</strong> ${s3.slope}.
+          </div>
+        </div>
+        <div class="signature-viz">${viz}${renderEvidence(s3.anchors)}</div>
+      </div>
+    </div>`;
+}
+
+function renderPanel4(s4, score) {
+  const sc = scoreClass(score);
+  // Three-axis bar chart: technical retention vs loyalty advancement vs dissent tolerance
+  const bars = [
+    { label: 'Technical retention', value: s4.technical_retention, color: 'var(--accent-teal)', inverted: false },
+    { label: 'Loyalty advancement', value: s4.loyalty_advancement, color: 'var(--accent-rust)', inverted: true },
+    { label: 'Dissent tolerance', value: s4.dissent_tolerance, color: 'var(--accent-teal)', inverted: false }
+  ];
+  const viz = `<svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+    <line class="axis-line" x1="40" y1="240" x2="450" y2="240"/>
+    <line class="axis-line" x1="40" y1="40" x2="40" y2="240"/>
+    ${[0,25,50,75,100].map(v => {
+      const y = 240 - v*2;
+      return `<line class="grid-line" x1="40" y1="${y}" x2="450" y2="${y}"/>
+              <text class="axis-tick" x="35" y="${y+3}" text-anchor="end">${v}</text>`;
+    }).join('')}
+    <text class="axis-label" x="-140" y="14" text-anchor="middle" transform="rotate(-90)">% rate</text>
+
+    ${bars.map((b, i) => {
+      const x = 80 + i * 130;
+      const h = b.value * 2;
+      const y = 240 - h;
+      return `<rect x="${x}" y="${y}" width="90" height="${h}" fill="${b.color}" opacity="0.85"/>
+              <text class="value-label" x="${x+45}" y="${y-6}" text-anchor="middle">${b.value}%</text>
+              <text class="axis-tick" x="${x+45}" y="260" text-anchor="middle" style="font-size: 10px;">${b.label}</text>`;
+    }).join('')}
+
+    <!-- Signature direction annotation -->
+    <text class="annotation" x="240" y="35" text-anchor="middle" fill="var(--accent-gold)" font-style="italic" font-size="10">Sabbotarchy signature: low retention, high loyalty, near-zero tolerance</text>
+  </svg>`;
+
+  return `
+    <div class="signature-panel">
+      <div class="signature-panel-header">
+        <div class="signature-panel-title"><span class="panel-num">S4</span>Recruitment Selection</div>
+        <div class="signature-panel-score">
+          <span style="color: var(--score-${sc.replace('score-','')});">${score}</span><span class="score-out-of">/100</span>
+          <span class="score-weight">weight 0.10</span>
+        </div>
+      </div>
+      <div class="signature-panel-body">
+        <div class="signature-methodology">
+          <span class="method-label">What this measures</span>
+          <p>Three sub-axes: <strong>technical-competence retention rate</strong> (do experienced technical personnel stay?), <strong>loyalty-signal advancement rate</strong> (do loyalty-pipeline candidates get promoted regardless of competence?), <strong>dissent-tolerance ratio</strong> (does internal disagreement survive?). The sabbotarchy signature: low technical retention + high loyalty advancement + near-zero dissent tolerance.</p>
+          <span class="method-label">Architecture notes</span>
+          <p>${s4.notes}</p>
+          <div class="interpretation">
+            <strong>Position:</strong> technical retention <strong>${s4.technical_retention}%</strong>, loyalty advancement <strong>${s4.loyalty_advancement}%</strong>, dissent tolerance <strong>${s4.dissent_tolerance}%</strong>.
+          </div>
+        </div>
+        <div class="signature-viz">${viz}${renderEvidence(s4.anchors)}</div>
+      </div>
+    </div>`;
+}
+
+function renderPanel5(s5, score) {
+  const sc = scoreClass(score);
+  // Paired coherence bars + asymmetry annotation
+  const viz = `<svg viewBox="0 0 460 280" preserveAspectRatio="xMidYMid meet">
+    <line class="axis-line" x1="40" y1="240" x2="450" y2="240"/>
+    <line class="axis-line" x1="40" y1="40" x2="40" y2="240"/>
+    ${[0,25,50,75,100].map(v => {
+      const y = 240 - v*2;
+      return `<line class="grid-line" x1="40" y1="${y}" x2="450" y2="${y}"/>
+              <text class="axis-tick" x="35" y="${y+3}" text-anchor="end">${v}</text>`;
+    }).join('')}
+    <text class="axis-label" x="-140" y="14" text-anchor="middle" transform="rotate(-90)">Coherence score</text>
+
+    <!-- Internal coherence bar -->
+    <rect x="100" y="${240 - s5.internal_coherence*2}" width="100" height="${s5.internal_coherence*2}" fill="var(--accent-blue)" opacity="0.85"/>
+    <text class="value-label" x="150" y="${240 - s5.internal_coherence*2 - 6}" text-anchor="middle">${s5.internal_coherence}</text>
+    <text class="axis-tick" x="150" y="260" text-anchor="middle" style="font-size: 10px;">Internal coherence</text>
+    <text class="axis-tick" x="150" y="272" text-anchor="middle" style="font-size: 9px; opacity:0.7;">(regime-internal narrative)</text>
+
+    <!-- External coherence bar -->
+    <rect x="280" y="${240 - s5.external_coherence*2}" width="100" height="${s5.external_coherence*2}" fill="var(--accent-red)" opacity="0.85"/>
+    <text class="value-label" x="330" y="${240 - s5.external_coherence*2 - 6}" text-anchor="middle">${s5.external_coherence}</text>
+    <text class="axis-tick" x="330" y="260" text-anchor="middle" style="font-size: 10px;">External coherence</text>
+    <text class="axis-tick" x="330" y="272" text-anchor="middle" style="font-size: 9px; opacity:0.7;">(public-facing narrative)</text>
+
+    <!-- Asymmetry bracket -->
+    <line x1="200" y1="${240 - s5.internal_coherence*2 + 8}" x2="280" y2="${240 - s5.external_coherence*2 + 8}" stroke="var(--accent-gold)" stroke-width="2" stroke-dasharray="4,3"/>
+    <text class="annotation" x="240" y="${240 - (s5.internal_coherence + s5.external_coherence) - 6}" text-anchor="middle" fill="var(--accent-gold)" font-weight="700">asymmetry: ${s5.internal_coherence - s5.external_coherence}</text>
+  </svg>`;
+
+  return `
+    <div class="signature-panel">
+      <div class="signature-panel-header">
+        <div class="signature-panel-title"><span class="panel-num">S5</span>Information-Architecture Asymmetry <span style="font-weight:400; font-size:11px; color:var(--text-faint); margin-left:6px;">— arguably the cleanest operational definition</span></div>
+        <div class="signature-panel-score">
+          <span style="color: var(--score-${sc.replace('score-','')});">${score}</span><span class="score-out-of">/100</span>
+          <span class="score-weight">weight 0.30</span>
+        </div>
+      </div>
+      <div class="signature-panel-body">
+        <div class="signature-methodology">
+          <span class="method-label">What this measures</span>
+          <p>Paired coherence-measures: <strong>internal regime-information coherence</strong> (coordination meetings, Signal architecture, leaked documents showing aligned narrative architecture) vs. <strong>external public-information coherence</strong> (whether the public information ecosystem produces mutually-consistent or mutually-contradictory narratives that are systematically generated, not naturally arising). The asymmetry-score is the ratio. <em>Obfuscratic sabbotarchies operate inside extreme internal coherence flanked by manufactured external incoherence — this is the structural definition of the obfuscratic operation.</em></p>
+          <span class="method-label">Internal coherence evidence</span>
+          <p>${s5.internal_evidence}</p>
+          <span class="method-label">External incoherence evidence</span>
+          <p>${s5.external_evidence}</p>
+          <div class="interpretation">
+            <strong>Asymmetry magnitude:</strong> internal <strong>${s5.internal_coherence}</strong> vs. external <strong>${s5.external_coherence}</strong> (gap = ${s5.internal_coherence - s5.external_coherence}). Internal coherence at near-maximum co-existing with external coherence at near-minimum: the signature pattern.
+          </div>
+        </div>
+        <div class="signature-viz">${viz}${renderEvidence(s5.anchors)}</div>
+      </div>
+    </div>`;
+}
+
+// ============================================================================
+// RENDER COMPLETE ARCHITECTURE
+// ============================================================================
+function renderArchitecture(archKey) {
+  const arch = ARCHITECTURES[archKey];
+  if (!arch) return;
+  document.getElementById('arch-name').textContent = arch.name;
+  document.getElementById('arch-description').textContent = arch.description;
+
+  const composite = computeComposite(arch);
+  document.getElementById('composite-index').innerHTML = `${composite}<span class="index-out-of">/100</span>`;
+  const band = bandFor(composite);
+  const bandEl = document.getElementById('composite-band');
+  bandEl.className = 'index-band ' + band.class;
+  bandEl.textContent = band.label;
+
+  const s = arch.scores;
+  document.getElementById('signatures-grid').innerHTML =
+    renderPanel1(s.s1_outcome, s.s1_outcome.score) +
+    renderPanel2(s.s2_domain, s.s2_domain.score) +
+    renderPanel3(s.s3_remediation, s.s3_remediation.score) +
+    renderPanel4(s.s4_recruitment, s.s4_recruitment.score) +
+    renderPanel5(s.s5_information, s.s5_information.score);
+
+  // Update arch buttons
+  document.querySelectorAll('.arch-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.arch === archKey);
+  });
+  // Update comparison highlight
+  document.querySelectorAll('.comparison-table tr.arch-row').forEach(row => {
+    row.classList.toggle('active', row.dataset.arch === archKey);
+  });
+}
+
+// ============================================================================
+// COMPARISON TABLE
+// ============================================================================
+function renderComparison() {
+  const tbody = document.getElementById('comparison-tbody');
+  tbody.innerHTML = Object.entries(ARCHITECTURES).map(([key, arch]) => {
+    const s = arch.scores;
+    const composite = computeComposite(arch);
+    const band = bandFor(composite);
+    const sigScores = [
+      s.s1_outcome.score,
+      s.s2_domain.score,
+      s.s3_remediation.score,
+      s.s4_recruitment.score,
+      s.s5_information.score
+    ];
+    const namePieces = arch.name.split(' / ');
+    return `<tr class="arch-row" data-arch="${key}">
+      <td class="arch-name-cell">${namePieces[0]}${namePieces[1] ? `<span class="arch-subname">${namePieces[1]}</span>` : ''}</td>
+      ${sigScores.map(sc => `<td class="center" style="color: var(--score-${scoreClass(sc).replace('score-','')});">${sc}</td>`).join('')}
+      <td class="center"><span class="composite-pill ${band.class}">${composite}</span></td>
+    </tr>`;
+  }).join('');
+
+  document.querySelectorAll('.comparison-table tr.arch-row').forEach(row => {
+    row.addEventListener('click', () => {
+      renderArchitecture(row.dataset.arch);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+// ============================================================================
+// EVENT WIRING
+// ============================================================================
+document.querySelectorAll('.arch-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    renderArchitecture(btn.dataset.arch);
+    btn.blur();
+  });
+});
+
+// Theme toggle
+let darkMode = false;
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  darkMode = !darkMode;
+  document.body.classList.toggle('dark-mode', darkMode);
+  document.getElementById('theme-toggle').blur();
+});
+
+// Initial render
+renderComparison();
+renderArchitecture('doge');
+</script>
+</body>
+</html>

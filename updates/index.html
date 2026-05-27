@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Updates · toroid.fyi</title>
+  <meta name="description" content="Changelog for Strata-Dom-3D and the toroidal instruments.">
+  <meta name="theme-color" content="#0a0712">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23b6a4ff' stroke-width='1.5'/></svg>">
+  <style>
+    :root { --bg:#0a0712; --fg:#e6e3f5; --muted:#8a85a6; --accent:#b6a4ff; --good:#9adf86; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body { min-height:100vh; display:flex; flex-direction:column; }
+    nav.top { display:flex; gap:18px; padding:18px 6vw; border-bottom:1px solid rgba(255,255,255,0.06); font-size:13px; }
+    nav.top a { color:var(--muted); text-decoration:none; }
+    nav.top a:hover { color:var(--accent); }
+    nav.top a.brand { color:var(--fg); font-weight:600; margin-right:auto; }
+    main { flex:1; padding:64px 6vw 96px; max-width:760px; margin:0 auto; }
+    h1 { font-weight:300; font-size:clamp(34px, 5vw, 52px); margin:0 0 8px; letter-spacing:-0.02em; }
+    h1 .accent { color:var(--accent); font-weight:500; }
+    .lede { font-size:18px; color:var(--muted); line-height:1.55; margin:0 0 48px; }
+    .release { border-left:2px solid rgba(182,164,255,0.5); padding:0 0 24px 22px; margin-bottom:24px; position:relative; }
+    .release::before { content:''; position:absolute; left:-7px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px rgba(124,80,224,0.5); }
+    .release h2 { margin:0 0 4px; font-size:18px; color:var(--fg); font-weight:600; letter-spacing:0; text-transform:none; }
+    .release .date { font-size:11px; color:var(--muted); font-family:ui-monospace,Menlo,monospace; letter-spacing:0.06em; margin-bottom:14px; }
+    .release ul { margin:0; padding-left:18px; color:#cfc9e1; line-height:1.6; font-size:14px; }
+    .release ul li { margin-bottom:6px; }
+    .release ul li b { color:var(--fg); }
+    .tag-good { color:var(--good); font-weight:600; }
+    footer { padding:24px 6vw; text-align:center; font-size:11px; color:var(--muted); border-top:1px solid rgba(255,255,255,0.05); font-family:ui-monospace,Menlo,monospace; letter-spacing:0.04em; }
+    footer .accent { color:var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="top">
+    <a class="brand" href="/">toroid<span style="color:var(--accent)">.fyi</span></a>
+    <a href="/game/">Game</a>
+    <a href="/about/">About</a>
+    <a href="/mechanics/">Mechanics</a>
+    <a href="/tour/">Instruments</a>
+  </nav>
+  <main>
+    <h1>Update <span class="accent">log</span></h1>
+    <p class="lede">Visible changes and additions to the toroidal instruments and the Strata-Dom-3D research game.</p>
+
+    <div class="release">
+      <h2><span class="tag-good">v0.1.4</span> — HP system + new card tiers</h2>
+      <div class="date">May 2026</div>
+      <ul>
+        <li><b>HP per piece</b> — Sun 1, Moon 4, main pieces 3, Possibility 2, pawns 1. Pieces survive partial hits.</li>
+        <li><b>Possibility teleport</b> — now warps to any empty cell, stealth-piece behavior.</li>
+        <li><b>Six new piece-attached cards</b> alongside the original seven utility cards.</li>
+        <li><b>Pre-game Veil pick</b> — each player auto-sends a Possibility into the Mutara Nebula at match start.</li>
+        <li><b>Plot direct-action flow</b> — click piece, click target, Suggest+Go shortcuts. No Ready button; commit is silent.</li>
+      </ul>
+    </div>
+
+    <div class="release">
+      <h2>v0.1.3 — Mini-game roster</h2>
+      <div class="date">May 2026</div>
+      <ul>
+        <li><b>Same-type duels</b> resolve through one of five rotating mini-games: Connect-Four, Precision Aim, Cup Shuffle, Memory Match, Sequence Echo, Polarity Grid.</li>
+        <li><b>6-player support</b> + compact formation per quadrant.</li>
+        <li>Match replay button on settlement.</li>
+      </ul>
+    </div>
+
+    <div class="release">
+      <h2>v0.1.2 — Cinematic novas</h2>
+      <div class="date">May 2026</div>
+      <ul>
+        <li><b>Cinematic nova close-up</b> — staggered explosions, pre-pulse warning rings, screen flash.</li>
+        <li>Chain-nova prevention — fixed infinite recursion when multiple Suns die in the same blast.</li>
+      </ul>
+    </div>
+
+    <div class="release">
+      <h2>v0.1.1 — Tickers and rounds</h2>
+      <div class="date">May 2026</div>
+      <ul>
+        <li><b>Round summary panel</b> with last-round replay.</li>
+        <li>Achievements system — 12 unlockables with credit payouts.</li>
+        <li>Profile system with localStorage stats database.</li>
+      </ul>
+    </div>
+
+    <div class="release">
+      <h2>v0.1.0 — First emanation</h2>
+      <div class="date">May 2026</div>
+      <ul>
+        <li>Polymorphic Catalysis Toroid v0.33 — relational instrument.</li>
+        <li>Obfuscratic Sabbotarchy — Deception Arcane v0.1.</li>
+        <li>Strata-Dom-3D research preview — playable single-file prototype.</li>
+        <li>Polymorphic Matrix v1 archived as precursor.</li>
+      </ul>
+    </div>
+  </main>
+  <footer>
+    <span class="accent">B. Greenway</span> · ThinkWell Labs Metrology · v0.1
+  </footer>
+</body>
+</html>
