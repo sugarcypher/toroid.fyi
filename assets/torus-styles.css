@@ -1,0 +1,95 @@
+/* toroid.fyi · shared chrome for depth-torus pages */
+:root {
+  --fg:#e6e3f5;
+  --muted:#6a6480;
+  --accent:#b6a4ff;
+}
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0; padding:0; color:var(--fg); overflow:hidden; height:100vh; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+body[data-palette="cosmic"]        { background:#040209; }
+body[data-palette="void"]          { background:#020107; }
+body[data-palette="architectural"] { background:#010005; }
+canvas { display:block; }
+
+#stage { position:fixed; inset:0; }
+
+/* Breadcrumb — top-left, sparse */
+.bread {
+  position:fixed; top:24px; left:32px; z-index:10;
+  font-family:ui-monospace,Menlo,monospace; font-size:10px;
+  color:var(--muted); letter-spacing:0.28em; text-transform:uppercase;
+}
+.bread a { color:var(--muted); text-decoration:none; }
+.bread a:hover, .bread a:focus-visible { color:var(--accent); outline:none; }
+.bread .sep  { margin:0 10px; opacity:0.5; }
+.bread .here { color:var(--fg); }
+
+/* Title block — fades on enter */
+#title {
+  position:fixed; left:50%; bottom:13vh; transform:translateX(-50%);
+  z-index:5; text-align:center; pointer-events:none;
+  transition:opacity 900ms cubic-bezier(.4,0,.2,1), transform 900ms cubic-bezier(.4,0,.2,1);
+}
+#title h1 { margin:0; font-weight:200; letter-spacing:0.32em; font-size:clamp(20px, 2.4vw, 28px); color:var(--fg); text-transform:lowercase; }
+#title h1 b { color:var(--accent); font-weight:400; letter-spacing:0.32em; }
+#title .sub { margin-top:14px; font-size:11px; letter-spacing:0.28em; color:var(--muted); font-family:ui-monospace,Menlo,monospace; text-transform:uppercase; }
+
+/* Enter button */
+#enter {
+  position:fixed; left:50%; bottom:6vh; transform:translateX(-50%);
+  z-index:10; pointer-events:auto;
+  padding:14px 38px; border-radius:999px;
+  background:transparent; border:1px solid rgba(182,164,255,0.35);
+  color:var(--fg); font-size:12px; font-weight:400; letter-spacing:0.42em;
+  text-transform:uppercase; cursor:pointer;
+  transition:all 380ms cubic-bezier(.4,0,.2,1);
+  backdrop-filter:blur(6px);
+}
+#enter:hover, #enter:focus-visible {
+  border-color:var(--accent); background:rgba(182,164,255,0.06);
+  letter-spacing:0.50em; padding:14px 46px; outline:none;
+}
+
+body.descending #title { opacity:0; transform:translateX(-50%) translateY(8px); }
+body.descending #enter { opacity:0; pointer-events:none; transform:translateX(-50%) translateY(8px); transition:opacity 380ms ease; }
+
+/* Segment labels — appear after disassembly */
+#segment-labels {
+  position:fixed; inset:0; z-index:6; pointer-events:none; opacity:0;
+  transition:opacity 700ms cubic-bezier(.4,0,.2,1) 350ms;
+}
+body.disassembled #segment-labels { opacity:1; }
+.seg-label {
+  position:absolute; pointer-events:auto; cursor:pointer;
+  padding:6px 14px; border-radius:999px;
+  background:rgba(8,4,18,0.55); border:1px solid rgba(182,164,255,0.30);
+  color:var(--fg); font-size:10px; letter-spacing:0.36em; text-transform:uppercase;
+  font-family:ui-monospace,Menlo,monospace;
+  backdrop-filter:blur(6px);
+  transform:translate(-50%, -50%);
+  transition:all 240ms cubic-bezier(.4,0,.2,1);
+  white-space:nowrap;
+  text-decoration:none;
+}
+.seg-label:hover, .seg-label:focus-visible {
+  color:var(--accent); border-color:var(--accent); background:rgba(182,164,255,0.10); outline:none;
+}
+.seg-label::after { content:''; display:inline-block; margin-left:8px; opacity:0.5; }
+.seg-label:hover::after, .seg-label:focus-visible::after { content:'→'; opacity:1; color:var(--accent); }
+
+/* Layer indicator — bottom-center, very subtle */
+.layer-tag {
+  position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+  font-family:ui-monospace,Menlo,monospace; font-size:9px;
+  color:var(--muted); letter-spacing:0.32em; text-transform:uppercase;
+  z-index:5;
+}
+
+/* Vignette by palette — depth = subtraction */
+body[data-palette="cosmic"]::after        { content:''; position:fixed; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 100%); }
+body[data-palette="void"]::after          { content:''; position:fixed; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, transparent 22%, rgba(0,0,0,0.70) 100%); }
+body[data-palette="architectural"]::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, transparent 18%, rgba(0,0,0,0.82) 100%); }
+
+@media (prefers-reduced-motion: reduce){
+  * { transition-duration:0ms !important; animation-duration:0ms !important; }
+}
