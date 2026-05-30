@@ -3,58 +3,100 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TOROID</title>
-<meta name="description" content="A system of forms. Enter the loop." />
+<title>TOROID — a system of forms</title>
+<meta name="description" content="Seven instruments for seeing how a system's load-bearing layer is attacked and its value extracted. © ThinkWell Labs." />
 <meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root { --fg:#e8e8e8; --muted:#8b8f94; }
-  html, body { margin:0; padding:0; overflow:hidden; background:#111214; height:100vh; }
+  :root { --fg:#eef0f2; --muted:#9aa0a6; --metal:#cfd3d7; --ui:'Space Grotesk',system-ui,-apple-system,sans-serif; }
+  html, body { margin:0; padding:0; overflow:hidden; background:#111214; height:100vh; font-family:var(--ui); }
   canvas { display:block; }
   #stage { position:fixed; inset:0; z-index:1; }
 
-  /* Center title — shown during the idle/forming phase, fades on emanation */
+  /* Center title + what's-inside copy — shown while forming, fades on emanation */
   .overlay {
-    position:fixed; left:0; right:0; bottom:12vh; z-index:20;
+    position:fixed; left:0; right:0; bottom:11vh; z-index:20;
     text-align:center; pointer-events:none; color:var(--fg);
-    font-family:Georgia,'Times New Roman',serif;
-    transition:opacity 1.2s ease;
+    transition:opacity 1.1s ease; padding:0 22px;
   }
-  .overlay .title { font-size:clamp(30px,6vw,40px); letter-spacing:0.32em; font-weight:400; }
-  .overlay .subtitle { font-size:13px; margin-top:12px; letter-spacing:0.30em; opacity:0.6; text-transform:uppercase; }
-  .overlay .hint { font-size:10px; margin-top:26px; letter-spacing:0.34em; opacity:0.35; text-transform:uppercase; font-family:ui-monospace,Menlo,monospace; animation:breathe 3s ease-in-out infinite; }
-  @keyframes breathe { 0%,100%{opacity:0.18;} 50%{opacity:0.45;} }
+  .overlay .title { font-family:var(--ui); font-weight:500; font-size:clamp(30px,6vw,42px); letter-spacing:0.42em; text-indent:0.42em; }
+  .overlay .subtitle { font-family:var(--ui); font-weight:300; font-size:13px; margin-top:12px; letter-spacing:0.34em; text-transform:uppercase; color:var(--muted); }
+  .overlay .intro {
+    max-width:600px; margin:20px auto 0; font-weight:300; font-size:14.5px; line-height:1.65;
+    color:#c4c8cd; letter-spacing:0.01em;
+  }
+  .overlay .intro b { color:var(--fg); font-weight:500; }
+  .overlay .hint { font-family:ui-monospace,Menlo,monospace; font-size:10px; margin-top:26px; letter-spacing:0.34em; opacity:0.4; text-transform:uppercase; animation:breathe 3s ease-in-out infinite; }
+  @keyframes breathe { 0%,100%{opacity:0.2;} 50%{opacity:0.5;} }
 
-  /* Floating gate labels (projected per frame), hidden until the ring settles */
+  /* Gate labels (projected per frame), hidden until the ring settles */
   #labels { position:fixed; inset:0; z-index:18; pointer-events:none; opacity:0; transition:opacity 900ms ease; }
   #labels.show { opacity:1; }
   .gate {
     position:absolute; transform:translate(-50%,-50%);
     pointer-events:auto; cursor:pointer; text-decoration:none;
     display:flex; flex-direction:column; align-items:center; text-align:center;
-    width:200px; transition:transform 220ms cubic-bezier(.4,0,.2,1);
+    width:210px; transition:transform 220ms cubic-bezier(.4,0,.2,1);
   }
   .gate .gname {
-    font-family:Georgia,'Times New Roman',serif; font-size:16px; font-weight:400;
-    letter-spacing:0.12em; color:var(--fg); line-height:1.15;
-    transition:color 220ms ease, text-shadow 220ms ease;
+    font-family:var(--ui); font-size:15px; font-weight:500;
+    letter-spacing:0.16em; text-transform:uppercase; line-height:1.2;
+    color:var(--gc,#eef0f2);
+    /* permanent dark halo so labels read over bright metal AND dark space */
+    text-shadow:0 1px 2px #05060a, 0 0 5px rgba(5,6,10,.95), 0 0 13px rgba(5,6,10,.8);
   }
   .gate .gsub {
-    font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:0.18em;
-    text-transform:uppercase; color:var(--muted); margin-top:6px;
+    font-family:ui-monospace,Menlo,monospace; font-size:9px; letter-spacing:0.16em;
+    text-transform:uppercase; color:#cfd3d7; margin-top:7px;
+    text-shadow:0 1px 2px #05060a, 0 0 6px rgba(5,6,10,.95);
   }
-  .gate.center .gname { letter-spacing:0.20em; }
-  .gate:hover .gname, .gate:focus-visible .gname { text-shadow:0 0 18px var(--glow,#fff); }
+  .gate.center .gname { letter-spacing:0.24em; }
+  .gate:hover .gname, .gate:focus-visible .gname { text-shadow:0 1px 2px #05060a, 0 0 8px rgba(5,6,10,.95), 0 0 20px var(--gc,#fff); }
   .gate:hover, .gate:focus-visible { outline:none; transform:translate(-50%,-50%) scale(1.05); }
 
-  /* Accessible fallback (reduced-motion users still get the animation; this is the no-WebGL net) */
-  #fallback { position:fixed; inset:0; z-index:30; display:none; place-items:center; background:#111214; }
-  #fallback nav { display:flex; flex-direction:column; gap:14px; text-align:center; font-family:Georgia,serif; color:var(--fg); }
-  #fallback h1 { letter-spacing:0.3em; font-weight:400; margin:0 0 18px; }
-  #fallback a { color:var(--fg); text-decoration:none; letter-spacing:0.1em; opacity:0.85; }
-  #fallback a:hover { opacity:1; text-shadow:0 0 14px rgba(255,255,255,0.5); }
+  /* bottom-corner: persistent copyright + legal */
+  .footmark {
+    position:fixed; bottom:14px; right:16px; z-index:22;
+    font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:0.14em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .footmark a { color:var(--muted); text-decoration:none; }
+  .footmark a:hover { color:var(--fg); }
 
-  @media (max-width:700px){ .gate{ width:150px; } .gate .gname{ font-size:13px; } .gate .gsub{ display:none; } }
+  /* Terms-of-use agreement (first visit) */
+  .tos-veil {
+    position:fixed; inset:0; z-index:60; display:none; place-items:center;
+    background:rgba(6,7,10,0.78); -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); padding:24px;
+  }
+  .tos-veil.show { display:grid; }
+  .tos-card {
+    max-width:560px; background:#15171b; border:1px solid rgba(207,211,215,0.18);
+    border-radius:6px; padding:30px 32px; color:var(--fg); box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  }
+  .tos-card h2 { font-family:var(--ui); font-weight:500; font-size:18px; letter-spacing:0.06em; margin:0 0 14px; }
+  .tos-card p { font-weight:300; font-size:13.5px; line-height:1.62; color:#c4c8cd; margin:0 0 12px; }
+  .tos-card p b { color:var(--fg); font-weight:500; }
+  .tos-card .row { display:flex; align-items:center; gap:16px; margin-top:20px; flex-wrap:wrap; }
+  .tos-card a.terms { font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.1em; color:#9adfe0; text-decoration:none; }
+  .tos-card a.terms:hover { text-decoration:underline; }
+  .tos-card button {
+    font-family:var(--ui); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; font-weight:500;
+    background:#eef0f2; color:#111214; border:0; border-radius:999px; padding:11px 22px; cursor:pointer;
+    transition:transform .15s, background .15s;
+  }
+  .tos-card button:hover { transform:translateY(-1px); background:#fff; }
+
+  #fallback { position:fixed; inset:0; z-index:30; display:none; place-items:center; background:#111214; }
+  #fallback nav { display:flex; flex-direction:column; gap:13px; text-align:center; font-family:var(--ui); color:var(--fg); }
+  #fallback h1 { letter-spacing:0.3em; font-weight:500; margin:0 0 16px; }
+  #fallback a { color:var(--fg); text-decoration:none; letter-spacing:0.1em; opacity:0.85; }
+  #fallback a:hover { opacity:1; }
+
+  @media (max-width:700px){ .gate{ width:150px; } .gate .gname{ font-size:12.5px; } .gate .gsub{ display:none; } .overlay .intro{ font-size:13px; } }
 </style>
 </head>
 <body>
@@ -63,25 +105,35 @@
 <div class="overlay" id="overlay">
   <div class="title">TOROID</div>
   <div class="subtitle">A System of Forms</div>
-  <div class="hint" id="hint">forming · click to enter</div>
+  <p class="intro">Seven instruments for seeing one thing: how a system's <b>load-bearing layer</b> — the people and functions a society runs on — is attacked, and its value quietly extracted. Each form is a measurement you can enter. <b>Why it matters:</b> the damage is real, ongoing, and here it is documented, not alleged.</p>
+  <div class="hint" id="hint">click to enter</div>
 </div>
 
 <div id="labels" aria-label="Gates"></div>
 
-<div id="fallback" role="navigation" aria-label="Site gates">
-  <nav><h1>TOROID</h1></nav>
+<div class="footmark">© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></div>
+
+<!-- First-visit terms agreement -->
+<div class="tos-veil" id="tos" role="dialog" aria-modal="true" aria-labelledby="tos-h">
+  <div class="tos-card">
+    <h2 id="tos-h">Before you enter</h2>
+    <p>This site is a set of analytical instruments — measurements and commentary on how public value is moved from where it does good into private extraction. It documents; it does not allege crimes.</p>
+    <p>All material on <b>toroid.fyi</b> is <b>© ThinkWell Labs</b>, all rights reserved. You may reference it <b>only with proper citation</b>. By entering you agree to these terms.</p>
+    <div class="row">
+      <a class="terms" href="/legal/">Read the full terms &amp; legal →</a>
+      <button id="tos-agree">Agree &amp; enter</button>
+    </div>
+  </div>
 </div>
+
+<div id="fallback" role="navigation" aria-label="Site gates"><nav><h1>TOROID</h1></nav></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (() => {
 'use strict';
 
-// ============================================================================
-// TOROID — the surface. One form emanates into seven gates.
-// The seven are gates only; each is a door to the page it fronts.
-// To change the ring: edit RING below. Geometry derives N from RING.length.
-// ============================================================================
+// Seven gates. Each is a door to the page it fronts — the words AND the form are clickable.
 const RING = [
   { name:'Polymorphic Catalysis', sub:'Catalysis Toroid',     href:'/poly/',            color:0x9adfe0 },
   { name:'Obfuscratic Sabbotarchy',sub:'Deception Arcane',     href:'/sabbot/',          color:0xc6b2ff },
@@ -90,263 +142,209 @@ const RING = [
   { name:'Strata-Dom-3D',          sub:'Playable substrate',    href:'/play/',            color:0xf4c485 },
   { name:'Polymorphic Matrix',     sub:'Precursor · archive',   href:'/matrix/',          color:0x9adf86 },
 ];
-const CENTER = { name:'The System', sub:'Papers · archive · terminology · method', href:'/system/', color:0xcfd3d7 };
-const ALL = [...RING, CENTER];                       // CENTER is last
+const CENTER = { name:'The System', sub:'Papers · terminology · method · legal', href:'/system/', color:0xcfd3d7 };
+const ALL = [...RING, CENTER];
 const N = RING.length;
 
-// ---- capability detection -------------------------------------------------
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const webglOK = (() => {
-  try { const c = document.createElement('canvas');
-    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
-  } catch(e){ return false; }
-})();
+const webglOK = (() => { try { const c=document.createElement('canvas');
+  return !!(window.WebGLRenderingContext && (c.getContext('webgl')||c.getContext('experimental-webgl'))); } catch(e){ return false; } })();
 if (!webglOK){ renderFallback(); return; }
 
-// ---- scene ----------------------------------------------------------------
 const stage = document.getElementById('stage');
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
-camera.position.set(0, 0, 6.4);
-
+camera.position.set(0,0,6.4);
 const renderer = new THREE.WebGLRenderer({ antialias:true });
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 stage.appendChild(renderer.domElement);
 
-// soft gradient environment so the metal reads as metal (no external HDRI)
 scene.environment = makeEnvTexture();
+scene.add(new THREE.AmbientLight(0xffffff,0.35));
+const key=new THREE.DirectionalLight(0xffffff,1.4); key.position.set(5,6,5); scene.add(key);
+const rimL=new THREE.DirectionalLight(0x9fb4ff,0.5); rimL.position.set(-6,-2,3); scene.add(rimL);
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(5,6,5); scene.add(key);
-const rim = new THREE.DirectionalLight(0x9fb4ff, 0.5); rim.position.set(-6,-2,3); scene.add(rim);
-
-const torusGroup = new THREE.Group();
-scene.add(torusGroup);
-
-const GEO = new THREE.TorusGeometry(1.0, 0.3, 32, 110);
+const torusGroup = new THREE.Group(); scene.add(torusGroup);
+const GEO = new THREE.TorusGeometry(1.0,0.3,32,110);
 const baseMat = new THREE.MeshStandardMaterial({ color:0xbfc3c7, metalness:0.92, roughness:0.34 });
-
-// the original form — becomes the central gate
 const mainTorus = new THREE.Mesh(GEO, baseMat.clone());
+mainTorus.userData.cfg = CENTER;
 torusGroup.add(mainTorus);
 
-const toroids = [];            // ring meshes, index aligned with RING
-const RING_RADIUS = 2.5;
-const RING_SCALE = 0.50;
-const CENTER_SCALE = 0.74;
+const toroids = [];
+const RING_RADIUS=2.5, RING_SCALE=0.50, CENTER_SCALE=0.74;
 
-// ---- state machine --------------------------------------------------------
-let state = 'idle';            // idle → slowing → pause → expanding → expanded
-let rotationSpeed = 0.30;
-let progress = 0, pauseTimer = 0;
-const clock = new THREE.Clock();
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2(-2,-2);
-let hoverLock = null, hoverTimer = 0;
+let state='idle', rotationSpeed=0.30, progress=0, pauseTimer=0;
+let leaving=false, tosOpen=false;
+const clock=new THREE.Clock();
+const raycaster=new THREE.Raycaster();
+const mouse=new THREE.Vector2(-2,-2);
+let hoverLock=null, hoverTimer=0;
 
-const overlay = document.getElementById('overlay');
-const labelHost = document.getElementById('labels');
+const overlay=document.getElementById('overlay');
+const labelHost=document.getElementById('labels');
 
-// labels (anchors) — created up front, shown when expanded
-const labelMap = new Map();
-ALL.forEach((cfg, i) => {
-  const a = document.createElement('a');
-  a.className = 'gate' + (cfg === CENTER ? ' center' : '');
-  a.href = cfg.href;
-  const hex = '#' + cfg.color.toString(16).padStart(6,'0');
-  a.style.setProperty('--glow', hex);
-  a.innerHTML = `<span class="gname">${cfg.name}</span><span class="gsub">${cfg.sub}</span>`;
-  a.addEventListener('click', (e) => { e.preventDefault(); descend(cfg); });
-  labelHost.appendChild(a);
-  labelMap.set(cfg, a);
+const labelMap=new Map();
+ALL.forEach((cfg) => {
+  const a=document.createElement('a');
+  a.className='gate'+(cfg===CENTER?' center':'');
+  a.href=cfg.href;
+  const hex='#'+cfg.color.toString(16).padStart(6,'0');
+  a.style.setProperty('--gc',hex);
+  a.innerHTML=`<span class="gname">${cfg.name}</span><span class="gsub">${cfg.sub}</span>`;
+  a.addEventListener('click',(e)=>{ e.preventDefault(); descend(cfg); });
+  labelHost.appendChild(a); labelMap.set(cfg,a);
 });
 
-function begin(){
-  if (state !== 'idle') return;
-  state = 'slowing';
-  overlay.style.opacity = 0;
+// ---- terms gate (first visit) --------------------------------------------
+const tos=document.getElementById('tos');
+let autoTimer=null;
+function scheduleBegin(ms){ clearTimeout(autoTimer); autoTimer=setTimeout(begin, ms); }
+const agreed = (()=>{ try { return localStorage.getItem('twl-tos-agreed')==='1'; } catch(e){ return false; } })();
+if (!agreed){
+  tosOpen=true; tos.classList.add('show');   // every first-time visitor sees the terms
+} else if (!reduceMotion){
+  scheduleBegin(5200);
 }
-addEventListener('click', begin);
-addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') begin(); });
-// auto-emanate shortly after load — it is the first thing seen
-const autoTimer = setTimeout(begin, 2600);
+document.getElementById('tos-agree').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  try { localStorage.setItem('twl-tos-agreed','1'); } catch(_){}
+  tos.classList.remove('show'); tosOpen=false;
+  scheduleBegin(2600);
+});
+
+function begin(){ if (state!=='idle'||tosOpen) return; state='slowing'; overlay.style.opacity=0; }
 
 function makeClones(){
-  for (let i = 0; i < N; i++){
-    const m = mainTorus.clone();
-    m.material = baseMat.clone();
-    const target = new THREE.Color(RING[i].color);
-    // keep it metal, just tinted toward the destination
-    m.userData.tint = new THREE.Color(0xbfc3c7).lerp(target, 0.55);
-    m.scale.setScalar(RING_SCALE);
-    torusGroup.add(m);
-    toroids.push(m);
+  for (let i=0;i<N;i++){
+    const m=mainTorus.clone(); m.material=baseMat.clone(); m.userData.cfg=RING[i];
+    m.userData.tint=new THREE.Color(0xbfc3c7).lerp(new THREE.Color(RING[i].color),0.55);
+    m.scale.setScalar(RING_SCALE); torusGroup.add(m); toroids.push(m);
   }
-  mainTorus.userData.tint = new THREE.Color(0xcfd3d7);
+  mainTorus.userData.tint=new THREE.Color(0xcfd3d7);
 }
+function ringPos(i,radius){ const a=(-Math.PI/2)+(i/N)*Math.PI*2; return new THREE.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0); }
+const easeInOut=t=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 
-function ringPos(i, radius){
-  const ang = (-Math.PI/2) + (i / N) * Math.PI * 2;   // start at top, clockwise
-  return new THREE.Vector3(Math.cos(ang)*radius, Math.sin(ang)*radius, 0);
-}
-
-const easeInOut = t => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-
-// reduced motion → skip straight to the settled ring
 if (reduceMotion){
-  overlay.style.display = 'none';
-  clearTimeout(autoTimer);
-  camera.position.z = 7.9;
-  torusGroup.rotation.set(-0.28, 0, 0);
+  overlay.style.display='none';
+  camera.position.z=7.9; torusGroup.rotation.set(-0.28,0,0);
   makeClones();
-  toroids.forEach((m,i) => m.position.copy(ringPos(i, RING_RADIUS)));
-  mainTorus.scale.setScalar(CENTER_SCALE);
-  toroids.forEach((m,i) => m.material.color.copy(m.userData.tint));
-  mainTorus.material.color.copy(mainTorus.userData.tint);
-  state = 'expanded';
-  labelHost.classList.add('show');
+  toroids.forEach((m,i)=>{ m.position.copy(ringPos(i,RING_RADIUS)); m.material.color.copy(m.userData.tint); });
+  mainTorus.scale.setScalar(CENTER_SCALE); mainTorus.material.color.copy(mainTorus.userData.tint);
+  state='expanded'; labelHost.classList.add('show');
 }
 
-// ---- transition out -------------------------------------------------------
-let leaving = false;
 function descend(cfg){
-  if (state !== 'expanded' || leaving) return;
-  leaving = true;
-  const hex = '#' + cfg.color.toString(16).padStart(6,'0');
-  const wash = document.createElement('div');
-  wash.style.cssText =
-    'position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;'+
+  if (state!=='expanded'||leaving) return;
+  leaving=true;
+  const hex='#'+cfg.color.toString(16).padStart(6,'0');
+  const wash=document.createElement('div'); wash.className='wash';
+  wash.style.cssText='position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;'+
     'background:radial-gradient(ellipse at center,'+hex+' 0%, rgba(17,18,20,0.96) 70%, #111214 100%);'+
     'transition:opacity 700ms cubic-bezier(.4,0,.2,1);';
   document.body.appendChild(wash);
-  labelHost.style.opacity = 0;
-  requestAnimationFrame(() => { wash.style.opacity = '1'; });
-  setTimeout(() => { location.href = cfg.href; }, 720);
+  labelHost.style.opacity=0;
+  requestAnimationFrame(()=>{ wash.style.opacity='1'; });
+  setTimeout(()=>{ location.href=cfg.href; }, 720);
 }
 
-// ---- per-frame label projection ------------------------------------------
-const _v = new THREE.Vector3();
-function project(obj, outwardForLabel){
-  obj.getWorldPosition(_v);
-  if (outwardForLabel){
-    // nudge ring labels slightly outward from center so they clear the torus
-    const len = Math.hypot(_v.x, _v.y) || 1;
-    _v.x += (_v.x/len) * 0.95; _v.y += (_v.y/len) * 0.95;
+// ---- bfcache / back-button recovery — clear any stuck "halo" wash ---------
+addEventListener('pageshow',(e)=>{
+  if (e.persisted){
+    document.querySelectorAll('.wash').forEach(w=>w.remove());
+    leaving=false;
+    if (state==='expanded'){ labelHost.style.opacity=''; labelHost.classList.add('show'); }
   }
+});
+
+const _v=new THREE.Vector3();
+function project(obj,outward){
+  obj.getWorldPosition(_v);
+  if (outward){ const len=Math.hypot(_v.x,_v.y)||1; _v.x+=(_v.x/len)*0.6; _v.y+=(_v.y/len)*0.6; }
   _v.project(camera);
   return { x:(_v.x*0.5+0.5)*innerWidth, y:(-_v.y*0.5+0.5)*innerHeight, z:_v.z };
 }
+const LBL_MX=110, LBL_MY=46;   // keep labels fully on-screen
+function clampX(x){ return Math.max(LBL_MX, Math.min(innerWidth-LBL_MX, x)); }
+function clampY(y){ return Math.max(LBL_MY, Math.min(innerHeight-LBL_MY, y)); }
 function placeLabels(){
-  toroids.forEach((m,i) => {
-    const a = labelMap.get(RING[i]); if (!a) return;
-    const p = project(m, true);
-    a.style.left = p.x+'px'; a.style.top = p.y+'px';
-    a.style.opacity = p.z > 1 ? 0 : 1;
-  });
-  const c = labelMap.get(CENTER);
-  if (c){ const p = project(mainTorus, false); c.style.left = p.x+'px'; c.style.top = (p.y)+'px'; }
+  toroids.forEach((m,i)=>{ const a=labelMap.get(RING[i]); if(!a)return;
+    const p=project(m,true); a.style.left=clampX(p.x)+'px'; a.style.top=clampY(p.y)+'px'; a.style.opacity=p.z>1?0:1; });
+  const c=labelMap.get(CENTER); if(c){ const p=project(mainTorus,false); c.style.left=clampX(p.x)+'px'; c.style.top=clampY(p.y)+'px'; }
 }
 
-// ---- hover ----------------------------------------------------------------
 function handleHover(delta){
-  raycaster.setFromCamera(mouse, camera);
-  const meshes = [...toroids, mainTorus];
-  const hit = raycaster.intersectObjects(meshes)[0];
-  const now = hit ? hit.object : null;
-  if (now !== hoverLock){ hoverTimer += delta; if (hoverTimer > 0.08){ hoverLock = now; hoverTimer = 0; } }
-  else hoverTimer = 0;
-  renderer.domElement.style.cursor = hoverLock ? 'pointer' : 'default';
-
-  meshes.forEach(m => {
-    const active = m === hoverLock;
-    const baseScale = (m === mainTorus) ? CENTER_SCALE : RING_SCALE;
-    const tScale = baseScale * (active ? 1.10 : 1.0);
-    m.scale.x += (tScale - m.scale.x)*6*delta;
-    m.scale.y += (tScale - m.scale.y)*6*delta;
-    m.scale.z += (tScale - m.scale.z)*6*delta;
-    const tz = active ? 0.45 : 0;
-    m.position.z += (tz - m.position.z)*6*delta;
-    m.material.roughness += ((active?0.22:0.34) - m.material.roughness)*5*delta;
-  });
-  // sync label emphasis
-  ALL.forEach((cfg,idx) => {
-    const mesh = cfg === CENTER ? mainTorus : toroids[idx];
-    const a = labelMap.get(cfg);
-    if (a && mesh) a.classList.toggle('hovered', mesh === hoverLock);
+  raycaster.setFromCamera(mouse,camera);
+  const meshes=[...toroids,mainTorus];
+  const hit=raycaster.intersectObjects(meshes)[0];
+  const now=hit?hit.object:null;
+  if (now!==hoverLock){ hoverTimer+=delta; if(hoverTimer>0.08){ hoverLock=now; hoverTimer=0; } } else hoverTimer=0;
+  renderer.domElement.style.cursor = hoverLock?'pointer':'default';
+  meshes.forEach(m=>{
+    const active=m===hoverLock;
+    const base=(m===mainTorus)?CENTER_SCALE:RING_SCALE;
+    const ts=base*(active?1.10:1.0);
+    m.scale.x+=(ts-m.scale.x)*6*delta; m.scale.y+=(ts-m.scale.y)*6*delta; m.scale.z+=(ts-m.scale.z)*6*delta;
+    const tz=active?0.45:0; m.position.z+=(tz-m.position.z)*6*delta;
+    m.material.roughness+=((active?0.22:0.34)-m.material.roughness)*5*delta;
   });
 }
 
-addEventListener('mousemove', e => {
-  mouse.x = (e.clientX/innerWidth)*2 - 1;
-  mouse.y = -(e.clientY/innerHeight)*2 + 1;
+addEventListener('mousemove',e=>{ mouse.x=(e.clientX/innerWidth)*2-1; mouse.y=-(e.clientY/innerHeight)*2+1; });
+// One click handler: idle → begin; expanded → navigate the clicked FORM (mesh)
+renderer.domElement.addEventListener('click',()=>{
+  if (tosOpen) return;
+  if (state==='idle'){ begin(); return; }
+  if (state==='expanded'){
+    raycaster.setFromCamera(mouse,camera);
+    const hit=raycaster.intersectObjects([...toroids,mainTorus])[0];
+    if (hit && hit.object.userData.cfg) descend(hit.object.userData.cfg);
+  }
 });
-addEventListener('resize', () => {
-  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
+addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&!tosOpen) begin(); });
+addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
 
-// ---- loop -----------------------------------------------------------------
 function animate(){
   requestAnimationFrame(animate);
-  const delta = Math.min(clock.getDelta(), 0.05);
-
-  if (state === 'idle'){
-    torusGroup.rotation.y += delta * rotationSpeed;
-    torusGroup.rotation.x += delta * 0.16;
-  } else if (state === 'slowing'){
-    rotationSpeed -= delta * 0.32;
-    torusGroup.rotation.y += delta * Math.max(rotationSpeed, 0.02);
-    // ease the tilt toward the settled, front-facing ring plane
-    torusGroup.rotation.x += (-0.28 - torusGroup.rotation.x) * 2.4 * delta;
-    if (rotationSpeed <= 0.02){ state = 'pause'; pauseTimer = 0; }
-  } else if (state === 'pause'){
-    pauseTimer += delta;
-    torusGroup.rotation.x += (-0.28 - torusGroup.rotation.x) * 3 * delta;
-    torusGroup.rotation.y += (0 - torusGroup.rotation.y) * 3 * delta;
-    if (pauseTimer > 0.45){ makeClones(); state = 'expanding'; progress = 0; }
-  } else if (state === 'expanding'){
-    progress += delta * 0.5;
-    const e = easeInOut(Math.min(progress,1));
-    toroids.forEach((m,i) => m.position.copy(ringPos(i, RING_RADIUS * e)));
-    mainTorus.scale.setScalar(1 + (CENTER_SCALE - 1) * e);
-    camera.position.z = 6.4 + e * 1.5;
-    // settle the metal tint
-    toroids.forEach(m => m.material.color.lerp(m.userData.tint, 0.06));
-    if (progress >= 1){ state = 'expanded'; labelHost.classList.add('show'); }
-  } else if (state === 'expanded'){
+  const delta=Math.min(clock.getDelta(),0.05);
+  if (state==='idle'){ torusGroup.rotation.y+=delta*rotationSpeed; torusGroup.rotation.x+=delta*0.16; }
+  else if (state==='slowing'){
+    rotationSpeed-=delta*0.32; torusGroup.rotation.y+=delta*Math.max(rotationSpeed,0.02);
+    torusGroup.rotation.x+=(-0.28-torusGroup.rotation.x)*2.4*delta;
+    if (rotationSpeed<=0.02){ state='pause'; pauseTimer=0; }
+  } else if (state==='pause'){
+    pauseTimer+=delta; torusGroup.rotation.x+=(-0.28-torusGroup.rotation.x)*3*delta; torusGroup.rotation.y+=(0-torusGroup.rotation.y)*3*delta;
+    if (pauseTimer>0.45){ makeClones(); state='expanding'; progress=0; }
+  } else if (state==='expanding'){
+    progress+=delta*0.5; const e=easeInOut(Math.min(progress,1));
+    toroids.forEach((m,i)=>m.position.copy(ringPos(i,RING_RADIUS*e)));
+    mainTorus.scale.setScalar(1+(CENTER_SCALE-1)*e); camera.position.z=6.4+e*1.5;
+    toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.06));
+    if (progress>=1){ state='expanded'; labelHost.classList.add('show'); }
+  } else if (state==='expanded'){
     handleHover(delta);
-    toroids.forEach(m => m.material.color.lerp(m.userData.tint, 0.05));
-    mainTorus.material.color.lerp(mainTorus.userData.tint, 0.05);
+    toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.05));
+    mainTorus.material.color.lerp(mainTorus.userData.tint,0.05);
   }
-
-  if (state === 'expanding' || state === 'expanded') placeLabels();
-  renderer.render(scene, camera);
+  if (state==='expanding'||state==='expanded') placeLabels();
+  renderer.render(scene,camera);
 }
 animate();
 
-// ---- helpers --------------------------------------------------------------
 function makeEnvTexture(){
-  const c = document.createElement('canvas'); c.width = 16; c.height = 128;
-  const g = c.getContext('2d').createLinearGradient(0,0,0,128);
-  g.addColorStop(0.0, '#3a3f45');
-  g.addColorStop(0.45,'#1b1d20');
-  g.addColorStop(1.0, '#0a0b0c');
-  const ctx = c.getContext('2d'); ctx.fillStyle = g; ctx.fillRect(0,0,16,128);
-  const tex = new THREE.CanvasTexture(c);
-  tex.mapping = THREE.EquirectangularReflectionMapping;
-  return tex;
+  const c=document.createElement('canvas'); c.width=16; c.height=128;
+  const ctx=c.getContext('2d'); const g=ctx.createLinearGradient(0,0,0,128);
+  g.addColorStop(0.0,'#3a3f45'); g.addColorStop(0.45,'#1b1d20'); g.addColorStop(1.0,'#0a0b0c');
+  ctx.fillStyle=g; ctx.fillRect(0,0,16,128);
+  const tex=new THREE.CanvasTexture(c); tex.mapping=THREE.EquirectangularReflectionMapping; return tex;
 }
-
 function renderFallback(){
-  const fb = document.getElementById('fallback');
-  const nav = fb.querySelector('nav');
-  ALL.forEach(cfg => {
-    const a = document.createElement('a'); a.href = cfg.href; a.textContent = cfg.name; nav.appendChild(a);
-  });
-  document.getElementById('overlay').style.display = 'none';
-  document.getElementById('stage').style.display = 'none';
-  fb.style.display = 'grid';
+  const fb=document.getElementById('fallback'); const nav=fb.querySelector('nav');
+  ALL.forEach(cfg=>{ const a=document.createElement('a'); a.href=cfg.href; a.textContent=cfg.name; nav.appendChild(a); });
+  document.getElementById('overlay').style.display='none'; document.getElementById('stage').style.display='none';
+  document.getElementById('tos').classList.remove('show'); fb.style.display='grid';
 }
 })();
 </script>

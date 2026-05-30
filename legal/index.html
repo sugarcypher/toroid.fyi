@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Legal · Terms · Privacy · toroid.fyi</title>
+  <meta name="description" content="Terms of use, copyright, citation, privacy, and security for toroid.fyi. © ThinkWell Labs.">
+  <meta name="theme-color" content="#040209">
+  <meta name="copyright" content="© ThinkWell Labs. All rights reserved.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#cfd3d7; --ui:'Space Grotesk',system-ui,sans-serif; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:var(--ui); -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(207,211,215,0.05), transparent 70%); }
+
+    /* Toroidal System · go back (same-origin aware) */
+    .tsys-back { position:fixed; top:20px; left:24px; z-index:40; display:inline-flex; align-items:center; gap:9px;
+      padding:8px 14px; border-radius:999px; background:rgba(8,6,14,0.7); border:1px solid rgba(207,211,215,0.28);
+      color:#cfd3d7; font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+      text-decoration:none; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); transition:border-color .2s,color .2s,transform .2s; }
+    .tsys-back:hover { border-color:#fff; color:#fff; transform:translateY(-1px); }
+    .tsys-back b { font-weight:500; letter-spacing:0.10em; }
+
+    main { position:relative; z-index:5; max-width:760px; margin:0 auto; padding:120px 6vw 120px; }
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:500; font-size:clamp(30px,4.5vw,46px); margin:0 0 12px; letter-spacing:0.01em; line-height:1.15; }
+    .gloss { font-size:16px; font-weight:300; color:#bdb7d5; margin:0 0 44px; line-height:1.6; font-style:italic; }
+    h2 { font-weight:500; font-size:14px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin:44px 0 12px; }
+    p, li { line-height:1.75; color:#cdc7e0; font-size:15px; font-weight:300; }
+    p { margin:0 0 16px; }
+    ul { margin:0 0 16px; padding-left:20px; } li { margin-bottom:8px; }
+    strong, b { color:var(--fg); font-weight:500; }
+    em { color:var(--accent); font-style:normal; }
+    .box { border:1px solid rgba(207,211,215,0.18); border-left:3px solid var(--accent); padding:18px 20px; margin:0 0 22px; border-radius:3px; background:rgba(207,211,215,0.03); }
+    code { font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:#9adfe0; background:rgba(154,223,224,0.08); padding:2px 7px; border-radius:3px; }
+    .updated { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; margin-top:48px; text-transform:uppercase; }
+    .xref { margin-top:18px; padding-top:22px; border-top:1px solid rgba(207,211,215,0.14); font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.12em; }
+    .xref a { color:var(--accent); text-decoration:none; margin-right:16px; }
+    footer { text-align:center; padding:30px 0 10px; font-family:ui-monospace,Menlo,monospace; font-size:9.5px; color:var(--muted); letter-spacing:0.24em; text-transform:uppercase; }
+    @media (max-width:700px){ .tsys-back{ left:14px; } .tsys-back b{ display:none; } }
+  </style>
+</head>
+<body>
+  <a class="tsys-back" id="tsys-back" href="/" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · go&nbsp;back</a>
+  <main>
+    <p class="meta-line">Terms · Copyright · Privacy · Security</p>
+    <h1>Legal</h1>
+    <p class="gloss">The terms under which this work is published, referenced, and protected — and a plain statement of what it is, and is not.</p>
+
+    <h2>Copyright</h2>
+    <p>All material on <b>toroid.fyi</b> — text, instruments, code, diagrams, predicates, and design — is <strong>© ThinkWell Labs, all rights reserved.</strong> The coined predicates and analytical frameworks (including <em>Sabbotarchy</em>, <em>Obfuscratic</em>, <em>Multimalocracy</em>, the toroidal instruments, and the double-extraction and substrate-attack analyses) are original works of authorship.</p>
+    <p>No part may be reproduced, republished, or redistributed for commercial purposes without prior written permission from ThinkWell Labs.</p>
+
+    <h2>Citation required</h2>
+    <p>You may quote or reference this work for research, journalism, education, and commentary — <strong>provided you cite it.</strong> Use a citation in substantially this form:</p>
+    <div class="box"><code>Greenway, B. / ThinkWell Labs. (2026). <em>Toroidal Instruments</em> — [page title]. toroid.fyi. Retrieved [date].</code></div>
+    <p>Referencing the material without attribution, or presenting it as your own, is not permitted.</p>
+
+    <h2>Nature of this work — a plain statement</h2>
+    <div class="box">
+      <p>This site is a body of <strong>analysis, measurement, and commentary</strong> built on documented, publicly available sources. It is expression and opinion — interpretation of public facts — offered for research and public understanding.</p>
+      <p><strong>It is not an accusation.</strong> Nothing here is intended as, or should be construed as, a charge of criminal conduct, a statement of legal fact about any individual's guilt, or an allegation of wrongdoing against any named person or organization. References to public figures, agencies, and companies are <em>commentary on matters of public concern</em>.</p>
+      <p>Where the work describes patterns, incentives, or outcomes, it does so as <em>interpretation</em> — not as a finding of fact or a legal conclusion. Any resemblance a reader draws to specific culpability is the reader's inference, not the author's claim.</p>
+    </div>
+
+    <h2>No legal claim; good-faith commentary</h2>
+    <p>The author publishes this work in good faith as protected opinion and commentary on matters of public concern, relying on fair-use treatment of cited sources. It is offered to inform and to provoke thought — <em>not to defame, harass, or accuse.</em> By using the site you agree to read it in that spirit and not to construe its analytical content as factual allegations of misconduct.</p>
+
+    <h2>Privacy</h2>
+    <p>toroid.fyi is a <strong>static site</strong>. It has no accounts, no sign-in, and runs no advertising or third-party tracking. It does not collect personal information from you.</p>
+    <ul>
+      <li><strong>Local storage</strong> is used only to remember that you have accepted these terms (so the notice doesn't reappear) and minor interface state. It never leaves your device.</li>
+      <li><strong>Hosting.</strong> The site is served via Cloudflare. Like any web host, Cloudflare may process standard request data (such as IP address and user agent) for security, abuse-prevention, and performance, under its own privacy policy.</li>
+      <li>Fonts are loaded from Google Fonts, which may receive a standard request for the font files.</li>
+    </ul>
+
+    <h2>Security</h2>
+    <p>The site serves static content only; it executes no server-side code on your behalf and asks for no credentials. It is provided <strong>“as is,” without warranty</strong> of any kind. If you believe you have found a security issue, please report it responsibly to ThinkWell Labs rather than disclosing it publicly.</p>
+
+    <h2>Contact</h2>
+    <p>Permissions, citations, corrections, and security reports: <strong>ThinkWell Labs</strong> — via <a href="https://twl.today" style="color:#9adfe0;text-decoration:none">twl.today</a>.</p>
+
+    <p class="updated">Last updated · 30 May 2026 · © ThinkWell Labs</p>
+    <div class="xref">
+      <a href="/">← surface</a>
+      <a href="/system/">the system</a>
+      <a href="https://twl.today">TWL.today ↗</a>
+    </div>
+  </main>
+  <footer>© ThinkWell Labs · all rights reserved</footer>
+
+  <script>
+  (function(){
+    var b=document.getElementById('tsys-back'); if(!b) return;
+    b.addEventListener('click', function(e){
+      var same=false; try { same = document.referrer && new URL(document.referrer).origin===location.origin; } catch(_){}
+      if (history.length>1 && same){ e.preventDefault(); history.back(); }
+    });
+  })();
+  </script>
+</body>
+</html>

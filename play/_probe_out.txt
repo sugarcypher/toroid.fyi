@@ -1,0 +1,12 @@
+js_start=8012
+prevline=''
+rail=8260
+8252: "window.addEventListener('resize', layoutCockpit);"
+8253: "const _cockpitBtn = document.getElementById('btn-cockpit');"
+8254: 'if (_cockpitBtn) _cockpitBtn.onclick = () => setCockpit(!G.coc'
+8255: "const _arrangeBtn = document.getElementById('btn-arrange');"
+8256: 'if (_arrangeBtn) _arrangeBtn.onclick = () => cockpitArrange(!G'
+8257: "// Cockpit skin retired — keyboard toggle removed so it can't "
+8258: '// Cockpit starts OFF (classic layout) — opt in via the 🛰 butt'
+8259: ''
+--- cockpit refs at/after rail ---

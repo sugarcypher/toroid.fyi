@@ -46,6 +46,14 @@
   </style>
 </head>
 <body>
+  <a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+  <style>
+  .tsys-back{position:fixed;top:16px;right:20px;z-index:99999;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(8,6,14,0.72);border:1px solid rgba(150,150,170,0.32);color:#cfd3d7;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:border-color .2s,color .2s,transform .2s;}
+  .tsys-back:hover{border-color:#fff;color:#fff;transform:translateY(-1px);}
+  .tsys-back b{font-weight:600;letter-spacing:0.10em;}
+  @media (max-width:600px){.tsys-back b{display:none;}}
+  </style>
+  <script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
   <div class="bread">
     <a href="/">surface</a> <span class="sep">/</span>
     <span class="here">the substrate attack</span>
@@ -120,6 +128,6 @@
       <a href="/predicates/obfuscratic/">obfuscratic</a>
     </div>
   </main>
-  <footer>the live condition · beneath every loop</footer>
+  <footer>the live condition · beneath every loop · © ThinkWell Labs</footer>
 </body>
 </html>

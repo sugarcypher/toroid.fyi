@@ -3,11 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>the system · toroid.fyi</title>
-  <meta name="description" content="A descent through toroidal instruments.">
+  <title>The System · toroid.fyi</title>
+  <meta name="description" content="The system index — papers, terminology, method, archive, and legal. © ThinkWell Labs.">
   <meta name="theme-color" content="#040209">
-  <meta property="og:title" content="toroid.fyi">
-  <meta property="og:description" content="Enter the loop.">
+  <meta name="copyright" content="© ThinkWell Labs. All rights reserved.">
+  <meta property="og:title" content="toroid.fyi — the system">
+  <meta property="og:description" content="The supporting corpus beneath the instruments.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23b6a4ff' stroke-width='1.5'/></svg>">
   <style>
     :root {
@@ -18,7 +21,7 @@
       --hud:#8a85a6;
     }
     *,*::before,*::after { box-sizing:border-box; }
-    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); overflow:hidden; height:100vh; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); overflow:hidden; height:100vh; font-family:'Space Grotesk',system-ui,-apple-system,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
     canvas { display:block; }
     #stage { position:fixed; inset:0; z-index:1; }
 
@@ -66,6 +69,29 @@
     }
     .profile-chip:hover { background:linear-gradient(135deg, rgba(124,80,224,0.45), rgba(167,124,255,0.45)); }
     .profile-chip .dot { width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 30% 30%, #c5b6ff, #7c50e0); display:inline-block; }
+    /* go-back + TWL link */
+    .tsys-back, .twl-link {
+      display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius:999px;
+      background:rgba(8,4,18,0.55); border:1px solid rgba(182,164,255,0.28); color:var(--fg);
+      font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+      text-decoration:none; backdrop-filter:blur(8px); transition:border-color .2s,color .2s,transform .2s;
+    }
+    .tsys-back:hover, .twl-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+    .tsys-back b { font-weight:500; letter-spacing:0.10em; }
+    /* where-to-start guidance */
+    #start-guide {
+      position:fixed; top:72px; left:50%; transform:translateX(-50%); z-index:25; pointer-events:none;
+      max-width:600px; width:calc(100% - 64px); text-align:center;
+      color:#cdc7e0; opacity:0; transition:opacity 700ms ease 600ms;
+    }
+    body.disassembled #start-guide { opacity:1; }
+    #start-guide .h { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.30em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+    #start-guide p { margin:0; font-weight:300; font-size:13.5px; line-height:1.6; }
+    #start-guide b { color:var(--fg); font-weight:500; }
+    /* copyright */
+    .footmark { position:fixed; bottom:24px; right:32px; z-index:25; font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; }
+    .footmark a { color:var(--muted); text-decoration:none; } .footmark a:hover { color:var(--fg); }
+    @media (max-width:700px){ #start-guide{ display:none; } .tsys-back b{ display:none; } }
 
     /* === HUD CORNERS === */
     .hud {
@@ -152,14 +178,17 @@
       max-width:200px;
     }
     .seg-label .name {
-      font-size:22px; font-weight:300; letter-spacing:0.06em;
+      font-size:21px; font-weight:500; letter-spacing:0.08em;
       text-transform:uppercase; color:var(--fg);
       line-height:1.1; margin-bottom:6px;
+      text-shadow:0 1px 3px #02010a, 0 0 6px rgba(2,1,10,.95), 0 0 16px rgba(2,1,10,.85);
       transition:color 220ms ease, text-shadow 220ms ease;
     }
     .seg-label .sub {
-      font-size:11px; font-weight:300; color:var(--muted);
-      line-height:1.4; max-width:170px; letter-spacing:0.01em;
+      font-family:ui-monospace,Menlo,monospace;
+      font-size:10px; font-weight:400; color:#cfcae0;
+      line-height:1.45; max-width:180px; letter-spacing:0.04em;
+      text-shadow:0 1px 3px #02010a, 0 0 6px rgba(2,1,10,.95);
     }
     .seg-label[data-color="cyan"] .name      { color:#9adfe0; }
     .seg-label[data-color="lavender"] .name  { color:#c6b2ff; }
@@ -167,6 +196,7 @@
     .seg-label[data-color="amber"] .name     { color:#f4c485; }
     .seg-label[data-color="green"] .name     { color:#9adf86; }
     .seg-label[data-color="pale"] .name      { color:#e6e3f5; }
+    .seg-label[data-color="steel"] .name     { color:#cfd3d7; }
     .seg-label[data-color="dim"] .name       { color:var(--muted); }
     .seg-label[data-color="dim"] .sub        { color:rgba(138,133,166,0.5); }
     .seg-label:hover .name, .seg-label:focus-visible .name {
@@ -189,14 +219,8 @@
 
   <!-- TOP BAR -->
   <header id="top-bar" role="banner">
-    <button class="icon-btn" aria-label="Menu" title="Menu">≡</button>
-    <a class="brand-mark" href="/" aria-label="Back to the surface">toroid<b>.fyi</b></a>
-    <div style="display:flex; gap:10px; align-items:center">
-      <a class="brand-mark" href="https://twl.today" style="letter-spacing:0.18em; font-size:11px;" rel="noopener" aria-label="ThinkWell Labs — TWL.today">TWL<b>.today ↗</b></a>
-      <a class="profile-chip" href="/about/" aria-label="Profile">
-        <span class="dot"></span>Profile
-      </a>
-    </div>
+    <a class="tsys-back" id="tsys-back" href="/" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · go&nbsp;back</a>
+    <a class="twl-link" href="https://twl.today" rel="noopener" aria-label="ThinkWell Labs — TWL.today">TWL.today ↗</a>
   </header>
 
   <!-- HUD CHROME — architectural reference marks -->
@@ -228,12 +252,16 @@
     <button class="ctl" aria-label="Fullscreen">⛶</button>
   </div>
 
-  <!-- ENTER (pre-disassembly) -->
-  <button id="enter" aria-label="Begin investigation">Begin Investigation</button>
-  <div id="enter-tag">— click to descend —</div>
+  <!-- Where to start -->
+  <div id="start-guide">
+    <div class="h">The System · where to start</div>
+    <p>This is the index beneath the instruments. New here? Begin at the <b>surface</b> with <b>The Substrate Attack</b> (what's happening) and <b>The Removal Economy</b> (the clearest case). Use this ring for the <b>papers</b> behind them, the <b>terminology</b>, the <b>method</b>, the <b>archive</b> — and the <b>legal</b> terms.</p>
+  </div>
 
-  <!-- Segment labels (post-disassembly) -->
+  <!-- Segment labels -->
   <div id="segment-labels" aria-label="Sections"></div>
+
+  <div class="footmark">© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script>
@@ -248,8 +276,9 @@
       { idx: 3, name: 'SYSTEMS',    sub: 'Executable substrates and operational rules.',             href: '/systems/',      color: 0xf4a8d8, css:'rose' },
       { idx: 4, name: 'ARCHIVE',    sub: 'Origin artifacts — sketches that became the instruments.', href: '/archive/',      color: 0xf4c485, css:'amber' },
       { idx: 5, name: 'GAME',       sub: 'Strata-Dom-3D — the playable substrate.',                  href: '/systems/game/', color: 0xe6e3f5, css:'pale' },
+      { idx: 6, name: 'LEGAL',      sub: 'Terms, copyright, citation, privacy, security.',          href: '/legal/',        color: 0xcfd3d7, css:'steel' },
     ];
-    const SEG_COUNT = SEGMENTS.length;       // 5 visible segments
+    const SEG_COUNT = SEGMENTS.length;       // segments tile parametrically
     const PICK_SET = new Set(SEGMENTS.filter(s => !s.dim).map(s => s.idx));
 
     // === Capability detection ===
@@ -406,29 +435,46 @@
         if (!a) return;
         const ang = seg.userData.angle;
         // Place label outside the torus on a slightly larger radius
-        const local = new THREE.Vector3(R * Math.cos(ang) * 1.55, R * Math.sin(ang) * 1.55, 0);
+        const local = new THREE.Vector3(R * Math.cos(ang) * 1.42, R * Math.sin(ang) * 1.42, 0);
         local.applyMatrix4(torus.matrixWorld);
         const p = project(local);
         if (p.z > 1){ a.style.opacity = 0; return; }
-        a.style.left = p.x + 'px';
-        a.style.top  = p.y + 'px';
+        a.style.opacity = 1;
+        const MX = 120, MY = 70;   // keep labels (and the top-bar) clear of edges
+        a.style.left = Math.max(MX, Math.min(window.innerWidth - MX, p.x)) + 'px';
+        a.style.top  = Math.max(MY, Math.min(window.innerHeight - MY, p.y)) + 'px';
       });
     }
 
-    // === State machine ===
-    let state = 'assembled';
+    // === State machine — auto-disassembled, no enter gate ===
+    let state = 'disassembled';
     const t0 = performance.now();
     let rafId = null;
+    document.body.classList.add('disassembled');
 
-    document.getElementById('enter').addEventListener('click', () => {
-      if (state !== 'assembled') return;
-      state = 'descending';
-      document.body.classList.add('descending');
-      setTimeout(() => {
-        state = 'disassembled';
-        document.body.classList.add('disassembled');
-      }, 1000);
+    // Back-button / bfcache recovery — clear any stuck transition so it never
+    // freezes on a half-faded "halo" with dead clicks.
+    window.addEventListener('pageshow', (e) => {
+      if (!e.persisted) return;
+      state = 'disassembled';
+      document.body.classList.add('disassembled');
+      labelHost.style.opacity = '';
+      camera.position.set(0, 1.2, 11); camera.lookAt(0, 0, 0);
+      segments.forEach(s => {
+        s.userData.fillMat.opacity = s.userData.cfg.dim ? 0.30 : 0.55;
+        s.userData.edgeMat.opacity = s.userData.cfg.dim ? 0.18 : 0.85;
+      });
+      cancelAnimationFrame(rafId); rafId = requestAnimationFrame(loop);
     });
+
+    // Toroidal System · go back — return to where they came from (same-origin), else home
+    (function(){
+      var b = document.getElementById('tsys-back'); if (!b) return;
+      b.addEventListener('click', function(ev){
+        var same = false; try { same = document.referrer && new URL(document.referrer).origin === location.origin; } catch(_){}
+        if (history.length > 1 && same){ ev.preventDefault(); history.back(); }
+      });
+    })();
 
     function descendInto(dest){
       if (state !== 'disassembled') return;

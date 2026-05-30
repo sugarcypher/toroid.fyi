@@ -846,6 +846,97 @@
     min-height:24px;
   }
 
+  /* ====================  COCKPIT SKIN  ============================
+     Non-destructive: everything is scoped to body.cockpit-on, so the classic
+     layout is untouched when the skin is off. The frame art sits BEHIND a
+     transparent WebGL canvas (scene.background=null), so the torus floats in
+     the art's central starfield with the neon chrome around it. Panels are
+     re-anchored into zones by layoutCockpit() (see COCKPIT_ZONES in JS). */
+  #cockpit-frame{
+    position:fixed; left:0; top:0; width:100%; height:100%; z-index:0;
+    background-image:url('../game/gameframe.PNG');
+    background-repeat:no-repeat; background-position:center; background-size:100% 100%;
+    pointer-events:none; display:none;
+    /* faint hint of the framed area if the art file isn't present yet */
+    box-shadow: inset 0 0 0 1px rgba(120,255,170,0.12);
+  }
+  body.cockpit-on #cockpit-frame{ display:block; }
+  body.cockpit-on{ background:#02040a; }
+  body.cockpit-on #stage{ position:fixed; inset:0; z-index:1; }
+  body.cockpit-on #top{ background:transparent !important; border:none !important; box-shadow:none !important; }
+  body.cockpit-on .panel,
+  body.cockpit-on #log,
+  body.cockpit-on #chat-panel,
+  body.cockpit-on #rotation-readout,
+  body.cockpit-on #top{
+    z-index:50;
+    transition: left .35s ease, top .35s ease, transform .35s ease;
+  }
+  body.cockpit-on .panel{ backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); }
+  body.cockpit-on #top{ pointer-events:none; }            /* container inert; its repositioned children re-enable */
+  body.cockpit-on #top .title{ display:none; }            /* hide the text title — the art is the frame */
+  body.cockpit-on #top-ticker, body.cockpit-on #top-pills,
+  body.cockpit-on #top-pills > *{ pointer-events:auto; }
+
+  /* --- button STATES: highlight when relevant, blink when action required --- */
+  .cp-relevant{
+    box-shadow:0 0 14px rgba(120,255,170,0.75), inset 0 0 6px rgba(120,255,170,0.35) !important;
+    border-color:rgba(150,255,190,0.9) !important; filter:brightness(1.12);
+  }
+  @keyframes cpBlink{
+    0%,100%{ box-shadow:0 0 6px rgba(255,210,80,0.35); filter:brightness(1); }
+    50%    { box-shadow:0 0 20px rgba(255,210,80,0.95), 0 0 34px rgba(255,150,40,0.6); filter:brightness(1.3); }
+  }
+  .cp-blink{ animation:cpBlink 1.1s ease-in-out infinite !important; border-color:rgba(255,210,80,0.95) !important; }
+
+  /* --- bottom-center action popup (cards + contextual assets) --- */
+  body.cockpit-on #hud-right{ transition:transform .35s cubic-bezier(.2,.8,.25,1), opacity .3s ease; }
+  body.cockpit-on #hud-right.cp-dock-hidden{
+    transform:translate(-50%,150%) scale(0.9) !important; opacity:0; pointer-events:none;
+  }
+  body.cockpit-on #hud-right .panel-head{ cursor:default; }
+  /* the right-rail panels are display:none by default — surface them in the cockpit
+     so the rail isn't empty ("nothing in place"). The dock keeps its own show/hide. */
+  body.cockpit-on #hud-dashboard, body.cockpit-on #log, body.cockpit-on #chat-panel,
+  body.cockpit-on #hud-left, body.cockpit-on #rotation-readout{
+    display:block !important; visibility:visible !important;
+  }
+  body.cockpit-on #chat-panel.hidden{ display:block !important; }
+  /* HARDEN visibility — force every managed control to paint above the frame.
+     (Diagnosing an issue where controls didn't render in the skin.) */
+  body.cockpit-on #top{ display:flex !important; visibility:visible !important; opacity:1 !important; z-index:60 !important; }
+  body.cockpit-on #top-ticker, body.cockpit-on #top-pills{ display:flex !important; visibility:visible !important; opacity:1 !important; }
+  body.cockpit-on #top-pills > *{ display:inline-flex !important; visibility:visible !important; opacity:1 !important; }
+  body.cockpit-on #hud-left, body.cockpit-on #hud-right, body.cockpit-on #hud-dashboard,
+  body.cockpit-on #log, body.cockpit-on #chat-panel, body.cockpit-on #rotation-readout{
+    display:block !important; visibility:visible !important; opacity:1 !important; z-index:60 !important;
+  }
+  body.cockpit-on #hud-right.cp-dock-hidden{ opacity:0 !important; }   /* keep the auto-dismiss able to hide the dock */
+
+  /* --- ARRANGE edit mode --- */
+  body.cockpit-edit [data-cp-id]{ outline:2px dashed rgba(120,255,170,0.7); outline-offset:2px; cursor:move !important; }
+  body.cockpit-edit #hud-right.cp-dock-hidden{ transform:translate(-50%,0) !important; opacity:1 !important; pointer-events:auto !important; }
+  /* force every managed control visible while arranging, even normally-hidden panels */
+  body.cockpit-edit #hud-dashboard, body.cockpit-edit #log, body.cockpit-edit #chat-panel,
+  body.cockpit-edit #hud-left, body.cockpit-edit #hud-right, body.cockpit-edit #rotation-readout{
+    display:block !important; opacity:1 !important; visibility:visible !important;
+  }
+  .cp-edit-tag{
+    position:fixed; z-index:200; pointer-events:none; transform:translateY(-100%);
+    background:rgba(10,30,20,0.92); color:#9affc8; font:600 10px ui-monospace,Menlo,monospace;
+    padding:1px 5px; border:1px solid rgba(120,255,170,0.5); border-radius:4px; white-space:nowrap;
+  }
+  #cp-arrange-bar{
+    position:fixed; left:50%; bottom:10px; transform:translateX(-50%); z-index:210;
+    display:flex; gap:10px; align-items:center; padding:8px 14px;
+    background:rgba(8,16,24,0.92); border:1px solid rgba(120,255,170,0.4); border-radius:10px;
+    font:12px ui-monospace,Menlo,monospace; color:#cfeede; box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  }
+  #cp-arrange-bar button{
+    font:600 12px ui-monospace,Menlo,monospace; color:#dff6e8; cursor:pointer;
+    background:rgba(120,255,170,0.10); border:1px solid rgba(120,255,170,0.4); border-radius:6px; padding:5px 10px;
+  }
+  #cp-arrange-bar button:hover{ background:rgba(120,255,170,0.22); }
 </style>
 <style id="permanent-frame">
   /* ====================  PERMANENT EDGE FRAME  ====================
@@ -1522,6 +1613,8 @@ const G = {
   disaster: { forecastRolled:false, nextAttemptRound:null, struck:false, did59:false, log:[] },
   showLabels: false,                        // board cell-label overlay visibility
   flatView: false,                          // unroll/flatten study view active
+  cockpit: false,                           // cockpit-frame skin active
+  cockpitEdit: false,                       // arrange (drag-to-place) mode active
 
   /* --- Pre-committed directional weapons (blind-upstream TWL artifacts) ---
      Both Sun flares and Moon beams have their fire direction LOCKED IN
@@ -6432,16 +6525,14 @@ function revealAll(){
   };
   const animationsRemaining = allPlots.length;
   let completed = 0;
-  let __revealResolved = false;
-  // Resolution is a fire-once function callable from BOTH the async animation
-  // callbacks AND the synchronous dead-piece skip below. Previously this body
-  // lived only inside the animation callback, so if the LAST plotted piece had
-  // already died earlier in the reveal, the callback never ran — the round
-  // stalled (stalemate) and, because clicks are ignored while animations are
-  // "pending", manual select stopped working too. Extracting it fixes both.
-  function resolveReveal(){
-        if (__revealResolved) return;
-        __revealResolved = true;
+  if (animationsRemaining === 0){ finishRound(); return; }
+  for (const plot of allPlots){
+    const piece = G.pieces.find(p => p.id === plot.pieceId);
+    if (!piece || !piece.alive){ completed++; continue; }
+    const fromPos = [...piece.pos];
+    startMoveAnimationParallel(piece, fromPos, plot.target, () => {
+      completed++;
+      if (completed >= animationsRemaining){
         // Apply effects.
         // First pass: pick out same-type pair-collisions and route to Connect-Four.
         const handledKeys = new Set();
@@ -6504,15 +6595,7 @@ function revealAll(){
         }
         // Drain any queued battles sequentially, then continue.
         drainBattleQueueThen(finishRound);
-  }
-  if (animationsRemaining === 0){ resolveReveal(); return; }
-  for (const plot of allPlots){
-    const piece = G.pieces.find(p => p.id === plot.pieceId);
-    if (!piece || !piece.alive){ completed++; if (completed >= animationsRemaining) resolveReveal(); continue; }
-    const fromPos = [...piece.pos];
-    startMoveAnimationParallel(piece, fromPos, plot.target, () => {
-      completed++;
-      if (completed >= animationsRemaining) resolveReveal();
+      }
     });
   }
 }
@@ -7345,6 +7428,7 @@ function renderHUD(){
       <button id="btn-new" style="margin-top:14px">New match</button>`;
     document.getElementById('btn-new').onclick = () => { G.winner = null; setPhase('setup'); renderHUD(); };
   }
+  if (G.cockpit){ refreshCockpitStates(); layoutCockpit(); }
 }
 renderHUD();
 
@@ -7647,6 +7731,7 @@ renderer.domElement.addEventListener('mousemove', (ev) => {
 renderer.domElement.addEventListener('mouseleave', hidePieceTooltip);
 
 renderer.domElement.addEventListener('click', (ev) => {
+  if (G.cockpitEdit) return;            // arrange mode owns pointer events
   if (G.flatView){
     log('Unroll (study) view is active — toggle <b>🌀 Unroll</b> off to plot moves.');
     sfx('invalid');
@@ -8008,6 +8093,254 @@ if (_flatBtn) _flatBtn.onclick = () => setFlatView(!G.flatView);
     if (typeof refreshRestoreRail === 'function') refreshRestoreRail();
   } catch (e) { /* non-fatal — never block the board from rendering */ }
 })();
+
+/* ====================  COCKPIT SKIN — layout engine  ==================
+   Re-anchors the main panels into the framed HUD zones. Coordinates are
+   FRACTIONS of the letterboxed frame box (0..1). Anchor codes: tl=top-left,
+   tc=top-center, tr=top-right. `s` is a per-panel scale multiplier. These are
+   first-pass estimates read off the annotation art — tweak freely, they are the
+   single source of truth for placement. */
+const COCKPIT_AR = 2600 / 1586;
+/* Every control has a permanent home. Coordinates are FRACTIONS of the
+   letterboxed frame box (0..1); a = anchor (tl/tc/tr), s = per-element scale.
+   First-pass estimates read off the annotation art — this object is the single
+   source of truth, tweak freely. The contextual action buttons (Go, Confirm,
+   Draw, Exchange, cards…) live INSIDE #hud-right, which is the bottom-center
+   auto-dismissing popup, so they ride with it and need no separate slot. */
+const COCKPIT_ZONES = {
+  // top-center status + top meta buttons (read off the annotation guide)
+  'top-ticker':       { x:0.50,  y:0.040, a:'tc', s:0.95 },  // phase / round / turn / pot — top center
+  'btn-arrange':      { x:0.045, y:0.030, a:'tl', s:0.85 },  // dev tool — top-left corner, out of the way
+  'btn-cockpit':      { x:0.60,  y:0.035, a:'tc', s:0.85 },  // skin toggle — top center, reachable
+  'btn-clear-board':  { x:0.74,  y:0.045, a:'tc', s:0.85 },  // clear board / reset → top-right structures
+  'btn-profile':      { x:0.872, y:0.126, a:'tc', s:1.00 },  // profile → the eye (detected center)
+  'lock-toggle':      { x:0.82,  y:0.205, a:'tc', s:0.95 },  // play / rotate toggle (below-left of eye)
+  'btn-rules':        { x:0.925, y:0.300, a:'tc', s:0.85 },  // rules (right edge)
+  'btn-gallery':      { x:0.22,  y:0.250, a:'tc', s:0.85 },  // piece gallery (under the top-left bars)
+  // right rail — the green-circle toggle column, top→bottom
+  'btn-labels':       { x:0.990, y:0.30, a:'tr', s:0.85 },   // label toggle
+  'btn-flat':         { x:0.990, y:0.37, a:'tr', s:0.85 },   // unroll toggle
+  'hud-dashboard':    { x:0.995, y:0.44, a:'tr', s:0.52 },   // match dashboard (compact, hugs rail)
+  'chat-panel':       { x:0.995, y:0.58, a:'tr', s:0.52 },   // chat (compact)
+  'log':              { x:0.995, y:0.72, a:'tr', s:0.50 },   // action log (compact)
+  // left rail + bottom
+  'hud-left':         { x:0.012, y:0.33, a:'tl', s:0.80 },   // piece reference (left edge, narrowed)
+  'hud-right':        { x:0.42,  y:0.72, a:'tc', s:0.95 },   // bottom-center action popup (cards/assets dock)
+  'rotation-readout': { x:0.02,  y:0.80, a:'tl', s:0.90 },   // θ/φ compass (bottom-left ring)
+};
+function cockpitFrameBox(){
+  const W = window.innerWidth, H = window.innerHeight;
+  const fw = Math.min(W, H * COCKPIT_AR);
+  const fh = fw / COCKPIT_AR;
+  return { x:(W - fw) / 2, y:(H - fh) / 2, w:fw, h:fh };
+}
+/* Working layout = defaults overlaid with any saved arrangement (localStorage),
+   so your drag-placed positions survive refreshes. */
+let COCKPIT_LAYOUT = JSON.parse(JSON.stringify(COCKPIT_ZONES));
+try {
+  const saved = JSON.parse(localStorage.getItem('cockpitLayout') || 'null');
+  if (saved) for (const k in saved) COCKPIT_LAYOUT[k] = Object.assign({}, COCKPIT_LAYOUT[k], saved[k]);
+} catch (e) {}
+function saveCockpitLayout(){ try { localStorage.setItem('cockpitLayout', JSON.stringify(COCKPIT_LAYOUT)); } catch(e){} }
+
+function layoutCockpit(){
+  if (!document.body.classList.contains('cockpit-on')) return;
+  const f = cockpitFrameBox();
+  const fr = document.getElementById('cockpit-frame');
+  if (fr){ fr.style.left = f.x + 'px'; fr.style.top = f.y + 'px'; fr.style.width = f.w + 'px'; fr.style.height = f.h + 'px'; }
+  // Readable by default: scale UP a touch on big frames, only gently down on small ones.
+  const base = Math.max(0.8, Math.min(1.35, f.w / 1500));
+  for (const id in COCKPIT_LAYOUT){
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const z = COCKPIT_LAYOUT[id];
+    const a = z.a || 'tl';
+    const px = f.x + z.x * f.w, py = f.y + z.y * f.h;
+    const tx = a === 'tc' ? '-50%' : a === 'tr' ? '-100%' : '0';
+    el.style.position = 'fixed';
+    el.style.right = 'auto'; el.style.bottom = 'auto'; el.style.margin = '0';
+    el.style.left = px + 'px'; el.style.top = py + 'px';
+    el.style.transformOrigin = a === 'tr' ? 'top right' : a === 'tc' ? 'top center' : 'top left';
+    el.style.transform = `translate(${tx},0) scale(${(base * (z.s || 1)).toFixed(3)})`;
+    el.dataset.cpId = id;
+  }
+  if (G.cockpitEdit) positionEditTags(f);
+}
+
+/* ====================  ARRANGE (drag-to-place) editor  ================
+   Drag any managed control to reposition it (stored as a top-left fraction of
+   the frame box); scroll over it to resize. Saves to localStorage on every
+   change. "Export" copies a paste-ready COCKPIT_ZONES so positions can be baked
+   in as defaults. */
+const CP_LABELS = {
+  'top-ticker':'Status pills','btn-clear-board':'Clear / Reset','btn-profile':'Profile',
+  'lock-toggle':'Play / Rotate','btn-rules':'Rules','btn-gallery':'Gallery','btn-cockpit':'Cockpit toggle',
+  'btn-labels':'Labels','btn-flat':'Unroll','hud-dashboard':'Dashboard','log':'Action log','chat-panel':'Chat',
+  'hud-left':'Piece reference','hud-right':'Action dock / cards','rotation-readout':'Compass',
+};
+let _cpDrag = null;
+function positionEditTags(f){
+  for (const id in COCKPIT_LAYOUT){
+    const el = document.getElementById(id); if (!el) continue;
+    let tag = document.getElementById('cptag-' + id);
+    if (!tag){
+      tag = document.createElement('div'); tag.id = 'cptag-' + id; tag.className = 'cp-edit-tag';
+      tag.textContent = CP_LABELS[id] || id;
+      document.body.appendChild(tag);
+    }
+    const r = el.getBoundingClientRect();
+    tag.style.left = r.left + 'px';
+    tag.style.top  = Math.max(2, r.top - 16) + 'px';
+  }
+}
+function cockpitArrangeDown(ev){
+  if (!G.cockpitEdit) return;
+  const el = ev.target.closest('[data-cp-id]');
+  if (!el) return;
+  const id = el.dataset.cpId;
+  if (!COCKPIT_LAYOUT[id]) return;
+  ev.preventDefault(); ev.stopPropagation();
+  const r = el.getBoundingClientRect();
+  _cpDrag = { id, el, dx: ev.clientX - r.left, dy: ev.clientY - r.top, moved:false };
+  window.addEventListener('pointermove', cockpitArrangeMove, true);
+  window.addEventListener('pointerup', cockpitArrangeUp, true);
+}
+function cockpitArrangeMove(ev){
+  if (!_cpDrag) return;
+  ev.preventDefault();
+  _cpDrag.moved = true;
+  const f = cockpitFrameBox();
+  const left = ev.clientX - _cpDrag.dx, top = ev.clientY - _cpDrag.dy;
+  const z = COCKPIT_LAYOUT[_cpDrag.id];
+  z.a = 'tl';                                  // dragging normalizes to a top-left anchor
+  z.x = (left - f.x) / f.w;
+  z.y = (top  - f.y) / f.h;
+  layoutCockpit();
+}
+function cockpitArrangeUp(ev){
+  window.removeEventListener('pointermove', cockpitArrangeMove, true);
+  window.removeEventListener('pointerup', cockpitArrangeUp, true);
+  if (_cpDrag && _cpDrag.moved){ saveCockpitLayout(); }
+  // swallow the click that would otherwise fire the control
+  if (_cpDrag && _cpDrag.moved){ const k = (e)=>{ e.stopPropagation(); e.preventDefault(); window.removeEventListener('click', k, true); }; window.addEventListener('click', k, true); }
+  _cpDrag = null;
+}
+function cockpitArrangeWheel(ev){
+  if (!G.cockpitEdit) return;
+  const el = ev.target.closest('[data-cp-id]'); if (!el) return;
+  const id = el.dataset.cpId; if (!COCKPIT_LAYOUT[id]) return;
+  ev.preventDefault();
+  const z = COCKPIT_LAYOUT[id];
+  z.s = Math.max(0.4, Math.min(2.6, (z.s || 1) + (ev.deltaY < 0 ? 0.06 : -0.06)));
+  layoutCockpit(); saveCockpitLayout();
+}
+function buildArrangeBar(){
+  if (document.getElementById('cp-arrange-bar')) return;
+  const bar = document.createElement('div');
+  bar.id = 'cp-arrange-bar';
+  bar.innerHTML = `<span style="font-weight:700;color:#9affc8">🧩 Arrange</span>
+    <span style="opacity:.8">drag to place · scroll to resize</span>
+    <button id="cp-export">Export coords</button>
+    <button id="cp-reset">Reset</button>
+    <button id="cp-done" style="background:rgba(120,255,170,.2)">Done</button>`;
+  document.body.appendChild(bar);
+  document.getElementById('cp-done').onclick = () => cockpitArrange(false);
+  document.getElementById('cp-reset').onclick = () => {
+    COCKPIT_LAYOUT = JSON.parse(JSON.stringify(COCKPIT_ZONES));
+    try { localStorage.removeItem('cockpitLayout'); } catch(e){}
+    layoutCockpit();
+  };
+  document.getElementById('cp-export').onclick = () => {
+    const clean = {};
+    for (const k in COCKPIT_LAYOUT){ const z = COCKPIT_LAYOUT[k]; clean[k] = { x:+z.x.toFixed(4), y:+z.y.toFixed(4), a:z.a||'tl', s:+(z.s||1).toFixed(3) }; }
+    const txt = JSON.stringify(clean, null, 2);
+    try { navigator.clipboard.writeText(txt); } catch(e){}
+    console.log('COCKPIT_LAYOUT export:\n' + txt);
+    const b = document.getElementById('cp-export'); const o = b.textContent; b.textContent = 'Copied ✓'; setTimeout(()=>b.textContent=o, 1200);
+  };
+}
+function cockpitArrange(on){
+  G.cockpitEdit = !!on;
+  document.body.classList.toggle('cockpit-edit', !!on);
+  const btn = document.getElementById('btn-arrange');
+  if (btn) btn.textContent = on ? '🧩 Arrange: on' : '🧩 Arrange';
+  if (on){
+    if (!G.cockpit) setCockpit(true);
+    const dock = document.getElementById('hud-right'); if (dock) dock.classList.remove('cp-dock-hidden');
+    buildArrangeBar();
+    window.addEventListener('pointerdown', cockpitArrangeDown, true);
+    window.addEventListener('wheel', cockpitArrangeWheel, { capture:true, passive:false });
+    layoutCockpit();
+  } else {
+    window.removeEventListener('pointerdown', cockpitArrangeDown, true);
+    window.removeEventListener('wheel', cockpitArrangeWheel, true);
+    document.querySelectorAll('.cp-edit-tag').forEach(n => n.remove());
+    const bar = document.getElementById('cp-arrange-bar'); if (bar) bar.remove();
+    refreshCockpitStates();
+  }
+}
+/* Highlight (relevant) / blink (action-required) + auto-dismissing dock.
+   Called from renderHUD whenever cockpit is on, so states track game phase. */
+function cpSet(id, cls, on){
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle(cls, !!on);
+}
+function refreshCockpitStates(){
+  if (!G.cockpit) return;
+  const me = G.activePlayer;
+  const myTurn = (me != null) && !isAI(me);
+  const idle = !activeAnimation && parallelAnimations.size === 0;
+  // The bottom-center popup (the dock) is SHOWN only when this human seat has an
+  // action to take; sealing the plot (ready) or an AI/reveal beat auto-dismisses it.
+  let showDock = false;
+  if (G.phase === 'setup') showDock = true;
+  else if (idle && myTurn && (G.phase === 'plot' || G.phase === 'weapon-commit' || G.phase === 'node-place')){
+    showDock = !(G.phase === 'plot' && G.ready && G.ready[me]);
+  }
+  cpSet('hud-right', 'cp-dock-hidden', !showDock);
+  // Blink the primary call-to-action; highlight what's merely available.
+  cpSet('btn-start',  'cp-blink', G.phase === 'setup');
+  cpSet('btn-go',     'cp-blink', showDock && G.phase === 'plot' && (G.plotted[me] || []).length > 0 && !(G.ready && G.ready[me]));
+  cpSet('btn-go-big', 'cp-blink', showDock && G.phase === 'plot' && (G.plotted[me] || []).length > 0 && !(G.ready && G.ready[me]));
+  const canDraw = myTurn && G.hand && G.hand[me] && G.hand[me].length < (typeof MAX_HAND_SIZE !== 'undefined' ? MAX_HAND_SIZE : 5);
+  cpSet('btn-draw', 'cp-relevant', !!canDraw);
+  // Right-rail toggles glow when their overlay is active.
+  cpSet('btn-labels', 'cp-relevant', !!G.showLabels);
+  cpSet('btn-flat',   'cp-relevant', !!G.flatView);
+}
+
+function setCockpit(on){
+  on = !!on;
+  G.cockpit = on;
+  document.body.classList.toggle('cockpit-on', on);
+  if (on){
+    if (typeof scene !== 'undefined') scene.background = null;     // float the board over the art
+    layoutCockpit();
+    refreshCockpitStates();
+    requestAnimationFrame(layoutCockpit);                          // re-measure after panels reflow
+  } else {
+    if (typeof scene !== 'undefined') scene.background = new THREE.Color(0x0a0712);
+    for (const id in COCKPIT_LAYOUT){                              // clear inline overrides → classic CSS resumes
+      const el = document.getElementById(id);
+      if (!el) continue;
+      ['position','left','top','right','bottom','margin','transform','transformOrigin'].forEach(p => el.style[p] = '');
+    }
+    // drop popup + state classes so the classic layout is pristine
+    ['hud-right','btn-start','btn-go','btn-go-big','btn-draw','btn-labels','btn-flat'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('cp-dock-hidden','cp-blink','cp-relevant');
+    });
+  }
+  const b = document.getElementById('btn-cockpit');
+  if (b) b.textContent = on ? '🛰 Cockpit: on' : '🛰 Cockpit: off';
+}
+window.addEventListener('resize', layoutCockpit);
+const _cockpitBtn = document.getElementById('btn-cockpit');
+if (_cockpitBtn) _cockpitBtn.onclick = () => setCockpit(!G.cockpit);
+const _arrangeBtn = document.getElementById('btn-arrange');
+if (_arrangeBtn) _arrangeBtn.onclick = () => cockpitArrange(!G.cockpitEdit);
+// Cockpit skin retired — keyboard toggle removed so it can't re-hide the torus.
+// Cockpit starts OFF (classic layout) — opt in via the 🛰 button or the "K" key.
 
 /* ====================  BOTTOM RESTORE RAIL  ==============================
    When any panel is hidden, a slim strip at the bottom shows a chip per
