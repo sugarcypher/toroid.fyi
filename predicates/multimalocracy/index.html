@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multimalocracy · 42-mode taxonomy · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#c6b2ff; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(198,178,255,0.05), transparent 70%); }
+
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+
+    main { position:relative; z-index:5; max-width:780px; margin:0 auto; padding:130px 6vw 120px; }
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:200; font-size:clamp(32px, 4.5vw, 48px); margin:0 0 12px; letter-spacing:0.005em; line-height:1.15; }
+    .gloss { font-size:17px; font-weight:300; color:#bdb7d5; margin:0 0 16px; line-height:1.55; font-style:italic; }
+    .byline { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.18em; margin:0 0 8px; }
+    .source-link { display:inline-block; margin:14px 0 56px; font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(198,178,255,0.40); padding-bottom:3px; }
+    .source-link:hover { color:#fff; }
+
+    h2 { font-weight:300; font-size:16px; letter-spacing:0.20em; text-transform:uppercase; color:var(--accent); margin:48px 0 16px; }
+    p { line-height:1.75; color:#cdc7e0; font-size:16px; font-weight:300; margin:0 0 18px; }
+    p i, em { color:var(--accent); font-style:normal; }
+    p strong, p b { color:var(--fg); font-weight:400; }
+    blockquote { margin:24px 0; padding:6px 0 6px 20px; border-left:2px solid rgba(198,178,255,0.40); color:var(--fg); font-size:16.5px; font-weight:300; line-height:1.7; }
+
+    .cluster { margin:32px 0 20px; padding:24px 0 0; border-top:1px solid rgba(198,178,255,0.18); }
+    .cluster .label { display:flex; align-items:baseline; gap:14px; margin-bottom:18px; }
+    .cluster .swatch { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .cluster .name { font-size:14px; color:var(--fg); font-weight:500; letter-spacing:0.10em; text-transform:uppercase; }
+    .cluster .count { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.20em; margin-left:auto; }
+
+    .modes { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:10px 16px; margin:0 0 8px; }
+    .mode { padding:10px 0 10px 28px; position:relative; border-bottom:1px solid rgba(198,178,255,0.08); }
+    .mode .num { position:absolute; left:0; top:11px; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.10em; }
+    .mode .name { color:var(--accent); font-size:13.5px; font-weight:500; letter-spacing:0.02em; }
+    .mode .desc { color:#bdb7d5; font-size:12.5px; line-height:1.5; font-weight:300; margin-top:2px; }
+    .mode.core { background:rgba(198,178,255,0.04); padding-left:36px; padding-right:8px; margin-left:-8px; }
+    .mode.core .num { left:8px; }
+
+    .green .swatch { background:#7cd8a4; box-shadow:0 0 8px rgba(124,216,164,0.5); }
+    .red .swatch { background:#ec7a8a; box-shadow:0 0 8px rgba(236,122,138,0.5); }
+    .yellow .swatch { background:#e8c66b; box-shadow:0 0 8px rgba(232,198,107,0.5); }
+    .blue .swatch { background:#7dabea; box-shadow:0 0 8px rgba(125,171,234,0.5); }
+    .purple .swatch { background:#c89aea; box-shadow:0 0 8px rgba(200,154,234,0.5); }
+    .pink .swatch { background:#ec8ec3; box-shadow:0 0 8px rgba(236,142,195,0.5); }
+
+    .footnote { margin-top:80px; padding-top:24px; border-top:1px solid rgba(198,178,255,0.15); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; line-height:1.7; }
+    .footnote a { color:var(--accent); text-decoration:none; }
+
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <a href="/predicates/">predicates</a> <span class="sep">/</span>
+    <span class="here">multimalocracy</span>
+  </div>
+
+  <main>
+    <p class="meta-line">Layer II · discriminative-vocabulary apparatus</p>
+    <h1>Multimalocracy · 42-mode taxonomy</h1>
+    <p class="gloss">A controlled vocabulary of 42 governance modes, organized across six clusters. Built specifically to make Sabbotarchy distinguishable from adjacent modes that would otherwise absorb the cases.</p>
+    <p class="byline">B. Greenway · ThinkWell Labs · with proposed additions in revision v0.1</p>
+    <a class="source-link" href="/poly/multimalocracy_revision_proposal.md">↗ Open revision proposal (Markdown)</a>
+
+    <h2>Why a controlled vocabulary</h2>
+    <p>The standard governance lexicon — <i>corruption, capture, incompetence, dysfunction</i> — flattens distinct operational modes into a handful of casual labels. Critical analysis collapses because the words don't discriminate.</p>
+
+    <blockquote>The taxonomy is not a description of contemporary governance. It is the <b>discriminative infrastructure required</b> to describe contemporary governance accurately.</blockquote>
+
+    <p>Each mode is a distinct analytical predicate. Combinations are operationally significant: a single phenomenon often exhibits several modes simultaneously, and the <b>density</b> itself is structurally meaningful. <i>Primary-vs-protective</i> readings (e.g., Sabbotarchy operating with Kakistocracy as its protective framing layer) produce accuracy that single-mode reading cannot reach.</p>
+
+    <h2>The six clusters</h2>
+
+    <div class="cluster green">
+      <div class="label"><span class="swatch"></span><span class="name">Wealth and Power Concentration</span><span class="count">cluster 1 · 6 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">01</span><div class="name">Plutocracy</div><div class="desc">Rule by the wealthy. Touches every cluster.</div></div>
+        <div class="mode core"><span class="num">02</span><div class="name">Corporatocracy</div><div class="desc">Rule by corporations. Connects to External &amp; Manipulation.</div></div>
+        <div class="mode"><span class="num">03</span><div class="name">Complexocracy</div><div class="desc">Industrial dominance; overlaps Corporatocracy.</div></div>
+        <div class="mode"><span class="num">04</span><div class="name">Scarcityocracy</div><div class="desc">Manufactured scarcity; overlaps Dysfunction.</div></div>
+        <div class="mode"><span class="num">05</span><div class="name">Oligarchy</div><div class="desc">Elite rule; near Plutocracy.</div></div>
+        <div class="mode"><span class="num">06</span><div class="name">Adversarocracy</div><div class="desc">Conflict-driven rule; bridges Dysfunction and Social.</div></div>
+      </div>
+    </div>
+
+    <div class="cluster red">
+      <div class="label"><span class="swatch"></span><span class="name">Deception and Manipulation</span><span class="count">cluster 2 · 8 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">07</span><div class="name">Manipulocracy</div><div class="desc">Dominates this cluster; connects to Optics and Social.</div></div>
+        <div class="mode"><span class="num">08</span><div class="name">Pseudocracy</div><div class="desc">Rule by lies; overlaps Optics and Dysfunction.</div></div>
+        <div class="mode"><span class="num">09</span><div class="name">Narratocracy</div><div class="desc">Control of storytelling; connects to Social.</div></div>
+        <div class="mode"><span class="num">10</span><div class="name">Marketerocracy</div><div class="desc">Branding-driven rule; overlaps Optics.</div></div>
+        <div class="mode"><span class="num">11</span><div class="name">Mediocracy</div><div class="desc">Media-driven; between Optics and Deception.</div></div>
+        <div class="mode"><span class="num">12</span><div class="name">Spectaculocracy</div><div class="desc">Rule by spectacle; overlaps Optics heavily.</div></div>
+        <div class="mode"><span class="num">13</span><div class="name">Propheticocracy</div><div class="desc">Speculative-futures rule; near External and Hidden.</div></div>
+        <div class="mode"><span class="num">14</span><div class="name">Obfuscracy</div><div class="desc">Intentional complexity; overlaps Bureaucracy.</div></div>
+      </div>
+    </div>
+
+    <div class="cluster yellow">
+      <div class="label"><span class="swatch"></span><span class="name">Dysfunction and Stagnation</span><span class="count">cluster 3 · 9 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">15</span><div class="name">Kakistocracy</div><div class="desc">Rule by the worst — dominates this cluster.</div></div>
+        <div class="mode core"><span class="num">16</span><div class="name">Ignorocracy</div><div class="desc">Rule by ignorance; overlaps Deception.</div></div>
+        <div class="mode"><span class="num">17</span><div class="name">Ridiculocracy</div><div class="desc">Absurdity in governance; overlaps Optics.</div></div>
+        <div class="mode"><span class="num">18</span><div class="name">Polygarkracy</div><div class="desc">Chaotic factionalism; connects to Social.</div></div>
+        <div class="mode"><span class="num">19</span><div class="name">Limitocracy</div><div class="desc">Artificial constraints; overlaps Scarcity.</div></div>
+        <div class="mode"><span class="num">20</span><div class="name">Crisisocracy</div><div class="desc">Rule through crises; intersects Fear in Social.</div></div>
+        <div class="mode"><span class="num">21</span><div class="name">Anemocracy</div><div class="desc">Directionless governance; overlaps Optics.</div></div>
+        <div class="mode"><span class="num">22</span><div class="name">Bureaucratocracy</div><div class="desc">Rule by bureaucracy; near Cryptocracy.</div></div>
+        <div class="mode"><span class="num">23</span><div class="name">Cynicocracy</div><div class="desc">Public-cynicism exploitation; connects to Manipulocracy.</div></div>
+      </div>
+    </div>
+
+    <div class="cluster blue">
+      <div class="label"><span class="swatch"></span><span class="name">External and Hidden Influences</span><span class="count">cluster 4 · 6 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">24</span><div class="name">Cryptocracy</div><div class="desc">Rule by secrecy; overlaps Plutocracy and Espionocracy.</div></div>
+        <div class="mode"><span class="num">25</span><div class="name">Espionocracy</div><div class="desc">Intelligence-agency dominance.</div></div>
+        <div class="mode"><span class="num">26</span><div class="name">Diplocracy</div><div class="desc">Rule by diplomats and agreements; bridges Wealth and External.</div></div>
+        <div class="mode"><span class="num">27</span><div class="name">Algorithmocracy</div><div class="desc">AI and data-driven governance; connects to Corporatocracy.</div></div>
+        <div class="mode"><span class="num">28</span><div class="name">Faithocracy</div><div class="desc">Ideology-driven rule; overlaps Social and Deception.</div></div>
+        <div class="mode"><span class="num">29</span><div class="name">Xenocracy</div><div class="desc">Foreign-power influence; overlaps Cryptocracy and Diplocracy.</div></div>
+      </div>
+    </div>
+
+    <div class="cluster purple">
+      <div class="label"><span class="swatch"></span><span class="name">Social and Cultural Dynamics</span><span class="count">cluster 5 · 7 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">30</span><div class="name">Faithocracy</div><div class="desc">Religious-ideology rule (cross-cluster with Blue).</div></div>
+        <div class="mode core"><span class="num">31</span><div class="name">Ethnocracy</div><div class="desc">Ethnic dominance; near Faithocracy and Xenocracy.</div></div>
+        <div class="mode"><span class="num">32</span><div class="name">Fameocracy</div><div class="desc">Celebrity-driven rule; intersects Optics and Manipulation.</div></div>
+        <div class="mode"><span class="num">33</span><div class="name">Fearocracy</div><div class="desc">Fear-driven governance; near Crisisocracy.</div></div>
+        <div class="mode"><span class="num">34</span><div class="name">Nostalgocracy</div><div class="desc">Rule by nostalgia; overlaps Fearocracy.</div></div>
+        <div class="mode"><span class="num">35</span><div class="name">Pathocracy</div><div class="desc">Psychological dysfunction in leadership.</div></div>
+        <div class="mode"><span class="num">36</span><div class="name">Thanatocracy</div><div class="desc">Death-driven governance; intersects Dysfunction and Hidden Influences.</div></div>
+      </div>
+    </div>
+
+    <div class="cluster pink">
+      <div class="label"><span class="swatch"></span><span class="name">Governance by Optics</span><span class="count">cluster 6 · 4 modes</span></div>
+      <div class="modes">
+        <div class="mode core"><span class="num">37</span><div class="name">Marketerocracy</div><div class="desc">Branding-based governance (cross-cluster with Red).</div></div>
+        <div class="mode"><span class="num">38</span><div class="name">Performocracy</div><div class="desc">Governance by performance; overlaps Spectaculocracy.</div></div>
+        <div class="mode"><span class="num">39</span><div class="name">Spectaculocracy</div><div class="desc">Rule by spectacle (cross-cluster with Red).</div></div>
+        <div class="mode"><span class="num">40</span><div class="name">Ridiculocracy</div><div class="desc">Rule by absurdity (cross-cluster with Yellow).</div></div>
+      </div>
+    </div>
+
+    <div class="cluster" style="border-top-style:dashed;">
+      <div class="label"><span class="swatch" style="background:#b6a4ff; box-shadow:0 0 8px rgba(182,164,255,0.5)"></span><span class="name">Cross-Cluster Intersections</span><span class="count">edge modes · 2</span></div>
+      <div class="modes">
+        <div class="mode"><span class="num">41</span><div class="name">Consumerocracy</div><div class="desc">Wealth ↔ Optics. Consumerism drives corporate &amp; branding decisions.</div></div>
+        <div class="mode"><span class="num">42</span><div class="name">Dichotocracy</div><div class="desc">Deception ↔ Dysfunction. False binaries dominate.</div></div>
+      </div>
+    </div>
+
+    <h2>Proposed additions (matrix-derived)</h2>
+    <p>Two modes were generated during Convergence Topology construction and are proposed for inclusion in the next taxonomy revision:</p>
+    <div class="modes" style="margin:18px 0 24px;">
+      <a class="mode" href="/predicates/imperocracy/" style="text-decoration:none; display:block;"><span class="num">43</span><div class="name">Imperocracy</div><div class="desc">Rule by unbounded executive operating outside enforceable check. Surfaced by sub-topology assembly (cells 7.13 + 7.14 + 7.15).</div></a>
+      <a class="mode" href="/predicates/documentocracy/" style="text-decoration:none; display:block;"><span class="num">44</span><div class="name">Documentocracy</div><div class="desc">Rule by apparatus-holders capturing credit from originators. Surfaced by attribution-correction during construction.</div></a>
+    </div>
+
+    <h2>The originating concept</h2>
+    <p><b>Sabbotarchy</b> occupies a special position in the taxonomy. It is the mode that operates <i>behind</i> other modes — providing the operational cover that allows the other modes to proceed without conventional accountability. The <a href="/predicates/obfuscratic/" style="color:var(--accent); text-decoration:none">Obfuscratic</a> modifier is what enables that operational position. The full concept-name is <b>Obfuscratic Sabbotarchy</b>; the taxonomy slot is filled by the regime-form noun, Sabbotarchy.</p>
+
+    <div class="footnote">
+      Source: Greenway, B. <i>Multimalocracy Taxonomy Revision Proposal v0.1.</i> ThinkWell Labs, 2026. Full text: <a href="/poly/multimalocracy_revision_proposal.md">markdown</a>. Original diagrams: <a href="/Multimalocracy2.pdf">v2 PDF</a> · <a href="/multimalocracy3.pdf">v3 PDF</a>. Per-mode pages — <a href="/predicates/sabbotarchy/">sabbotarchy</a>, <a href="/predicates/obfuscratic/">obfuscratic</a>, <a href="/predicates/imperocracy/">imperocracy</a>, <a href="/predicates/documentocracy/">documentocracy</a>.
+    </div>
+  </main>
+
+  <footer>layer ii · predicates</footer>
+</body>
+</html>

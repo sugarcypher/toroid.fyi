@@ -34,6 +34,16 @@ canvas{display:block}
 </style>
 </head>
 <body>
+<!-- shared live-condition marker → /substrate-attack/ -->
+<a href="/substrate-attack/" class="sa-marker" aria-label="The Substrate Attack — the live condition beneath every instrument"><span class="sa-dot"></span><span class="sa-label">The&nbsp;Substrate&nbsp;Attack</span></a>
+<style>
+.sa-marker{position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(8,6,14,0.82);border:1px solid rgba(242,118,107,0.55);color:#f4d9d4;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.35);transition:border-color .2s,color .2s,transform .2s;}
+.sa-marker:hover{border-color:#f2766b;color:#fff;transform:translateY(-1px);}
+.sa-marker .sa-dot{width:7px;height:7px;border-radius:50%;background:#f2766b;flex:none;animation:saPulse 2.4s ease-out infinite;}
+@keyframes saPulse{0%{box-shadow:0 0 0 0 rgba(242,118,107,.55);}70%{box-shadow:0 0 0 7px rgba(242,118,107,0);}100%{box-shadow:0 0 0 0 rgba(242,118,107,0);}}
+@media (prefers-reduced-motion:reduce){.sa-marker .sa-dot{animation:none;}}
+@media (max-width:600px){.sa-marker .sa-label{display:none;}.sa-marker{padding:9px;}}
+</style>
 <div id="ui">
   <div id="title">
     <h1>Polymorphic Matrix of Systemic Political Pressure</h1>

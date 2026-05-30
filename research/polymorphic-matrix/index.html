@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polymorphic Matrix · Circulation Topology · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#9adfe0; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(154,223,224,0.06), transparent 70%); }
+
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+
+    main { position:relative; z-index:5; max-width:720px; margin:0 auto; padding:130px 6vw 120px; }
+
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:200; font-size:clamp(30px, 4.2vw, 44px); margin:0 0 12px; letter-spacing:0.005em; line-height:1.18; }
+    .subtitle { font-size:17px; font-weight:300; color:#bdb7d5; margin:0 0 16px; line-height:1.5; }
+    .byline { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.18em; margin:0 0 8px; }
+    .source-link { display:inline-block; margin:18px 0 56px; font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(154,223,224,0.45); padding-bottom:3px; transition:all 220ms ease; }
+    .source-link:hover { color:#fff; border-color:#fff; }
+
+    h2 { font-weight:300; font-size:18px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:56px 0 18px; }
+    h3 { font-weight:400; font-size:15px; color:var(--fg); margin:32px 0 10px; letter-spacing:0.02em; }
+
+    p { line-height:1.75; color:#cdc7e0; font-size:16px; font-weight:300; margin:0 0 18px; }
+    p i, em { color:var(--accent); font-style:normal; }
+    p strong, p b { color:var(--fg); font-weight:400; }
+
+    blockquote { margin:24px 0; padding:6px 0 6px 20px; border-left:2px solid rgba(154,223,224,0.40); color:var(--fg); font-size:17px; font-weight:300; line-height:1.7; }
+
+    .layers { margin:24px 0 28px; padding:0; list-style:none; }
+    .layers li { padding:16px 0 16px 0; border-bottom:1px solid rgba(154,223,224,0.10); font-size:15.5px; line-height:1.7; color:#cdc7e0; font-weight:300; }
+    .layers li b { display:block; color:var(--accent); font-weight:400; margin-bottom:4px; font-size:13px; letter-spacing:0.10em; text-transform:uppercase; }
+
+    .implications { display:flex; flex-direction:column; gap:18px; margin:24px 0 32px; }
+    .implication { padding:18px 22px; border:1px solid rgba(154,223,224,0.18); border-left:3px solid var(--accent); }
+    .implication .num { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.28em; text-transform:uppercase; margin:0 0 8px; }
+    .implication .body { font-size:15px; line-height:1.65; color:#cdc7e0; font-weight:300; margin:0; }
+    .implication .body b { color:var(--fg); font-weight:500; }
+
+    .footnote { margin-top:80px; padding-top:24px; border-top:1px solid rgba(154,223,224,0.15); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; line-height:1.7; }
+    .footnote a { color:var(--accent); text-decoration:none; }
+
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <a href="/research/">research</a> <span class="sep">/</span>
+    <span class="here">polymorphic matrix</span>
+  </div>
+
+  <main>
+    <p class="meta-line">Layer II · extension paper</p>
+    <h1>The Polymorphic Matrix as Circulation Topology</h1>
+    <p class="subtitle">An extension paper connecting circulation dynamics to actor-mechanism-substrate analysis.</p>
+    <p class="byline">B. Greenway · ThinkWell Labs · Draft v0.1</p>
+    <a class="source-link" href="/Polymorphic%20Matrix/torusfilesfinal/polymorphic_matrix_extension_paper.md">↗ Open full paper (Markdown, 8 sections)</a>
+
+    <h2>Preface</h2>
+    <p>The Polymorphic Matrix predates the Convergence Topology in the ThinkWell Labs portfolio — developed as a toroidal Three.js visualization accompanied by the white paper <i>Toward a Circulatory Theory of Governance Stability</i>. This extension does not restate that work. It connects circulation dynamics to actor-mechanism analysis, governance-mode taxonomy, and substrate analysis as developed in the three sibling papers of the broader portfolio.</p>
+
+    <h2>The circulation framework, as foundation</h2>
+    <p>Governance stability is properly understood as a <b>circulation property</b>. Pressure flows through governance systems via multiple channels — informational, financial, electoral, legal, normative — and stable governance requires that circulation patterns route pressure to mechanisms capable of metabolizing it. Distorted circulation produces accumulation at chokepoints, starvation at endpoints, and the systemic failures that follow when circulation breaks down at scale.</p>
+
+    <p>The framework's analytical move is to refuse the static-state framing that dominates conventional political analysis. Governance is not a structure in some state and then another state; it is <i>a circulation system whose state at any moment is the integral of its flow patterns</i>. The diagnostic question is not "what is the state of governance" but "what are the circulation patterns currently doing."</p>
+
+    <p>The framework's toroidal topology is methodologically significant in itself:</p>
+    <ul style="margin:10px 0 24px; padding:0 0 0 18px; list-style:none;">
+      <li style="padding:6px 0; line-height:1.6; color:#cdc7e0; font-size:15px; position:relative;"><span style="position:absolute; left:-18px; color:var(--accent)">·</span>No boundary — pressure cannot exit a governance system, only redistribute within it</li>
+      <li style="padding:6px 0; line-height:1.6; color:#cdc7e0; font-size:15px; position:relative;"><span style="position:absolute; left:-18px; color:var(--accent)">·</span>Two independent circulation axes — toroidal and poloidal flows can be independently obstructed or accelerated</li>
+      <li style="padding:6px 0; line-height:1.6; color:#cdc7e0; font-size:15px; position:relative;"><span style="position:absolute; left:-18px; color:var(--accent)">·</span>A central hole — some pressure cannot be metabolized and must route around load-bearing institutions</li>
+    </ul>
+    <p>The geometry carries analytical content; the visualization is not decorative but diagnostic.</p>
+
+    <h2>The four-layer analytical stack</h2>
+    <p>The circulation framework operates at the <b>systemic</b> layer. Three sibling frameworks operate at layers that sit inside it:</p>
+
+    <ol class="layers">
+      <li><b>Circulation — systemic</b>Polymorphic Matrix. Pressure topology framework; the systemic-layer diagnostic. How flows route, accumulate, starve, and synchronize across the governance manifold.</li>
+      <li><b>Substrate — infrastructure</b>Industrial Complexes diagram. The five complexes (PetroMedical, Prison &amp; Labor, Sugar &amp; Food, Tech-media, GovMilitary) are the captured infrastructure through which circulation occurs. Capture at the substrate layer distorts circulation: pressure entering at one node routes to nodes inside the complex rather than outside it.</li>
+      <li><b>Mode — operating pattern</b>Multimalocracy taxonomy. The 42 modes describe how power is exercised; each operates inside circulation patterns that either enable or constrain it. Plutocracy is enabled by financial→political pressure routing; constrained by public financing, lobbying restrictions, revolving-door bans.</li>
+      <li><b>Cell — event</b>Convergence Topology. Each cell documents a specific operating event — an action by an actor coalition through a mechanism against a target. Cells are pressure events in the broader topology; they aggregate into the systemic patterns the matrix maps.</li>
+    </ol>
+
+    <p>Reading any single layer alone produces incomplete analysis. <i>Reading all four together produces analytical depth that none of the four can achieve individually.</i></p>
+
+    <h2>Cells as pressure events</h2>
+    <p>The cells in the Convergence Topology are not list items; they are pressure events in a circulation topology. Each cell represents a moment where pressure enters, leaves, accumulates, or is redirected.</p>
+
+    <h3>The OBBBA cell cluster (7.12, 7.13, 7.29) as circulation event</h3>
+    <p>Actor-target reading: Congressional majority enacts statutory changes affecting Medicaid populations, judicial enforcement capacity, and healthcare provision. Circulation reading: substantial fiscal pressure is redirected from coverage-dependent populations into tax-relief flows toward higher-income populations; the metabolic capacity that would absorb the redirection (judicial enforcement of statutory rights) is simultaneously reduced via the contempt-enforcement limitation; the substrate that would absorb the redirected pressure (state Medicaid programs) is loaded beyond capacity, producing rural hospital closures and other infrastructure failures.</p>
+
+    <h3>The cybersecurity cell (7.1) as circulation event</h3>
+    <p>Actor-target reading: US executive reduces CISA capacity, with documented benefit to adversary cyber operations. Circulation reading: a defensive node in the cyber circulation topology is starved of pressure (resources, attention, organizational backing), producing increased throughput at adversarial nodes operating in the same topology. <i>The cell's circulation effect is substantially larger than its first-order policy effect.</i></p>
+
+    <h2>Circulation distortions in the current matrix</h2>
+    <blockquote>The current circulation topology is concentrating pressure at constitutional structures, starving populations with reduced political voice, deepening substrate capture across all five complexes simultaneously, operating Documentocracy at scale, and running Sabbotarcracy as cross-cell operational mode.</blockquote>
+    <p>The combination is structurally adverse to circulation stability. The framework predicts that combinations of this type produce systemic stress that propagates across topologies; the predictions are observable in the empirical material the Convergence Topology documents.</p>
+
+    <h2>Strategic implications from the integrated reading</h2>
+    <div class="implications">
+      <div class="implication">
+        <p class="num">Implication 1</p>
+        <p class="body"><b>Defense at the load-bearing nodes is the highest-leverage intervention.</b> Constitutional structures (judiciary, civil-military separation, contempt enforcement) are load-bearing for the circulation topology as a whole. Pressure at these nodes propagates broadly; relief at these nodes restores broader circulation capacity. Cell 7.13 (OBBBA contempt-enforcement limitation) is structurally the keystone of the constitutional-order shift.</p>
+      </div>
+      <div class="implication">
+        <p class="num">Implication 2</p>
+        <p class="body"><b>Substrate-level reform produces circulation-level effects.</b> Antitrust enforcement, regulatory architecture, public-option alternatives, decommodification — these modify the circulation topology by removing distortions at the substrate layer. The modifications are structurally larger than the immediate policy effects because they change what every operating event circulates through.</p>
+      </div>
+      <div class="implication">
+        <p class="num">Implication 3</p>
+        <p class="body"><b>The AI substrate intersection makes AI defense systemically central.</b> AI is becoming the substrate through which most other substrates' circulation flows — administrative function, healthcare delivery, surveillance, defense, financial transaction, content distribution, education, electoral infrastructure. AI capture propagates across all five complexes via circulation effects; AI defense propagates similarly.</p>
+      </div>
+      <div class="implication">
+        <p class="num">Implication 4</p>
+        <p class="body"><b>Attribution discipline is the methodological defense against Documentocracy.</b> Attribution flow is itself a circulation channel; distorted attribution produces the credit-and-capital flow distortions Documentocracy exploits. Discipline is implementable at any apparatus that produces attributable output; the implementation is distributed and does not require coordination.</p>
+      </div>
+      <div class="implication">
+        <p class="num">Implication 5</p>
+        <p class="body"><b>Defense work must operate across electoral cycles.</b> The AntiProgressives coalition has been executing on a 45-year institutional timescale (Heritage 1973, Federalist Society 1982, Council for National Policy 1981, ALEC 1973). Defense work that does not match that institutional timescale is mismatched against the operating coalition.</p>
+      </div>
+    </div>
+
+    <h2>The integrated portfolio</h2>
+    <p>The four-framework portfolio operates as integrated analytical infrastructure when read together. Reading any subset produces partial analysis. The Polymorphic Matrix sits at the foundation: <i>circulation is the systemic layer that the other frameworks operate inside.</i></p>
+
+    <div class="footnote">
+      Source: Greenway, B. <i>The Polymorphic Matrix as Circulation Topology — extension paper.</i> ThinkWell Labs, Draft v0.1, 2026. Sibling to the originating <a href="/research/circulatory-pressure/">Circulatory Pressure Architectures</a> white paper. Full markdown: <a href="/Polymorphic%20Matrix/torusfilesfinal/polymorphic_matrix_extension_paper.md">view</a>.
+    </div>
+  </main>
+
+  <footer>layer ii · research</footer>
+</body>
+</html>

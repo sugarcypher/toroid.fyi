@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>the system · toroid.fyi</title>
+  <meta name="description" content="A descent through toroidal instruments.">
+  <meta name="theme-color" content="#040209">
+  <meta property="og:title" content="toroid.fyi">
+  <meta property="og:description" content="Enter the loop.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23b6a4ff' stroke-width='1.5'/></svg>">
+  <style>
+    :root {
+      --bg:#040209;
+      --fg:#e6e3f5;
+      --muted:#6a6480;
+      --accent:#b6a4ff;
+      --hud:#8a85a6;
+    }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); overflow:hidden; height:100vh; font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    canvas { display:block; }
+    #stage { position:fixed; inset:0; z-index:1; }
+
+    /* Nebula background */
+    body::before {
+      content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 70%, rgba(120,60,180,0.20), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 30%, rgba(224,139,84,0.16), transparent 60%),
+        radial-gradient(ellipse 70% 60% at 50% 50%, rgba(40,30,72,0.4), transparent 80%);
+    }
+    body::after {
+      content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+      background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.65) 100%);
+    }
+
+    /* === TOP CHROME === */
+    #top-bar {
+      position:fixed; top:0; left:0; right:0; z-index:30;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:22px 32px; pointer-events:none;
+    }
+    #top-bar > * { pointer-events:auto; }
+    .icon-btn {
+      width:34px; height:34px; border-radius:8px;
+      display:inline-flex; align-items:center; justify-content:center;
+      background:rgba(8,4,18,0.55); border:1px solid rgba(182,164,255,0.25);
+      color:var(--fg); cursor:pointer; font-size:14px;
+      backdrop-filter:blur(8px);
+      transition:all 220ms cubic-bezier(.4,0,.2,1);
+    }
+    .icon-btn:hover, .icon-btn:focus-visible { border-color:var(--accent); color:var(--accent); outline:none; }
+    .brand-mark {
+      font-weight:200; letter-spacing:0.32em; font-size:18px; color:var(--fg);
+      text-transform:lowercase;
+    }
+    .brand-mark b { color:var(--accent); font-weight:400; }
+    .profile-chip {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:7px 14px; border-radius:999px;
+      background:linear-gradient(135deg, rgba(124,80,224,0.30), rgba(167,124,255,0.30));
+      border:1px solid rgba(182,164,255,0.45);
+      color:var(--fg); font-size:12px; font-weight:500;
+      cursor:pointer; transition:all 220ms ease;
+    }
+    .profile-chip:hover { background:linear-gradient(135deg, rgba(124,80,224,0.45), rgba(167,124,255,0.45)); }
+    .profile-chip .dot { width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 30% 30%, #c5b6ff, #7c50e0); display:inline-block; }
+
+    /* === HUD CORNERS === */
+    .hud {
+      position:fixed; z-index:20; pointer-events:none;
+      font-family:ui-monospace,Menlo,monospace; font-size:9px;
+      color:var(--hud); letter-spacing:0.20em; text-transform:uppercase;
+      line-height:1.4;
+    }
+    .hud.tl { top:74px; left:32px; }
+    .hud.bl { bottom:24px; left:32px; }
+    .hud.br { bottom:24px; right:32px; text-align:right; }
+    .hud .row { display:flex; gap:8px; opacity:0.6; }
+    .hud .row b { color:var(--accent); font-weight:400; }
+    .hud-tick {
+      position:fixed; width:6px; height:6px; border-radius:50%;
+      background:var(--accent); box-shadow:0 0 10px var(--accent);
+      z-index:20; pointer-events:none; opacity:0.55;
+    }
+
+    /* Side icon controls (decorative — flanking the torus) */
+    .side-control {
+      position:fixed; top:50%; transform:translateY(-50%); z-index:25;
+      width:36px; height:36px; border-radius:50%;
+      background:rgba(8,4,18,0.65); border:1px solid rgba(182,164,255,0.30);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--accent); font-size:14px;
+      backdrop-filter:blur(8px);
+    }
+    .side-control.left { left:46px; }
+    .side-control.right { right:46px; }
+
+    /* Bottom-center small control row */
+    .bottom-controls {
+      position:fixed; bottom:42px; left:50%; transform:translateX(-50%); z-index:25;
+      display:flex; gap:18px; pointer-events:auto;
+    }
+    .bottom-controls .ctl {
+      width:28px; height:28px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background:transparent; border:1px solid rgba(138,133,166,0.30);
+      color:var(--muted); font-size:11px;
+      cursor:pointer; transition:all 220ms ease;
+    }
+    .bottom-controls .ctl:hover, .bottom-controls .ctl:focus-visible { color:var(--accent); border-color:var(--accent); outline:none; }
+
+    /* === ENTER button (centered, dominant before disassembly) === */
+    #enter {
+      position:fixed; left:50%; bottom:13vh; transform:translateX(-50%);
+      z-index:15; pointer-events:auto;
+      padding:14px 40px; border-radius:999px;
+      background:rgba(0,0,0,0); border:1px solid rgba(182,164,255,0.45);
+      color:var(--fg); font-size:11px; font-weight:400; letter-spacing:0.46em;
+      text-transform:uppercase; cursor:pointer;
+      transition:all 400ms cubic-bezier(.4,0,.2,1);
+      backdrop-filter:blur(8px);
+    }
+    #enter:hover, #enter:focus-visible {
+      border-color:var(--accent); background:rgba(182,164,255,0.08);
+      letter-spacing:0.56em; padding:14px 50px; outline:none;
+    }
+    #enter-tag {
+      position:fixed; left:50%; bottom:9vh; transform:translateX(-50%);
+      z-index:15; pointer-events:none;
+      font-family:ui-monospace,Menlo,monospace; font-size:9px;
+      color:var(--muted); letter-spacing:0.32em; text-transform:uppercase;
+      transition:opacity 380ms ease;
+    }
+
+    body.descending #enter,
+    body.descending #enter-tag { opacity:0; pointer-events:none; transition:opacity 380ms ease; }
+
+    /* === SEGMENT LABELS — appear after disassembly === */
+    #segment-labels {
+      position:fixed; inset:0; z-index:18; pointer-events:none; opacity:0;
+      transition:opacity 700ms cubic-bezier(.4,0,.2,1) 350ms;
+    }
+    body.disassembled #segment-labels { opacity:1; }
+    .seg-label {
+      position:absolute; pointer-events:auto; cursor:pointer;
+      transform:translate(-50%, -50%);
+      text-decoration:none; color:var(--fg);
+      display:flex; flex-direction:column; align-items:flex-start;
+      transition:transform 240ms cubic-bezier(.4,0,.2,1);
+      max-width:200px;
+    }
+    .seg-label .name {
+      font-size:22px; font-weight:300; letter-spacing:0.06em;
+      text-transform:uppercase; color:var(--fg);
+      line-height:1.1; margin-bottom:6px;
+      transition:color 220ms ease, text-shadow 220ms ease;
+    }
+    .seg-label .sub {
+      font-size:11px; font-weight:300; color:var(--muted);
+      line-height:1.4; max-width:170px; letter-spacing:0.01em;
+    }
+    .seg-label[data-color="cyan"] .name      { color:#9adfe0; }
+    .seg-label[data-color="lavender"] .name  { color:#c6b2ff; }
+    .seg-label[data-color="rose"] .name      { color:#f4a8d8; }
+    .seg-label[data-color="amber"] .name     { color:#f4c485; }
+    .seg-label[data-color="green"] .name     { color:#9adf86; }
+    .seg-label[data-color="pale"] .name      { color:#e6e3f5; }
+    .seg-label[data-color="dim"] .name       { color:var(--muted); }
+    .seg-label[data-color="dim"] .sub        { color:rgba(138,133,166,0.5); }
+    .seg-label:hover .name, .seg-label:focus-visible .name {
+      text-shadow:0 0 18px currentColor;
+    }
+    .seg-label:hover, .seg-label:focus-visible { outline:none; transform:translate(-50%, -50%) scale(1.04); }
+
+    @media (prefers-reduced-motion: reduce){
+      * { transition-duration:0ms !important; animation-duration:0ms !important; }
+    }
+    @media (max-width: 700px){
+      .hud, .side-control { display:none; }
+      .seg-label .sub { display:none; }
+      .seg-label .name { font-size:16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <!-- TOP BAR -->
+  <header id="top-bar" role="banner">
+    <button class="icon-btn" aria-label="Menu" title="Menu">≡</button>
+    <a class="brand-mark" href="/" aria-label="Back to the surface">toroid<b>.fyi</b></a>
+    <div style="display:flex; gap:10px; align-items:center">
+      <a class="brand-mark" href="https://twl.today" style="letter-spacing:0.18em; font-size:11px;" rel="noopener" aria-label="ThinkWell Labs — TWL.today">TWL<b>.today ↗</b></a>
+      <a class="profile-chip" href="/about/" aria-label="Profile">
+        <span class="dot"></span>Profile
+      </a>
+    </div>
+  </header>
+
+  <!-- HUD CHROME — architectural reference marks -->
+  <div class="hud tl">
+    <div class="row"><span>R</span><b>082.4</b></div>
+    <div class="row"><span>θ</span><b>032.7</b></div>
+    <div class="row"><span>z</span><b>+04.1</b></div>
+  </div>
+  <div class="hud bl">
+    <div class="row">the system</div>
+    <div class="row"><b>everything else</b></div>
+  </div>
+  <div class="hud br">
+    <div class="row">— integrity stable —</div>
+    <div class="row"><b>v 0.1.5</b></div>
+  </div>
+  <!-- Tick dots at cardinal points around the torus -->
+  <div class="hud-tick" style="top:50%; left:7.2%"></div>
+  <div class="hud-tick" style="top:50%; right:7.2%"></div>
+
+  <!-- Side decorative controls -->
+  <div class="side-control left"  aria-hidden="true">◌</div>
+  <div class="side-control right" aria-hidden="true">◍</div>
+
+  <!-- Bottom controls -->
+  <div class="bottom-controls">
+    <button class="ctl" aria-label="View options">◎</button>
+    <button class="ctl" aria-label="Info">ⓘ</button>
+    <button class="ctl" aria-label="Fullscreen">⛶</button>
+  </div>
+
+  <!-- ENTER (pre-disassembly) -->
+  <button id="enter" aria-label="Begin investigation">Begin Investigation</button>
+  <div id="enter-tag">— click to descend —</div>
+
+  <!-- Segment labels (post-disassembly) -->
+  <div id="segment-labels" aria-label="Sections"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    // === Configuration ===
+    const SEGMENTS = [
+      { idx: 0, name: 'RESEARCH',   sub: 'Method, methodology, circulatory pressure.',               href: '/research/',     color: 0x9adfe0, css:'cyan' },
+      { idx: 1, name: 'PREDICATES', sub: 'Terminology — the coined predicates.',                     href: '/predicates/',   color: 0xc6b2ff, css:'lavender' },
+      { idx: 2, name: 'PAPERS',     sub: 'The methodology documents.',                               href: '/papers/',       color: 0x9adf86, css:'green' },
+      { idx: 3, name: 'SYSTEMS',    sub: 'Executable substrates and operational rules.',             href: '/systems/',      color: 0xf4a8d8, css:'rose' },
+      { idx: 4, name: 'ARCHIVE',    sub: 'Origin artifacts — sketches that became the instruments.', href: '/archive/',      color: 0xf4c485, css:'amber' },
+      { idx: 5, name: 'GAME',       sub: 'Strata-Dom-3D — the playable substrate.',                  href: '/systems/game/', color: 0xe6e3f5, css:'pale' },
+    ];
+    const SEG_COUNT = SEGMENTS.length;       // 5 visible segments
+    const PICK_SET = new Set(SEGMENTS.filter(s => !s.dim).map(s => s.idx));
+
+    // === Capability detection ===
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const smallViewport = window.innerWidth < 700;
+    const webglOK = (() => {
+      try {
+        const c = document.createElement('canvas');
+        return !!(c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl'));
+      } catch(e){ return false; }
+    })();
+
+    if (!webglOK){ renderSvgFallback(); return; }
+
+    // === Scene ===
+    const stage = document.getElementById('stage');
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    stage.appendChild(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x040209, 8, 28);
+
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1.2, 11);
+    camera.lookAt(0, 0, 0);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.30));
+    const rim  = new THREE.PointLight(0xb6a4ff, 1.6, 35); rim.position.set(6, 8, 6);  scene.add(rim);
+    const fill = new THREE.PointLight(0x7c50e0, 0.8, 30); fill.position.set(-7, -4, 4); scene.add(fill);
+    const warm = new THREE.PointLight(0xe08b54, 0.5, 24); warm.position.set(8, -3, -2); scene.add(warm);
+
+    // === Build the large segmented torus ===
+    // Each segment is a partial-arc torus geometry with neon edge highlights.
+    const R = 3.5;          // torus major radius — LARGE so it dominates the scene
+    const r = 0.85;         // tube radius — chunky enough to read labels on
+    const TUBE_DETAIL = 32;
+    const segArc = (2 * Math.PI) / SEG_COUNT;
+    const segGap = 0.06;    // small gap between segments → segmented look
+
+    const segments = [];
+    const torus = new THREE.Group();
+    // Tilt the torus toward camera so we see the ring face-on
+    torus.rotation.x = -0.42;
+    torus.rotation.y = 0.18;
+    scene.add(torus);
+
+    SEGMENTS.forEach((segCfg, i) => {
+      const arc = segArc - segGap;
+      const geo = new THREE.TorusGeometry(R, r, 16, TUBE_DETAIL, arc);
+
+      // Fill material — translucent, picks up segment color
+      const fillMat = new THREE.MeshPhysicalMaterial({
+        color: segCfg.color,
+        emissive: segCfg.color, emissiveIntensity: segCfg.dim ? 0.05 : 0.18,
+        metalness: 0.20, roughness: 0.45,
+        transparent: true, opacity: segCfg.dim ? 0.30 : 0.55,
+        side: THREE.DoubleSide,
+        clearcoat: 0.4, clearcoatRoughness: 0.4,
+      });
+      const fill = new THREE.Mesh(geo, fillMat);
+
+      // Edge highlight — wireframe outline gives the "neon" look
+      const edges = new THREE.EdgesGeometry(geo, 25);
+      const edgeMat = new THREE.LineBasicMaterial({
+        color: segCfg.color,
+        transparent: true,
+        opacity: segCfg.dim ? 0.18 : 0.85,
+      });
+      const wire = new THREE.LineSegments(edges, edgeMat);
+
+      const wedge = new THREE.Group();
+      wedge.add(fill);
+      wedge.add(wire);
+      // Rotate so segments tile around in even spacing including gaps
+      wedge.rotation.z = i * segArc + segGap * 0.5;
+
+      const angle = i * segArc + arc * 0.5 + segGap * 0.5;
+      wedge.userData = {
+        segIndex: i,
+        cfg: segCfg,
+        angle,
+        explodeDir: new THREE.Vector3(Math.cos(angle), Math.sin(angle), 0).normalize(),
+        homeRotZ: wedge.rotation.z,
+        fillMat, edgeMat,
+      };
+      segments.push(wedge);
+      torus.add(wedge);
+    });
+
+    // Inner soft glow
+    const glow = new THREE.Mesh(
+      new THREE.SphereGeometry(0.7, 24, 16),
+      new THREE.MeshBasicMaterial({ color: 0x7c50e0, transparent:true, opacity:0.10 })
+    );
+    scene.add(glow);
+
+    // Dust / star field
+    const starGeo = new THREE.BufferGeometry();
+    const starCount = 280;
+    const starPos = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount; i++){
+      const rr = 6 + Math.random() * 14;
+      const a = Math.random() * Math.PI * 2;
+      const b = (Math.random() - 0.5) * Math.PI;
+      starPos[i*3+0] = rr * Math.cos(b) * Math.cos(a);
+      starPos[i*3+1] = rr * Math.sin(b);
+      starPos[i*3+2] = rr * Math.cos(b) * Math.sin(a);
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+      color: 0xb6a4ff, size: 0.024, transparent: true, opacity: 0.55, sizeAttenuation: true,
+    }));
+    scene.add(stars);
+
+    // === Floating segment labels (HTML overlay, projected per frame) ===
+    const labelHost = document.getElementById('segment-labels');
+    const labelMap = new Map();
+    SEGMENTS.forEach(s => {
+      const a = document.createElement('a');
+      a.className = 'seg-label';
+      a.href = s.href;
+      a.dataset.segIndex = s.idx;
+      a.dataset.color = s.css;
+      a.setAttribute('aria-label', `Descend into ${s.name}`);
+      a.innerHTML = `<span class="name">${s.name}</span><span class="sub">${s.sub}</span>`;
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (s.dim){
+          // Show a faint nudge — game is reachable, just not here
+          a.querySelector('.sub').textContent = 'You found it. Go to Systems → Strata-Dom-3D.';
+          setTimeout(() => a.querySelector('.sub').textContent = s.sub, 2400);
+          return;
+        }
+        descendInto(s);
+      });
+      labelHost.appendChild(a);
+      labelMap.set(s.idx, a);
+    });
+
+    const _v = new THREE.Vector3();
+    function project(point){
+      _v.copy(point).project(camera);
+      return {
+        x: (_v.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-_v.y * 0.5 + 0.5) * window.innerHeight,
+        z: _v.z,
+      };
+    }
+    function updateLabels(){
+      segments.forEach(seg => {
+        const a = labelMap.get(seg.userData.segIndex);
+        if (!a) return;
+        const ang = seg.userData.angle;
+        // Place label outside the torus on a slightly larger radius
+        const local = new THREE.Vector3(R * Math.cos(ang) * 1.55, R * Math.sin(ang) * 1.55, 0);
+        local.applyMatrix4(torus.matrixWorld);
+        const p = project(local);
+        if (p.z > 1){ a.style.opacity = 0; return; }
+        a.style.left = p.x + 'px';
+        a.style.top  = p.y + 'px';
+      });
+    }
+
+    // === State machine ===
+    let state = 'assembled';
+    const t0 = performance.now();
+    let rafId = null;
+
+    document.getElementById('enter').addEventListener('click', () => {
+      if (state !== 'assembled') return;
+      state = 'descending';
+      document.body.classList.add('descending');
+      setTimeout(() => {
+        state = 'disassembled';
+        document.body.classList.add('disassembled');
+      }, 1000);
+    });
+
+    function descendInto(dest){
+      if (state !== 'disassembled') return;
+      state = 'transitioning';
+      const seg = segments[dest.idx];
+      const wp = new THREE.Vector3();
+      seg.getWorldPosition(wp);
+      const start = performance.now();
+      const dur = 900;
+      const camFrom = camera.position.clone();
+      const camTo   = new THREE.Vector3(wp.x * 0.6, wp.y * 0.6 + 1, 3.0);
+      const tick = (now) => {
+        const t = Math.min(1, (now - start) / dur);
+        const e = 0.5 - 0.5 * Math.cos(t * Math.PI);
+        camera.position.lerpVectors(camFrom, camTo, e);
+        camera.lookAt(wp);
+        segments.forEach((s, i) => {
+          if (i !== dest.idx){
+            s.userData.fillMat.opacity = (1 - e * 0.95) * (s.userData.cfg.dim ? 0.3 : 0.55);
+            s.userData.edgeMat.opacity = (1 - e * 0.95) * (s.userData.cfg.dim ? 0.18 : 0.85);
+          }
+        });
+        labelHost.style.opacity = 1 - e;
+        renderer.render(scene, camera);
+        if (t < 1) requestAnimationFrame(tick);
+        else { window.location.href = dest.href; }
+      };
+      requestAnimationFrame(tick);
+    }
+
+    // === Frame loop ===
+    function loop(now){
+      const elapsed = (now - t0) / 1000;
+      // Gentle ambient rotation
+      torus.rotation.y += 0.0028;
+      glow.rotation.y -= 0.0010;
+      stars.rotation.y += 0.00045;
+
+      if (state === 'disassembled' || state === 'transitioning'){
+        const targetExplode = 0.35;
+        segments.forEach((s, i) => {
+          const dir = s.userData.explodeDir;
+          const target = new THREE.Vector3().copy(dir).multiplyScalar(targetExplode);
+          s.position.lerp(target, 0.07);
+        });
+        // Pulse interactive segments
+        SEGMENTS.forEach(d => {
+          if (d.dim) return;
+          const s = segments[d.idx];
+          const p = (Math.sin(elapsed * 1.5 + d.idx * 0.8) * 0.5 + 0.5);
+          s.userData.fillMat.emissiveIntensity = 0.18 + p * 0.42;
+          s.userData.edgeMat.opacity = 0.65 + p * 0.30;
+        });
+        updateLabels();
+      } else {
+        // Assembled: settle to home
+        segments.forEach(s => s.position.lerp(new THREE.Vector3(0,0,0), 0.1));
+        const breathe = 1 + Math.sin(elapsed * 0.7) * 0.010;
+        torus.scale.setScalar(breathe);
+      }
+
+      renderer.render(scene, camera);
+      if (state !== 'transitioning') rafId = requestAnimationFrame(loop);
+    }
+    rafId = requestAnimationFrame(loop);
+
+    // === Resize ===
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // === Raycaster — hover + click on segments ===
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    renderer.domElement.addEventListener('mousemove', (e) => {
+      if (state !== 'disassembled') return;
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const meshes = segments.flatMap(s => s.children);
+      const hits = raycaster.intersectObjects(meshes, false);
+      let hoverIdx = -1;
+      if (hits.length){
+        let o = hits[0].object;
+        while (o && !o.userData.cfg) o = o.parent;
+        if (o && PICK_SET.has(o.userData.segIndex)) hoverIdx = o.userData.segIndex;
+      }
+      renderer.domElement.style.cursor = hoverIdx >= 0 ? 'pointer' : 'default';
+      SEGMENTS.forEach(d => {
+        if (d.dim) return;
+        const s = segments[d.idx];
+        if (d.idx === hoverIdx){
+          s.userData.fillMat.emissiveIntensity = 0.85;
+          s.scale.setScalar(1.04);
+        } else {
+          s.scale.setScalar(1.0);
+        }
+      });
+    });
+    renderer.domElement.addEventListener('click', (e) => {
+      if (state !== 'disassembled') return;
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const meshes = segments.flatMap(s => s.children);
+      const hits = raycaster.intersectObjects(meshes, false);
+      if (hits.length){
+        let o = hits[0].object;
+        while (o && !o.userData.cfg) o = o.parent;
+        if (o){
+          const d = SEGMENTS.find(s => s.idx === o.userData.segIndex);
+          if (d && !d.dim) descendInto(d);
+        }
+      }
+    });
+
+    // === Lifecycle cleanup ===
+    function cleanup(){
+      if (rafId) cancelAnimationFrame(rafId);
+      segments.forEach(seg => {
+        seg.children.forEach(child => {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) child.material.dispose();
+        });
+      });
+      stars.geometry.dispose(); stars.material.dispose();
+      glow.geometry.dispose(); glow.material.dispose();
+      renderer.dispose();
+    }
+    window.addEventListener('beforeunload', cleanup);
+    window.addEventListener('pagehide', cleanup);
+
+    // === SVG fallback ===
+    function renderSvgFallback(){
+      const host = document.getElementById('stage');
+      if (!host) return;
+      host.innerHTML = '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8a85a6;font-family:monospace;font-size:12px;letter-spacing:0.20em">— WebGL unavailable · use a modern browser to descend —</div>';
+    }
+  })();
+  </script>
+</body>
+</html>

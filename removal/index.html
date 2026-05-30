@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Removal Economy — Extraction Toroid v0.1</title>
+<meta name="description" content="The labor that builds the nation, and the profit written to tear it out — one toroidal loop of double extraction.">
+<meta name="theme-color" content="#0a0a0f">
+<style>
+  :root {
+    --bg: #f5f3ec;
+    --panel-bg: #fefdf7;
+    --panel-bg-alt: #f9f7f0;
+    --panel-border: rgba(0,0,0,0.10);
+    --panel-border-strong: rgba(0,0,0,0.18);
+    --text: #1c1c1c;
+    --text-muted: #555;
+    --text-faint: #888;
+    --grid: rgba(0,0,0,0.06);
+    --grid-strong: rgba(0,0,0,0.14);
+    --ref: #1e40af;
+    /* station hues */
+    --s1: #0d9488;  /* substrate — teal/life */
+    --s2: #7c3aed;  /* threat — obfuscratic purple */
+    --s3: #dc2626;  /* removal — the attack */
+    --s4: #b45309;  /* harm — rust/amber */
+    --s5: #b8860b;  /* extraction — gold/money */
+    --s6: #be123c;  /* cost of lives — crimson */
+  }
+  body.dark-mode {
+    --bg: #0a0a0f;
+    --panel-bg: #14141e;
+    --panel-bg-alt: #1c1c28;
+    --panel-border: rgba(255,255,255,0.12);
+    --panel-border-strong: rgba(255,255,255,0.22);
+    --text: #e8e6e0;
+    --text-muted: #a8a6a0;
+    --text-faint: #6b6962;
+    --grid: rgba(255,255,255,0.08);
+    --grid-strong: rgba(255,255,255,0.16);
+    --ref: #93c5fd;
+    --s1: #2dd4bf;
+    --s2: #a78bfa;
+    --s3: #f87171;
+    --s4: #fbbf24;
+    --s5: #e0b341;
+    --s6: #fb7185;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  .container { max-width: 1180px; margin: 0 auto; padding: 28px 32px 90px; }
+
+  .bread {
+    font-family: 'SF Mono', Menlo, monospace; font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .bread a { color: var(--text-faint); text-decoration: none; }
+  .bread a:hover { color: var(--ref); }
+  .bread .sep { margin: 0 9px; opacity: 0.5; }
+  .bread .here { color: var(--text-muted); }
+
+  /* HEADER */
+  header.instrument-header {
+    border-bottom: 1px solid var(--panel-border);
+    padding-bottom: 22px; margin-bottom: 26px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 32px; flex-wrap: wrap;
+  }
+  .instrument-title h1 { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 5px; line-height: 1.25; }
+  .instrument-title h1 .version { color: var(--text-muted); font-weight: 400; font-size: 15px; margin-left: 6px; }
+  .instrument-title .subtitle { font-size: 12.5px; color: var(--text-muted); max-width: 640px; }
+  .instrument-title .twl { font-size: 10.5px; color: var(--text-faint); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 6px; }
+  .theme-toggle {
+    background: transparent; border: 1px solid var(--panel-border); color: var(--text);
+    padding: 5px 12px; font-size: 10.5px; font-family: inherit; letter-spacing: 0.05em;
+    border-radius: 3px; cursor: pointer; outline: none; transition: all 0.12s; flex-shrink: 0;
+  }
+  .theme-toggle:hover { background: rgba(127,127,127,0.10); }
+
+  /* INTRO */
+  .intro-block {
+    background: var(--panel-bg); border: 1px solid var(--panel-border);
+    border-left: 3px solid var(--s5); padding: 18px 22px; margin-bottom: 26px; border-radius: 3px;
+  }
+  .intro-block h2 { font-size: 13px; margin-bottom: 9px; font-weight: 600; letter-spacing: 0.02em; }
+  .intro-block p { margin-bottom: 9px; font-size: 12.5px; }
+  .intro-block p:last-child { margin-bottom: 0; }
+  .intro-block strong { font-weight: 600; color: var(--text); }
+  .intro-block em { font-style: italic; opacity: 0.92; }
+
+  /* CYCLE CENTERPIECE */
+  .cycle-wrap {
+    background: var(--panel-bg); border: 1px solid var(--panel-border);
+    border-radius: 3px; padding: 14px 14px 8px; margin-bottom: 14px; position: relative;
+  }
+  .cycle-wrap .cycle-label {
+    position: absolute; top: 14px; left: 18px;
+    font-family: 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.10em;
+    text-transform: uppercase; color: var(--text-faint);
+  }
+  svg.cycle { width: 100%; height: auto; display: block; touch-action: manipulation; }
+  .cycle text { font-family: 'Inter', system-ui, sans-serif; }
+  .ring-base { fill: none; stroke: var(--grid-strong); stroke-width: 1.2; }
+  .ring-inner { fill: none; stroke: var(--grid); stroke-width: 1; }
+  .ring-flow {
+    fill: none; stroke: var(--s5); stroke-width: 2; opacity: 0.55;
+    stroke-dasharray: 5 13; stroke-linecap: round;
+    animation: flow 5.5s linear infinite;
+  }
+  @keyframes flow { to { stroke-dashoffset: -180; } }
+  .hub-text { fill: var(--text-faint); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .hub-text.big { fill: var(--text-muted); font-size: 12px; letter-spacing: 0.10em; }
+  .node { cursor: pointer; }
+  .node circle { stroke-width: 2; transition: r 0.18s, stroke-width 0.18s; }
+  .node .roman { font-size: 11px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+  .node .nlabel { font-size: 11px; font-weight: 600; fill: var(--text); text-anchor: middle; pointer-events: none; }
+  .node .nsub { font-size: 9px; fill: var(--text-faint); text-anchor: middle; pointer-events: none; letter-spacing: 0.02em; }
+  .node:hover circle, .node.active circle { r: 21; stroke-width: 3.5; }
+  @media (prefers-reduced-motion: reduce) { .ring-flow { animation: none; } }
+
+  .cycle-hint { text-align: center; font-size: 11px; color: var(--text-faint); margin: 4px 0 24px; letter-spacing: 0.02em; }
+
+  /* STATION PANELS */
+  .station {
+    background: var(--panel-bg); border: 1px solid var(--panel-border);
+    border-left: 4px solid var(--accent, var(--s5));
+    border-radius: 3px; padding: 22px 26px 24px; margin-bottom: 16px;
+    scroll-margin-top: 16px; transition: box-shadow 0.4s, border-color 0.2s;
+  }
+  .station.flash { box-shadow: 0 0 0 2px var(--accent); }
+  .station-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; flex-wrap: wrap; }
+  .station-num {
+    font-family: 'SF Mono', Menlo, monospace; font-size: 11px; font-weight: 700;
+    color: var(--accent); letter-spacing: 0.10em;
+  }
+  .station-head h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.005em; }
+  .station-tag {
+    margin-left: auto; font-size: 9.5px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent); padding: 2px 8px; border-radius: 2px; opacity: 0.85;
+  }
+  .station > p { font-size: 13px; color: var(--text); margin: 12px 0; line-height: 1.65; }
+  .station > p.lede { font-size: 14px; color: var(--text); font-style: italic; opacity: 0.95; margin-top: 8px; }
+  .station strong { font-weight: 600; }
+  .station em { font-style: italic; color: var(--accent); opacity: 0.95; }
+
+  .interp {
+    background: var(--panel-bg-alt); border-left: 2px solid var(--accent);
+    padding: 11px 14px; margin: 14px 0 4px; border-radius: 2px; font-size: 12.5px; line-height: 1.6;
+  }
+  .interp .ilabel { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.10em; color: var(--accent); font-weight: 700; display: block; margin-bottom: 4px; }
+
+  /* DATA TABLES */
+  table.data { width: 100%; border-collapse: collapse; font-size: 12px; margin: 14px 0 6px; }
+  table.data th, table.data td { text-align: left; padding: 8px 12px 8px 0; vertical-align: top; line-height: 1.45; }
+  table.data th {
+    font-family: 'SF Mono', Menlo, monospace; font-size: 9.5px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text-muted); font-weight: 600;
+    border-bottom: 1px solid var(--panel-border-strong);
+  }
+  table.data td { border-bottom: 1px solid var(--grid); color: var(--text-muted); }
+  table.data td:first-child { color: var(--text); font-weight: 500; }
+  table.data td.num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); white-space: nowrap; }
+  table.data .accent-num { color: var(--accent); font-weight: 700; }
+
+  /* split sub-ledgers inside extraction */
+  .ledger-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0 6px; }
+  @media (max-width: 860px) { .ledger-grid { grid-template-columns: 1fr; } }
+  .ledger-card { background: var(--panel-bg-alt); border: 1px solid var(--panel-border); border-top: 3px solid var(--accent); border-radius: 3px; padding: 13px 15px; }
+  .ledger-card h4 { font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .ledger-card .big-num { font-size: 21px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; }
+  .ledger-card p { font-size: 11.5px; color: var(--text-muted); line-height: 1.5; }
+  .ledger-card p + p { margin-top: 6px; }
+
+  /* DOUBLE-EXTRACTION SUMMARY */
+  .double {
+    background: var(--panel-bg); border: 1px solid var(--panel-border-strong);
+    border-radius: 3px; padding: 24px 28px; margin: 26px 0 14px;
+  }
+  .double h2 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+  .double .sub { font-size: 12px; color: var(--text-muted); margin-bottom: 18px; }
+  table.double-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.double-table th, table.double-table td { padding: 11px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--grid); line-height: 1.5; }
+  table.double-table thead th { font-family: 'SF Mono', Menlo, monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--panel-border-strong); }
+  table.double-table td:first-child { font-weight: 600; color: var(--text); width: 150px; }
+  table.double-table .col-present { border-left: 3px solid var(--s1); }
+  table.double-table .col-removed { border-left: 3px solid var(--s5); }
+  table.double-table td.col-present, table.double-table td.col-removed { color: var(--text-muted); }
+  table.double-table strong { color: var(--text); font-weight: 600; }
+  .double .synth { margin-top: 16px; font-size: 13px; line-height: 1.65; padding-top: 14px; border-top: 1px dashed var(--panel-border); }
+  .double .synth em { font-style: italic; }
+
+  /* FOOTER */
+  footer.instrument-footer { margin-top: 36px; padding-top: 22px; border-top: 1px solid var(--panel-border); font-size: 11.5px; color: var(--text-muted); }
+  footer.instrument-footer p { margin-bottom: 11px; line-height: 1.6; }
+  footer.instrument-footer strong { color: var(--text); }
+  .xref { margin: 4px 0 18px; font-family: 'SF Mono', Menlo, monospace; font-size: 11px; letter-spacing: 0.04em; }
+  .xref a { color: var(--ref); text-decoration: none; margin-right: 16px; display: inline-block; }
+  .xref a:hover { text-decoration: underline; }
+  .sources { font-size: 10.5px; line-height: 1.7; color: var(--text-faint); }
+  .sources a { color: var(--ref); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  .disclaimer { font-style: italic; }
+</style>
+</head>
+<body class="dark-mode">
+<!-- shared live-condition marker → /substrate-attack/ -->
+<a href="/substrate-attack/" class="sa-marker" aria-label="The Substrate Attack — the live condition beneath every instrument"><span class="sa-dot"></span><span class="sa-label">The&nbsp;Substrate&nbsp;Attack</span></a>
+<style>
+.sa-marker{position:fixed;bottom:16px;left:16px;z-index:99999;display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border-radius:999px;background:rgba(8,6,14,0.82);border:1px solid rgba(242,118,107,0.55);color:#f4d9d4;font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,0.35);transition:border-color .2s,color .2s,transform .2s;}
+.sa-marker:hover{border-color:#f2766b;color:#fff;transform:translateY(-1px);}
+.sa-marker .sa-dot{width:7px;height:7px;border-radius:50%;background:#f2766b;flex:none;animation:saPulse 2.4s ease-out infinite;}
+@keyframes saPulse{0%{box-shadow:0 0 0 0 rgba(242,118,107,.55);}70%{box-shadow:0 0 0 7px rgba(242,118,107,0);}100%{box-shadow:0 0 0 0 rgba(242,118,107,0);}}
+@media (prefers-reduced-motion:reduce){.sa-marker .sa-dot{animation:none;}}
+@media (max-width:600px){.sa-marker .sa-label{display:none;}.sa-marker{padding:9px;}}
+</style>
+<div class="container">
+
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <span class="here">the removal economy</span>
+  </div>
+
+  <header class="instrument-header">
+    <div class="instrument-title">
+      <h1>The Removal Economy<span class="version">v0.1</span></h1>
+      <div class="subtitle">Extraction Toroid — the labor that builds the nation, and the profit written to tear it out. One loop, measured at six stations, where the dysfunction is not the failure but the product.</div>
+      <div class="twl">ThinkWell Labs Metrology · B. Greenway · companion to the Obfuscratic Sabbotarchy — Deception Arcane</div>
+    </div>
+    <button class="theme-toggle" id="theme-toggle">THEME</button>
+  </header>
+
+  <div class="intro-block">
+    <h2>Why this instrument exists</h2>
+    <p>Every other toroid on this site measures a regime <em>operating</em>. This one measures the regime <strong>feeding</strong> — the attack on immigration treated not as a border question but as what it structurally is: <strong>a fundamental attack on the nation's load-bearing layer</strong>, converted, in the same motion, into private profit.</p>
+    <p>The argument is a loop, and it must be read as one. <strong>The benefit is real and it is large</strong> — immigrant labor physically builds the harvest, the house, the meal, and the bedside, and pays a net subsidy into a safety net it is barred from drawing. That is extraction number one: value taken while present, under wages held low by deportability itself. <strong>The removal is extraction number two</strong>: every output of "broken" enforcement — the backlog, the raid, the empty field — is the input to a contract for detention, transportation, and real estate. <em>The same coalitions are paid twice from the same people: once for keeping them cheap, once for tearing them out.</em></p>
+    <p>This is the obfuscratic move named elsewhere on this site: the sabotage is framed as security, the failure framed as incompetence. Here the failure is the revenue line. <em>The dysfunction is the design.</em></p>
+  </div>
+
+  <!-- ============ THE TOROIDAL CYCLE ============ -->
+  <div class="cycle-wrap">
+    <span class="cycle-label">The extraction loop · click a station</span>
+    <svg class="cycle" viewBox="0 0 760 440" role="img" aria-label="Toroidal extraction loop with six stations">
+      <defs>
+        <radialGradient id="hubGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="var(--s5)" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="var(--s5)" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="380" cy="220" rx="300" ry="150" class="ring-base"/>
+      <ellipse cx="380" cy="220" rx="150" ry="74" class="ring-inner"/>
+      <ellipse cx="380" cy="220" rx="225" ry="112" class="ring-flow"/>
+      <ellipse cx="380" cy="220" rx="150" ry="74" fill="url(#hubGlow)"/>
+      <text x="380" y="214" class="hub-text big" text-anchor="middle">DOUBLE EXTRACTION</text>
+      <text x="380" y="232" class="hub-text" text-anchor="middle">pressure returns to its origin</text>
+      <g id="nodes"></g>
+    </svg>
+  </div>
+  <p class="cycle-hint">The loop does not stop at removal. The harm it manufactures becomes the justification — and the contract — for the next turn.</p>
+
+  <!-- ============ STATIONS ============ -->
+
+  <section class="station" id="station-1" style="--accent: var(--s1)">
+    <div class="station-head"><span class="station-num">I</span><h3>The Substrate</h3><span class="station-tag">the benefit</span></div>
+    <p class="lede">The load-bearing layer. Roughly one in five U.S. workers is foreign-born — about 30.8 million of 161 million in 2024 — and the functions the consumer economy is physically built on run on them.</p>
+    <p>An estimated <strong>8.3 million undocumented workers</strong> — 5.2% of the workforce — are concentrated precisely where the "American Dream" is assembled by hand: the field, the build, the kitchen, the bedside. Hold low wages and bar them from benefits, and they become a subsidy. This is the value the nation already extracts simply by their being here.</p>
+    <table class="data">
+      <thead><tr><th>Sector</th><th>Immigrant share / count</th><th>What fails without it</th></tr></thead>
+      <tbody>
+        <tr><td>Agriculture</td><td class="num">25.3%<span style="font-weight:400;color:var(--text-faint)"> · 54.3% of graders &amp; sorters</span></td><td>Harvest, food prep, packing</td></tr>
+        <tr><td>Construction</td><td class="num">~30%<span style="font-weight:400;color:var(--text-faint)"> · ~40% in CA/TX</span></td><td>New housing, build-out, repair</td></tr>
+        <tr><td>Home health aides</td><td class="num">27.7%</td><td>Elder &amp; disability care</td></tr>
+        <tr><td>Undocumented, by job</td><td class="num">construction 1.5M · restaurants 1M · ag 320K · landscaping 300K · food processing 200K</td><td>Supply chains, maintenance, service</td></tr>
+      </tbody>
+    </table>
+    <table class="data">
+      <thead><tr><th>The subsidy they pay in</th><th>Amount (2022)</th></tr></thead>
+      <tbody>
+        <tr><td>Total federal, state &amp; local taxes</td><td class="num accent-num">$96.7B</td></tr>
+        <tr><td>Into Social Security — barred from claiming</td><td class="num">$25.7B</td></tr>
+        <tr><td>Into Medicare — barred from claiming</td><td class="num">$6.4B</td></tr>
+        <tr><td>Per undocumented person, per year</td><td class="num">$8,889</td></tr>
+      </tbody>
+    </table>
+    <div class="interp"><span class="ilabel">Stated as benefit</span> The harvest, the build, the meal, the bedside — and a net transfer <em>into</em> the safety net by people the safety net excludes. Remove this layer and the dream it underwrites stops functioning. That is exactly why removing it can be sold as strength.</div>
+  </section>
+
+  <section class="station" id="station-2" style="--accent: var(--s2)">
+    <div class="station-head"><span class="station-num">II</span><h3>The Manufactured Threat</h3><span class="station-tag">the psy-op</span></div>
+    <p>The threat is produced, not found. For years the same political economy quietly <strong>admitted this labor</strong> — because the harvest, the build, and the bedside required it — and left it in deliberate legal limbo. Limbo is not an accident: a workforce that is <em>present but deportable</em> is the most extractable workforce there is. Cheap while it works, expellable on command.</p>
+    <p>The psy-op completes the circuit by recoding a structural dependency as an <em>invasion</em>. The contradiction is the tell — the years of permitted entry followed by the manufactured panic are the same policy seen from two ends. This is the <strong>obfuscratic layer</strong>: sabotage framed as security, so the public defends the very mechanism that is being used against it.</p>
+    <div class="interp"><span class="ilabel">The framing requirement</span> A sabbotarchy operating transparently would be recognized and resisted. The "invasion" narrative is the framing layer the removal economy needs in order to run in daylight. <span style="white-space:nowrap">See → <a href="/predicates/obfuscratic/" style="color:var(--accent)">obfuscratic</a> · <a href="/predicates/sabbotarchy/" style="color:var(--accent)">sabbotarchy</a></span></div>
+  </section>
+
+  <section class="station" id="station-3" style="--accent: var(--s3)">
+    <div class="station-head"><span class="station-num">III</span><h3>The Removal</h3><span class="station-tag">the attack</span></div>
+    <p>The enforcement is aimed, with precision, at the load-bearing layer of Station I. More than <strong>half a million people removed</strong>; the detained population at a record — over 70,000 at peak, the highest since ICE's creation in 2003 — with the <strong>majority held in privately operated facilities</strong>. The instrument reads this not as a security operation with an economic side-effect, but as an economic operation with a security narrative.</p>
+    <div class="interp"><span class="ilabel">Aim</span> A border operation would target the border. This targets the workforce — the field crew, the framer, the line cook, the aide. The attack and the substrate are the same map.</div>
+  </section>
+
+  <section class="station" id="station-4" style="--accent: var(--s4)">
+    <div class="station-head"><span class="station-num">IV</span><h3>The Harm</h3><span class="station-tag">the nightmare</span></div>
+    <p>Pull the layer and the nation it carries buckles — fast, and on the record.</p>
+    <table class="data">
+      <thead><tr><th>Effect</th><th>Magnitude</th></tr></thead>
+      <tbody>
+        <tr><td>Farmworker no-shows after raids (some regions)</td><td class="num">up to 75%</td></tr>
+        <tr><td>Ventura County workforce that stopped coming</td><td class="num">25–45%</td></tr>
+        <tr><td>Crops left to rot</td><td>strawberries, blueberries, tomatoes, leafy greens, grapes, stone fruit</td></tr>
+        <tr><td>USDA food-price rise</td><td class="num">+2.9% (2025) · +2.2% (2026)</td></tr>
+        <tr><td>Per 10% cut to the ag workforce</td><td class="num">−4.2% produce output · −5.5% farm revenue</td></tr>
+      </tbody>
+    </table>
+    <p>The Labor Department itself conceded the crackdown carries <em>"a sufficient risk of supply shock-induced food shortages."</em> Construction stalls; maintenance lapses; care goes uncovered; auto shops, packinghouses, and kitchens run short. The "American Dream" becomes the nightmare — not as collateral damage, but as the precondition for Station V.</p>
+    <p><strong>And the nation defunds itself.</strong> The layer removed in Station III was a <em>net fiscal contributor</em>. Every million people expelled erases roughly <strong>$8.9B</strong> in annual tax revenue — against the <strong>$96.7B</strong> this workforce paid in 2022, including the Social Security and Medicare it is barred from ever drawing. The revenue does not migrate; it is destroyed. Then the bill arrives to do the destroying.</p>
+    <table class="data">
+      <thead><tr><th>The fiscal self-harm</th><th>Magnitude</th></tr></thead>
+      <tbody>
+        <tr><td>Annual tax revenue destroyed, per 1M removed</td><td class="num accent-num">−$8.9B</td></tr>
+        <tr><td>2025 appropriation for immigration enforcement</td><td class="num">$170B</td></tr>
+        <tr><td>— new detention construction alone</td><td class="num">$45B<span style="font-weight:400;color:var(--text-faint)"> · +265% to ICE detention</span></td></tr>
+        <tr><td>Sustained cost of removing ~1M / year</td><td class="num">~$88B/yr</td></tr>
+        <tr><td>Projected hit to GDP</td><td class="num">$1.1T–$1.7T<span style="font-weight:400;color:var(--text-faint)"> · −1.0% to −3.3%</span></td></tr>
+      </tbody>
+    </table>
+    <p>The nation pays <em>twice</em> to make itself poorer: it forfeits the revenue the layer generated, then spends a multiple of it to remove the layer. And that spend is not lost to everyone — it is <em>routed</em>, dollar for dollar, into Station V.</p>
+    <div class="interp"><span class="ilabel">Why the harm is load-bearing</span> The shortage is not a bug the regime regrets — and neither is the deficit. Lost revenue and broken supply are the pressure that justifies, and the appropriation that <em>prices</em>, the next turn of the loop. The damage to the nation's books <strong>is</strong> the funding stream. Broken supply is the sales pitch; the budget line is the receipt.</div>
+  </section>
+
+  <section class="station" id="station-5" style="--accent: var(--s5)">
+    <div class="station-head"><span class="station-num">V</span><h3>The Extraction</h3><span class="station-tag">the profit</span></div>
+    <p class="lede">Here the loop pays out. Every output of "broken" enforcement — the backlog, the bed, the seat on the plane, the parcel of land — is the input to a contract. Three ledgers, all rising in lockstep with the removal — and all drawing from the same <strong>$170B</strong> public appropriation that Station IV booked as a loss.</p>
+    <div class="ledger-grid">
+      <div class="ledger-card" style="--accent: var(--s5)">
+        <h4>Detention</h4>
+        <div class="big-num">&gt;$1B each</div>
+        <p>GEO Group and CoreCivic each projected over <strong>$1B in ICE contract revenue</strong> in 2025. CoreCivic's ICE revenue hit $215.9M in Q3 2025 alone — up 54.6% year-on-year.</p>
+        <p>GEO posted a company-record <strong>$254M profit</strong> (~700% jump), $2.63B total revenue, ~$520M in new or expanded contracts. Paid per bed, per day.</p>
+      </div>
+      <div class="ledger-card" style="--accent: var(--s5)">
+        <h4>Transport &amp; Deportation</h4>
+        <div class="big-num">$1.1B</div>
+        <p>CSI Aviation, the prime contractor for ICE Air, went from <strong>$363.9M (FY2024) to $1.1B in FY2025 obligations</strong> — including a $562M daily-charter contract and a $78.1M DHS deal.</p>
+        <p>Its sub-carrier GlobalX flew <strong>74% of removal flights</strong> — 1,700+ flights moving 44,000+ people in roughly three months of 2025.</p>
+      </div>
+      <div class="ledger-card" style="--accent: var(--s5)">
+        <h4>Real Estate</h4>
+        <div class="big-num">$360M+</div>
+        <p>"Alligator Alcatraz" alone: <strong>34 no-bid contracts over $360M</strong> in three months, $450M/yr to operate — emergency powers bypassing oversight, with a builder tied to state-party donors.</p>
+        <p>GardaWorld drew $313.4M for an Arizona warehouse site; ICE is buying warehouses in small towns. Detention is, increasingly, a <strong>land-and-lease play</strong>.</p>
+      </div>
+    </div>
+    <div class="interp"><span class="ilabel">The product is the dysfunction</span> Asylum backlogs, processing failures, and emptied fields are not the system failing to remove people. They are the system <em>generating demand</em> for beds, flights, and facilities. The slower and crueler the machine, the longer the bed-day, the fuller the plane, the bigger the build.</div>
+  </section>
+
+  <section class="station" id="station-6" style="--accent: var(--s6)">
+    <div class="station-head"><span class="station-num">VI</span><h3>The Cost of Lives</h3><span class="station-tag">off the ledger</span></div>
+    <p>The line that never appears in any contract. <strong>2025 was the deadliest year in ICE custody since 2004</strong> — 31 deaths, roughly one every six days, with December the deadliest month on record.</p>
+    <table class="data">
+      <thead><tr><th>Human cost</th><th>2025</th></tr></thead>
+      <tbody>
+        <tr><td>Deaths in ICE detention</td><td class="num accent-num">31 · ~1 every 6 days</td></tr>
+        <tr><td>Parents detained, tied to ~60,000 U.S.-born children</td><td class="num">18,277</td></tr>
+        <tr><td>Detained mothers of U.S.-citizen children deported</td><td class="num">60%</td></tr>
+        <tr><td>U.S.-citizen children left without a parent</td><td class="num">100+</td></tr>
+        <tr><td>Children separated, to date</td><td class="num">100,000+</td></tr>
+      </tbody>
+    </table>
+    <p>Among them: a <strong>four-year-old U.S. citizen with stage-4 cancer, deported without his medication</strong>. These are the externalities the loop is built to keep off its own books — the cost borne entirely by the people in Station I so the gains can be booked in Station V.</p>
+    <div class="interp"><span class="ilabel">The unpriced term</span> A measurement that counts only dollars would call this efficient. Naming the loop means putting the deaths and the separations back into the equation the contracts leave out.</div>
+  </section>
+
+  <!-- ============ DOUBLE-EXTRACTION SUMMARY ============ -->
+  <div class="double">
+    <h2>The double extraction</h2>
+    <p class="sub">The same people, the same coalitions, paid twice. This is what makes it a torus and not a line: the pressure returns to its origin.</p>
+    <table class="double-table">
+      <thead>
+        <tr><th></th><th class="col-present">Extraction 1 — while present</th><th class="col-removed">Extraction 2 — while removed</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>What is taken</td>
+          <td class="col-present">Cheap, deportable labor; <strong>$96.7B</strong> in taxes incl. benefits they can't claim</td>
+          <td class="col-removed">Detention bed-days, charter seats, <strong>no-bid</strong> construction &amp; leases</td>
+        </tr>
+        <tr>
+          <td>The mechanism</td>
+          <td class="col-present">Legal limbo that holds wages low</td>
+          <td class="col-removed">Manufactured backlog &amp; raids that generate contract demand</td>
+        </tr>
+        <tr>
+          <td>Who is paid</td>
+          <td class="col-present">Employers; safety-net solvency</td>
+          <td class="col-removed">Private-prison equity, charter operators, politically-wired developers</td>
+        </tr>
+        <tr>
+          <td>The fiscal flow</td>
+          <td class="col-present">A <strong>net contributor</strong> — funds the commons it is barred from drawing on</td>
+          <td class="col-removed">Revenue <strong>destroyed</strong>, then <strong>$170B</strong> of public money routed to private capture</td>
+        </tr>
+        <tr>
+          <td>How it's sold</td>
+          <td class="col-present">"They're taking jobs / a drain"</td>
+          <td class="col-removed">"Border security / rule of law"</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="synth">
+      <p>Both columns describe one machine. The labor is extracted while it works and extracted again while it is expelled, and in both phases the framing inverts the reality — drain while present, threat while removed — so the public underwrites the harm done to itself. <em>That inversion is the obfuscratic signature; the twin revenue lines are the sabbotarchic operating logic.</em></p>
+      <p style="margin-top:10px;">Strip the framing and one quantity is left standing: <strong>the financial health of the nation</strong>. A workforce that funded the commons is destroyed as revenue, and the money saved is not returned to the commons — it is spent, at a multiple, buying detention beds, charter seats, and land for private holders. This is the move every instrument on this site records, in its own domain: <em>public value pulled out of the places it does good and booked as private extraction.</em> The immigration crackdown is its clearest, most measurable instance.</p>
+      <p style="margin-top:10px;">The companion instrument scores the <strong>ICE/DHS detention apparatus</strong> on the five-dimensional engineered-incompetence signature — high band, across every dimension. <span class="xref" style="margin:0"><a href="/sabbot/">open the Deception Arcane → ICE/DHS</a></span></p>
+    </div>
+  </div>
+
+  <footer class="instrument-footer">
+    <p><strong>Reading the loop.</strong> This is a <em>measurement instrument</em>, not a slogan. It reads the attack on immigration as a closed extractive cycle: a load-bearing labor layer (I) recoded as a threat (II), removed (III) at a cost the nation absorbs (IV), in a way that books private profit (V) and unpriced human loss (VI) — with the harm of each turn financing the next. The benefit of immigration is stated <em>as benefit</em>; the harm of removal and the profit in it are stated as what they are.</p>
+    <p class="disclaimer"><strong>Figures &amp; framing.</strong> Quantities are documented public estimates compiled as of May 2026; sector shares, tax totals (2022 base), and contract figures carry the uncertainty of their sources and are presented as orders of magnitude where exact accounting is unavailable. Interpretation — the double-extraction thesis — is the instrument's, anchored to but distinct from the underlying data.</p>
+    <div class="xref">
+      <a href="/predicates/sabbotarchy/">sabbotarchy →</a>
+      <a href="/predicates/obfuscratic/">obfuscratic →</a>
+      <a href="/sabbot/">deception arcane →</a>
+      <a href="/research/sabbotarchy/">measurement framework →</a>
+    </div>
+    <p class="sources"><strong style="color:var(--text-muted)">Evidence anchors:</strong>
+      <a href="https://usafacts.org/articles/which-industries-employ-the-most-immigrant-workers/">USAFacts — immigrant workforce by industry</a> ·
+      <a href="https://www.kff.org/racial-equity-and-health-policy/what-role-do-immigrants-play-in-the-rural-workforce/">KFF — immigrants in the rural workforce</a> ·
+      <a href="https://itep.org/undocumented-immigrants-taxes-2024/">ITEP — Tax Payments by Undocumented Immigrants (2024)</a> ·
+      <a href="https://www.americanimmigrationcouncil.org/research/mass-deportation">American Immigration Council — Mass Deportation: costs &amp; lost revenue</a> ·
+      <a href="https://budgetmodel.wharton.upenn.edu/issues/2025/7/28/mass-deportation-of-unauthorized-immigrants-fiscal-and-economic-effects">Penn Wharton Budget Model — fiscal &amp; GDP effects of mass deportation</a> ·
+      <a href="https://www.americanimmigrationcouncil.org/press-release/congress-approves-unprecedented-funding-mass-detention-deportation-2025/">AIC — $170B 2025 enforcement appropriation</a> ·
+      <a href="https://www.aei.org/research-products/report/immigration-enforcement-and-the-us-agricultural-sector-in-2025/">AEI — Immigration Enforcement &amp; the U.S. Agricultural Sector (2025)</a> ·
+      <a href="https://fortune.com/2025/10/11/trump-immigration-crackdown-farm-agriculture-workforce-labor-shock-food-shortages-higher-prices/">Fortune — Labor Dept. on supply-shock food shortages</a> ·
+      <a href="https://www.commondreams.org/news/geo-group-ice-profits">Common Dreams — GEO Group record ICE profit</a> ·
+      <a href="https://www.opensecrets.org/news/2025/04/private-prison-companies-positioned-to-benefit-from-increased-deportations/">OpenSecrets — private prisons &amp; deportation</a> ·
+      <a href="https://www.opensecrets.org/news/2025/05/which-air-carriers-are-positioned-to-benefit-from-increased-deportations/">OpenSecrets — deportation air carriers (CSI Aviation, GlobalX)</a> ·
+      <a href="https://harvardlawreview.org/print/vol-139/construction-and-management-of-thesouth-florida-detention-facility/">Harvard Law Review — South Florida detention facility</a> ·
+      <a href="https://www.npr.org/2025/10/23/nx-s1-5538090/ice-detention-custody-immigration-arrest-enforcement-dhs-trump">NPR — deadliest year in ICE custody</a> ·
+      <a href="https://www.cnn.com/2025/09/23/politics/us-citizen-children-separated-parents-deported-ice-invs">CNN — U.S.-citizen children separated</a>
+    </p>
+    <p style="font-size:10.5px;color:var(--text-faint);"><strong style="color:var(--text-muted)">Status.</strong> v0.1 — first emanation of the Removal Economy toroid. Future versions: per-station evidence trails, longitudinal contract-flow tracking, and integration with the Polymorphic Catalysis Toroid cell references (B040 ICE/DHS ↔ private equity; 7.277 defense-tech immigration enforcement; 7.328 habeas erosion).</p>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+// ---------------------------------------------------------------------------
+// THE REMOVAL ECONOMY — EXTRACTION TOROID — v0.1
+// Six stations around one loop; clicking a node activates its panel.
+// ---------------------------------------------------------------------------
+
+// Theme toggle (default dark for descent continuity)
+const toggle = document.getElementById('theme-toggle');
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  document.querySelector('meta[name="theme-color"]')
+    .setAttribute('content', document.body.classList.contains('dark-mode') ? '#0a0a0f' : '#f5f3ec');
+});
+
+// Build the six nodes around the tilted ring.
+const STATIONS = [
+  { roman: 'I',   label: 'Substrate',   sub: 'the benefit',  hue: 'var(--s1)' },
+  { roman: 'II',  label: 'Threat',      sub: 'the psy-op',   hue: 'var(--s2)' },
+  { roman: 'III', label: 'Removal',     sub: 'the attack',   hue: 'var(--s3)' },
+  { roman: 'IV',  label: 'Harm',        sub: 'the nightmare',hue: 'var(--s4)' },
+  { roman: 'V',   label: 'Extraction',  sub: 'the profit',   hue: 'var(--s5)' },
+  { roman: 'VI',  label: 'Cost of Lives', sub: 'off-ledger', hue: 'var(--s6)' },
+];
+const CX = 380, CY = 220, RX = 225, RY = 112;
+const SVGNS = 'http://www.w3.org/2000/svg';
+const nodeHost = document.getElementById('nodes');
+
+STATIONS.forEach((s, i) => {
+  // start at top (-90deg) and go clockwise
+  const a = (-Math.PI / 2) + (i / STATIONS.length) * Math.PI * 2;
+  const x = CX + RX * Math.cos(a);
+  const y = CY + RY * Math.sin(a);
+  const below = Math.sin(a) > 0.25;          // push labels clear of the node
+  const labelY = below ? y + 34 : y - 26;
+  const subY = below ? y + 46 : y + 30;       // for top nodes, sub sits just under circle
+
+  const g = document.createElementNS(SVGNS, 'g');
+  g.setAttribute('class', 'node');
+  g.setAttribute('data-station', i + 1);
+  g.setAttribute('tabindex', '0');
+  g.setAttribute('role', 'button');
+  g.setAttribute('aria-label', 'Station ' + s.roman + ' — ' + s.label);
+
+  const c = document.createElementNS(SVGNS, 'circle');
+  c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 18);
+  c.setAttribute('fill', s.hue); c.setAttribute('stroke', s.hue);
+  c.setAttribute('fill-opacity', '0.85');
+  g.appendChild(c);
+
+  const roman = document.createElementNS(SVGNS, 'text');
+  roman.setAttribute('x', x); roman.setAttribute('y', y); roman.setAttribute('class', 'roman');
+  roman.textContent = s.roman;
+  g.appendChild(roman);
+
+  const lab = document.createElementNS(SVGNS, 'text');
+  lab.setAttribute('x', x); lab.setAttribute('y', labelY); lab.setAttribute('class', 'nlabel');
+  lab.textContent = s.label;
+  g.appendChild(lab);
+
+  const sub = document.createElementNS(SVGNS, 'text');
+  sub.setAttribute('x', x); sub.setAttribute('y', below ? subY : labelY + 13); sub.setAttribute('class', 'nsub');
+  sub.textContent = s.sub;
+  g.appendChild(sub);
+
+  const activate = () => focusStation(i + 1);
+  g.addEventListener('click', activate);
+  g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); } });
+  nodeHost.appendChild(g);
+});
+
+function focusStation(n) {
+  document.querySelectorAll('.node').forEach(el =>
+    el.classList.toggle('active', el.getAttribute('data-station') == n));
+  const panel = document.getElementById('station-' + n);
+  if (!panel) return;
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  panel.classList.add('flash');
+  setTimeout(() => panel.classList.remove('flash'), 1400);
+}
+</script>
+</body>
+</html>

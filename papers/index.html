@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Papers · the system · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#9adf86; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(154,223,134,0.05), transparent 70%); }
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+    main { position:relative; z-index:5; max-width:720px; margin:0 auto; padding:130px 6vw 120px; }
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:200; font-size:clamp(32px, 4.5vw, 50px); margin:0 0 14px; letter-spacing:0.005em; line-height:1.15; }
+    .gloss { font-size:17px; font-weight:300; color:#bdb7d5; margin:0 0 48px; line-height:1.55; font-style:italic; }
+    .doc { display:block; text-decoration:none; padding:20px 0; border-top:1px solid rgba(154,223,134,0.16); transition:padding-left 220ms ease; }
+    .doc:last-child { border-bottom:1px solid rgba(154,223,134,0.16); }
+    .doc:hover { padding-left:10px; }
+    .doc .t { font-size:18px; font-weight:300; color:var(--fg); letter-spacing:0.01em; }
+    .doc:hover .t { color:var(--accent); }
+    .doc .d { font-size:13px; font-weight:300; color:var(--muted); margin-top:6px; line-height:1.5; }
+    .doc .f { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.10em; margin-top:8px; text-transform:uppercase; }
+    .note { margin-top:40px; font-size:12px; color:var(--muted); line-height:1.7; font-style:italic; }
+    .xref { margin-top:48px; padding-top:24px; border-top:1px solid rgba(154,223,134,0.16); font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.12em; }
+    .xref a { color:var(--accent); text-decoration:none; margin-right:16px; }
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <a href="/system/">the system</a> <span class="sep">/</span>
+    <span class="here">papers</span>
+  </div>
+  <main>
+    <p class="meta-line">Methodology corpus</p>
+    <h1>Papers</h1>
+    <p class="gloss">The methodology documents behind the instruments — the rubrics, references, and procedures the toroids are scored against.</p>
+
+    <a class="doc" href="/papers/obfuscratic_sabbotarchy_methodology.md">
+      <div class="t">Obfuscratic Sabbotarchy — Methodology</div>
+      <div class="d">The five-signature framework for distinguishing engineered incompetence from genuine incompetence by signature, not by claim.</div>
+      <div class="f">obfuscratic_sabbotarchy_methodology.md</div>
+    </a>
+    <a class="doc" href="/papers/obfuscratic_sabbotarchy_scoring_rubric.md">
+      <div class="t">Obfuscratic Sabbotarchy — Scoring Rubric</div>
+      <div class="d">The weighted rubric and index bands the Deception Arcane applies to each architecture.</div>
+      <div class="f">obfuscratic_sabbotarchy_scoring_rubric.md</div>
+    </a>
+    <a class="doc" href="/papers/governance_modes_methodology.md">
+      <div class="t">Governance Modes — Methodology</div>
+      <div class="d">The 42-mode Multimalocracy taxonomy and the discriminative vocabulary within which Sabbotarchy operates.</div>
+      <div class="f">governance_modes_methodology.md</div>
+    </a>
+    <a class="doc" href="/papers/polymorphic_catalysis_toroid_node_reference.md">
+      <div class="t">Polymorphic Catalysis Toroid — Node Reference</div>
+      <div class="d">The actor, target, and cell reference anchoring the evidence layer of the Catalysis Toroid.</div>
+      <div class="f">polymorphic_catalysis_toroid_node_reference.md</div>
+    </a>
+
+    <p class="note">Source documents are served as Markdown — they open as plain text in the browser. Treat them as the citable substrate beneath the rendered instruments.</p>
+    <div class="xref">
+      <a href="/system/">← the system</a>
+      <a href="/research/">research →</a>
+      <a href="/sabbot/">deception arcane →</a>
+    </div>
+  </main>
+  <footer>the system · papers</footer>
+</body>
+</html>

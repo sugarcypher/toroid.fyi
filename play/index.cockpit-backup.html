@@ -971,6 +971,8 @@
     <button class="meta-btn" id="btn-rules"   title="Game rules and tips">📜 Rules</button>
     <button class="meta-btn" id="btn-gallery" title="Piece gallery — large diagrams of each piece's movement">🎨 Gallery</button>
     <button class="meta-btn" id="btn-profile" title="Account / player profiles">👤 Profile</button>
+    <button class="meta-btn" id="btn-cockpit" title="Cockpit skin — frame the board in the neon HUD console and dock the panels into their zones">🛰 Cockpit: off</button>
+    <button class="meta-btn" id="btn-arrange" title="Arrange mode — drag each control onto your frame, scroll to resize. Saves automatically.">🧩 Arrange</button>
     <button id="lock-toggle">🔓 ROTATE<span class="hk">space</span></button>
   </div>
 </div>
@@ -7986,22 +7988,6 @@ if (_labelsBtn) _labelsBtn.onclick = () => setLabelsVisible(!G.showLabels);
 const _flatBtn = document.getElementById('btn-flat');
 if (_flatBtn) _flatBtn.onclick = () => setFlatView(!G.flatView);
 
-/* KEEP THE TORUS VIEWING FIELD CLEAR — collapse the info panels to corner chips
-   on load so nothing crowds the central board. The player expands what they need
-   (click a chip / panel header, or the restore rail). The phase-control dock is
-   left as-is — it's needed every turn. */
-(function keepTorusFieldClear(){
-  try {
-    ['hud-left', 'hud-dashboard', 'log'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && typeof setPanelState === 'function') setPanelState(el, 'hide');
-    });
-    const chat = document.getElementById('chat-panel');
-    if (chat) chat.classList.add('hidden');
-    if (typeof refreshRestoreRail === 'function') refreshRestoreRail();
-  } catch (e) { /* non-fatal — never block the board from rendering */ }
-})();
-
 /* ====================  COCKPIT SKIN — layout engine  ==================
    Re-anchors the main panels into the framed HUD zones. Coordinates are
    FRACTIONS of the letterboxed frame box (0..1). Anchor codes: tl=top-left,
@@ -8247,7 +8233,8 @@ const _cockpitBtn = document.getElementById('btn-cockpit');
 if (_cockpitBtn) _cockpitBtn.onclick = () => setCockpit(!G.cockpit);
 const _arrangeBtn = document.getElementById('btn-arrange');
 if (_arrangeBtn) _arrangeBtn.onclick = () => cockpitArrange(!G.cockpitEdit);
-// Cockpit skin retired — keyboard toggle removed so it can't re-hide the torus.
+// Keyboard escape hatch: press "K" to toggle the cockpit skin even if a button is hidden.
+window.addEventListener('keydown', (e) => { if ((e.key === 'k' || e.key === 'K') && !e.metaKey && !e.ctrlKey){ const t=e.target; if (t && /INPUT|TEXTAREA/.test(t.tagName)) return; setCockpit(!G.cockpit); } });
 // Cockpit starts OFF (classic layout) — opt in via the 🛰 button or the "K" key.
 
 /* ====================  BOTTOM RESTORE RAIL  ==============================

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Substrate Attack · the live condition · toroid.fyi</title>
+  <meta name="description" content="The one move every instrument on this site instances and none, until now, named: attack the load-bearing layer, and book the damage as profit.">
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#f2766b; --accent-soft:#f4a08f; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(242,118,107,0.06), transparent 70%); }
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+    main { position:relative; z-index:5; max-width:740px; margin:0 auto; padding:130px 6vw 140px; }
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; display:flex; align-items:center; gap:10px; }
+    .live-dot { width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(242,118,107,0.6); animation:pulse 2.4s ease-out infinite; }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(242,118,107,0.55);} 70%{box-shadow:0 0 0 8px rgba(242,118,107,0);} 100%{box-shadow:0 0 0 0 rgba(242,118,107,0);} }
+    h1 { font-weight:200; font-size:clamp(34px, 5vw, 54px); margin:0 0 14px; letter-spacing:0.005em; line-height:1.12; }
+    .gloss { font-size:18px; font-weight:300; color:#d8c4c0; margin:0 0 56px; line-height:1.55; font-style:italic; }
+    .gloss b { color:var(--fg); font-weight:400; font-style:normal; }
+    h2 { font-weight:300; font-size:16px; letter-spacing:0.20em; text-transform:uppercase; color:var(--accent); margin:52px 0 16px; }
+    p { line-height:1.78; color:#cdc7e0; font-size:16px; font-weight:300; margin:0 0 18px; }
+    p i, em { color:var(--accent-soft); font-style:normal; }
+    p strong, p b { color:var(--fg); font-weight:400; }
+    blockquote { margin:30px 0; padding:8px 0 8px 22px; border-left:2px solid rgba(242,118,107,0.45); color:var(--fg); font-size:17px; font-weight:300; line-height:1.7; font-style:italic; }
+    blockquote b { font-style:normal; font-weight:400; }
+    .residue { margin:18px 0 8px; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:8px 26px; }
+    @media (max-width:560px){ .residue { grid-template-columns:1fr; } }
+    .residue li { font-size:15px; font-weight:300; color:#cdc7e0; padding:7px 0 7px 18px; border-left:1px solid rgba(242,118,107,0.30); line-height:1.4; }
+    table.cut { width:100%; border-collapse:collapse; margin:18px 0 24px; font-size:14px; }
+    table.cut th, table.cut td { padding:13px 14px; text-align:left; border-bottom:1px solid rgba(242,118,107,0.16); vertical-align:top; }
+    table.cut th { color:var(--accent); font-weight:400; letter-spacing:0.14em; text-transform:uppercase; font-size:9.5px; font-family:ui-monospace,Menlo,monospace; }
+    table.cut td { color:#cdc7e0; font-weight:300; line-height:1.5; }
+    table.cut td:first-child { color:var(--fg); width:210px; }
+    table.cut td:first-child a { color:var(--fg); text-decoration:none; border-bottom:1px solid rgba(242,118,107,0.4); }
+    table.cut td:first-child a:hover { color:var(--accent); }
+    table.cut td .layer { display:block; font-size:11px; color:var(--muted); font-family:ui-monospace,Menlo,monospace; letter-spacing:0.04em; margin-top:3px; text-transform:uppercase; }
+    .xref { margin-top:60px; padding-top:26px; border-top:1px solid rgba(242,118,107,0.16); font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.12em; line-height:2.0; }
+    .xref a { color:var(--accent-soft); text-decoration:none; margin-right:16px; display:inline-block; }
+    .xref a:hover { color:var(--accent); }
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; z-index:10; }
+    @media (prefers-reduced-motion: reduce){ .live-dot { animation:none; } }
+    @media (max-width: 700px){ .bread { left:18px; } }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <span class="here">the substrate attack</span>
+  </div>
+  <main>
+    <p class="meta-line"><span class="live-dot" aria-hidden="true"></span>Live condition · what the toroids were missing</p>
+    <h1>The Substrate Attack</h1>
+    <p class="gloss">The one move every instrument on this site instances and none, until now, named: <b>attack the load-bearing layer</b> — the people and functions the whole system rests on — and book the damage as profit.</p>
+
+    <h2>What it names</h2>
+    <p>Each toroid was built to measure the regime from one angle. The <b>Catalysis Toroid</b> maps who acts on whom. The <b>Deception Arcane</b> scores engineered incompetence. The <b>Removal Economy</b> traces a single extraction loop end to end. Read separately they look like separate subjects. Read together they are the <i>same attack seen from different layers</i>.</p>
+    <p>The attack is not on a policy, a party, or a border. It is on the <b>substrate</b> — the load-bearing layer of people and capacities a society silently runs on: the hands that harvest and build and care, the public competence that keeps a service working, the civic counter-weights that hold power accountable, the shared reality in which any of it can be agreed. In every domain the shape is identical. <i>Cut the layer. Frame the cut as strength, or as savings, or as security. Collect on the damage.</i></p>
+    <p>Measured in a single currency, that substrate has a plainer name: <b>the financial health of the nation</b>. Under every instrument the same motion runs — public value is pulled out of the places it does the most good (the tax base, the service, the audit, the commons) and re-booked as private extraction. The obfuscation is what lets it pass: each cut is dressed as efficiency, security, or savings, so the people it impoverishes are recruited to defend it. <i>Every obfuscated sabotage recorded on this site is, at bottom, an attack on the nation's financial health and a redirection of its value from common good to private capture.</i></p>
+
+    <h2>Why the toroids were missing it</h2>
+    <p>Two reasons, and they compound. <b>First, it has been true the whole time.</b> It is not an event the instruments could timestamp; it is the operating condition they were built inside. A condition reads as background — as weather — not as an attack with a direction and a beneficiary.</p>
+    <p><b>Second, the apparatus that would let you see it is itself part of the substrate being cut.</b> Courts, inspectors general, audits, archives, the press — the very instruments of measurement — are load-bearing too, and they are being dismantled on the same logic. When the means of seeing are removed, the attack goes invisible to the people standing inside it. <i>They live in it blindly — not because they are blind, but because the lights were taken out.</i></p>
+
+    <h2>Why it can still be shown</h2>
+    <p>Because the substrate attack leaves <b>physical residue</b> that no framing fully hides. Narrative can recode an intention; it cannot re-grow a harvest or restaff a ward. The damage accumulates in the world, where it can be counted:</p>
+    <ul class="residue">
+      <li>The unharvested field.</li>
+      <li>The uncovered hospital shift.</li>
+      <li>The house that never gets built.</li>
+      <li>The return that never gets audited.</li>
+      <li>The agency phone no one answers.</li>
+      <li>The case that never gets heard.</li>
+      <li>The price that climbs at the register.</li>
+      <li>The name added to a detention ledger.</li>
+    </ul>
+    <p>This is the wager of the site, and the reason this condition — not the others — is the canonical one: <i>the single attack you can demonstrate to the very people living in it blindly is the attack on the substrate</i>, because its harm is material and it compounds. The other readings — that the regime has simply been operating all along, that the measuring apparatus is being foreclosed — are true, and they are <i>why</i> it is hard to see. The substrate attack is the part you can still put a number on.</p>
+
+    <h2>The same cut, across the instruments</h2>
+    <table class="cut">
+      <thead><tr><th>Instrument</th><th>The load-bearing layer it watches</th><th>The cut</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="/removal/">The Removal Economy</a><span class="layer">the case</span></td>
+          <td>Immigrant labor — the people who harvest, build, and care for the country.</td>
+          <td>Removed for profit; the manufactured harm is itself the product.</td>
+        </tr>
+        <tr>
+          <td><a href="/sabbot/">Obfuscratic Sabbotarchy</a><span class="layer">measurement</span></td>
+          <td>The public-serving competence of the state.</td>
+          <td>Engineered into failure while extraction functions stay surgical.</td>
+        </tr>
+        <tr>
+          <td><a href="/poly/">Polymorphic Catalysis Toroid</a><span class="layer">evidence</span></td>
+          <td>Civil society, the public-sector workforce, the oversight that holds the system up.</td>
+          <td>Named as targets and mapped, cell by cell, as counter-substrates to neutralize.</td>
+        </tr>
+        <tr>
+          <td><a href="/play/">Strata-Dom-3D</a><span class="layer">substrate</span></td>
+          <td>The shared, resolvable world — what remains when every actor commits in the dark.</td>
+          <td>Modeled directly: the commons of agreed reality as the thing under pressure.</td>
+        </tr>
+        <tr>
+          <td><a href="/matrix/">Polymorphic Matrix</a><span class="layer">precursor · archive</span></td>
+          <td>The circulatory pressure system of the polity.</td>
+          <td>The first map of where the pressure loops and re-enters its own origin.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <blockquote>The toroids measured the pattern in each domain. This page names the attack they share. <b>The marker now on every instrument points back here</b> — so that whichever loop you entered, you can see the cut beneath it.</blockquote>
+
+    <div class="xref">
+      <a href="/removal/">removal economy →</a>
+      <a href="/sabbot/">deception arcane →</a>
+      <a href="/poly/">catalysis toroid →</a>
+      <a href="/predicates/sabbotarchy/">sabbotarchy</a>
+      <a href="/predicates/obfuscratic/">obfuscratic</a>
+    </div>
+  </main>
+  <footer>the live condition · beneath every loop</footer>
+</body>
+</html>

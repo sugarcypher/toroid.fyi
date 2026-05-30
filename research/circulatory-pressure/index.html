@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circulatory Pressure Architectures · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#9adfe0; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(154,223,224,0.06), transparent 70%); }
+
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+
+    main { position:relative; z-index:5; max-width:720px; margin:0 auto; padding:130px 6vw 120px; }
+
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:200; font-size:clamp(32px, 4.5vw, 46px); margin:0 0 16px; letter-spacing:0.005em; line-height:1.15; }
+    .byline { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.18em; margin:0 0 8px; }
+    .source-link { display:inline-block; margin:18px 0 64px; font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(154,223,224,0.45); padding-bottom:3px; transition:all 220ms ease; }
+    .source-link:hover { color:#fff; border-color:#fff; }
+
+    h2 { font-weight:300; font-size:18px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:56px 0 18px; }
+    h3 { font-weight:400; font-size:15px; color:var(--fg); margin:32px 0 10px; letter-spacing:0.01em; }
+
+    p { line-height:1.75; color:#cdc7e0; font-size:16px; font-weight:300; margin:0 0 18px; }
+    p i, em { color:var(--accent); font-style:normal; }
+    p strong, p b { color:var(--fg); font-weight:400; }
+
+    blockquote {
+      margin:24px 0; padding:6px 0 6px 20px;
+      border-left:2px solid rgba(154,223,224,0.40);
+      color:#cdc7e0; font-size:15.5px; font-weight:300; line-height:1.7;
+    }
+    blockquote.discovery { font-size:18px; color:var(--fg); }
+
+    ol.observations { margin:18px 0 24px; padding:0; list-style:none; counter-reset:item; }
+    ol.observations li { counter-increment:item; padding:14px 0 14px 44px; position:relative; border-bottom:1px solid rgba(154,223,224,0.10); font-size:15.5px; line-height:1.7; color:#cdc7e0; font-weight:300; }
+    ol.observations li::before { content: counter(item, decimal-leading-zero); position:absolute; left:0; top:14px; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.18em; }
+    ol.observations li b { color:var(--fg); font-weight:500; display:block; margin-bottom:4px; font-size:14px; letter-spacing:0.04em; }
+
+    ul.bullets { margin:10px 0 24px; padding:0 0 0 18px; list-style:none; }
+    ul.bullets li { padding:6px 0; line-height:1.6; color:#cdc7e0; font-size:15px; font-weight:300; position:relative; }
+    ul.bullets li::before { content:'·'; position:absolute; left:-18px; color:var(--accent); font-weight:500; }
+
+    .claims { display:flex; flex-direction:column; gap:20px; margin:24px 0; }
+    .claim { padding:18px 22px; border:1px solid rgba(154,223,224,0.18); border-left:3px solid var(--accent); }
+    .claim .num { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 8px; }
+    .claim .body { font-size:15px; line-height:1.65; color:#cdc7e0; font-weight:300; margin:0; }
+    .claim .body i { color:var(--accent); font-style:normal; }
+    .claim .test { display:block; margin-top:8px; font-size:13px; color:var(--muted); font-style:italic; }
+
+    .footnote { margin-top:80px; padding-top:24px; border-top:1px solid rgba(154,223,224,0.15); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; line-height:1.7; }
+    .footnote a { color:var(--accent); text-decoration:none; }
+
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <a href="/research/">research</a> <span class="sep">/</span>
+    <span class="here">circulatory pressure</span>
+  </div>
+
+  <main>
+    <p class="meta-line">Layer II · structural white paper</p>
+    <h1>Circulatory Pressure Architectures</h1>
+    <p class="byline">B. Greenway · ThinkWell Labs · 2026</p>
+    <p class="byline" style="color:#807a99; font-size:10px;">A structural white paper on networked political destabilization</p>
+    <a class="source-link" href="/matrix/circulatory_pressure_architectures_summary.pdf">↗ Open full paper (PDF, 5pp)</a>
+
+    <h2>Executive Thesis</h2>
+    <p>Modern political instability is best understood not as episodic crisis but as the outcome of <b>circulating pressure architectures</b> — interacting systemic force flows that continuously re-enter governance structures through feedback. The Polymorphic Matrix model demonstrates that destabilization emerges when pressure domains synchronize into self-reinforcing circulation patterns that exceed institutional adaptive capacity.</p>
+    <p>This reframing replaces event-based explanations (<i>"what caused the crisis"</i>) with structural-temporal analysis (<i>"when did the circulation become self-sustaining"</i>).</p>
+
+    <h2>Structural Discovery</h2>
+    <p>The model's core finding is <i>geometric</i> rather than ideological:</p>
+    <blockquote class="discovery">Political pressure behaves as a toroidal circulation system.</blockquote>
+    <p>Which implies:</p>
+    <ul class="bullets">
+      <li>systemic forces loop rather than dissipate</li>
+      <li>erosion outputs become future pressure inputs</li>
+      <li>instability accumulates through coupling density</li>
+      <li>collapse is gradual phase-shift, not sudden rupture</li>
+    </ul>
+    <p>This topology is not metaphorical styling; it encodes an operational systems property — governance environments function as <b>closed-path stress ecosystems</b>.</p>
+
+    <h2>What the Matrix Shows</h2>
+    <ol class="observations">
+      <li>
+        <b>Multi-Vector Pressure Convergence</b>
+        Five simultaneous pressure domains — economic, cognitive, institutional, covert, legitimacy — connect across vector nodes. Destabilization arises from synchronized interaction, not isolated malfunction. The matrix spatially makes visible the compound effect phenomenon: modest stress in multiple domains produces exponential systemic strain.
+      </li>
+      <li>
+        <b>The Matrix Interaction Field</b>
+        At the torus center lies the convergence region where pressures lose domain isolation and produce hybrid causal outcomes. This is decision-environment compression: incentives, narratives, and institutional constraints overlap so tightly that outcomes become unpredictable. <i>The highest systemic risk occurs not at extremes but at zones of maximum interaction density.</i>
+      </li>
+      <li>
+        <b>Feedback Loop Architecture</b>
+        The cyan return arcs encode the most consequential property: <i>erosion is self-fueling</i>. Democratic decline increases susceptibility to economic extraction; epistemic fragmentation enables future narrative manipulation; institutional decay reduces regulatory correction capacity. Political degradation functions as a positive feedback system.
+      </li>
+      <li>
+        <b>Phase-Shift Instability Thresholds</b>
+        Systems tolerate pressure until coupling synchronizes. At that point, incremental stress produces nonlinear transition — a <b>phase-transition theory of governance failure</b>, analogous to criticality phenomena in physics or ecology.
+      </li>
+      <li>
+        <b>Partisan Theater as Pressure Processing Layer</b>
+        A high-connectivity node represents structured adversarial politics. Within the matrix logic this mechanism absorbs dissent, redistributes pressure symbolically, and prevents structural critique from translating into institutional redesign. Certain political rituals may function less as ideological conflict and more as <b>system stabilization valves</b> — presented as structural observation, not psychological claim.
+      </li>
+    </ol>
+
+    <h2>Systemic Implications</h2>
+    <h3>Stability — governance resilience depends on:</h3>
+    <ul class="bullets">
+      <li>limiting cross-vector synchronization</li>
+      <li>slowing feedback velocity</li>
+      <li>distributing convergence density</li>
+      <li>maintaining epistemic coherence</li>
+    </ul>
+    <h3>Instability — collapse probability increases when:</h3>
+    <ul class="bullets">
+      <li>economic extraction funds cognitive influence</li>
+      <li>institutional capture blocks corrective adaptation</li>
+      <li>covert leverage shields accountability</li>
+      <li>legitimacy erosion fragments collective identity</li>
+    </ul>
+    <p><i>Instability is a topology condition, not a moral or partisan condition.</i></p>
+
+    <h2>Falsifiable Propositions</h2>
+    <p>Derived directly from the model's structural logic:</p>
+    <div class="claims">
+      <div class="claim">
+        <p class="num">Claim 1</p>
+        <p class="body"><i>Coupling density across pressure domains predicts democratic quality decline.</i><span class="test">Testable against V-Dem, Freedom House, and World Governance Indicators correlated with cross-domain linkage data.</span></p>
+      </div>
+      <div class="claim">
+        <p class="num">Claim 2</p>
+        <p class="body"><i>Shorter erosion-feedback cycles correlate with faster institutional degradation.</i><span class="test">Measurable as the interval between an erosion output and its re-entry into the apparatus.</span></p>
+      </div>
+      <div class="claim">
+        <p class="num">Claim 3</p>
+        <p class="body"><i>Decision-path centralization increases convergence field density and fragility.</i><span class="test">Predicts that federal centralization increases systemic risk relative to distributed governance, controlling for other variables.</span></p>
+      </div>
+      <div class="claim">
+        <p class="num">Claim 4</p>
+        <p class="body"><i>Structural awareness reduces effectiveness of pressure-processing political theater.</i><span class="test">Testable through controlled information exposure studies comparing structural versus partisan framing.</span></p>
+      </div>
+    </div>
+
+    <h2>Conclusion</h2>
+    <p>Political systems are not primarily ideological arenas. They are <b>circulatory architectures of influence, constraint, and adaptive response</b>. Destabilization emerges when pressure flows synchronize, accelerate, reinforce themselves, and exceed institutional damping capacity. Stability emerges when circulation remains decoupled, latency-buffered, spatially distributed, and epistemically coherent.</p>
+    <p>The thesis is inspectable. The topology is navigable. The architecture is now visible.</p>
+
+    <div class="footnote">
+      Source: Greenway, B. <i>Toward a Circulatory Theory of Governance Stability.</i> ThinkWell Labs, 2026. Full paper: <a href="/matrix/circulatory_pressure_architectures_summary.pdf">PDF</a>. Original structural concepts, taxonomies, and topological claims are the intellectual property of the originator.
+    </div>
+  </main>
+
+  <footer>layer ii · research</footer>
+</body>
+</html>
