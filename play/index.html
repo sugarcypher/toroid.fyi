@@ -563,6 +563,27 @@
     opacity:0.8; transition: height 200ms ease;
   }
 
+  /* Selected-piece portraits — bottom-left: your ATTACKER + the TARGET, large. */
+  #sel-portraits {
+    position:fixed; left:10px; bottom:10px; z-index:97;
+    display:flex; gap:8px; pointer-events:none;
+  }
+  #sel-portraits .sp-card {
+    width:104px; min-height:120px; border-radius:12px; padding:8px 6px;
+    background:rgba(12,10,22,0.88); border:1.5px solid var(--border);
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    backdrop-filter:blur(6px); box-shadow:0 8px 24px rgba(0,0,0,0.45);
+  }
+  #sel-portraits .sp-card.empty { opacity:0.32; }
+  #sel-portraits .sp-role { font:700 9px ui-monospace,Menlo,monospace; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+  #sel-portraits .sp-glyph { font-size:52px; line-height:1; margin:2px 0; text-shadow:0 0 14px currentColor; }
+  #sel-portraits .sp-name { font:700 12px ui-monospace,Menlo,monospace; text-align:center; }
+  #sel-portraits .sp-owner { font:600 9px ui-monospace,Menlo,monospace; letter-spacing:0.06em; }
+  #sel-portraits .sp-hp { display:flex; gap:3px; margin-top:2px; }
+  #sel-portraits .sp-hp i { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.15); }
+  #sel-portraits .sp-hp i.lit { background:#9adf86; box-shadow:0 0 5px #9adf86; }
+  #sel-portraits .sp-meta { font:600 9px ui-monospace,Menlo,monospace; color:var(--muted); text-align:center; }
+
   /* Floating tooltip when hovering a piece in the 3D scene */
   #piece-tooltip {
     position:fixed; z-index:90; pointer-events:none;
@@ -1102,6 +1123,7 @@
 </div>
 
 <div id="piece-tooltip"></div>
+<div id="sel-portraits"></div>
 
 <div id="chat-panel">
   <div class="panel-head" id="chat-head">
@@ -2652,6 +2674,7 @@ function clearPath(){ while (pathGroup.children.length) pathGroup.remove(pathGro
 
 /* ====================  ANIMATION  ====================================== */
 let activeAnimation = null;
+let selHoverTargetId = null;   // hovered TARGET piece id for the bottom-left portraits
 
 function startMoveAnimation(piece, fromPos, toPos, onComplete){
   const mesh = pieceGroup.children.find(g => g.userData.pieceId === piece.id);
@@ -6980,7 +7003,7 @@ function renderDashboard(){
         ${buildCompositionPie(pl.id, 52)}
         <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;line-height:1.3">
           <div style="color:${HEX[pl.id]};font-weight:700">${NAME[pl.id]}${dead?' ✖':''}</div>
-          <div style="color:var(--muted)">${G.wallets[pl.id]||0} ⛁</div>
+          <div style="color:var(--muted)">${(() => { const tot = G.pieces.filter(p => p.owner === pl.id).length; const al = G.pieces.filter(p => p.alive && p.owner === pl.id).length; return tot ? `${al}/${tot} · ${Math.round(al/tot*100)}% left` : '—'; })()}</div>
           ${buildCaptureTrendHTML(pl.id)}
         </div>
       </div>`;
@@ -7080,6 +7103,7 @@ function renderDashboard(){
 function renderHUD(){
   refreshTorusTexture();   // re-tint quadrants for current phase / active player
   renderDashboard();       // refresh telemetry + graveyard
+  renderSelPortraits();    // bottom-left attacker/target portraits
   refreshTicker();         // dense top-bar
   refreshPanelMinis();     // compact mini-views for minimized panels
   refreshInstructions();   // PRE-GAME / IN-GAME indicator + current step
@@ -7601,6 +7625,47 @@ const mouse = new THREE.Vector2();
    Only active in PLAY mode (so it doesn't fight with the rotation drag). */
 const tooltipEl = document.getElementById('piece-tooltip');
 function hidePieceTooltip(){ tooltipEl.classList.remove('show'); }
+
+/* ---- Selected-piece portraits (bottom-left): ATTACKER (your selected piece)
+   + TARGET (the piece currently under the cursor while a piece is selected).
+   (selHoverTargetId is declared with the other game state near the top to avoid
+   a temporal-dead-zone error when renderHUD()/renderSelPortraits run early.) ---- */
+function pctRemaining(ownerId){
+  const total = G.pieces.filter(p => p.owner === ownerId).length;
+  if (!total) return 0;
+  const alive = G.pieces.filter(p => p.alive && p.owner === ownerId).length;
+  return Math.round((alive / total) * 100);
+}
+function portraitCard(role, piece){
+  if (!piece){
+    return `<div class="sp-card empty"><div class="sp-role">${role}</div>
+      <div class="sp-glyph" style="color:#555">·</div>
+      <div class="sp-name" style="color:var(--muted)">—</div></div>`;
+  }
+  const col = HEX[piece.owner];
+  const def = PIECES[piece.type];
+  let pips = '';
+  for (let i = 0; i < piece.maxHp; i++) pips += `<i class="${i < piece.hp ? 'lit' : ''}"></i>`;
+  return `<div class="sp-card" style="border-color:${col}">
+    <div class="sp-role" style="color:${col}">${role}</div>
+    <div class="sp-glyph" style="color:${col}">${def.glyph}</div>
+    <div class="sp-name">${def.name}</div>
+    <div class="sp-owner" style="color:${col}">${NAME[piece.owner]}</div>
+    <div class="sp-hp">${pips}</div>
+    <div class="sp-meta">${NAME[piece.owner]}: ${pctRemaining(piece.owner)}% left</div>
+  </div>`;
+}
+function renderSelPortraits(){
+  const el = document.getElementById('sel-portraits');
+  if (!el) return;
+  const attacker = G.selectedPieceId != null ? G.pieces.find(p => p.id === G.selectedPieceId && p.alive) : null;
+  let target = selHoverTargetId != null ? G.pieces.find(p => p.id === selHoverTargetId && p.alive) : null;
+  if (target && attacker && target.id === attacker.id) target = null;   // don't show the same piece twice
+  // Hide the whole panel when there's nothing to show.
+  if (!attacker && !target){ el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.innerHTML = portraitCard('You', attacker) + portraitCard('Target', target);
+}
 renderer.domElement.addEventListener('mousemove', (ev) => {
   if (!cameraLocked){ hidePieceTooltip(); return; }
   const rect = renderer.domElement.getBoundingClientRect();
@@ -7713,6 +7778,8 @@ renderer.domElement.addEventListener('click', (ev) => {
     if (G.pendingSuggestion){ G.pendingSuggestion = null; }
     sfx('select');
     log(`Selected <b>${PIECES[piece.type].name}</b> at [${piece.pos[0]},${piece.pos[1]},${piece.pos[2]}] — ${G.validTargets.length} legal move${G.validTargets.length===1?'':'s'}. Click a ring to commit, or press <b>Go</b>.`);
+    selHoverTargetId = null;
+    renderSelPortraits();
     // Re-render so the selection card + Go button reflect the new state.
     renderHUD();
   };
@@ -7756,8 +7823,10 @@ renderer.domElement.addEventListener('click', (ev) => {
   // Empty click — deselect to let them start over.
   G.selectedPieceId = null;
   G.validTargets = [];
+  selHoverTargetId = null;
   clearHighlights();
   clearPath();
+  renderSelPortraits();
   if (G.pendingSuggestion){ G.pendingSuggestion = null; renderHUD(); }
 });
 

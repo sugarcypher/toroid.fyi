@@ -111,20 +111,22 @@
       z-index:20; pointer-events:none; opacity:0.55;
     }
 
-    /* Side controls — rotate the ring left / right (in case it loads at an odd angle) */
-    .side-control {
-      position:fixed; top:50%; transform:translateY(-50%); z-index:25;
-      width:44px; height:44px; border-radius:50%; padding:0;
-      background:rgba(8,4,18,0.65); border:1px solid rgba(182,164,255,0.30);
-      display:flex; align-items:center; justify-content:center;
-      color:var(--accent); font-size:19px; line-height:1; cursor:pointer;
-      font-family:inherit; backdrop-filter:blur(8px);
-      transition:border-color .2s, color .2s, background .2s;
+    /* Rotate controls — obvious labeled bar, bottom-center */
+    .rotate-bar {
+      position:fixed; bottom:60px; left:50%; transform:translateX(-50%); z-index:28;
+      display:flex; align-items:center; gap:14px; padding:9px 16px; border-radius:999px;
+      background:rgba(8,4,18,0.66); border:1px solid rgba(182,164,255,0.30); backdrop-filter:blur(8px);
     }
-    .side-control:hover, .side-control:focus-visible { border-color:var(--accent); color:#fff; background:rgba(182,164,255,0.18); outline:none; }
-    .side-control:active { transform:translateY(-50%) scale(0.92); }
-    .side-control .cap { position:absolute; top:48px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:8px; letter-spacing:0.22em; color:var(--muted); text-transform:uppercase; white-space:nowrap; pointer-events:none; }
-    .side-control.left { left:40px; } .side-control.right { right:40px; }
+    .rotate-bar .rlabel { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.24em; text-transform:uppercase; color:var(--muted); }
+    .rotate-btn {
+      width:40px; height:40px; border-radius:50%; padding:0;
+      display:flex; align-items:center; justify-content:center;
+      background:transparent; border:1px solid rgba(182,164,255,0.45);
+      color:var(--accent); font-size:15px; line-height:1; cursor:pointer; font-family:inherit;
+      transition:background .18s, border-color .18s, color .18s, transform .1s;
+    }
+    .rotate-btn:hover, .rotate-btn:focus-visible { background:rgba(182,164,255,0.20); border-color:var(--accent); color:#fff; outline:none; }
+    .rotate-btn:active { transform:scale(0.9); }
 
     /* Bottom-center small control row */
     .bottom-controls {
@@ -246,20 +248,16 @@
   <div class="hud-tick" style="top:50%; right:7.2%"></div>
 
   <!-- Side decorative controls -->
-  <button class="side-control left"  id="rot-left"  aria-label="Rotate the ring left"  title="Rotate left">⟲<span class="cap">rotate</span></button>
-  <button class="side-control right" id="rot-right" aria-label="Rotate the ring right" title="Rotate right">⟳<span class="cap">rotate</span></button>
-
-  <!-- Bottom controls -->
-  <div class="bottom-controls">
-    <button class="ctl" aria-label="View options">◎</button>
-    <button class="ctl" aria-label="Info">ⓘ</button>
-    <button class="ctl" aria-label="Fullscreen">⛶</button>
+  <div class="rotate-bar" role="group" aria-label="Rotate the ring">
+    <button class="rotate-btn" id="rot-left" aria-label="Rotate left" title="Rotate left">◀</button>
+    <span class="rlabel">Rotate</span>
+    <button class="rotate-btn" id="rot-right" aria-label="Rotate right" title="Rotate right">▶</button>
   </div>
 
   <!-- Where to start -->
   <div id="start-guide">
     <div class="h">The System · where to start</div>
-    <p>This is the index beneath the instruments. New here? Begin at the <b>surface</b> with <b>The Substrate Attack</b> (what's happening) and <b>The Removal Economy</b> (the clearest case). Use this ring for the <b>papers</b> behind them, the <b>terminology</b>, the <b>method</b>, the <b>archive</b> — and the <b>legal</b> terms.</p>
+    <p>This is the index beneath the instruments. New to the vocabulary? <b>Start here</b> is on the surface (terminology). Use this ring for the <b>papers</b>, the <b>method</b>, the <b>systems</b>, the <b>archive</b> — and the <b>legal</b> terms.</p>
   </div>
 
   <!-- Segment labels -->
@@ -274,12 +272,11 @@
 
     // === Configuration ===
     const SEGMENTS = [
-      { idx: 0, name: 'RESEARCH',   sub: 'Method, methodology, circulatory pressure.',               href: '/research/',     color: 0x9adfe0, css:'cyan' },
-      { idx: 1, name: 'PREDICATES', sub: 'Terminology — the coined predicates.',                     href: '/predicates/',   color: 0xc6b2ff, css:'lavender' },
-      { idx: 2, name: 'PAPERS',     sub: 'The methodology documents.',                               href: '/papers/',       color: 0x9adf86, css:'green' },
-      { idx: 3, name: 'SYSTEMS',    sub: 'Executable substrates and operational rules.',             href: '/systems/',      color: 0xf4a8d8, css:'rose' },
-      { idx: 4, name: 'ARCHIVE',    sub: 'Origin artifacts, superseded designs, the Multimalocracy PDFs.', href: '/archive/', color: 0xf4c485, css:'amber' },
-      { idx: 5, name: 'LEGAL',      sub: 'Terms, copyright, citation, privacy, security.',          href: '/legal/',        color: 0xcfd3d7, css:'steel' },
+      { idx: 0, name: 'RESEARCH', sub: 'Method, methodology, circulatory pressure.',               href: '/research/', color: 0x9adfe0, css:'cyan' },
+      { idx: 1, name: 'PAPERS',   sub: 'The methodology documents.',                               href: '/papers/',   color: 0x9adf86, css:'green' },
+      { idx: 2, name: 'SYSTEMS',  sub: 'Executable substrates and operational rules.',             href: '/systems/',  color: 0xf4a8d8, css:'rose' },
+      { idx: 3, name: 'ARCHIVE',  sub: 'Origin artifacts, superseded designs, the Multimalocracy PDFs.', href: '/archive/', color: 0xf4c485, css:'amber' },
+      { idx: 4, name: 'LEGAL',    sub: 'Terms, copyright, citation, privacy, security.',          href: '/legal/',    color: 0xcfd3d7, css:'steel' },
     ];
     const SEG_COUNT = SEGMENTS.length;       // segments tile parametrically
     const PICK_SET = new Set(SEGMENTS.filter(s => !s.dim).map(s => s.idx));
