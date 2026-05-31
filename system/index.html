@@ -111,17 +111,20 @@
       z-index:20; pointer-events:none; opacity:0.55;
     }
 
-    /* Side icon controls (decorative — flanking the torus) */
+    /* Side controls — rotate the ring left / right (in case it loads at an odd angle) */
     .side-control {
       position:fixed; top:50%; transform:translateY(-50%); z-index:25;
-      width:36px; height:36px; border-radius:50%;
+      width:44px; height:44px; border-radius:50%; padding:0;
       background:rgba(8,4,18,0.65); border:1px solid rgba(182,164,255,0.30);
       display:flex; align-items:center; justify-content:center;
-      color:var(--accent); font-size:14px;
-      backdrop-filter:blur(8px);
+      color:var(--accent); font-size:19px; line-height:1; cursor:pointer;
+      font-family:inherit; backdrop-filter:blur(8px);
+      transition:border-color .2s, color .2s, background .2s;
     }
-    .side-control.left { left:46px; }
-    .side-control.right { right:46px; }
+    .side-control:hover, .side-control:focus-visible { border-color:var(--accent); color:#fff; background:rgba(182,164,255,0.18); outline:none; }
+    .side-control:active { transform:translateY(-50%) scale(0.92); }
+    .side-control .cap { position:absolute; top:48px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:8px; letter-spacing:0.22em; color:var(--muted); text-transform:uppercase; white-space:nowrap; pointer-events:none; }
+    .side-control.left { left:40px; } .side-control.right { right:40px; }
 
     /* Bottom-center small control row */
     .bottom-controls {
@@ -208,7 +211,8 @@
       * { transition-duration:0ms !important; animation-duration:0ms !important; }
     }
     @media (max-width: 700px){
-      .hud, .side-control { display:none; }
+      .hud { display:none; }
+      .side-control .cap { display:none; }
       .seg-label .sub { display:none; }
       .seg-label .name { font-size:16px; }
     }
@@ -242,8 +246,8 @@
   <div class="hud-tick" style="top:50%; right:7.2%"></div>
 
   <!-- Side decorative controls -->
-  <div class="side-control left"  aria-hidden="true">◌</div>
-  <div class="side-control right" aria-hidden="true">◍</div>
+  <button class="side-control left"  id="rot-left"  aria-label="Rotate the ring left"  title="Rotate left">⟲<span class="cap">rotate</span></button>
+  <button class="side-control right" id="rot-right" aria-label="Rotate the ring right" title="Rotate right">⟳<span class="cap">rotate</span></button>
 
   <!-- Bottom controls -->
   <div class="bottom-controls">
@@ -449,7 +453,17 @@
     let state = 'disassembled';
     const t0 = performance.now();
     let rafId = null;
+    let targetRotZ = 0;   // manual rotation target, driven by the side buttons
     document.body.classList.add('disassembled');
+
+    // Rotate-left / rotate-right controls
+    (function(){
+      const step = Math.PI / 6;   // 30° per press
+      const L = document.getElementById('rot-left');
+      const R = document.getElementById('rot-right');
+      if (L) L.addEventListener('click', () => { targetRotZ += step; });
+      if (R) R.addEventListener('click', () => { targetRotZ -= step; });
+    })();
 
     // Back-button / bfcache recovery — clear any stuck transition so it never
     // freezes on a half-faded "halo" with dead clicks.
@@ -507,8 +521,10 @@
     // === Frame loop ===
     function loop(now){
       const elapsed = (now - t0) / 1000;
-      // Gentle ambient rotation
-      torus.rotation.y += 0.0028;
+      // Bounded sway on y (never accumulates → never deploys edge-on / sideways)
+      torus.rotation.y = 0.18 + Math.sin(elapsed * 0.22) * 0.10;
+      // Manual rotate: ease toward the target set by the left/right buttons
+      torus.rotation.z += (targetRotZ - torus.rotation.z) * 0.12;
       glow.rotation.y -= 0.0010;
       stars.rotation.y += 0.00045;
 

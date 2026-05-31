@@ -7671,12 +7671,31 @@ renderer.domElement.addEventListener('click', (ev) => {
   // hit a ghost highlight and consume the click for nothing. With a piece
   // already selected, highlights take priority (so the user can commit).
   const pieceHits = raycaster.intersectObjects(pieceGroup.children, true);
-  const pickPieceFromHits = () => {
-    if (!pieceHits.length) return null;
-    let o = pieceHits[0].object;
+  // Resolve a clicked piece. The raycast can hit several stacked meshes along
+  // the ray (own + enemy + far-side pieces behind the torus). Prefer the ACTIVE
+  // player's own piece among ALL hits — fixes 'clicking my own piece says it's
+  // not mine' when an enemy/far mesh sits nearer the camera (common for non-front
+  // seats like Verdant/Sienna in 4P/6P).
+  const pieceFromHit = (hit) => {
+    let o = hit.object;
     while (o && o.userData.pieceId === undefined) o = o.parent;
     if (!o) return null;
     return G.pieces.find(p => p.id === o.userData.pieceId) || null;
+  };
+  const pickPieceFromHits = () => {
+    if (!pieceHits.length) return null;
+    // First pass: nearest hit that is the active player's own living piece.
+    for (const h of pieceHits){
+      const p = pieceFromHit(h);
+      if (p && p.alive && Number(p.owner) === Number(G.activePlayer)) return p;
+    }
+    // Fallback: nearest resolvable piece (enemy — so the correct 'that's X's
+    // piece' message still fires).
+    for (const h of pieceHits){
+      const p = pieceFromHit(h);
+      if (p) return p;
+    }
+    return null;
   };
   const selectPiece = (piece) => {
     // If a card is pending attach, this click is the target-piece pick.
@@ -7702,9 +7721,8 @@ renderer.domElement.addEventListener('click', (ev) => {
     // No selection yet — prefer picking a piece. If the user clicked on their
     // own piece directly, select it. Otherwise let them know what to do.
     const piece = pickPieceFromHits();
-    log(piece ? `<b style="color:#ff0">[diag]</b> hit ${NAME[piece.owner]}(owner=${piece.owner}, ${typeof piece.owner}) · seat=${NAME[G.activePlayer]}(${G.activePlayer}, ${typeof G.activePlayer}) · match=${piece.owner === G.activePlayer}` : `<b style="color:#ff0">[diag]</b> raycast MISS — no piece mesh under cursor (pieceGroup has ${pieceGroup.children.length} meshes; seat=${NAME[G.activePlayer]}/${G.activePlayer})`);
     if (piece && piece.alive){
-      if (piece.owner !== G.activePlayer){
+      if (Number(piece.owner) !== Number(G.activePlayer)){
         log(`That's <b style="color:${HEX[piece.owner]}">${NAME[piece.owner]}</b>'s ${PIECES[piece.type].name}. Click one of your own pieces (pulsing).`);
         sfx('invalid');
         return;
@@ -7727,7 +7745,7 @@ renderer.domElement.addEventListener('click', (ev) => {
   // Clicked another piece — switch selection (own piece) or warn (enemy).
   const piece = pickPieceFromHits();
   if (piece && piece.alive){
-    if (piece.owner !== G.activePlayer){
+    if (Number(piece.owner) !== Number(G.activePlayer)){
       log(`That's <b style="color:${HEX[piece.owner]}">${NAME[piece.owner]}</b>'s ${PIECES[piece.type].name}. Click a green/red ring to commit your move, or click a different own piece.`);
       sfx('invalid');
       return;
