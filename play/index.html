@@ -7702,6 +7702,7 @@ renderer.domElement.addEventListener('click', (ev) => {
     // No selection yet — prefer picking a piece. If the user clicked on their
     // own piece directly, select it. Otherwise let them know what to do.
     const piece = pickPieceFromHits();
+    log(piece ? `<b style="color:#ff0">[diag]</b> hit ${NAME[piece.owner]}(owner=${piece.owner}, ${typeof piece.owner}) · seat=${NAME[G.activePlayer]}(${G.activePlayer}, ${typeof G.activePlayer}) · match=${piece.owner === G.activePlayer}` : `<b style="color:#ff0">[diag]</b> raycast MISS — no piece mesh under cursor (pieceGroup has ${pieceGroup.children.length} meshes; seat=${NAME[G.activePlayer]}/${G.activePlayer})`);
     if (piece && piece.alive){
       if (piece.owner !== G.activePlayer){
         log(`That's <b style="color:${HEX[piece.owner]}">${NAME[piece.owner]}</b>'s ${PIECES[piece.type].name}. Click one of your own pieces (pulsing).`);

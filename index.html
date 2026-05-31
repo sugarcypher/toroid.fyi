@@ -204,14 +204,12 @@ function scheduleBegin(ms){ clearTimeout(autoTimer); autoTimer=setTimeout(begin,
 const agreed = (()=>{ try { return localStorage.getItem('twl-tos-agreed')==='1'; } catch(e){ return false; } })();
 if (!agreed){
   tosOpen=true; tos.classList.add('show');   // every first-time visitor sees the terms
-} else if (!reduceMotion){
-  scheduleBegin(5200);
 }
+// NOTE: no auto-advance — the emanation waits for a user click so the intro is readable.
 document.getElementById('tos-agree').addEventListener('click',(e)=>{
   e.stopPropagation();
   try { localStorage.setItem('twl-tos-agreed','1'); } catch(_){}
-  tos.classList.remove('show'); tosOpen=false;
-  scheduleBegin(2600);
+  tos.classList.remove('show'); tosOpen=false;   // now the intro shows; click anywhere to begin
 });
 
 function begin(){ if (state!=='idle'||tosOpen) return; state='slowing'; overlay.style.opacity=0; }
