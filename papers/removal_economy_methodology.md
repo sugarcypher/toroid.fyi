@@ -1,177 +1,92 @@
-# The Removal Economy — A Double-Extraction Methodology
+# The Removal Economy
 
-**ThinkWell Labs Metrology · B. Greenway · v0.1 (May 2026)**
-**Companion paper to the Removal Economy — Extraction Toroid (`/removal/`).**
+**A measurement methodology for double-extraction population-removal regimes**
 
-© ThinkWell Labs. All rights reserved. Reference only with citation.
+*B. Greenway · ThinkWell Labs Metrology · May 2026*
+
+*Companion methodology paper to the Removal Economy — Extraction Toroid and to the Obfuscratic Sabbotarchy — Deception Arcane signature instrument.*
 
 ---
 
 ## Abstract
 
-This paper sets out the method behind the *Removal Economy* instrument: a way of
-reading the contemporary attack on immigration not as a border-control question
-but as a **closed extractive cycle**. The cycle has a measurable property —
-**double extraction** — in which the same population is extracted from twice, by
-overlapping beneficiary coalitions: once as under-compensated, deportable labor
-while present, and again as the raw material of a detention-transport-real-estate
-contracting economy while being removed. The "incompetence" of broken processing
-is, on this reading, not failure but the obfuscratic layer that frames the
-sabotage as administration. The benefit of immigration is stated *as benefit*;
-the harm of removal and the profit in it are stated as what they are.
-
-This is a **measurement instrument, not an accusation.** It interprets documented,
-public figures. It does not assert criminal conduct by any named party.
+The contemporary attack on immigration is typically read as a border-control question, a humanitarian question, or a question of cruelty. This paper proposes that it is more precisely measured as a *closed extractive cycle* with a distinctive and quantifiable property: **double extraction**. The same population is extracted from twice, by overlapping beneficiary coalitions — once as under-compensated, deportable labor while present, and again as the raw material of a detention-transport-real-estate contracting economy while being removed. The cycle's defining feature is that the manufactured dysfunction of the removal apparatus — the backlog, the raid, the emptied field — is not a failure of the operation but its product, because each unit of dysfunction is an input to a contract. The methodology treats this as a measurement problem rather than a rhetorical accusation: the framing that codes the labor as a *drain* while present and a *threat* while removed is the obfuscratic layer the cycle depends on, and the diagnosis must survive the documented figures, not produce them. Reduced to a single quantity, the operation describes a transfer of the *financial health of the nation* from the places it does the most good into private extraction — the common term this instrument shares with every other on the site.
 
 ---
 
-## 1. The unit of analysis: the loop
+## 1. The problem this methodology addresses
 
-Most commentary treats four things separately — the economic contribution of
-immigrants, the enforcement crackdown, the resulting shortages, and the profits
-of detention contractors. The method's first move is to treat them as **one loop**,
-because the output of each stage is the input to the next, and because the pressure
-returns to its own origin. Six stations:
+Two analytical failures recur in discourse about immigration enforcement.
 
-1. **The Substrate** — the load-bearing labor layer.
-2. **The Manufactured Threat** — the obfuscratic recoding of dependency as invasion.
-3. **The Removal** — enforcement aimed at the substrate.
-4. **The Harm** — supply-shock and fiscal self-harm.
-5. **The Extraction** — detention, transport/deportation, real estate.
-6. **The Cost of Lives** — the unpriced term.
+The first failure is *measurement without the operation*. Economists and policy researchers measure the components in isolation: the labor contribution of immigrants in one study, the fiscal cost of mass deportation in another, the revenue forgone in a third, the profits of detention contractors in a fourth. Each measurement is sound; none sees the cycle, because each treats its component as a discrete policy outcome rather than as one stage of a single circulation in which the output of each stage funds the next. The contribution is filed under *labor economics*, the enforcement under *immigration policy*, the contractor revenue under *markets* — and the structural fact that the three are the same money moving in a loop disappears into the disciplinary boundaries.
 
-The loop closes because Station IV's manufactured harm becomes the political and
-fiscal justification for the next turn of Stations III and V.
+The second failure is the inverse: *naming without measurement*. An observer perceives that the crackdown is cruel, or racially motivated, or economically self-defeating, and asserts as much. The assertion may be correct; it cannot discipline the discourse, because it offers no instrument by which the cruelty or the self-defeat can be distinguished from ordinary enforcement, and critics rebut with the protective framing — *this is border security; this is the rule of law* — and the argument loops without resolution.
 
----
+The methodology proposed here addresses both failures by specifying the unit of analysis as the **cycle**, and by identifying the measurable property — double extraction — that the cycle exhibits and ordinary enforcement does not.
 
-## 2. Station I — the substrate (measured as benefit)
+## 2. The originating insight: extraction is doubled, not single
 
-Roughly one in five U.S. workers is foreign-born (~30.8M of ~161M, 2024). An
-estimated **8.3M undocumented workers** (5.2% of the workforce) concentrate in the
-functions the consumer economy is physically built on:
+The insight is that the population at the center of the operation is a site of extraction in *both* of its administrative states, and that the same coalitions are positioned to collect in each.
 
-| Sector | Immigrant share / count |
-|---|---|
-| Agriculture | 25.3% (54.3% of graders & sorters) |
-| Construction | ~30% (≈40% in CA/TX) |
-| Home health aides | 27.7% |
-| Undocumented, by job | construction 1.5M · restaurants 1M · agriculture 320K · landscaping 300K · food processing 200K |
+While the population is **present**, it is extracted from as labor: wages held low by the disciplining fact of deportability, and a net fiscal subsidy paid into programs the payer is barred from drawing. While the population is **removed**, it is extracted from again — now as throughput for an apparatus of detention beds, charter flights, and rapidly-procured real estate, funded by public appropriation. The two extractions are not in tension; they are sequential phases of one operation, and the political framing inverts the reality in each phase so that the public underwrites the harm done to its own interest. The labor that builds the country is coded a *drain* while it builds; the same labor is coded a *threat* while it is torn out.
 
-Net fiscal contribution (2022): **$96.7B** in federal, state, and local taxes,
-including **$25.7B** to Social Security and **$6.4B** to Medicare — programs this
-workforce is barred from drawing. ≈ **$8,889 per person per year**.
+This doubling is the property the instrument measures. An enforcement regime that merely removed unauthorized residents would exhibit single extraction at most, and would forgo rather than monetize the removal. The Removal Economy monetizes both states, and the manufactured dysfunction that prolongs the second state — the backlog, the detention duration, the third-country logistics — is what maximizes the take.
 
-> Measurement note: this is the benefit, stated as benefit. The first extraction
-> is already present here — low wages held down by deportability, and a subsidy
-> paid into a safety net the payer cannot use.
+## 3. The substrate, stated as benefit
 
----
+The methodology's first measurement is of the layer under attack, and it is stated as a benefit because that is what the documented record shows. Approximately one in five U.S. workers is foreign-born (≈30.8 million of ≈161 million, 2024). An estimated 8.3 million undocumented workers — 5.2% of the workforce — concentrate in the functions the consumer economy is physically assembled by: roughly a quarter of agricultural labor (and over half of graders and sorters), close to a third of construction, better than a quarter of home health aides, with the largest undocumented counts in construction (≈1.5M), restaurants (≈1M), agriculture (≈320K), landscaping (≈300K), and food processing (≈200K).
 
-## 3. Station II — the manufactured threat (the obfuscratic layer)
+The same population is a net fiscal contributor. In 2022 it paid an estimated $96.7 billion in federal, state, and local taxes, including $25.7 billion into Social Security and $6.4 billion into Medicare — programs from which it is, in most cases, permanently barred. Per capita, roughly $8,889 a year. This is the first extraction, already operating: value taken at below-market price, and a subsidy paid into a commons the payer cannot enter.
 
-The threat is produced, not found. A workforce deliberately held in legal limbo is
-maximally extractable: cheap while present, expellable on command. The recoding of
-that structural dependency as *invasion* is the framing layer the economy needs in
-order to operate in daylight. This is the **obfuscratic** move documented elsewhere
-in the framework: sabotage framed as security, so the public defends the mechanism
-used against it. (See the Obfuscratic Sabbotarchy methodology.)
+## 4. The obfuscratic layer: the manufactured threat
 
----
+The transition from the first extraction to the second requires a framing operation, and it is the same operation documented in the Obfuscratic Sabbotarchy framework: sabotage presented as security. A workforce deliberately held in legal limbo is the most extractable workforce available, because limbo is what makes it simultaneously cheap and expellable. Recoding that engineered dependency as *invasion* converts a structural reliance into a political asset and supplies the public justification the removal apparatus needs in order to operate in daylight. The contradiction between years of tolerated entry and the subsequent manufactured emergency is not an inconsistency in the operation; it is the operation seen from its two ends.
 
-## 4. Station III — the removal (aim, not byproduct)
+## 5. The removal and the harm
 
-Enforcement is aimed at the substrate: >500,000 removed; a detained population at a
-record (>70,000 at peak, highest since ICE's 2003 creation), the majority held in
-privately operated facilities. A border operation would target the border; this
-targets the workforce. The attack and the substrate are the same map.
+Enforcement is aimed, measurably, at the substrate of section 3 rather than at the border: more than half a million removed, a detained population at a record (above 70,000 at peak, the highest since the agency's 2003 creation), the majority held in privately operated facilities. The harm that follows divides into two measurable channels.
 
----
+The first is *supply*. After raids, farmworker non-appearance reached as high as 75% in some regions, with 25–45% ceasing work in concentrated agricultural counties; crops are documented rotting unharvested; the USDA projected food-price increases of 2.9% (2025) and 2.2% (2026); and a 10% reduction in the agricultural workforce implies on the order of a 4.2% fall in produce output and a 5.5% fall in farm revenue. The Labor Department itself conceded a risk of "supply shock-induced food shortages."
 
-## 5. Station IV — the harm (supply shock + fiscal self-harm)
+The second channel is *fiscal*, and it is the one most easily missed. Removal does not relocate the contribution measured in section 3; it destroys it — on the order of $8.9 billion in annual tax revenue forgone per million people removed, against the $96.7 billion base. The destruction is then funded: a 2025 immigration-enforcement appropriation of roughly $170 billion (including $45 billion for new detention capacity, a 265% increase to that line), a sustained cost on the order of $88 billion a year to remove a million people annually, and a projected reduction in GDP of $1.1–1.7 trillion. The nation forgoes the revenue and then spends a multiple of it to do so — and the spend is not destroyed but *routed*, which is the subject of section 6.
 
-**Supply.** After raids, up to 75% of farmworkers no-showed in some regions;
-Ventura County saw 25–45% stop. Crops rot (strawberries, blueberries, tomatoes,
-leafy greens, grapes, stone fruit). USDA food prices +2.9% (2025), +2.2% (2026). A
-10% ag-workforce cut implies −4.2% produce output and −5.5% farm revenue. The Labor
-Department itself conceded a risk of "supply shock-induced food shortages."
+## 6. The extraction architecture
 
-**Fiscal self-harm.** Removal destroys the Station I contribution rather than
-relocating it: ≈ **−$8.9B/yr per million removed**, against the $96.7B base. The
-crackdown is then *funded*: a **$170B** 2025 immigration-enforcement appropriation
-($45B for new detention alone — a 265% increase), a sustained ~$88B/yr to remove
-~1M/year, and a projected **$1.1–1.7T** GDP hit (−1.0% to −3.3%). The nation
-forfeits the revenue, then spends a multiple of it to do so — and that spend is
-routed, dollar for dollar, into Station V.
+The appropriation booked as a loss in section 5 reappears as revenue in three documented ledgers, each rising in step with the removal.
 
----
+| Ledger | Documented magnitude (2025) | Mechanism |
+|--------|------------------------------|-----------|
+| Detention | >$1B each to GEO Group and CoreCivic; GEO record $254M profit (≈700% increase), $2.63B revenue; CoreCivic ICE revenue +54.6% YoY | Paid per detained person, per day; duration of detention is revenue |
+| Transport / deportation | CSI Aviation obligations $363.9M (FY24) → $1.1B (FY25), incl. a $562M daily-charter contract; GlobalX flew 74% of removal flights, 1,700+ flights moving 44,000+ people in ~3 months | Paid per flight and per seat; volume of removal is revenue |
+| Real estate | "Alligator Alcatraz": 34 no-bid contracts exceeding $360M in three months, ≈$450M/yr to operate; GardaWorld $313.4M for an Arizona warehouse site | Emergency-procured land and lease; the facility itself is the asset |
 
-## 6. Station V — the extraction (three ledgers)
+The methodological claim is that the dysfunction is the product. Asylum backlogs, prolonged detention, and the chaos of third-country logistics are not the apparatus failing to remove people efficiently; they are the apparatus generating demand for beds, flights, and facilities. The slower and crueler the operation, the longer the bed-day, the fuller the plane, and the larger the build.
 
-| Ledger | Figure (2025) | Notes |
-|---|---|---|
-| Detention | >$1B each | GEO Group & CoreCivic each projected >$1B ICE revenue; CoreCivic Q3 ICE +54.6% YoY; GEO record $254M profit (~700% jump), $2.63B revenue. Paid per bed, per day. |
-| Transport / deportation | $1.1B | CSI Aviation FY2024 $363.9M → FY2025 $1.1B obligations ($562M daily-charter + $78.1M DHS); GlobalX flew 74% of removal flights, 1,700+ flights / 44,000+ people in ~3 months. |
-| Real estate | $360M+ | "Alligator Alcatraz": 34 no-bid contracts >$360M in three months, $450M/yr to operate; GardaWorld $313.4M Arizona warehouse; ICE buying small-town warehouses. A land-and-lease play. |
+## 7. The unpriced term
 
-> Measurement note: the backlog, the empty field, and the processing failure are
-> not the system failing to remove people. They are the system *generating demand*
-> for beds, flights, and facilities. The dysfunction is the product.
+A measurement confined to dollars would record the operation as efficient. The methodology therefore carries an explicitly unpriced term: the human cost the contracts externalize. 2025 was the deadliest year in ICE custody since 2004 — 31 deaths, roughly one every six days, December the deadliest month on record. Family separation reached 18,277 parents detained, tied to approximately 60,000 U.S.-born children; 60% of detained mothers of U.S.-citizen children were deported; more than 100 citizen children were left without a parent, against a running total above 100,000 children separated. Naming the cycle requires returning this term to the equation from which the contracts remove it.
 
----
+## 8. The double-extraction ledger and the common quantity
 
-## 7. Station VI — the cost of lives (the unpriced term)
-
-2025 was the deadliest year in ICE custody since 2004 — 31 deaths, roughly one
-every six days, December the deadliest month on record. Family separation: 18,277
-parents detained, tied to ~60,000 U.S.-born children; 60% of detained mothers of
-U.S.-citizen children deported; 100+ citizen children left without a parent;
-100,000+ children separated to date. A measurement that counts only dollars calls
-this efficient. Naming the loop means putting the deaths and separations back into
-the equation the contracts leave out.
-
----
-
-## 8. The double-extraction ledger
+The operation resolves into a single comparison.
 
 | | Extraction 1 — while present | Extraction 2 — while removed |
 |---|---|---|
-| What is taken | Cheap, deportable labor; $96.7B in taxes incl. unclaimable benefits | Detention bed-days, charter seats, no-bid construction & leases |
-| Mechanism | Legal limbo that holds wages low | Manufactured backlog & raids that generate contract demand |
-| Who is paid | Employers; safety-net solvency | Private-prison equity, charter operators, politically-wired developers |
-| How it's sold | "They're a drain / taking jobs" | "Border security / rule of law" |
+| What is taken | Cheap, deportable labor; $96.7B in taxes incl. unclaimable benefits | Detention bed-days, charter seats, no-bid construction and leases |
+| Mechanism | Legal limbo that holds wages low | Manufactured backlog and raids that generate contract demand |
+| Beneficiary | Employers; safety-net solvency | Private-prison equity, charter operators, politically-connected developers |
+| Public framing | "A drain; they take jobs" | "Border security; the rule of law" |
 
-Strip the framing and one quantity is left standing: **the financial health of the
-nation**. Public value is pulled out of the places it does most good and re-booked
-as private extraction. This is the move every instrument on the site records; the
-immigration crackdown is its clearest, most measurable instance. (See *The
-Substrate Attack*.)
+Stripped of the framing, one quantity remains standing: the *financial health of the nation*. A workforce that funded the commons is destroyed as revenue, and the funds nominally saved are not returned to the commons but spent, at a multiple, on private extraction. This is the operation every instrument on the site records in its own domain — public value pulled out of the places it does the most good and re-booked as private gain — and the immigration crackdown is its clearest and most cleanly measurable instance. The general statement of this operation is the subject of the companion paper, *The Substrate Attack*.
 
----
+## 9. Method notes and limits
 
-## 9. Method notes & limits
+The figures throughout are documented public estimates compiled as of May 2026. Sector shares, the 2022 tax base, contract magnitudes, and macroeconomic projections each carry the uncertainty of their sources and are presented as orders of magnitude where exact accounting is unavailable. The *double-extraction* reading is the instrument's interpretation, anchored to but distinct from the underlying data; patterns, incentives, and outcomes are offered as interpretation of public facts, not as findings of fact or legal conclusions about any individual or organization. The instrument documents an operation; it does not allege a crime.
 
-- **Status of figures.** Documented public estimates compiled as of May 2026.
-  Sector shares, the 2022 tax base, contract figures, and macro projections carry
-  the uncertainty of their sources and are presented as orders of magnitude where
-  exact accounting is unavailable.
-- **Interpretation vs. fact.** The *double-extraction thesis* is the instrument's
-  interpretation — anchored to, but distinct from, the underlying data. Patterns,
-  incentives, and outcomes are described as interpretation, not as findings of fact
-  or legal conclusions about any individual or organization.
-- **Not an accusation.** See `/legal/`.
+## Appendix: Evidence anchors
 
-## Sources (evidence anchors)
-
-USAFacts (immigrant workforce by industry); KFF (rural workforce); ITEP (*Tax
-Payments by Undocumented Immigrants*, 2024); American Immigration Council (*Mass
-Deportation* cost & lost-revenue reports; 2025 $170B appropriation); Penn Wharton
-Budget Model (fiscal & GDP effects); AEI (immigration enforcement & agriculture,
-2025); Fortune (Labor Dept. on supply-shock shortages); Common Dreams & OpenSecrets
-(GEO/CoreCivic; deportation air carriers); Harvard Law Review (South Florida
-detention facility); NPR (deadliest year in ICE custody); CNN / ProPublica /
-Brookings (family separation).
+Workforce composition: USAFacts (immigrant workforce by industry), KFF (rural workforce). Fiscal contribution: ITEP, *Tax Payments by Undocumented Immigrants* (2024). Cost and revenue forgone: American Immigration Council (*Mass Deportation* cost reports; the 2025 ≈$170B appropriation), Penn Wharton Budget Model (fiscal and GDP effects). Agricultural harm: AEI (immigration enforcement and the agricultural sector, 2025); Fortune (Labor Department on supply-shock shortages). Extraction ledgers: Common Dreams and OpenSecrets (GEO Group, CoreCivic, deportation air carriers); Harvard Law Review (the South Florida detention facility). Human cost: NPR (deadliest year in ICE custody); CNN, ProPublica, and Brookings (family separation).
 
 ---
 
-*Greenway, B. / ThinkWell Labs. (2026). The Removal Economy — A Double-Extraction Methodology. toroid.fyi/papers.*
+*Document version: 0.1 · May 2026 · companion to the Removal Economy — Extraction Toroid and to The Substrate Attack.*
