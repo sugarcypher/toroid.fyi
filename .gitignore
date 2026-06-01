@@ -1,9 +1,11 @@
 # Originals — preserved on disk for reference, not deployed.
 # The deploy serves the consolidated copies in poly/, sabbot/, play/, papers/, matrix/.
-Polymorphic Matrix/
-Strat-Dom-3d/
-sabbotarchy/
-opmanifold/
+# Anchored to repo root so they don't also match nested deployed pages
+# (e.g. predicates/sabbotarchy/, systems/opmanifold/).
+/Polymorphic Matrix/
+/Strat-Dom-3d/
+/sabbotarchy/
+/opmanifold/
 opmanifold.zip
 strat-dom-3d.rtf
 
