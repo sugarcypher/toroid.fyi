@@ -1,0 +1,15 @@
+# Files in the repo that should NOT be served as static assets by the
+# Worker. Server-side code, build configs, and docs live in the repo for
+# version control but never need to be public.
+src/
+node_modules/
+.github/
+.git/
+.wrangler/
+wrangler.jsonc
+package.json
+package-lock.json
+.assetsignore
+DEPLOY.md
+.gitignore
+.dev.vars*

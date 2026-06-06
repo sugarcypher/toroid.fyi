@@ -1,14 +1,28 @@
 {
+  // toroid.fyi — Cloudflare Worker (static assets + multiplayer relay).
+  //
+  // The Worker entry script handles /api/* (multiplayer room relay via a
+  // Durable Object) and falls through to the static asset bundle for
+  // every other path. The bundle is the entire repo root, minus the
+  // server-side files listed in .assetsignore.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "toroidfyi",
+  "main": "src/worker.js",
   "compatibility_date": "2026-05-27",
-  "observability": {
-    "enabled": true
-  },
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   },
-  "compatibility_flags": [
-    "nodejs_compat"
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROOMS", "class_name": "RoomDO" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["RoomDO"] }
   ]
 }
