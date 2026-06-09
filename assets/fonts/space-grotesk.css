@@ -1,6 +1,10 @@
 /* Space Grotesk — self-hosted, no third-party fetch.
+   Designed by Florian Karsten. Licensed under the SIL Open Font License 1.1.
+   Copyright 2020 The Space Grotesk Project Authors
+   (https://github.com/floriankarsten/space-grotesk). Full license: ./OFL.txt
    Variable font (weights 300–600 live in one file per subset).
-   Subsets: latin + latin-ext. Vietnamese intentionally omitted. */
+   Subsets: latin + latin-ext. Vietnamese omitted — no Vietnamese-range
+   characters appear on any page that uses this font (verified). */
 
 @font-face {
   font-family: 'Space Grotesk';
