@@ -565,16 +565,16 @@
 
   /* Selected-piece portraits — bottom-left: your ATTACKER + the TARGET, large. */
   #sel-portraits {
-    position:fixed; left:10px; bottom:10px; z-index:97;
-    display:flex; gap:8px; pointer-events:none;
+    position:fixed; left:2%; bottom:5%; z-index:97;
+    display:flex; gap:2%; pointer-events:none;
   }
   #sel-portraits .sp-card {
-    width:104px; min-height:120px; border-radius:12px; padding:8px 6px;
-    background:rgba(12,10,22,0.88); border:1.5px solid var(--border);
-    display:flex; flex-direction:column; align-items:center; gap:3px;
-    backdrop-filter:blur(6px); box-shadow:0 8px 24px rgba(0,0,0,0.45);
+    width:8vw; max-width:128px; min-width:84px; min-height:96px; padding:4px 2px;
+    background:transparent; border:none; box-shadow:none; backdrop-filter:none;
+    display:flex; flex-direction:column; align-items:center; gap:2px;
+    text-shadow:0 1px 2px #000, 0 0 6px #000;
   }
-  #sel-portraits .sp-card.empty { opacity:0.32; }
+  #sel-portraits .sp-card.empty { opacity:0.22; }
   #sel-portraits .sp-role { font:700 9px ui-monospace,Menlo,monospace; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
   #sel-portraits .sp-glyph { font-size:52px; line-height:1; margin:2px 0; text-shadow:0 0 14px currentColor; }
   #sel-portraits .sp-name { font:700 12px ui-monospace,Menlo,monospace; text-align:center; }
@@ -869,110 +869,177 @@
 
 </style>
 <style id="permanent-frame">
-  /* ====================  PERMANENT EDGE FRAME  ====================
-     All controls live in fixed edge bars; the center stays clear for the
-     torus. No floating, no hideable/minimizable panels. Always on. */
+  /* ====================  COCKPIT CONSOLE  =============================
+     The frame art is the chassis; the FUNCTIONS live inside its painted
+     slots. Every control is transparent — no boxes, no panels, no pop-ups.
+     Round buttons sit on the green rings, the compass sits in the radar
+     dial, status reads across the top bezel, rosters sit on the side
+     panels. Slot coordinates measured from gameframe.PNG. */
 
-  /* Kill the collapse / hide / minimize buttons everywhere. */
-  .panel .pbtns, #log .pbtns, #chat-panel .pbtns,
-  #btn-clear-board { display:none !important; }
-
-  /* Force every panel permanently visible & docked (defeat min/hide/collapse). */
-  #hud-left, #hud-right, #hud-dashboard, #log, #chat-panel, #rotation-readout {
-    display:flex !important; flex-direction:column !important;
-    visibility:visible !important; opacity:1 !important;
-    transform:none !important; transition:none !important;
-    box-sizing:border-box;
-  }
-  /* Neutralise the minimized / hidden states — content always shows. */
-  .panel.collapsible.minimized, .panel.collapsible.hidden,
-  #log.collapsible.minimized, #chat-panel.minimized, #chat-panel.hidden {
-    width:auto !important; min-width:0 !important; max-height:none !important;
-    padding:8px !important; background:var(--panel) !important;
-    border:1px solid var(--border) !important; box-shadow:none !important;
-  }
-  .panel.collapsible.minimized .panel-body, .panel.collapsible.hidden .panel-body,
-  #log.collapsible.minimized .panel-body,
-  #chat-panel.minimized #chat-messages, #chat-panel.minimized #chat-input-row,
-  #chat-panel.hidden .panel-head, #chat-panel.hidden #chat-body { display:block !important; }
-  .panel.collapsible .panel-mini, #chat-panel.hidden::before { display:none !important; }
-
-  /* --- TOP BAR — wraps so nothing runs off-screen; no scrolling --- */
-  #top {
-    position:fixed !important; top:0 !important; left:0 !important; right:0 !important;
-    height:auto !important; min-height:50px; display:flex !important; flex-direction:row !important;
-    flex-wrap:wrap !important; align-items:center; gap:6px 8px; padding:6px 12px;
-    background:rgba(10,8,20,0.92) !important; border-bottom:1px solid var(--border) !important;
-    z-index:100; overflow:visible !important; box-sizing:border-box;
-  }
-  #top .title { font-size:14px; white-space:nowrap; }
-
-  /* --- LEFT RAIL REMOVED — piece reference is off-screen; reach it via 🎨 Gallery. --- */
+  .panel .pbtns, #log .pbtns, #chat-panel .pbtns, #btn-clear-board, #top .title { display:none !important; }
+  /* piece reference is reached from the Gallery ring — not always on */
   #hud-left { display:none !important; }
 
-  /* --- LEFT-BOTTOM: compass readout (small, tucked) --- */
-  #rotation-readout {
-    position:fixed !important; left:8px !important; bottom:150px !important;
-    top:auto !important; right:auto !important; width:auto !important; z-index:96;
+  #frame {
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:url('../game/gameframe.PNG') center/100% 100% no-repeat;
   }
+  body { background:#04060c; }
 
-  /* --- RIGHT RAIL: dashboard (top) / log (mid) / chat (bottom) --- */
-  /* --- RIGHT RAIL: dashboard (top) / log (mid) / chat (bottom). No scroll:
-     each fills a third of the rail height and clips rather than scrolls. --- */
+  /* board renders into the dark centre window */
+  #stage {
+    position:fixed !important; z-index:1;
+    left:13%; right:13%; top:12%; bottom:17.5%;
+    border-radius:10px; overflow:hidden;
+  }
+  #stage canvas { display:block; }
+
+  /* every docked surface: transparent, glowing legible text, NO box */
+  #top, #top-pills, #hud-right, #hud-dashboard, #log, #chat-panel, #rotation-readout {
+    position:fixed !important; z-index:10;
+    background:transparent !important; border:none !important; box-shadow:none !important;
+    backdrop-filter:none !important; border-radius:0 !important;
+    transform:none !important; opacity:1 !important; visibility:visible !important;
+    max-height:none !important;
+  }
+  #top, #top *, #top-pills *, #hud-dashboard *, #log *, #chat-panel *, #hud-right *, #rotation-readout * {
+    text-shadow:0 1px 2px #000, 0 0 5px #000, 0 0 9px #000;
+  }
+  /* kill inner panel chrome so content sits directly on the frame art */
+  #hud-dashboard .panel, #log .panel, #chat-panel .panel, #hud-right .panel,
+  #hud-dashboard, #log, #chat-panel {
+    background:transparent !important; border:none !important; box-shadow:none !important;
+  }
+  .panel-head { background:transparent !important; border:none !important; }
+
+  /* ---- TOP BEZEL · phase / round status (transparent, centred) ---- */
+  #top {
+    top:1.0% !important; left:30% !important; right:30% !important;
+    display:flex !important; flex-direction:column !important; align-items:center !important;
+    gap:2px !important; padding:0 !important;
+  }
+  #top .ticker { display:flex; flex-direction:row; gap:6px 16px; flex-wrap:wrap; justify-content:center; }
+  #top .ticker .seg { display:flex; gap:4px; align-items:baseline; }
+  #top .ticker .seg .k { font-size:8px; letter-spacing:.08em; text-transform:uppercase; color:#bfe9d2; }
+  #top .ticker .seg .v { font-size:13px; font-weight:800; font-family:ui-monospace,Menlo,monospace; color:#eafff2; }
+  #phase-objective { font:700 11px ui-monospace,Menlo,monospace; color:#dff3ff; text-align:center; }
+
+  /* ---- RING BUTTONS · each painted shape IS the button; hover changes it ---- */
+  #top-pills { display:contents !important; }   /* children position themselves */
+  .ring-btn {
+    position:fixed !important; z-index:11; transform:translate(-50%,-50%);
+    width:5vw; height:5vw; max-width:84px; max-height:84px; min-width:50px; min-height:50px;
+    border-radius:50% !important; background:transparent !important; border:none !important;
+    display:flex !important; align-items:center !important; justify-content:center !important;
+    text-align:center; line-height:1.0; padding:0 !important; cursor:pointer; overflow:visible !important;
+    font:800 8.5px/1.02 ui-monospace,Menlo,monospace !important; color:#dffbe8 !important;
+    letter-spacing:.01em; text-shadow:0 1px 2px #000, 0 0 5px #000;
+    transition:transform .12s ease, color .12s ease;
+  }
+  /* the interactive ring: invisible at rest, lights up + scales on hover/active */
+  .ring-btn::before {
+    content:''; position:absolute; inset:3%; border-radius:50%;
+    border:2px solid transparent; box-shadow:none; pointer-events:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .ring-btn:hover { transform:translate(-50%,-50%) scale(1.11); color:#ffffff !important;
+    text-shadow:0 0 7px #6effb0, 0 1px 2px #000; }
+  .ring-btn:hover::before { border-color:#8effb4;
+    box-shadow:0 0 17px 3px rgba(120,255,168,.85), inset 0 0 12px rgba(120,255,168,.5); }
+  .ring-btn:active { transform:translate(-50%,-50%) scale(0.95); }
+  .ring-btn:active::before { border-color:#ffffff;
+    box-shadow:0 0 22px 6px rgba(190,255,210,.95), inset 0 0 14px rgba(190,255,210,.6); }
+  /* lit "on" state for active toggles */
+  .ring-btn.on::before, .ring-btn[aria-pressed="true"]::before { border-color:#6effb0;
+    box-shadow:0 0 14px 2px rgba(110,255,176,.7), inset 0 0 10px rgba(110,255,176,.4); }
+
+  /* per-shape placement — centres in % (frame art fills the viewport 1:1) */
+  #btn-profile { left:88%;   top:14.5%; }           /* reactor eye */
+  #lock-toggle { left:90.5%; top:39%;  }            /* Play / rotate toggle */
+  #btn-rules   { left:91%;   top:47%;  }             /* Rules */
+  #rb-dash     { left:91%;   top:55%;  }             /* Match dashboard toggle */
+  #rb-chat     { left:90.5%; top:63%;  }             /* Chat toggle */
+  #rb-log      { left:89.5%; top:70.5%; }            /* Action log toggle */
+  #rb-start    { left:87%;   top:77.5%; }            /* Start match */
+  #btn-labels  { left:84%;   top:31%; width:4vw; height:4vw; }  /* small Label toggle */
+  #btn-gallery { left:25%;   top:30%;  }             /* Piece gallery (left) */
+  #btn-flat    { left:20%;   top:21%; width:4vw; height:4vw; }  /* Unroll (top-left bar) */
+  #btn-clear-board { display:none !important; }
+  #mode-chip { display:none !important; }            /* lock-toggle ring shows mode now */
+
+  /* ---- LEFT PANEL · match dashboard (green panel x2–12%, y28–72%) ---- */
   #hud-dashboard {
-    position:fixed !important; top:62px !important; right:0 !important;
-    width:228px !important; height:calc((100vh - 62px - 168px) / 2) !important; max-height:none !important;
-    overflow:hidden !important; border-left:1px solid var(--border) !important;
-    border-radius:10px 0 0 10px !important; background:rgba(10,8,20,0.9) !important; z-index:95;
+    left:1.5% !important; right:auto !important; top:30% !important; bottom:30% !important;
+    width:11% !important; min-width:140px; overflow-y:auto !important; padding:0 6px !important;
   }
+  /* ---- RIGHT PANEL · action log (green panel x88–99%, y20–70%) ---- */
   #log, #log.collapsible:not(.hidden):not(.minimized) {
-    position:fixed !important; top:calc(62px + (100vh - 62px - 168px) / 2 + 4px) !important; right:0 !important;
-    left:auto !important; bottom:168px !important; transform:none !important;
-    width:228px !important; max-height:none !important; overflow:hidden !important;
-    border-left:1px solid var(--border) !important; border-radius:10px 0 0 10px !important;
-    background:rgba(10,8,20,0.9) !important; z-index:95;
+    right:0.6% !important; left:auto !important; top:22% !important; bottom:30% !important;
+    width:11% !important; min-width:140px; overflow-y:auto !important; padding:0 6px !important;
   }
+  /* ---- BOTTOM-RIGHT · chat (x82–99%, y78–95%) ---- */
   #chat-panel {
-    position:fixed !important; right:0 !important; left:auto !important; bottom:0 !important;
-    width:228px !important; height:164px !important; max-height:none !important;
-    overflow:hidden !important;
-    border-left:1px solid var(--border) !important; border-top:1px solid var(--border) !important;
-    border-radius:10px 0 0 0 !important; background:rgba(10,8,20,0.9) !important; z-index:95;
+    right:0.6% !important; left:auto !important; top:auto !important; bottom:5% !important;
+    width:13% !important; min-width:150px; height:17% !important; overflow:hidden !important; padding:0 6px !important;
+  }
+  #chat-panel input, #chat-panel textarea {
+    background:rgba(4,8,14,0.55) !important; border:1px solid rgba(120,255,170,0.4) !important;
+    border-radius:6px !important; color:#eafff2 !important;
   }
 
-  /* --- BOTTOM BAR: phase-control dock (action ignition lives here). Spans the
-     full width below the board (left rail removed); sizes to its content so
-     every button is visible without scrolling. --- */
+  /* ---- BOTTOM BAND · action tray + GO (over the bottom green panel) ---- */
   #hud-right {
-    position:fixed !important; left:0 !important; right:230px !important;
-    bottom:0 !important; top:auto !important; width:auto !important;
-    height:auto !important; max-height:46vh !important; overflow:visible !important;
-    border-top:1px solid var(--border) !important; border-radius:0 10px 0 0 !important;
-    background:rgba(10,8,20,0.94) !important; z-index:96;
+    left:50% !important; right:auto !important; transform:translateX(-50%) !important;
+    bottom:2.0% !important; top:auto !important;
+    width:auto !important; max-width:46vw; min-width:min(44vw,360px);
+    max-height:13vh !important; overflow:visible !important; padding:0 !important;
+    display:flex !important; flex-direction:column !important; align-items:center !important;
   }
-  /* compact rows that WRAP so all controls stay on-screen, no scroll */
-  #hud-right .panel-body { gap:4px !important; }
-  #hud-right .row { margin-top:4px !important; flex-wrap:wrap !important; }
-
-  /* Action-ignition GO button — make it the unmistakable primary control. */
+  #hud-right .panel-head { display:none !important; }
+  #hud-right .panel-body { gap:5px !important; display:flex; flex-direction:column; align-items:center; }
+  #hud-right .row { margin-top:4px !important; flex-wrap:wrap !important; justify-content:center; gap:6px; }
+  #hud-right button, #hud-right .meta-btn {
+    background:rgba(6,12,10,0.5) !important; border:1px solid rgba(120,255,170,0.45) !important;
+    border-radius:8px !important; color:#eafff2 !important;
+  }
   #hud-right .go-button {
-    font-size:18px !important; font-weight:800 !important; letter-spacing:0.08em;
-    padding:10px 26px !important; box-shadow:0 0 16px rgba(154,223,134,0.5) !important;
+    font-size:18px !important; font-weight:900 !important; padding:9px 30px !important;
+    background:linear-gradient(180deg,#7be38a,#3fae5a) !important; color:#04220f !important;
+    border:1px solid #bfffce !important; box-shadow:0 0 18px rgba(154,223,134,0.7) !important;
   }
-  /* Round-plot reset (↺) — small and de-emphasised so it isn't hit by accident. */
-  #hud-right #btn-reset.refresh-btn {
-    opacity:0.5; transform:scale(0.82); }
-  #hud-right #btn-reset.refresh-btn:hover { opacity:1; }
+  #hud-right #btn-reset.refresh-btn { opacity:0.55; transform:scale(0.8); }
 
-  /* Narrow screens: let the rails shrink rather than cover the board. */
-  @media (max-width: 1100px){
-    #hud-left { width:168px !important; }
-    #hud-dashboard, #log, #chat-panel { width:188px !important; }
-    #hud-right { left:172px !important; right:192px !important; }
+  /* ---- RADAR DIAL · rotation compass (cx~32%, cy~88%) ---- */
+  #rotation-readout {
+    left:26.5% !important; right:auto !important; bottom:3% !important; top:auto !important;
+    width:11% !important; text-align:center !important; padding:0 !important;
+  }
+
+  /* ---- toast layer · transient events, just under top bezel ---- */
+  #toast-layer { position:fixed; left:50%; top:9%; transform:translateX(-50%); z-index:30;
+    display:flex; flex-direction:column; gap:6px; align-items:center; pointer-events:none; width:min(42vw,520px); }
+  .toast { pointer-events:none; padding:6px 14px; border-radius:10px;
+    font:600 12px ui-monospace,Menlo,monospace; color:var(--fg);
+    background:rgba(8,12,22,0.94); border:1px solid rgba(120,255,170,0.4);
+    box-shadow:0 6px 20px rgba(0,0,0,0.5); animation:toastIn .2s ease, toastOut .4s ease forwards;
+    animation-delay:0s,3.4s; max-width:100%; text-align:center; }
+  .toast.good { border-color:rgba(154,223,134,0.6); }
+  .toast.warn { border-color:rgba(241,176,103,0.6); }
+  .toast.bad  { border-color:rgba(226,107,107,0.6); }
+  @keyframes toastIn { from{opacity:0;transform:translateY(-8px);} to{opacity:1;transform:none;} }
+  @keyframes toastOut{ to{opacity:0;transform:translateY(-6px);} }
+
+  body[data-phase="settlement"] #stage { filter:brightness(0.6) saturate(0.7); }
+  body.observe-mode #hud-right { opacity:0.7 !important; }
+
+  @media (max-width:1100px){
+    #hud-dashboard, #log { width:130px !important; }
+    #top { left:24% !important; right:24% !important; }
   }
 </style>
 </head>
 <body>
+<div id="frame"></div>
 <div id="stage"></div>
 
 <div class="panel" id="top">
@@ -986,6 +1053,7 @@
     <div class="seg warn" id="seg-beam"><div class="k">next ☾</div><div class="v" id="beam-pill">—</div></div>
     <div class="seg" id="seg-barriers"><div class="k">barriers</div><div class="v" id="barr-pill">—</div></div>
   </div>
+  <div id="phase-objective">—</div>
   <div class="row" id="top-pills">
     <button class="meta-btn" id="btn-clear-board" title="Hide all side panels — clean board view">🧹 Clear board</button>
     <button class="meta-btn" id="btn-labels"  title="Toggle board cell-coordinate labels (A–P × 0–11, Veil V0–V8)">🏷 Labels: off</button>
@@ -1124,6 +1192,8 @@
 
 <div id="piece-tooltip"></div>
 <div id="sel-portraits"></div>
+<div id="mode-chip"></div>
+<div id="toast-layer"></div>
 
 <div id="chat-panel">
   <div class="panel-head" id="chat-head">
@@ -1180,15 +1250,13 @@ window.addEventListener('error', (e) => {
   document.body.appendChild(d);
 });
 </script>
-<!-- Three.js loader: LOCAL vendored copy first (works offline / behind Brave Shields &
-     ad-blockers), then CDN fallbacks. document.write keeps these synchronous so the main
-     game script below always sees window.THREE defined before it runs. -->
+<!-- Three.js loader: LOCAL vendored copy only — no third-party CDN, nothing leaves the origin.
+     document.write keeps this synchronous so the main game script below always sees
+     window.THREE defined before it runs. -->
 <script src="vendor/three.min.js"></script>
-<script>window.THREE||document.write('<script src="https://unpkg.com/three@0.150.1/build/three.min.js"><\/script>');</script>
-<script>window.THREE||document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.150.1/build/three.min.js"><\/script>');</script>
 <script>
 if (typeof THREE === 'undefined'){
-  document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#a02030;color:#fff;padding:14px 24px;border-radius:8px;font-family:monospace;font-size:13px;z-index:9999;max-width:80vw">Three.js failed to load from the local copy and all CDNs. If you use Brave/an ad-blocker, allow scripts for this page, or confirm vendor/three.min.js is present.</div>');
+  document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:80px;left:50%;transform:translateX(-50%);background:#a02030;color:#fff;padding:14px 24px;border-radius:8px;font-family:monospace;font-size:13px;z-index:9999;max-width:80vw">Three.js failed to load from the local copy. Confirm vendor/three.min.js is present.</div>');
   throw new Error('Three.js not loaded');
 }
 
@@ -1638,9 +1706,33 @@ function log(msg){
     if (!G.lastRoundResults) G.lastRoundResults = [];
     G.lastRoundResults.push(msg.replace(/<[^>]+>/g, ''));
   }
-  // Log box deleted from layout; #log-body is hidden buffer for diagnostics.
+  // Feed buffer (now lives inside the Systems drawer / #log-body).
   const el = document.getElementById('log-body');
   if (el) el.innerHTML = G.log.slice(0,80).map(m=>`<div class="entry">${m}</div>`).join('');
+  // Transient toast for notable events — replaces the old permanent log slab as
+  // the default feedback surface. We surface bolded/impactful lines only.
+  maybeToast(msg);
+}
+/* Show a transient toast for high-signal events; skips routine chatter. */
+function maybeToast(msg){
+  const layer = document.getElementById('toast-layer');
+  if (!layer) return;
+  const plain = msg.replace(/<[^>]+>/g, '').trim();
+  if (!plain) return;
+  // Heuristic: only toast lines that are emphasised (<b>) or carry an event glyph.
+  const notable = /<b[ >]/.test(msg) || /[⚔☄☣✦🧩⛔🛡⚰☀☾💥🌑↯♺]/.test(plain);
+  if (!notable) return;
+  let cls = '';
+  if (/wins|ready|sealed|victory|revived|extinguished|set the/i.test(plain)) cls = 'good';
+  else if (/can't|illegal|insufficient|invalid|cannot|too fast/i.test(plain)) cls = 'bad';
+  else if (/disaster|nova|skip|comet|plague|meteor|polarity|barrier/i.test(plain)) cls = 'warn';
+  const t = document.createElement('div');
+  t.className = 'toast' + (cls ? ' ' + cls : '');
+  t.innerHTML = msg;
+  layer.appendChild(t);
+  // cap to 4 visible
+  while (layer.children.length > 4) layer.removeChild(layer.firstChild);
+  setTimeout(() => { if (t.parentNode) t.parentNode.removeChild(t); }, 3900);
 }
 
 /* ====================  TOROIDAL MATH  ================================== */
@@ -1891,16 +1983,22 @@ function setupPieces(){
 
 /* ====================  THREE.JS SCENE  ================================= */
 const stage = document.getElementById('stage');
+// Board renders into the inset centre window of the cockpit frame, not the
+// full viewport. Size everything to the stage box.
+const stageW = () => stage.clientWidth  || window.innerWidth;
+const stageH = () => stage.clientHeight || window.innerHeight;
 const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(stageW(), stageH());
 stage.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0a0712);
+// transparent background → the frame's baked-in centre starfield shows behind
+// the torus instead of a flat fill.
+scene.background = null;
 scene.fog = new THREE.Fog(0x0a0712, 35, 90);
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 200);
+const camera = new THREE.PerspectiveCamera(45, stageW()/stageH(), 0.1, 200);
 camera.position.set(18, 12, 22);
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.4));
@@ -2277,6 +2375,40 @@ const pieceGroup = new THREE.Group(); scene.add(pieceGroup);
 const ghostGroup = new THREE.Group(); scene.add(ghostGroup);
 const highlightGroup = new THREE.Group(); scene.add(highlightGroup);
 const pathGroup = new THREE.Group(); scene.add(pathGroup);
+/* Contested-site markers (addendum §4): a persistent amber hazard ring stays on
+   EVERY cell where ≥2 plots converge, through the whole reveal, and supports
+   many simultaneous sites at once. Cleared when the round resolves. Pulsed in
+   tick() via userData.cpContested. */
+const contestGroup = new THREE.Group(); scene.add(contestGroup);
+function clearContested(){ while (contestGroup.children.length){ const c = contestGroup.children.pop(); if (c.geometry) c.geometry.dispose(); if (c.material) c.material.dispose(); } }
+function markContested(target, contenders){
+  const w = toWorld(target[0], target[1], target[2]);
+  const n = toNormal(target[0], target[1], target[2]).normalize();
+  const up = new THREE.Vector3(0,1,0);
+  // amber hazard ring
+  const ring = new THREE.Mesh(
+    new THREE.RingGeometry(0.40, 0.58, 30),
+    new THREE.MeshBasicMaterial({ color:0xffb454, side:THREE.DoubleSide, transparent:true, opacity:0.9, depthWrite:false }));
+  ring.quaternion.copy(new THREE.Quaternion().setFromUnitVectors(up, n));
+  ring.position.copy(w).add(n.clone().multiplyScalar(0.10));
+  ring.rotateOnAxis(new THREE.Vector3(1,0,0), -Math.PI/2);
+  ring.userData = { cpContested:true };
+  contestGroup.add(ring);
+  // contender-count pips so multi-party (3-6p) clashes read at a glance
+  const cnt = Math.max(2, contenders || 2);
+  for (let i=0;i<cnt;i++){
+    const a = (i/cnt)*Math.PI*2;
+    const pip = new THREE.Mesh(new THREE.CircleGeometry(0.05, 10),
+      new THREE.MeshBasicMaterial({ color:0xffd89a, transparent:true, opacity:0.95, depthWrite:false }));
+    const t1 = (Math.abs(n.dot(up))>0.95)? new THREE.Vector3(1,0,0): new THREE.Vector3().crossVectors(up,n).normalize();
+    const t2 = new THREE.Vector3().crossVectors(n,t1).normalize();
+    const off = t1.clone().multiplyScalar(Math.cos(a)*0.49).add(t2.clone().multiplyScalar(Math.sin(a)*0.49));
+    pip.position.copy(w).add(n.clone().multiplyScalar(0.12)).add(off);
+    pip.quaternion.copy(ring.quaternion); pip.rotateOnAxis(new THREE.Vector3(1,0,0), -Math.PI/2);
+    pip.userData = { cpContested:true };
+    contestGroup.add(pip);
+  }
+}
 
 /* ---- Board cell-label overlay (toggleable) ----
    A sprite per cell (field A-P×0-11, veil V0-V8) floating just off the surface
@@ -2735,41 +2867,53 @@ function tickAnimation(now){
   }
 }
 
+/* ====================  BOARD HIGHLIGHT GRAMMAR (redesign · P1)  =========
+   Semantic shape language so meaning survives a crowded board — color is NOT
+   the only signal:
+     • SAFE move      → solid green ring, steady.
+     • PROJECTED      → segmented (broken) RED ring + unstable pulse, signalling
+       CONFLICT          "possible contest at resolution", NOT a guaranteed kill.
+       (red broken ring also gets a faint hazard disc.)
+   Conflict rings are tagged userData.cpConflict so tick() can pulse them. */
+const GREEN_MOVE = 0x9adf86, RED_CONFLICT = 0xe26b6b;
+function addSurfaceRing(group, t, geo, color, opacity, lift, extraUD){
+  const w = toWorld(t[0], t[1], t[2]);
+  const n = toNormal(t[0], t[1], t[2]).normalize();
+  const mesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+    color, side: THREE.DoubleSide, transparent: true, opacity, depthWrite: false }));
+  const up = new THREE.Vector3(0, 1, 0);
+  mesh.quaternion.copy(new THREE.Quaternion().setFromUnitVectors(up, n));
+  mesh.position.copy(w).add(n.clone().multiplyScalar(lift));
+  mesh.rotateOnAxis(new THREE.Vector3(1, 0, 0), -Math.PI / 2);
+  mesh.userData = Object.assign({ kind: 'highlight', pos: t }, extraUD || {});
+  group.add(mesh);
+  return mesh;
+}
 function showHighlights(targets){
   clearHighlights();
   for (const t of targets){
     const occ = pieceAt(t[0], t[1], t[2]);
-    const isCapture = occ && occ.owner !== G.activePlayer;
-    // GREEN = empty move target. RED = capture target (enemy piece is here).
-    const color = isCapture ? 0xe26b6b : 0x9adf86;
-    const opacity = isCapture ? 0.95 : 0.85;
-    const innerR = isCapture ? 0.32 : 0.36;
-    const outerR = isCapture ? 0.52 : 0.50;
-    const w = toWorld(t[0], t[1], t[2]);
-    const n = toNormal(t[0], t[1], t[2]);
-    const ring = new THREE.Mesh(
-      new THREE.RingGeometry(innerR, outerR, 24),
-      new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent:true, opacity })
-    );
-    const up = new THREE.Vector3(0,1,0);
-    const q = new THREE.Quaternion().setFromUnitVectors(up, n.normalize());
-    ring.quaternion.copy(q);
-    ring.position.copy(w).add(n.clone().multiplyScalar(0.08));
-    ring.rotateOnAxis(new THREE.Vector3(1,0,0), -Math.PI/2);
-    ring.userData = { kind:'highlight', pos: t };
-    highlightGroup.add(ring);
-    // Add an extra angry-glow inner disk for capture targets
-    if (isCapture){
-      const disk = new THREE.Mesh(
-        new THREE.CircleGeometry(0.30, 20),
-        new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent:true, opacity:0.28, depthWrite:false })
-      );
-      disk.quaternion.copy(q);
-      disk.position.copy(w).add(n.clone().multiplyScalar(0.06));
-      disk.rotateOnAxis(new THREE.Vector3(1,0,0), -Math.PI/2);
-      disk.userData = { kind:'highlight', pos: t };
-      highlightGroup.add(disk);
+    const isConflict = occ && occ.owner !== G.activePlayer;   // projected contest
+    if (!isConflict){
+      // SAFE MOVE — single calm green ring.
+      addSurfaceRing(highlightGroup, t, new THREE.RingGeometry(0.36, 0.50, 28),
+        GREEN_MOVE, 0.85, 0.08);
+      continue;
     }
+    // PROJECTED CONFLICT — segmented red ring built from arc spans with gaps,
+    // so it reads as "broken / uncertain". Pulsed by tick().
+    const SEG = 6;                          // 6 dashes
+    for (let s = 0; s < SEG; s++){
+      const a0 = (s / SEG) * Math.PI * 2 + 0.12;
+      const a1 = ((s + 0.62) / SEG) * Math.PI * 2;   // ~62% fill, 38% gap
+      const seg = addSurfaceRing(highlightGroup, t,
+        new THREE.RingGeometry(0.34, 0.54, 14, 1, a0, a1 - a0),
+        RED_CONFLICT, 0.95, 0.09, { cpConflict: true });
+    }
+    // Faint hazard disc under the broken ring.
+    addSurfaceRing(highlightGroup, t, new THREE.CircleGeometry(0.30, 22),
+      RED_CONFLICT, 0.16, 0.06, { cpConflict: true });
+    // Center crossed-reticle would go here in a later pass (kept minimal now).
   }
 }
 
@@ -5116,7 +5260,15 @@ function openBattleModal(title, sub, bodyHTML){
   document.getElementById('c4-sub').innerHTML = sub;
   document.getElementById('c4-turn').textContent = '';
   document.getElementById('c4-col-row').innerHTML = '';
-  document.getElementById('c4-grid').innerHTML = bodyHTML || '';
+  const gridEl = document.getElementById('c4-grid');
+  // RESET layout: #c4-grid is styled as a 7-column Connect-Four grid (both in
+  // CSS and inline by renderC4). Non-C4 mini-games (Blockus, Aim, Cups, etc.)
+  // inject a single wrapper div here and were getting crushed into one grid
+  // column. Restore normal block flow; renderC4 re-applies its grid when it runs.
+  gridEl.style.display = 'block';
+  gridEl.style.gridTemplateColumns = '';
+  gridEl.style.maxWidth = 'none';
+  gridEl.innerHTML = bodyHTML || '';
   document.getElementById('c4-banner').textContent = '';
   modal.classList.add('show');
   sfx('barrier');
@@ -5311,11 +5463,14 @@ function runCupShuffleBattle(battle, done){
     const cup = document.createElement('div');
     cup.dataset.cup = i;
     cup.style.cssText = `position:absolute;left:${slotX[i]}px;top:0;width:80px;height:120px;background:linear-gradient(180deg,#5a3a26,#7a4a2c 80%);border-radius:40px 40px 8px 8px;border:1px solid #8a5a36;cursor:pointer;transition:left 280ms cubic-bezier(0.5,0.0,0.5,1.0);display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:18px;color:#f5d442;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,0.5)`;
-    cup.textContent = ['A','B','C'][i];
+    // The token-cup (i===0) is marked with ● during the memorize beat; the others
+    // are blank. NO permanent A/B/C labels — otherwise you could just track the
+    // letter instead of watching the motion. Labels are cleared at shuffle start.
+    cup.textContent = (i === 0) ? '●' : '';
     cupRow.appendChild(cup);
   }
   // Hint: show token briefly
-  document.getElementById('cup-token-track').textContent = `Token starts under cup A. (Watch which slot A ends up in.)`;
+  document.getElementById('cup-token-track').textContent = `The ● cup hides the token. Watch where it moves — the mark disappears when shuffling starts.`;
   // Shuffle: 6 random swaps
   const seq = [];
   for (let k = 0; k < 6; k++){
@@ -5377,6 +5532,10 @@ function runCupShuffleBattle(battle, done){
   const startBtn = document.getElementById('cup-start');
   const beginShuffle = () => {
     if (startBtn){ startBtn.disabled = true; startBtn.style.display = 'none'; }
+    // Strip ALL cup markings so the only way to follow the token is to watch the
+    // cup's motion across slots — no label to shortcut with.
+    cups.forEach(c => { c.textContent = ''; });
+    document.getElementById('cup-token-track').textContent = '';
     document.getElementById('cup-msg').innerHTML = `<span style="color:var(--accent)">Watch carefully...</span>`;
     setTimeout(doSwap, 600);
   };
@@ -5924,6 +6083,9 @@ function checkVictory(){
 /* ====================  TURN / PHASE MACHINE  =========================== */
 function setPhase(p){
   G.phase = p;
+  // P3 · phase posture — expose the phase on <body> so CSS can give each phase a
+  // distinct visual stance (board emphasis, chrome brightness, control collapse).
+  document.body.dataset.phase = p;
   renderHUD();             // refreshTicker inside renderHUD updates the phase pill
 }
 
@@ -6005,24 +6167,30 @@ function startGame(){
   // Pull profile wallets into seats (if seats have profiles assigned).
   applyProfileWalletsToSeats();
 
-  // Wager check — every player must afford the ante.
-  for (const pl of G.players){
-    if ((G.wallets[pl.id] ?? 0) < G.entryFee){
-      log(`<b>Can't start:</b> ${NAME[pl.id]} has ${G.wallets[pl.id] ?? 0} ⛁ but the ante is ${G.entryFee} ⛁.`);
-      sfx('invalid');
-      return;
-    }
-  }
-  // Ante from each wallet into the pot.
-  G.pot = 0;
-  for (const pl of G.players){
-    G.wallets[pl.id] -= G.entryFee;
-    G.pot += G.entryFee;
-  }
+  // STAKES — only when an entry fee is set (multiplayer wager lane). Sandbox /
+  // Solo run with entryFee 0: no ante, no pot, no wallet movement.
   G.settlement = null;
-  const projWin = Math.round(G.pot * (1 - G.rakeRate));
-  sfx('ante');
-  log(`<b>Antes posted:</b> each player put up ${G.entryFee} ⛁. Pot ${G.pot} ⛁ · winner takes ${projWin} ⛁ after 5% rake.`);
+  G.pot = 0;
+  if (G.entryFee > 0){
+    // Every player must afford the ante.
+    for (const pl of G.players){
+      if ((G.wallets[pl.id] ?? 0) < G.entryFee){
+        log(`<b>Can't start:</b> ${NAME[pl.id]} has ${G.wallets[pl.id] ?? 0} ⛁ but the ante is ${G.entryFee} ⛁.`);
+        sfx('invalid');
+        return;
+      }
+    }
+    for (const pl of G.players){
+      G.wallets[pl.id] -= G.entryFee;
+      G.pot += G.entryFee;
+    }
+    const projWin = Math.round(G.pot * (1 - G.rakeRate));
+    sfx('ante');
+    log(`<b>Antes posted:</b> each player put up ${G.entryFee} ⛁. Pot ${G.pot} ⛁ · winner takes ${projWin} ⛁ after 5% rake.`);
+  } else {
+    sfx('ante');
+    log(`<b>${G.frontMode === 'sandbox' ? 'Sandbox' : 'Practice'} match</b> — no stakes.`);
+  }
   setupPieces();
   G.nodes = [];
   G.barriers = new Set();
@@ -6433,8 +6601,14 @@ function revealAll(){
     byTarget.get(k).push(plot);
   }
   const conflictKeys = new Set();
+  clearContested();
   for (const [k, list] of byTarget){
-    if (list.length > 1) conflictKeys.add(k);
+    if (list.length > 1){
+      conflictKeys.add(k);
+      // Persistent amber hazard marker at this contested cell — stays up through
+      // the whole reveal; many sites can show at once (multi-party rounds).
+      markContested(list[0].target, list.length);
+    }
   }
 
   // 5. Animate all plots simultaneously
@@ -6541,6 +6715,7 @@ function revealAll(){
 }
 
 function finishRound(){
+  clearContested();   // contested-site hazard markers resolve with the round
   renderEntities();
   // Update minAlive tracking (for Phoenix Comeback achievement)
   for (let sid = 0; sid < G.playerCount; sid++){
@@ -7100,11 +7275,28 @@ function renderDashboard(){
   });
 }
 
+/* One-line, player-first objective shown in the Phase Strip. */
+function refreshPhaseObjective(){
+  const el = document.getElementById('phase-objective');
+  if (!el) return;
+  const me = G.activePlayer != null ? NAME[G.activePlayer] : '';
+  const map = {
+    setup:          'Choose how to play, then start the match.',
+    'node-place':   `${me}: place your barrier nodes — privately.`,
+    'weapon-commit':`${me}: commit your flare & beam directions — locked for the match.`,
+    plot:           `${me}: select a piece, then a target ring. Green = safe, red = contested.`,
+    reveal:         'Revealing all plots — contested cells resolve now.',
+    'combat-bridge':'Resolving the round…',
+    settlement:     (G.winner != null ? `${NAME[G.winner]} wins.` : 'Match over.'),
+  };
+  el.textContent = map[G.phase] || '';
+}
 function renderHUD(){
   refreshTorusTexture();   // re-tint quadrants for current phase / active player
   renderDashboard();       // refresh telemetry + graveyard
   renderSelPortraits();    // bottom-left attacker/target portraits
   refreshTicker();         // dense top-bar
+  refreshPhaseObjective(); // one-line objective in the Phase Strip
   refreshPanelMinis();     // compact mini-views for minimized panels
   refreshInstructions();   // PRE-GAME / IN-GAME indicator + current step
   // Show or hide weapon preview lines based on current phase
@@ -7134,10 +7326,31 @@ function renderHUD(){
       const ok = (G.wallets[i] ?? 0) >= G.entryFee;
       walletsList.push(`<span style="color:${ok ? HEX[i] : 'var(--bad)'}">${NAME[i]} ${G.wallets[i] ?? 0} ⛁${ok?'':' (insufficient)'}</span>`);
     }
+    // P5 · MODE-FIRST front door. The brief: ask what experience the player
+    // wants (Sandbox / Solo vs Computer / Multiplayer) BEFORE any stake framing.
+    // Stakes are demoted to a collapsible detail (and will retire entirely once
+    // the paid-accounts backend replaces per-match wagering).
+    G.frontMode = G.frontMode || 'solo';
+    const modeCards = [
+      { id:'sandbox', icon:'🧪', name:'Sandbox',       desc:'No stakes. Full rules, free exploration & study.' },
+      { id:'solo',    icon:'🤖', name:'Solo vs Computer', desc:'Train against AI. Private full matches.' },
+      { id:'multi',   icon:'🌐', name:'Multiplayer',    desc:'Play other people. Casual or ranked.' },
+    ];
+    const showStakes = (G.frontMode === 'multi');
     ctl.innerHTML = `
-      <p class="hint">Toroidal · 38 pieces per side · pure-skill Warplan (no dice). Reference panel on the left.</p>
+      <div class="hint" style="font-size:13px;color:var(--fg)"><b>Strategic Domination 3D</b> · toroidal · pure-skill Warplan</div>
 
-      <div class="hint" style="margin-top:10px"><b>Players</b></div>
+      <div class="hint" style="margin-top:10px"><b>1 · Choose how to play</b></div>
+      <div class="row" style="gap:6px">
+        ${modeCards.map(m => `
+          <button class="mode-card ${G.frontMode===m.id?'good':'ghost'}" data-mode="${m.id}"
+            style="flex:1;min-width:120px;text-align:left;padding:8px 10px;line-height:1.35">
+            <div style="font-size:15px">${m.icon} <b>${m.name}</b></div>
+            <div class="small" style="color:var(--muted);font-size:10px;margin-top:2px">${m.desc}</div>
+          </button>`).join('')}
+      </div>
+
+      <div class="hint" style="margin-top:12px"><b>2 · Players</b></div>
       <div class="row">
         ${[1,2,3,4,5,6].map(n =>
           `<button id="btn-${n}p" class="${G.humanCount===n?'good':'ghost'}" style="padding:6px 11px">${n}</button>`
@@ -7152,27 +7365,29 @@ function renderHUD(){
             : `${G.humanCount} humans · no AI`;
         })()}
       </div>
-      ${G.playerCount===6 ? '<div class="hint" style="color:var(--accent)">Compact 32-piece formation per side (vs 38 in 2P/4P) to fit 3 u-sectors × 2 v-bands.</div>' : ''}
+      ${G.playerCount===6 ? '<div class="hint" style="color:var(--accent)">Compact 32-piece formation per side (vs 38 in 2P/4P).</div>' : ''}
 
-      <div class="hint" style="margin-top:10px"><b>Wager — entry fee per player</b></div>
-      <div class="row">
-        ${fees.map(f => `<button class="${G.entryFee===f?'good':'ghost'}" data-fee="${f}">${f} ⛁</button>`).join(' ')}
-      </div>
-      <div class="hint" style="margin-top:6px;font-family:ui-monospace,Menlo,monospace">
-        Pot: <b>${projectedPot} ⛁</b> · Rake (5%): ${projectedRake} ⛁ · <b style="color:var(--good)">Winner takes ${projectedWin} ⛁</b>
-      </div>
-      <div class="hint" style="margin-top:6px">
-        Wallets: ${walletsList.join(' · ')}
-        ${G.houseRake > 0 ? `<br>House rake to date: <b>${G.houseRake} ⛁</b>` : ''}
-      </div>
+      ${showStakes ? `
+      <details style="margin-top:12px">
+        <summary class="hint" style="cursor:pointer"><b>Stakes</b> <span class="small" style="color:var(--muted)">(optional · multiplayer)</span></summary>
+        <div class="row" style="margin-top:6px">
+          ${fees.map(f => `<button class="${G.entryFee===f?'good':'ghost'}" data-fee="${f}">${f} ⛁</button>`).join(' ')}
+        </div>
+        <div class="hint" style="margin-top:6px;font-family:ui-monospace,Menlo,monospace;font-size:11px">
+          Pot <b>${projectedPot}</b> · rake 5% · <b style="color:var(--good)">winner ${projectedWin} ⛁</b>
+        </div>
+      </details>` : `
+      <div class="hint small" style="margin-top:12px;color:var(--muted)">${G.frontMode==='sandbox' ? 'Sandbox · no stakes, no ante.' : 'Solo · practice, no stakes.'}</div>`}
 
-      <div class="hint" style="margin-top:10px">Hotkeys: <b>Space</b> or <b>right-click</b> toggle Play/Rotate mode.</div>
-      <button id="btn-start" style="margin-top:10px">Ante &amp; start match</button>`;
+      <div class="hint small" style="margin-top:10px;color:var(--muted)">Hotkeys: <b>Space</b> / right-click toggle Play/Rotate.</div>
+      <button id="btn-start" class="go-button" style="margin-top:10px;width:100%">${showStakes ? 'Ante &amp; start match' : 'Start match'}</button>`;
+    document.querySelectorAll('button[data-mode]').forEach(el => {
+      el.onclick = () => { G.frontMode = el.dataset.mode; if (el.dataset.mode !== 'multi') G.entryFee = 0; renderHUD(); };
+    });
     for (const n of [1,2,3,4,5,6]){
       const b = document.getElementById(`btn-${n}p`);
       if (b) b.onclick = () => {
         G.humanCount = n;
-        // Round UP to next even for board layout
         G.playerCount = (n % 2 === 0) ? n : n + 1;
         renderHUD();
       };
@@ -7575,6 +7790,13 @@ const controls = makeOrbitControls(camera, renderer.domElement);
 let cameraLocked = true;
 controls.enabled = false;
 const lockBtn = document.getElementById('lock-toggle');
+function applyCameraModeClass(){
+  // P4 · make the lock state a visible interaction MODE, not just a toggle.
+  //   cameraLocked=true  → COMMAND mode (click to act; peripheral chrome calm)
+  //   cameraLocked=false → OBSERVE mode (free rotate; selection muted)
+  document.body.classList.toggle('observe-mode', !cameraLocked);
+  document.body.classList.toggle('command-mode', cameraLocked);
+}
 function toggleCameraLock(){
   cameraLocked = !cameraLocked;
   controls.enabled = !cameraLocked;
@@ -7587,6 +7809,7 @@ function toggleCameraLock(){
     lockBtn.classList.remove('locked');
     lockBtn.title = 'ROTATE mode — drag to spin the torus. Press Space or right-click to switch to PLAY.';
   }
+  applyCameraModeClass();
   sfx('toggle');
 }
 // Sync button label to the initial state (lockBtn HTML is set up for ROTATE
@@ -7595,6 +7818,7 @@ lockBtn.innerHTML = '🔒 PLAY<span class="hk">space</span>';
 lockBtn.classList.add('locked');
 lockBtn.title = 'PLAY mode — click pieces and cells. Press Space or right-click to switch to ROTATE.';
 lockBtn.onclick = toggleCameraLock;
+applyCameraModeClass();   // P4 · stamp the initial mode class (starts in COMMAND/PLAY)
 
 // (Legacy dash-toggle binding removed — universal collapse pattern handles it.)
 
@@ -7831,11 +8055,16 @@ renderer.domElement.addEventListener('click', (ev) => {
 });
 
 /* ====================  RENDER LOOP  ==================================== */
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+function resizeToStage(){
+  const w = stageW(), h = stageH();
+  camera.aspect = w / h;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+  renderer.setSize(w, h);
+}
+window.addEventListener('resize', resizeToStage);
+// frame % insets mean the stage box can change without a window resize event
+// (fonts, scrollbars, first layout); re-sync shortly after load.
+window.addEventListener('load', () => setTimeout(resizeToStage, 60));
 
 function tick(t){
   controls.update();
@@ -7847,6 +8076,25 @@ function tick(t){
   tickFlatView();
   veilGroup.position.y = Math.sin(t * 0.0006) * 0.4;
   veilGroup.rotation.y = t * 0.0001;
+  // Projected-conflict rings pulse unstably — reinforces "possible contest,
+  // not a sure kill". Cheap opacity wobble on the tagged highlight meshes.
+  if (highlightGroup.children.length){
+    const wob = 0.55 + Math.abs(Math.sin(t * 0.006)) * 0.45;
+    for (const o of highlightGroup.children){
+      if (o.userData && o.userData.cpConflict && o.material){
+        o.material.opacity = (o.geometry.type === 'CircleGeometry' ? 0.16 : 0.95) * wob;
+      }
+    }
+  }
+  // Contested-site hazard markers pulse (urgent, slightly faster).
+  if (contestGroup.children.length){
+    const cw = 0.6 + Math.abs(Math.sin(t * 0.008)) * 0.4;
+    const sc = 1 + Math.sin(t * 0.008) * 0.06;
+    for (const o of contestGroup.children){
+      if (o.material) o.material.opacity = (o.geometry.type === 'CircleGeometry' ? 0.95 : 0.9) * cw;
+      if (o.geometry.type === 'RingGeometry') o.scale.setScalar(sc);
+    }
+  }
   if (G.flatView || flatT > 0.001){
     // flatten view owns piece-mesh transforms; skip the selection/pulse glow
   } else if (G.selectedPieceId != null){
@@ -8085,16 +8333,49 @@ if (_flatBtn) _flatBtn.onclick = () => setFlatView(!G.flatView);
    on load so nothing crowds the central board. The player expands what they need
    (click a chip / panel header, or the restore rail). The phase-control dock is
    left as-is — it's needed every turn. */
-(function keepTorusFieldClear(){
+/* P2 · COLLAPSIBLE RIGHT-RAIL DRAWERS — replaces the old hide-on-load logic.
+   Each intel panel (dashboard / log / chat) gets a header with a collapse
+   chevron and a slim re-open tab pinned to the right edge. Collapsed by default
+   so the board is unobstructed; the player opens what they need. */
+(function setupDrawers(){
+  // DISABLED: panels now live permanently docked on the cockpit frame — no
+  // collapse tabs, no hiding. The frame IS the UI. (Per design brief.)
+  return;
+  // eslint-disable-next-line no-unreachable
+  // Intel drawer (left): dashboard. Systems drawer (right): action-log feed + chat.
+  const drawers = [
+    { id:'hud-dashboard', label:'INTEL',   side:'left',  tabTop:'40%' },
+    { id:'log',           label:'EVENTS',  side:'right', tabTop:'30%' },
+    { id:'chat-panel',    label:'CHAT',    side:'right', tabTop:'58%' },
+  ];
+  function setCollapsed(id, collapsed){
+    const el = document.getElementById(id); if (!el) return;
+    el.classList.toggle('cp-collapsed', collapsed);
+    const tab = document.getElementById('tab-' + id);
+    if (tab) tab.style.display = collapsed ? 'flex' : 'none';
+    const chev = el.querySelector('.cp-drawer-head .cp-chev');
+    if (chev) chev.textContent = collapsed ? (el.id==='hud-dashboard'?'⟨':'⟩') : (el.id==='hud-dashboard'?'⟩':'⟨');
+  }
   try {
-    ['hud-left', 'hud-dashboard', 'log'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el && typeof setPanelState === 'function') setPanelState(el, 'hide');
-    });
-    const chat = document.getElementById('chat-panel');
-    if (chat) chat.classList.add('hidden');
-    if (typeof refreshRestoreRail === 'function') refreshRestoreRail();
-  } catch (e) { /* non-fatal — never block the board from rendering */ }
+    for (const d of drawers){
+      const el = document.getElementById(d.id); if (!el) continue;
+      if (!el.querySelector('.cp-drawer-head')){
+        const head = document.createElement('div');
+        head.className = 'cp-drawer-head';
+        head.innerHTML = `<span>${d.label}</span><span class="cp-chev">⟨</span>`;
+        head.onclick = () => setCollapsed(d.id, !el.classList.contains('cp-collapsed'));
+        el.insertBefore(head, el.firstChild);
+      }
+      if (!document.getElementById('tab-' + d.id)){
+        const tab = document.createElement('div');
+        tab.id = 'tab-' + d.id; tab.className = 'cp-drawer-tab ' + d.side;
+        tab.style.top = d.tabTop; tab.textContent = d.label;
+        tab.onclick = () => setCollapsed(d.id, false);
+        document.body.appendChild(tab);
+      }
+      setCollapsed(d.id, true);   // collapsed by default → board is the star
+    }
+  } catch (e) { /* never block the board from rendering */ }
 })();
 
 /* ====================  BOTTOM RESTORE RAIL  ==============================
@@ -9555,6 +9836,34 @@ log('Pieces encode their own rules in their <b>shape</b>. Reference table on the
 log('Only <b>Sun</b> and <b>Moon</b> can self-ascend to the Veil — the omnidirectional forms have lift. <b>Set the enemy Sun</b> to win.');
 log('Your own pieces are <b>transparent</b> to you — sliders pass through friendlies (you can\'t block yourself). Enemies still block.');
 log('Click <b>Start match</b> when ready.');
+
+/* ====================  COCKPIT RING WIRING  ==========================
+   Every painted shape is a real button. Existing controls are tagged as
+   ring buttons; the side panels get dedicated toggle rings that show/hide
+   them and light up when active. */
+(function cockpit(){
+  const $ = id => document.getElementById(id);
+  ['btn-profile','lock-toggle','btn-rules','btn-labels','btn-gallery','btn-flat']
+    .forEach(id => { const e=$(id); if (e) e.classList.add('ring-btn'); });
+
+  function ringBtn(id, label){
+    let b=$(id); if (b) return b;
+    b=document.createElement('button'); b.id=id; b.className='ring-btn';
+    b.type='button'; b.innerHTML=label; document.body.appendChild(b); return b;
+  }
+  function bindToggle(btn, panel, startOn){
+    if (!btn || !panel) return;
+    const set = on => { panel.style.display = on ? '' : 'none'; btn.classList.toggle('on', on); };
+    set(startOn);
+    btn.addEventListener('click', () => set(panel.style.display === 'none'));
+  }
+  bindToggle(ringBtn('rb-dash','MATCH'), $('hud-dashboard'), true);
+  bindToggle(ringBtn('rb-log','LOG'),    $('log'),           true);
+  bindToggle(ringBtn('rb-chat','CHAT'),  $('chat-panel'),    false);
+
+  const start = ringBtn('rb-start','START');
+  start.addEventListener('click', () => { const s=$('btn-start')||$('btn-go-big'); if (s) s.click(); });
+})();
 </script>
 </body>
 </html>
