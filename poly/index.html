@@ -3696,17 +3696,20 @@ const visibleTargets = targets.filter(t => connectedTargetIds.has(t.id));
 // ===========================================================================
 // TORUS GEOMETRY
 // ===========================================================================
-// Nested-torus geometry — "tire and inner tube" topology.
-// Both tori share the same major-circle axis (R_OUT = R_IN). The inner torus has a
-// smaller minor radius (r_IN < r_OUT), so it sits concentrically INSIDE the outer
-// torus's tube — like an inner tube inside a tire. The annular gap between the
-// outer-tube interior wall and the inner-tube exterior wall is the structural space
-// in which STRUCT operations flow. The convergence node sits at the origin (in the
-// shared donut hole of both tori).
+// Nested-torus geometry — concentric tori were illegible: with R_IN = R_OUT the inner
+// (target / "consequence") torus sat buried inside the outer tube and never read as a
+// distinct surface, so the actor→target cells appeared to vanish into the body of the
+// outer torus instead of visibly bridging the two rings.
+// Fix: pull the inner ring INWARD (smaller major radius) so it nests in the central
+// donut hole as its own legible ring. The actor→target cells route outer-actor →
+// central catalyst → inner-target, so a smaller inner ring makes that bridge read as
+// "origination on the outer crown presses inward onto the consequence ring." The
+// convergence node still sits at the origin, now ringed by the inner torus.
+// These four constants are the tuning knobs for that nesting — adjust and reload.
 const R_OUT = 6.0;
 const r_OUT = 3.0;
-const R_IN  = 6.0;   // same major radius — concentric with outer torus
-const r_IN  = 1.6;   // smaller minor radius — sits inside the outer torus's tube
+const R_IN  = 4.0;   // inner ring pulled inward toward the hole (was 6.0 = buried)
+const r_IN  = 1.6;   // minor radius of the inner consequence ring
 
 // Backwards-compat aliases for any external code paths still expecting `R` and `r`.
 const R = R_OUT;
@@ -3737,8 +3740,10 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xf5f3ec);
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-// Angled view to emphasize 3D structure of the torus
-camera.position.set(11, -17, 16);
+// Lower, more oblique 3/4 view — drops the camera nearer the equatorial plane so the
+// crown (outer actors) AND the inner consequence ring nested in the hole read at once,
+// instead of the old near-top-down angle that only showed the upper hemisphere.
+camera.position.set(15, -19, 10);
 
 const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -3797,11 +3802,12 @@ const innerWire = new THREE.LineSegments(
 );
 scene.add(innerWire);
 
-// Subtle solid layer behind the inner torus wireframe to give it visual weight
+// Solid layer behind the inner torus wireframe so the nested consequence ring reads as
+// a distinct object in the hole (was 0.10 — too faint to see once buried).
 const innerSolidMat = new THREE.MeshPhongMaterial({
   color: 0x4B6B7E,
   transparent: true,
-  opacity: 0.10,
+  opacity: 0.20,
   side: THREE.DoubleSide,
   depthWrite: false,
   shininess: 30
@@ -4722,7 +4728,7 @@ function makeLabel(text, classes) {
 
 // UI toggle state — labels and refs default OFF; panels default visible.
 const ui = {
-  showLabels: false,
+  showLabels: true,   // hub-node names visible on load; toggle off for a clean view
   showRefs: false,
   showInfo: true,
   showControls: false,        // hidden initially — invitation to discover, not overwhelm
@@ -5183,11 +5189,13 @@ function updateNodeVisuals() {
     if (!hasSelection) {
       mesh.material.opacity = 1.0;
       mesh.visible = true;
-      // When LABELS toggled on without selection, show all visible node labels
-      if (label) label.element.style.display = ui.showLabels ? 'block' : 'none';
+      // LABELS on with nothing selected → persistent labels for hub nodes only,
+      // so the names read cleanly. Hover any node for its name; select for the rest.
+      if (label) label.element.style.display = (ui.showLabels && hubLabelIds.has(id)) ? 'block' : 'none';
     } else if (isInSelection || isConnected) {
       mesh.material.opacity = 1.0;
       mesh.visible = true;
+      // Within a selection the visible set is small, so show every connected label.
       if (label) label.element.style.display = ui.showLabels ? 'block' : 'none';
     } else {
       mesh.material.opacity = 0.06;
@@ -5209,7 +5217,7 @@ function updateNodeVisuals() {
     if (!hasSelection) {
       mesh.material.opacity = 1.0;
       mesh.visible = !isInternational || showGlobal;
-      if (label) label.element.style.display = (ui.showLabels && allowLabel) ? 'block' : 'none';
+      if (label) label.element.style.display = (ui.showLabels && allowLabel && hubLabelIds.has(id)) ? 'block' : 'none';
     } else if (isInSelection || isConnected) {
       mesh.material.opacity = 1.0;
       mesh.visible = !isInternational || showGlobal;
@@ -5225,6 +5233,18 @@ function updateNodeVisuals() {
 
 // Initialize labels after all meshes are created
 initializeLabels();
+
+// Hub nodes carry persistent labels in the unselected "LABELS on" view so the
+// names are legible instead of a 130-label hairball. A hub = a node with the
+// highest cell-degree (most documented connections). Every other node still
+// surfaces its name on hover, and selecting a node reveals its whole neighborhood.
+const HUB_LABEL_COUNT = 14;
+const hubLabelIds = (() => {
+  const aDeg = {}, tDeg = {};
+  cells.forEach(c => { aDeg[c.actor] = (aDeg[c.actor] || 0) + 1; tDeg[c.target] = (tDeg[c.target] || 0) + 1; });
+  const topN = (deg, n) => Object.entries(deg).sort((x, y) => y[1] - x[1]).slice(0, n).map(e => e[0]);
+  return new Set([...topN(aDeg, HUB_LABEL_COUNT), ...topN(tDeg, HUB_LABEL_COUNT)]);
+})();
 
 // ===========================================================================
 // FILTER UI
