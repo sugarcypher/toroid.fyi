@@ -4232,6 +4232,22 @@ function buildWormholes() {
   }
   if (!showWormholes) return;
 
+  // OBFUSCATION BLACK-BOX — a dark translucent shell at the toroidal centre that
+  // veils the wormhole throats crossing through it. The catalyst node glows dimly
+  // inside: catalysis wrapped in the obfuscation that lets it run unaccountably.
+  // Wormholes enter/exit on its surface (radius OBOX_R); the crossing interior is
+  // hidden by the shell — the thing that MEANS obfuscation also hides the tangle.
+  const OBOX_R = 0.85;
+  const oboxGeom = new THREE.SphereGeometry(OBOX_R, 32, 24);
+  const oboxMat = new THREE.MeshPhongMaterial({
+    color: 0x0a0a12, transparent: true, opacity: 0.66,
+    depthWrite: true, shininess: 60, specular: 0x33334d
+  });
+  const obox = new THREE.Mesh(oboxGeom, oboxMat);
+  obox.userData = { type: 'obfuscation_box', data: { name: 'Obfuscation black-box' } };
+  obox.renderOrder = 1;
+  wormholeGroup.add(obox);
+
   wormholes.forEach(wh => {
     const a = actorMeshes[wh.a];
     const b = actorMeshes[wh.b];
@@ -4251,58 +4267,59 @@ function buildWormholes() {
     const start = a.position.clone();
     const end = b.position.clone();
 
-    // Wormhole geometry: gentle bowed Bezier curve between start and end, bowed AWAY
-    // from the catalyst node so the wormhole appears to take a "shortcut" through
-    // exterior space rather than crossing the operational interior. Guaranteed
-    // termination at both endpoints by construction (curve points start with `start`
-    // and end with `end`).
-    const segments = 60;
-    const midpoint = start.clone().lerp(end, 0.5);
-    // Bow outward: midpoint pushed radially outward from origin (away from catalyst)
-    const outwardDir = midpoint.clone().normalize();
-    const bowDistance = start.distanceTo(end) * 0.25 + 1.5;
-    const bowPoint = midpoint.clone().add(outwardDir.multiplyScalar(bowDistance));
-
-    const points = [];
-    for (let i = 0; i <= segments; i++) {
-      const t = i / segments;
-      // Quadratic Bezier: (1-t)^2 * start + 2(1-t)t * bowPoint + t^2 * end
-      const u = 1 - t;
-      const p = start.clone().multiplyScalar(u * u)
-                .add(bowPoint.clone().multiplyScalar(2 * u * t))
-                .add(end.clone().multiplyScalar(t * t));
-      points.push(p);
-    }
-    const curve = new THREE.CatmullRomCurve3(points);
+    // Wormhole geometry: route through the central OBFUSCATION BLACK-BOX — in one
+    // mouth (facing A), through the occluded throat at origin, out the mouth facing
+    // B, then circle toward B. A B-cell is benefit WITHOUT a documented connection;
+    // routing it through the opaque centre makes the path literally untraceable —
+    // the visual IS the obfuscation. (Previously bowed outward to dodge the interior;
+    // the shell now hides the crossing tangle instead.) Termination guaranteed: the
+    // control list starts at `start` and ends at `end`.
+    const isSel = selection.type === 'node' && (wh.a === selection.value || wh.b === selection.value);
+    const entryPt = start.clone().normalize().multiplyScalar(OBOX_R);  // mouth facing A
+    const exitPt  = end.clone().normalize().multiplyScalar(OBOX_R);    // mouth facing B
+    // "circle toward B": bow the exit→B leg tangentially so the backchannel appears
+    // to emerge from the box and orbit toward its partner, not fire straight out.
+    let tang = new THREE.Vector3().crossVectors(exitPt.clone().normalize(), new THREE.Vector3(0, 1, 0));
+    if (tang.lengthSq() < 1e-4) tang.set(1, 0, 0);
+    tang.normalize();
+    const circleCtl = exitPt.clone().lerp(end, 0.5).add(tang.multiplyScalar(end.distanceTo(exitPt) * 0.35));
+    const curve = new THREE.CatmullRomCurve3([ start, entryPt, new THREE.Vector3(0, 0, 0), exitPt, circleCtl, end ]);
 
     // Single thick translucent tube — white, additive blending, very low opacity.
     // This produces the "ghostly aurora" visual the wormholes should have:
     // visually large but not visually dominant, see-through, suggests "shortcut
     // through hyperspace" without occluding underlying geometry.
-    const tubeGeom = new THREE.TubeGeometry(curve, 60, 0.075, 8, false);
+    // When this node is isolated, its backchannels turn gold, thicken, and draw
+    // OVER the box/mesh (depthTest off) so they become individually traceable
+    // through the obfuscation: obscured by default, legible when interrogated.
+    const tubeGeom = new THREE.TubeGeometry(curve, 64, isSel ? 0.12 : 0.075, 8, false);
     const tubeMat = new THREE.MeshBasicMaterial({
-      color: 0xF8F8FF,  // ghost white — not magenta
+      color: isSel ? 0xFFC23A : 0xF8F8FF,  // gold when isolated, else ghost white
       transparent: true,
-      opacity: 0.22,
+      opacity: isSel ? 0.92 : 0.22,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      depthWrite: false  // don't occlude underlying geometry
+      depthWrite: false,  // don't occlude underlying geometry
+      depthTest: !isSel   // isolated backchannels render over the box → traceable
     });
     const tube = new THREE.Mesh(tubeGeom, tubeMat);
+    tube.renderOrder = isSel ? 5 : 0;
     tube.userData = { type: 'wormhole', data: wh };
     wormholeGroup.add(tube);
 
     // Subtle inner core for definition — even more transparent, thinner
-    const coreGeom = new THREE.TubeGeometry(curve, 60, 0.025, 6, false);
+    const coreGeom = new THREE.TubeGeometry(curve, 64, isSel ? 0.045 : 0.025, 6, false);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF,
+      color: isSel ? 0xFFE680 : 0xFFFFFF,
       transparent: true,
-      opacity: 0.35,
+      opacity: isSel ? 0.95 : 0.35,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
-      depthWrite: false
+      depthWrite: false,
+      depthTest: !isSel
     });
     const core = new THREE.Mesh(coreGeom, coreMat);
+    core.renderOrder = isSel ? 6 : 0;
     core.userData = { type: 'wormhole', data: wh };
     wormholeGroup.add(core);
 
@@ -4311,13 +4328,14 @@ function buildWormholes() {
     // ensuring the wormhole visually attaches to both nodes regardless of
     // the curve's geometric behavior at endpoints.
     [start, end].forEach(pos => {
-      const anchorGeom = new THREE.SphereGeometry(0.11, 12, 12);
+      const anchorGeom = new THREE.SphereGeometry(isSel ? 0.15 : 0.11, 12, 12);
       const anchorMat = new THREE.MeshBasicMaterial({
-        color: 0xFFFFFF,
+        color: isSel ? 0xFFD54A : 0xFFFFFF,
         transparent: true,
-        opacity: 0.45,
+        opacity: isSel ? 0.9 : 0.45,
         blending: THREE.AdditiveBlending,
-        depthWrite: false
+        depthWrite: false,
+        depthTest: !isSel
       });
       const anchor = new THREE.Mesh(anchorGeom, anchorMat);
       anchor.position.copy(pos);
@@ -4333,15 +4351,17 @@ function buildWormholes() {
                          wh.direction === 'A_BEN' ? [false] :
                          [true];
       directions.forEach(dir => {
-        const particleGeom = new THREE.SphereGeometry(0.07, 8, 8);
+        const particleGeom = new THREE.SphereGeometry(isSel ? 0.1 : 0.07, 8, 8);
         const particleMat = new THREE.MeshBasicMaterial({
-          color: 0xFFFFFF,
+          color: isSel ? 0xFFD54A : 0xFFFFFF,
           transparent: true,
-          opacity: 0.85,
+          opacity: isSel ? 0.98 : 0.85,
           blending: THREE.AdditiveBlending,
-          depthWrite: false
+          depthWrite: false,
+          depthTest: !isSel
         });
         const particle = new THREE.Mesh(particleGeom, particleMat);
+        particle.renderOrder = isSel ? 6 : 0;
         flowParticles.push({
           mesh: particle,
           curve: curve,
@@ -5701,6 +5721,10 @@ window.addEventListener('mousemove', e => {
       html = `<div class="title">${t.ref ? '<span style="opacity:0.6;font-weight:400;">' + t.ref + '</span> · ' : ''}${t.name}</div>
               <div class="meta">Target group: ${t.group} · <em>${flowLabel}</em> · click to isolate</div>
               <div class="desc">Targeted in ${targetedBy} cell${targetedBy !== 1 ? 's' : ''}</div>`;
+    } else if (ud.type === 'obfuscation_box') {
+      html = `<div class="title">Obfuscation black-box</div>
+              <div class="meta"><em>The obfuscratic shell at the toroidal centre</em></div>
+              <div class="desc">Benefit-inferred B-cell backchannels route through this opaque centre: benefit without a documented connection, so the path is deliberately untraceable. Isolate a node to make its own backchannels gold and legible through the veil.</div>`;
     } else if (ud.type === 'center') {
       const d = ud.data;
       html = `<div class="title">${d.name}</div>
