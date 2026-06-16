@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obfuscratic Sabbotarchy · toroid.fyi</title>
+  <meta name="theme-color" content="#040209">
+  <style>
+    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#9adfe0; }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased; }
+    body::after { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(154,223,224,0.06), transparent 70%); }
+
+    .bread { position:fixed; top:24px; left:32px; z-index:10; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.28em; text-transform:uppercase; }
+    .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
+    .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
+
+    main { position:relative; z-index:5; max-width:720px; margin:0 auto; padding:130px 6vw 120px; }
+
+    .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
+    h1 { font-weight:200; font-size:clamp(32px, 4.5vw, 46px); margin:0 0 12px; letter-spacing:0.005em; line-height:1.15; }
+    .subtitle { font-size:17px; font-weight:300; color:#bdb7d5; margin:0 0 16px; line-height:1.5; }
+    .byline { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.18em; margin:0 0 8px; }
+    .source-link { display:inline-block; margin:18px 0 56px; font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(154,223,224,0.45); padding-bottom:3px; transition:all 220ms ease; }
+    .source-link:hover { color:#fff; border-color:#fff; }
+
+    h2 { font-weight:300; font-size:18px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:56px 0 18px; }
+    h3 { font-weight:400; font-size:15px; color:var(--fg); margin:32px 0 10px; letter-spacing:0.02em; }
+
+    p { line-height:1.75; color:#cdc7e0; font-size:16px; font-weight:300; margin:0 0 18px; }
+    p i, em { color:var(--accent); font-style:normal; }
+    p strong, p b { color:var(--fg); font-weight:400; }
+
+    blockquote { margin:24px 0; padding:6px 0 6px 20px; border-left:2px solid rgba(154,223,224,0.40); color:var(--fg); font-size:17px; font-weight:300; line-height:1.7; }
+
+    .dims { display:flex; flex-direction:column; gap:0; margin:24px 0 28px; }
+    .dim { padding:20px 0; border-bottom:1px solid rgba(154,223,224,0.10); }
+    .dim:last-child { border-bottom:none; }
+    .dim .head { display:flex; align-items:baseline; gap:14px; margin-bottom:8px; }
+    .dim .num { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--accent); letter-spacing:0.22em; }
+    .dim .name { font-size:15px; color:var(--fg); font-weight:500; letter-spacing:0.04em; text-transform:uppercase; }
+    .dim .weight { margin-left:auto; font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.18em; }
+    .dim .body { font-size:15px; line-height:1.7; color:#cdc7e0; font-weight:300; margin:0; }
+
+    table.bands { width:100%; border-collapse:collapse; margin:18px 0 24px; font-size:14px; }
+    table.bands th, table.bands td { padding:10px 12px; text-align:left; border-bottom:1px solid rgba(154,223,224,0.15); }
+    table.bands th { color:var(--accent); font-weight:400; letter-spacing:0.16em; text-transform:uppercase; font-size:10px; font-family:ui-monospace,Menlo,monospace; }
+    table.bands td { color:#cdc7e0; font-weight:300; }
+    table.bands td:first-child { color:var(--fg); }
+
+    .formula { font-family:ui-monospace,Menlo,monospace; font-size:14px; color:var(--accent); padding:18px 22px; border:1px solid rgba(154,223,224,0.20); margin:18px 0 24px; letter-spacing:0.05em; }
+
+    .footnote { margin-top:80px; padding-top:24px; border-top:1px solid rgba(154,223,224,0.15); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; line-height:1.7; }
+    .footnote a { color:var(--accent); text-decoration:none; }
+
+    footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+  </style>
+</head>
+<body>
+  <div class="bread">
+    <a href="/">surface</a> <span class="sep">/</span>
+    <a href="/research/">research</a> <span class="sep">/</span>
+    <span class="here">sabbotarchy</span>
+  </div>
+
+  <main>
+    <p class="meta-line">Layer II · methodology paper</p>
+    <h1>The Obfuscratic Sabbotarchy Signature</h1>
+    <p class="subtitle">A measurement framework for engineered-incompetence regimes.</p>
+    <p class="byline">B. Greenway · ThinkWell Labs Metrology · May 2026</p>
+    <a class="source-link" href="/papers/obfuscratic_sabbotarchy_methodology.md">↗ Open full paper (Markdown, ~34kb)</a>
+
+    <h2>Abstract</h2>
+    <p><i>Obfuscratic Sabbotarchy</i> — rule by sabotage (the sabbotarchic regime form) operating through deliberate obfuscation that frames the sabotage as incompetence (the obfuscratic operational signature) — names a regime character that has been observed informally but never measured formally. This paper proposes a <b>five-dimensional signature framework</b> that distinguishes engineered incompetence from genuine incompetence through measurable empirical patterns. A composite Obfuscratic Sabbotarchy Index emerges from the weighted aggregate of the five dimensions. The framework treats obfuscratic sabbotarchy as a <i>measurement problem</i> rather than a rhetorical accusation: <b>the diagnosis must survive evidence, not produce it.</b></p>
+
+    <h2>The bipartite naming</h2>
+    <p>Both terms were coined by the author through linguistic-autopsy procedure — stripping phonemic material from base words to expose latent semantic content, then recombining with classical morphological suffixes to produce previously-unnamed analytical predicates.</p>
+
+    <p><b>Sabbotarchy</b> names the regime form. The base word <i>sabotage</i> loses its initial phoneme and combines with the suffix <i>-archy</i> (Greek root meaning <i>rule</i>, as in monarchy, oligarchy, hierarchy). The choice of <i>-archy</i> over the colloquial <i>-cracy</i> is deliberate: <i>-archy</i> sits in the etymological family of regime forms (structural categories), while <i>-cracy</i> sits in the family of governance modalities (operational mechanisms). <b>Sabbotarchy is a regime form, not a mode.</b></p>
+
+    <p><b>Obfuscratic</b> names the operational signature. <i>Obfuscation</i> combines with the adjectival suffix <i>-cratic</i>, producing an adjective describing regimes operating <i>through</i> the deliberate production of confusion, framing-mismatch, and incoherent public information environments. <b>Obfuscratic is a modifier, not a type.</b></p>
+
+    <blockquote>Together: <i>Obfuscratic Sabbotarchy</i> names rule-by-sabotage that operates through deliberate obfuscation. A Sabbotarchy that operated transparently would be recognized and resisted. An Obfuscratic regime that didn't sabotage would have nothing to obfuscate. The compound captures the operational reality.</blockquote>
+
+    <h2>The five signature dimensions</h2>
+    <p>Genuine incompetence and engineered incompetence are structurally distinct. The distinction is not magnitude — both can produce catastrophic outcomes — but <i>pattern</i>. The five dimensions operationalize the pattern-distinction.</p>
+
+    <div class="dims">
+      <div class="dim">
+        <div class="head">
+          <span class="num">S1</span>
+          <span class="name">Outcome-Distribution Asymmetry</span>
+          <span class="weight">weight 0.25</span>
+        </div>
+        <p class="body">Divergence between the <i>stated</i> and <i>realized</i> beneficiary of an operation. Genuine policy produces approximately symmetric distributions — intent matches outcome. Engineered incompetence produces sharply asymmetric distributions: stated rationale operates as cover for actual objective. The OBBBA/Medicaid architecture demonstrates the framework cleanly — stated rationale of fiscal responsibility and work activation; realized outcome of ~$1.3T upward wealth transfer co-existing with 10.9–15M coverage losses producing documented downstream mortality.</p>
+      </div>
+      <div class="dim">
+        <div class="head">
+          <span class="num">S2</span>
+          <span class="name">Domain-Selective Competence</span>
+          <span class="weight">weight 0.20</span>
+        </div>
+        <p class="body">Catastrophic failure-rate in <i>public-facing</i> functions co-existing with surgical precision in <i>extractive</i> functions — same architecture, same time-window, same personnel. The SSA pattern: catastrophic wait-time deterioration in benefit-delivery co-existing with surgical data-architecture mining powering cross-agency surveillance integration. The IRS pattern: termination of Direct File (working free filing tool) co-existing with retention of EITC audit capacity against low-income filers. The signature is differential capability within the same resource pool — only explicable by deliberate prioritization.</p>
+      </div>
+      <div class="dim">
+        <div class="head">
+          <span class="num">S3</span>
+          <span class="name">Anti-Remediation Response</span>
+          <span class="weight">weight 0.15</span>
+        </div>
+        <p class="body">How resistance to correction varies as a function of correction cost. Genuine incompetence produces a positive cost-resistance slope (expensive fixes resisted more than cheap ones). Engineered incompetence produces a flat-high or <i>inverted</i> slope — cheap fixes resisted as strongly as expensive ones. The IG firings of January 2025 demonstrate this signature: reinstating the 17 fired IGs is effectively zero-cost (statutory requirement, IGs available, no new personnel required), yet resistance has been categorical. <i>Maximum resistance, near-zero cost — unavailable to genuine incompetence.</i></p>
+      </div>
+      <div class="dim">
+        <div class="head">
+          <span class="num">S4</span>
+          <span class="name">Recruitment Selection</span>
+          <span class="weight">weight 0.10</span>
+        </div>
+        <p class="body">Three-axis pattern: low technical-competence retention, high loyalty-signal advancement, near-zero dissent tolerance. The Schedule F architecture (January 2025) explicitly converts career civil service positions into political appointments, allowing technical-competence personnel to be replaced with loyalty-pipeline candidates without civil-service protections. The probationary employee terminations of February 2025 (~6,000 IRS, similar across HHS, DOJ, EPA) specifically targeted technical-competence early-career staff. The selection criterion is <i>competence-presence rather than competence-absence</i>.</p>
+      </div>
+      <div class="dim">
+        <div class="head">
+          <span class="num">S5</span>
+          <span class="name">Information-Architecture Asymmetry</span>
+          <span class="weight">weight 0.30 (highest)</span>
+        </div>
+        <p class="body">The ratio between <i>internal</i> information coherence (within the regime) and <i>external</i> coherence (the public information ecosystem). Engineered incompetence produces extreme asymmetry: very high internal coherence flanked by very low external coherence. Four surrogates simultaneously deny that Project 2025 exists, defend its goals as obvious, dismiss its scope as exaggerated, and embrace its implementation as inevitable — and this multi-rationale incoherence <i>is the operational point</i>. External incoherence is the cover that allows internal coherence to proceed. <b>Weighted highest because it is the dimension least available to alternative explanations.</b></p>
+      </div>
+    </div>
+
+    <h2>The composite index</h2>
+    <p class="formula">Index = 0.25·S1 + 0.20·S2 + 0.15·S3 + 0.10·S4 + 0.30·S5</p>
+
+    <table class="bands">
+      <thead><tr><th>Band</th><th>Range</th><th>Interpretation</th></tr></thead>
+      <tbody>
+        <tr><td>Genuine pattern</td><td>0–30</td><td>Consistent with genuine competence or incompetence</td></tr>
+        <tr><td>Mixed signature</td><td>30–70</td><td>Multiple dimensions present but not concentrated</td></tr>
+        <tr><td>Engineered pattern</td><td>70–85</td><td>Satisfies the engineered-incompetence signature</td></tr>
+        <tr><td>Extreme signature</td><td>85–100</td><td>Concentration is structural across all five dimensions</td></tr>
+      </tbody>
+    </table>
+
+    <p>The 70 boundary corresponds to scoring in the engineered range on at least four of five dimensions. The 85 boundary corresponds to all five simultaneously. <i>The thresholds are not arbitrary — they are derived from dimension count.</i></p>
+
+    <h2>What the framework refuses</h2>
+    <blockquote>The framework treats obfuscratic sabbotarchy as a measurement problem rather than a rhetorical accusation. The diagnosis must survive evidence, not produce it.</blockquote>
+    <p>An architecture scoring below 30 is consistent with genuine incompetence or genuine competence and the framework provides no basis for further diagnostic claim. The instrument is a measurement apparatus, not an accusation — and that distinction is what makes it useful.</p>
+
+    <div class="footnote">
+      Source: Greenway, B. <i>The Obfuscratic Sabbotarchy Signature.</i> ThinkWell Labs Metrology, May 2026. Companion: <a href="/papers/obfuscratic_sabbotarchy_scoring_rubric.md">scoring rubric</a> · <a href="/papers/obfuscratic_sabbotarchy_methodology.md">full methodology paper</a>. Related: <a href="/research/methodology/">framework methodology</a>, <a href="/predicates/multimalocracy/">Multimalocracy 42-mode taxonomy</a>.
+    </div>
+  </main>
+
+  <footer>layer ii · research</footer>
+</body>
+</html>
