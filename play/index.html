@@ -167,7 +167,11 @@
   #hud-right .panel-head .pbtn { color:var(--muted); }
   #hud-right .panel-body { display:flex; flex-direction:column; gap:6px; }
   #hud-right .row { flex-wrap:wrap; }
-  #hud-right h3 { display:none; }
+  /* Section labels in the phase panel must stay VISIBLE — the weapon-commit
+     step relies on these <h3>s to name the ☀ flare / ☾ beam rows and echo the
+     current pick. (They were globally hidden before, which made the directional
+     lock-in look empty.) */
+  #hud-right h3 { display:block; font-size:12px; font-weight:700; margin:8px 0 4px; color:var(--fg); letter-spacing:0.02em; }
   #hud-right .hint { font-size:11px; margin:2px 0; color:var(--muted); }
   /* Pills — pillaged from --accent / --warn / --good palette. */
   #hud-right .pill,
@@ -927,8 +931,37 @@
     transform:none !important; opacity:1 !important; visibility:visible !important;
     max-height:none !important;
   }
-  #top, #top *, #top-pills *, #hud-dashboard *, #log *, #chat-panel *, #hud-right *, #rotation-readout * {
+  #top, #top *, #top-pills *, #hud-dashboard *, #log *, #chat-panel *, #hud-right *, #rotation-readout *,
+  #top-pies * {
     text-shadow:0 1px 2px #000, 0 0 5px #000, 0 0 9px #000;
+  }
+
+  /* ---- TOP DIALS · per-colour composition donuts across the upper sky ---- */
+  #top-pies {
+    position:fixed !important; z-index:10; top:12.2% !important;
+    left:50%; transform:translateX(-50%);
+    display:flex; gap:14px; align-items:flex-start; justify-content:center;
+    flex-wrap:nowrap; max-width:70vw; pointer-events:none;
+  }
+  #top-pies .tp-cell {
+    display:flex; flex-direction:column; align-items:center; gap:1px;
+    transition:transform .15s ease, filter .15s ease;
+  }
+  #top-pies .tp-cell.dead { opacity:0.42; filter:grayscale(0.72); }
+  #top-pies .tp-cell.active { transform:translateY(3px) scale(1.08); }
+  #top-pies .tp-cell.active .mini-pie { filter:drop-shadow(0 0 9px rgba(255,255,255,0.6)); }
+  #top-pies .mini-pie { width:52px; height:52px; display:block; }
+  #top-pies .tp-name {
+    font:800 9.5px/1.2 ui-monospace,Menlo,monospace; letter-spacing:.04em;
+    margin-top:3px; padding-bottom:2px; text-transform:uppercase;
+    border-bottom:1.5px solid currentColor;
+  }
+  #top-pies .tp-num  { font:700 10px/1.1 ui-monospace,Menlo,monospace; color:#e6efe9; margin-top:1px; letter-spacing:.02em; }
+
+  /* Weapon-commit needs two compass rows + headers — give #hud-right room and a
+     scrollbar for this phase so the dial text never overlaps the buttons. */
+  body[data-phase="weapon-commit"] #hud-right {
+    max-height:32vh !important; overflow-y:auto !important;
   }
   /* kill inner panel chrome so content sits directly on the frame art */
   #hud-dashboard .panel, #log .panel, #chat-panel .panel, #hud-right .panel,
@@ -953,18 +986,25 @@
   #top-pills { display:contents !important; }   /* children position themselves */
   .ring-btn {
     position:fixed !important; z-index:11; transform:translate(-50%,-50%);
-    width:5vw; height:5vw; max-width:84px; max-height:84px; min-width:50px; min-height:50px;
-    border-radius:50% !important; background:transparent !important; border:none !important;
+    width:5.4vw; height:5.4vw; max-width:90px; max-height:90px; min-width:58px; min-height:58px;
+    border-radius:50% !important; border:none !important;
+    /* Resting fill: dark in the centre for label contrast, fading out at the rim
+       so the painted frame shape still reads behind it. The button is now
+       visibly a control at rest — not an invisible hotspot. */
+    background:radial-gradient(circle at 50% 50%, rgba(6,13,11,0.78), rgba(6,13,11,0.30) 64%, rgba(6,13,11,0) 78%) !important;
     display:flex !important; align-items:center !important; justify-content:center !important;
-    text-align:center; line-height:1.0; padding:0 !important; cursor:pointer; overflow:visible !important;
-    font:800 8.5px/1.02 ui-monospace,Menlo,monospace !important; color:#dffbe8 !important;
-    letter-spacing:.01em; text-shadow:0 1px 2px #000, 0 0 5px #000;
+    text-align:center; line-height:1.05; padding:0 !important; cursor:pointer; overflow:visible !important;
+    font:800 10px/1.05 ui-monospace,Menlo,monospace !important; color:#eafff2 !important;
+    letter-spacing:.01em; text-shadow:0 1px 2px #000, 0 0 5px #000, 0 0 9px #000;
     transition:transform .12s ease, color .12s ease;
   }
-  /* the interactive ring: invisible at rest, lights up + scales on hover/active */
+  /* the interactive ring: VISIBLE at rest (so it reads as a button), brighter
+     on hover/active/on. */
   .ring-btn::before {
-    content:''; position:absolute; inset:3%; border-radius:50%;
-    border:2px solid transparent; box-shadow:none; pointer-events:none;
+    content:''; position:absolute; inset:1%; border-radius:50%;
+    border:2px solid rgba(120,255,168,0.55);
+    box-shadow:0 0 9px 1px rgba(110,255,176,0.32), inset 0 0 8px rgba(110,255,176,0.18);
+    pointer-events:none;
     transition:border-color .15s ease, box-shadow .15s ease;
   }
   .ring-btn:hover { transform:translate(-50%,-50%) scale(1.11); color:#ffffff !important;
@@ -979,8 +1019,8 @@
     box-shadow:0 0 14px 2px rgba(110,255,176,.7), inset 0 0 10px rgba(110,255,176,.4); }
 
   /* per-shape placement — centres in % (frame art fills the viewport 1:1) */
-  #btn-profile { left:88%;   top:14.5%; }           /* reactor eye */
-  #lock-toggle { left:90.5%; top:39%;  }            /* Play / rotate toggle */
+  #lock-toggle { left:88%;   top:14.5%; }           /* Play/rotate toggle — now in the prominent reactor-eye slot */
+  #btn-profile { left:90.5%; top:39%;  }            /* Profile — moved down to the toggle's old ring */
   #btn-rules   { left:91%;   top:47%;  }             /* Rules */
   #rb-dash     { left:91%;   top:55%;  }             /* Match dashboard toggle */
   #rb-chat     { left:90.5%; top:63%;  }             /* Chat toggle */
@@ -992,15 +1032,56 @@
   #btn-clear-board { display:none !important; }
   #mode-chip { display:none !important; }            /* lock-toggle ring shows mode now */
 
-  /* ---- LEFT PANEL · match dashboard (green panel x2–12%, y28–72%) ---- */
-  #hud-dashboard {
-    left:1.5% !important; right:auto !important; top:30% !important; bottom:30% !important;
-    width:11% !important; min-width:140px; overflow-y:auto !important; padding:0 6px !important;
+  /* The play/rotate toggle is the single most-used control, so it takes the
+     prominent reactor-eye slot as a large, always-legible beacon. The two modes
+     are INVERSE of each other so the current mode is unmistakable:
+       • PLAY  (.locked)      → green outline on a dark disc (light text)
+       • ROTATE (:not(.locked)) → solid amber fill with dark text (inverted) */
+  #lock-toggle.ring-btn {
+    width:6.6vw; height:6.6vw; max-width:104px; max-height:104px; min-width:74px; min-height:74px;
+    z-index:14 !important;
+    font:800 12px/1.05 ui-monospace,Menlo,monospace !important;
+    letter-spacing:.05em;
   }
-  /* ---- RIGHT PANEL · action log (green panel x88–99%, y20–70%) ---- */
+  #lock-toggle.ring-btn::before { display:none !important; }   /* override uses its own border */
+  /* PLAY mode — green, outline-on-dark */
+  #lock-toggle.ring-btn.locked {
+    background:radial-gradient(circle at 50% 36%, rgba(110,255,176,0.30), rgba(8,16,12,0.95) 70%) !important;
+    border:3px solid rgba(120,255,168,0.98) !important;
+    box-shadow:0 0 18px 4px rgba(110,255,176,0.55), inset 0 0 13px rgba(110,255,176,0.28) !important;
+    color:#e9ffe1 !important; text-shadow:0 1px 3px #000 !important;
+  }
+  /* ROTATE mode — INVERTED: the accent fills the disc, text turns dark */
+  #lock-toggle.ring-btn:not(.locked) {
+    background:radial-gradient(circle at 50% 38%, #ffd9a8, #f1b067 76%) !important;
+    border:3px solid #fff1dc !important;
+    box-shadow:0 0 22px 6px rgba(241,176,103,0.7), inset 0 0 12px rgba(255,255,255,0.4) !important;
+    color:#241400 !important; text-shadow:0 1px 1px rgba(255,255,255,0.45) !important;
+  }
+  #lock-toggle.ring-btn .hk { display:block; font-size:8.5px; margin-top:1px; opacity:0.7; }
+  #lock-toggle.ring-btn:hover { transform:translate(-50%,-50%) scale(1.06); }
+
+  /* ---- LEFT PANEL · match dashboard (green panel x2–12%, y28–72%) ---- */
+  /* The whole LEFT edge is the telemetry stack: match dashboard up top, action
+     log below it. The RIGHT edge belongs entirely to the ring-button column, so
+     the log was pulled off it (it used to collide with Profile…START). */
+  #hud-dashboard {
+    left:1.4% !important; right:auto !important; top:13.5% !important; bottom:auto !important;
+    height:39% !important; width:12.5% !important; min-width:158px;
+    overflow-y:auto !important; padding:0 6px !important;
+  }
+  /* compact per-player standings list (replaces the too-wide stats table) */
+  #hud-dashboard .pp-list { display:flex; flex-direction:column; gap:4px; }
+  #hud-dashboard .pp-row { padding:3px 0; border-top:1px solid var(--border); }
+  #hud-dashboard .pp-row:first-child { border-top:none; }
+  #hud-dashboard .pp-name { font:700 11px/1.2 ui-monospace,Menlo,monospace; display:flex; align-items:center; flex-wrap:wrap; gap:2px; }
+  #hud-dashboard .pp-stats { display:flex; flex-wrap:wrap; gap:2px 8px; margin-top:2px; font:600 9.5px/1.2 ui-monospace,Menlo,monospace; color:#eafff2; }
+  #hud-dashboard .pp-stats .dim { color:var(--muted); }
+
+  /* ---- LOWER-LEFT · action log (under the dashboard, off the ring column) ---- */
   #log, #log.collapsible:not(.hidden):not(.minimized) {
-    right:0.6% !important; left:auto !important; top:22% !important; bottom:30% !important;
-    width:11% !important; min-width:140px; overflow-y:auto !important; padding:0 6px !important;
+    left:1.4% !important; right:auto !important; top:55% !important; bottom:5% !important;
+    width:12.5% !important; min-width:158px; overflow-y:auto !important; padding:0 6px !important;
   }
   /* ---- BOTTOM-RIGHT · chat (x82–99%, y78–95%) ---- */
   #chat-panel {
@@ -1089,6 +1170,11 @@
     <button id="lock-toggle">🔓 ROTATE<span class="hk">space</span></button>
   </div>
 </div>
+
+<!-- PER-COLOUR COMPOSITION DIALS — one donut per player, strung across the top
+     sky above the board. Each shows that colour's surviving force split by piece
+     type, alive/total underneath; the active player's dial lifts + glows. -->
+<div id="top-pies"></div>
 
 <div class="panel collapsible" id="hud-left" data-collapsible data-icon="📖">
   <div class="panel-head">
@@ -2232,14 +2318,17 @@ scene.add(torusMesh);
    buttons are abstract — with them, the directions are concrete. */
 function makeTextLabel(text, color = '#ffffff', size = 1.0){
   const cv = document.createElement('canvas');
-  cv.width = 128; cv.height = 64;
+  // 256×128 (2× the old 128×64) keeps the glyph crisp when the sprite is
+  // enlarged or the camera zooms in — the practical "stays sharp at all
+  // scales" behavior, without a real vector pipeline.
+  cv.width = 256; cv.height = 128;
   const ctx = cv.getContext('2d');
   ctx.fillStyle = 'rgba(20,16,32,0.88)';
   ctx.fillRect(0, 0, cv.width, cv.height);
   ctx.strokeStyle = color;
-  ctx.lineWidth = 3;
-  ctx.strokeRect(2, 2, cv.width-4, cv.height-4);
-  ctx.font = 'bold 38px ui-monospace, Menlo, monospace';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(4, 4, cv.width-8, cv.height-8);
+  ctx.font = 'bold 76px ui-monospace, Menlo, monospace';
   ctx.fillStyle = color;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
@@ -3182,6 +3271,9 @@ function computeBarriers(){
   }
   // Node cells themselves stay walkable.
   for (const n of G.nodes) G.barriers.delete(`${n.u},${n.v}`);
+  // Persist the node graph so a node can be clicked to isolate its connections.
+  G.connections = conns;
+  clearNodeSelection();
   syncBarrierVisuals(conns);
   sfx('barrier');
   log(`<b>${conns.length} boundary lines</b> formed (${G.barriers.size} impassable cells). Each node connects to its ${maxConns} nearest cross-player node${maxConns>1?'s':''}.`);
@@ -3206,8 +3298,15 @@ function syncNodeVisuals(){
     g.position.copy(w);
     const up = new THREE.Vector3(0,1,0);
     g.quaternion.setFromUnitVectors(up, norm.normalize());
+    // Tag for click-to-isolate: the raycast hits a child mesh, so stamp the id
+    // on the Group and remember the two materials we'll dim / brighten.
+    g.userData.nodeId = nodeKey(n);
+    g.userData.node = n;
+    g.userData.mats = [stem.material, orb.material];
+    g.userData.baseEmissive = [stem.material.emissiveIntensity, orb.material.emissiveIntensity];
     nodeGroup.add(g);
   }
+  applyNodeIsolation();   // re-assert dim/highlight if a node is selected
 }
 
 function syncBarrierVisuals(conns = []){
@@ -3243,10 +3342,114 @@ function syncBarrierVisuals(conns = []){
       new THREE.TubeGeometry(curve, 48, 0.09, 8, false),
       new THREE.MeshStandardMaterial({
         color: 0x2b8fc4, emissive: 0x00b4ff, emissiveIntensity: 1.2,
-        metalness: 0.5, roughness: 0.3,
+        metalness: 0.5, roughness: 0.3, transparent: true, opacity: 1,
       })
     );
+    // Tag with the pair of node ids so isolation can find a node's lines.
+    tube.userData.connNodeIds = [nodeKey(c.a), nodeKey(c.b)];
     connectionGroup.add(tube);
+  }
+  applyNodeIsolation();   // re-assert dim/highlight if a node is selected
+}
+
+/* ====================  NODE ISOLATION (click a node → see its lines)  ====
+   Mirrors the poly/matrix toroids: click a node to isolate it and its
+   connections — the node + its connected nodes + the barrier lines between
+   them stay bright while every other node and line dims, and floating labels
+   name the involved nodes. Click the same node, or empty space, to clear. */
+function nodeKey(n){ return `${n.owner}-${n.u}-${n.v}`; }
+
+const nodeLabelGroup = new THREE.Group(); scene.add(nodeLabelGroup);
+function clearNodeLabels(){
+  while (nodeLabelGroup.children.length){
+    const c = nodeLabelGroup.children[0];
+    nodeLabelGroup.remove(c);
+    if (c.material){ if (c.material.map) c.material.map.dispose(); c.material.dispose(); }
+  }
+}
+
+// The set of node ids connected to the selected node (incl. itself), plus the
+// tubes that join them — recomputed from G.connections on demand.
+function isolationSets(){
+  const sel = G.selectedNode;
+  const nodes = new Set();
+  if (sel == null) return { nodes, hasSel: false };
+  nodes.add(sel);
+  for (const c of (G.connections || [])){
+    const ka = nodeKey(c.a), kb = nodeKey(c.b);
+    if (ka === sel) nodes.add(kb);
+    else if (kb === sel) nodes.add(ka);
+  }
+  return { nodes, hasSel: true };
+}
+
+function clearNodeSelection(){
+  if (G.selectedNode == null) return;
+  G.selectedNode = null;
+  clearNodeLabels();
+  applyNodeIsolation();
+}
+
+function selectNode(id){
+  if (G.selectedNode === id){ clearNodeSelection(); return; }
+  G.selectedNode = id;
+  applyNodeIsolation();
+  // Floating labels on the involved nodes only.
+  clearNodeLabels();
+  const { nodes } = isolationSets();
+  for (const n of G.nodes){
+    const k = nodeKey(n);
+    if (!nodes.has(k)) continue;
+    const isSel = (k === G.selectedNode);
+    const hexNum = (typeof HEX !== 'undefined' && HEX[n.owner]) ? HEX[n.owner] : '#cfe8ff';
+    const spr = makeTextLabel(`${NAME[n.owner]} · ${cellLabel(n.u, n.v, 'field')}`, hexNum, isSel ? 0.95 : 0.78);
+    const w = toWorld(n.u, n.v, 'field');
+    const norm = toNormal(n.u, n.v, 'field').multiplyScalar(isSel ? 1.9 : 1.5);
+    spr.position.copy(w).add(norm);
+    spr.userData.isNodeLabel = true;
+    if (spr.material){ spr.material.depthTest = false; spr.renderOrder = 1000; }
+    nodeLabelGroup.add(spr);
+  }
+  const deg = nodes.size - 1;
+  const sn = G.nodes.find(n => nodeKey(n) === id);
+  if (sn) log(`<b>Isolated node</b> — ${NAME[sn.owner]} ${cellLabel(sn.u, sn.v, 'field')}: <b>${deg}</b> barrier line${deg===1?'':'s'}. Click it again or empty space to clear.`);
+  sfx('select');
+}
+
+// Apply the dim/highlight pass to all node orbs and connection tubes based on
+// the current selection. Cheap (a handful of nodes/tubes) — called on select,
+// clear, and after every visual rebuild.
+function applyNodeIsolation(){
+  const { nodes, hasSel } = isolationSets();
+  for (const g of nodeGroup.children){
+    const mats = g.userData.mats; if (!mats) continue;
+    const base = g.userData.baseEmissive || [0.8, 1.1];
+    const isSel = hasSel && g.userData.nodeId === G.selectedNode;
+    mats.forEach((m, i) => {
+      m.transparent = true;
+      if (!hasSel){                         // neutral — restore defaults
+        m.opacity = 1; m.emissiveIntensity = base[i];
+      } else if (nodes.has(g.userData.nodeId)){
+        m.opacity = 1; m.emissiveIntensity = base[i] * (isSel ? 1.8 : 1.25);
+      } else {                              // unrelated — dim hard
+        m.opacity = 0.18; m.emissiveIntensity = base[i] * 0.25;
+      }
+    });
+    g.scale.setScalar(isSel ? 1.35 : 1);
+  }
+  for (const tube of connectionGroup.children){
+    const ids = tube.userData.connNodeIds; const m = tube.material; if (!m) continue;
+    const onSel = hasSel && ids && (ids[0] === G.selectedNode || ids[1] === G.selectedNode);
+    if (!hasSel){
+      m.color.setHex(0x2b8fc4); m.emissive.setHex(0x00b4ff);
+      m.emissiveIntensity = 1.2; m.opacity = 1;
+    } else if (onSel){
+      m.color.setHex(0xffd060); m.emissive.setHex(0xffc83a);
+      m.emissiveIntensity = 2.0; m.opacity = 1;
+    } else {
+      m.color.setHex(0x2b8fc4); m.emissive.setHex(0x00b4ff);
+      m.emissiveIntensity = 0.4; m.opacity = 0.12;
+    }
   }
 }
 
@@ -3292,6 +3495,7 @@ function updateBarrierPhase(){
     G.barriersDissolved = true;
     barrierGroup.visible = false;
     connectionGroup.visible = false;
+    clearNodeSelection();
     sfx('dissolve');
     log(`<b>Boundaries permanently dissolved</b> after round 30 — the board is fully open.`);
     return;
@@ -3301,6 +3505,7 @@ function updateBarrierPhase(){
   G.barriersActive = nowActive;
   barrierGroup.visible    = nowActive;
   connectionGroup.visible = nowActive;
+  if (!nowActive) clearNodeSelection();   // don't isolate lines that are hidden
   if (wasActive !== nowActive){
     sfx(nowActive ? 'barrier' : 'dissolve');
     log(nowActive
@@ -4782,6 +4987,15 @@ function runC4Battle(battle, done){
 function renderC4(){
   if (!c4) return;
   const grid = document.getElementById('c4-grid');
+  // Restore the 7-column grid layout. The other mini-games route through
+  // openBattleModal(), which forces #c4-grid to `display:block` (so their
+  // single-wrapper bodies aren't crushed into one grid column). That inline
+  // override persists, so any Connect-Four duel AFTER another mini-game would
+  // otherwise render as one vertical stack of 42 cells. Clearing the inline
+  // styles hands layout back to the CSS rule (display:grid · repeat(7,56px)).
+  grid.style.display = '';
+  grid.style.gridTemplateColumns = '';
+  grid.style.maxWidth = '';
   const colRow = document.getElementById('c4-col-row');
   // Column drop buttons
   colRow.innerHTML = '';
@@ -6921,6 +7135,7 @@ function beginWeaponCommitPhase(){
   showPrivacy(next.id, 'commit your Sun & Moon firing directions', () => {
     G.activePlayer = next.id;
     G.viewerPlayer = next.id;
+    G.aimWeapon = G.flareDir[next.id] ? 'moonbeam' : 'flare';   // markers aim here first
     setPhase('weapon-commit');
   });
 }
@@ -6928,9 +7143,13 @@ function beginWeaponCommitPhase(){
 function commitWeapon(playerId, weapon, dirKey){
   const dir = COMPASS.find(c => c.key === dirKey);
   if (!dir) return;
-  if (weapon === 'flare')    G.flareDir[playerId]    = { key: dir.key, du: dir.du, dv: dir.dv };
-  if (weapon === 'moonbeam') G.moonbeamDir[playerId] = { key: dir.key, du: dir.du, dv: dir.dv };
+  if (weapon === 'flare')    G.flareDir[playerId]    = { key: dir.key, du: dir.du, dv: dir.dv, icon: dir.icon };
+  if (weapon === 'moonbeam') G.moonbeamDir[playerId] = { key: dir.key, du: dir.du, dv: dir.dv, icon: dir.icon };
   sfx('select');
+  // Auto-advance which weapon the on-torus compass markers aim at, so the next
+  // marker click targets whatever is still unset (flare first, then beam).
+  if (!G.flareDir[playerId])         G.aimWeapon = 'flare';
+  else if (!G.moonbeamDir[playerId]) G.aimWeapon = 'moonbeam';
   refreshWeaponPreviews();   // show the actual firing path on the torus
   // When both weapons committed, advance to next player.
   if (G.flareDir[playerId] && G.moonbeamDir[playerId]){
@@ -7807,54 +8026,13 @@ function nextRoundCadence(period){
 function renderDashboard(){
   const body = document.getElementById('dash-body');
   if (!body) return;
-  // Telemetry block: round, phase, weapon cadence, pot.
   const players = G.players.length ? G.players : [{id:0},{id:1}];
-  const totalAlive = G.pieces.filter(p => p.alive).length;
-  const totalDead  = G.pieces.filter(p => !p.alive).length;
-  const flareIn = G.phase === 'setup' ? '—' : nextRoundCadence(FLARE_EVERY);
-  const beamIn  = G.phase === 'setup' ? '—' : nextRoundCadence(BEAM_EVERY);
-  const phaseEra = (G.barriersDissolved) ? 'open' : (G.barriersActive ? 'walls up' : 'walls down');
-  const cells = [
-    { l:'round',         v: G.round || '—' },
-    { l:'phase',         v: G.phase },
-    { l:'next flare ☀',  v: flareIn === '—' ? '—' : `R+${flareIn || FLARE_EVERY}` },
-    { l:'next beam ☾',   v: beamIn  === '—' ? '—' : `R+${beamIn  || BEAM_EVERY}` },
-    { l:'pieces alive',  v: totalAlive },
-    { l:'graveyard',     v: totalDead },
-    { l:'pot',           v: G.pot ? `${G.pot} ⛁` : '—' },
-    { l:'barriers',      v: phaseEra },
-  ];
-  let html = '<div class="dash-grid">';
-  for (const c of cells){
-    html += `<div class="dash-cell"><div class="label">${c.l}</div><div class="val">${c.v}</div></div>`;
-  }
-  html += '</div>';
 
-  // Per-player composition pies — dense at-a-glance team standings
-  if (players.length){
-    html += '<h3>Composition</h3><div class="data-grid cols-2" style="gap:6px">';
-    for (const pl of players){
-      const hasSun = G.pieces.some(p => p.alive && p.owner === pl.id && p.type === 'sun');
-      const dead = !hasSun && G.phase !== 'setup';
-      const opacity = dead ? 0.4 : 1;
-      const filter  = dead ? 'grayscale(0.7)' : 'none';
-      html += `<div style="display:flex;align-items:center;gap:6px;opacity:${opacity};filter:${filter}">
-        ${buildCompositionPie(pl.id, 52)}
-        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;line-height:1.3">
-          <div style="color:${HEX[pl.id]};font-weight:700">${NAME[pl.id]}${dead?' ✖':''}</div>
-          <div style="color:var(--muted)">${(() => { const tot = G.pieces.filter(p => p.owner === pl.id).length; const al = G.pieces.filter(p => p.alive && p.owner === pl.id).length; return tot ? `${al}/${tot} · ${Math.round(al/tot*100)}% left` : '—'; })()}</div>
-          ${buildCaptureTrendHTML(pl.id)}
-        </div>
-      </div>`;
-    }
-    html += '</div>';
-  }
-
-  // Per-player stats table (compact)
-  html += '<h3>Per-player</h3>';
-  html += '<table class="player-table"><thead><tr>';
-  html += '<th>player</th><th title="pieces still alive">alive</th><th title="captures + weapon kills">kills</th><th title="own pieces lost">lost</th><th title="C4 duels won">duels</th><th title="suns set">☼</th><th title="weapons fired ☀/☾">w</th>';
-  html += '</tr></thead><tbody>';
+  // Compact per-player standings — stacked rows sized for the narrow left
+  // column (a 7-wide table overflowed and collided). Round / phase / pot /
+  // weapon cadence now live in the top ticker, and piece composition lives in
+  // the top dials, so this panel concentrates on combat stats + the graveyard.
+  let html = '<h3>Standings</h3><div class="pp-list">';
   for (const pl of players){
     const pid = pl.id;
     const alive = G.pieces.filter(p => p.alive && p.owner === pid).length;
@@ -7863,28 +8041,26 @@ function renderDashboard(){
     const isDead = !hasSun && G.phase !== 'setup';
     const s = G.stats[pid];
     const isActive = (pid === G.activePlayer && G.phase !== 'setup' && G.winner == null && hasSun);
-    // Eliminated team → dim everything, strike-through name, mute color toward grey
-    const rowStyle = isDead
-      ? 'opacity:0.32; filter:grayscale(0.85);'
-      : '';
     const nameColor = isDead ? '#6f6878' : HEX[pid];
-    const nameStyle = `color:${nameColor};${isActive ? 'text-shadow:0 0 8px '+HEX[pid]+'aa;' : ''}${isDead ? 'text-decoration:line-through;' : ''}`;
+    const rowStyle  = isDead ? 'opacity:0.34;filter:grayscale(0.85);' : '';
     const marker = isDead ? '✖ ' : (isActive ? '▸ ' : '');
-    const aiTag = isAI(pid) ? ' <span style="color:var(--accent);font-size:9px">🤖 AI</span>' : '';
-    const aiBtn = !isDead && G.phase !== 'setup'
-      ? `<button class="ghost" data-ai-toggle="${pid}" style="padding:1px 6px;font-size:9px;margin-left:4px">${isAI(pid) ? 'human' : '🤖'}</button>`
+    const aiTag  = isAI(pid) ? ' 🤖' : '';
+    const aiBtn  = !isDead && G.phase !== 'setup'
+      ? `<button class="ghost" data-ai-toggle="${pid}" style="padding:0 6px;font-size:9px;margin-left:4px">${isAI(pid) ? 'human' : '🤖'}</button>`
       : '';
-    html += `<tr style="${rowStyle}">
-      <td style="${nameStyle}">${marker}${NAME[pid]}${isDead ? ' <span style="color:var(--bad);font-size:9px">(set)</span>' : ''}${aiTag}${aiBtn}</td>
-      <td>${alive}</td>
-      <td>${s.captures}</td>
-      <td class="dim">${lost}</td>
-      <td>${s.battlesWon}/${s.battlesLost}</td>
-      <td>${s.sunsSet}</td>
-      <td class="dim">${s.flaresFired}☀ ${s.beamsFired}☾</td>
-    </tr>`;
+    html += `<div class="pp-row" style="${rowStyle}">
+      <div class="pp-name" style="color:${nameColor};${isActive ? 'text-shadow:0 0 8px '+HEX[pid]+'aa;' : ''}${isDead ? 'text-decoration:line-through;' : ''}">${marker}${NAME[pid]}${aiTag}${isDead ? ' <span style="color:var(--bad);font-size:9px">(set)</span>' : ''}${aiBtn}</div>
+      <div class="pp-stats">
+        <span title="pieces alive">⬤ ${alive}</span>
+        <span title="captures + weapon kills">⚔ ${s.captures}</span>
+        <span title="own pieces lost" class="dim">☠ ${lost}</span>
+        <span title="C4 duels won / lost">🎲 ${s.battlesWon}/${s.battlesLost}</span>
+        <span title="enemy suns set">☼ ${s.sunsSet}</span>
+        <span title="weapons fired" class="dim">${s.flaresFired}☀${s.beamsFired}☾</span>
+      </div>
+    </div>`;
   }
-  html += '</tbody></table>';
+  html += '</div>';
 
   // Graveyard — group by owner, count by type
   html += '<h3>⚰ Graveyard</h3>';
@@ -8072,28 +8248,44 @@ function renderHUD(){
     const pid = G.activePlayer;
     const flare = G.flareDir[pid];
     const beam  = G.moonbeamDir[pid];
+    const aim = (G.aimWeapon === 'moonbeam') ? 'moonbeam' : 'flare';
     const dirBtns = (weapon, current) => COMPASS.map(c => {
       const sel = current && current.key === c.key;
-      return `<button class="${sel?'good':'ghost'}" data-weapon="${weapon}" data-dir="${c.key}" style="min-width:46px;font-family:ui-monospace,Menlo,monospace">${c.icon} ${c.key}</button>`;
+      return `<button class="${sel?'good':'ghost'}" data-weapon="${weapon}" data-dir="${c.key}" style="min-width:44px;font-family:ui-monospace,Menlo,monospace">${c.icon} ${c.key}</button>`;
     }).join(' ');
+    // The on-torus compass markers ARE the primary dial; the button grid below
+    // is a guaranteed-reachable fallback. Highlight whichever section is the
+    // active aim so the player knows what the blinking markers will set.
+    const sec = (active, accent) => `margin-top:8px;padding:8px;border-radius:8px;`
+      + `border:1px solid ${active ? accent : 'rgba(255,255,255,0.12)'};`
+      + `background:${active ? accent + '22' : 'transparent'};cursor:pointer`;
+    const pick = (d) => d
+      ? `· <span style="color:var(--good)">${d.icon} ${d.key}</span>`
+      : `· <span style="color:var(--muted)">unset — pick one</span>`;
     ctl.innerHTML = `
-      <div class="row"><span class="pill" style="color:${HEX[pid]};border-color:${HEX[pid]}88">${NAME[pid]} — commit weapons (private)</span></div>
-      <p class="hint">
-        <b>Blind upstream commit.</b> Pick the direction your <b>Sun flare</b> and your <b>Moon beam</b> will fire — locked for the entire match. These are <b>hostile projectiles</b> — they CLEAR THE PATH, killing every enemy along the line (Aegis blocks individually; beam still continues).
-        Sun flares fire every ${FLARE_EVERY} rounds; Moon beams every ${BEAM_EVERY}. Firing position is the Sun/Moon's LIVE location at trigger time, which will move.
-      </p>
-      <p class="hint" style="color:var(--accent)">
-        🧭 Look at the torus — the floating <b>N · NE · E · SE · S · SW · W · NW</b> labels show what each compass key means in world coordinates. When you click a direction, a glowing preview line appears on the torus from your Sun/Moon along that path.
-      </p>
-      <h3 style="margin-top:10px">☀ Sun flare direction ${flare ? `· <span style="color:var(--good)">${flare.key}</span>` : ''}</h3>
-      <div class="row" style="gap:4px;flex-wrap:wrap">${dirBtns('flare', flare)}</div>
-      <h3 style="margin-top:14px">☾ Moon beam direction ${beam ? `· <span style="color:var(--good)">${beam.key}</span>` : ''}</h3>
-      <div class="row" style="gap:4px;flex-wrap:wrap">${dirBtns('moonbeam', beam)}</div>
-      <p class="hint" style="margin-top:10px;color:var(--accent)">
-        The beam follows a chain of YOUR pieces from the Moon — friendlies in adjacent cells extend and bend the beam, so your formation sculpts the firing line. From the chain's end, the beam fires ${BEAM_RANGE} cells in the current direction.
-      </p>`;
+      <div class="row" style="gap:8px;align-items:center;justify-content:center">
+        <span class="pill" style="color:${HEX[pid]};border-color:${HEX[pid]}88">${NAME[pid]} — commit weapons (private)</span>
+        <span class="hint" style="margin:0;color:var(--accent)" title="Click a blinking N·NE·E… marker on the torus to aim, or use the rows below. Flares fire every ${FLARE_EVERY} rounds, beams every ${BEAM_EVERY}; both directions LOCK for the whole match.">🧭 click a torus marker or a row — locks for the match</span>
+      </div>
+      <div class="commit-sec" data-aim="flare" style="${sec(aim==='flare','#ff9a4a')}">
+        <h3 style="margin:0 0 3px">☀ Flare ${pick(flare)} ${aim==='flare'?'<span style="color:#ff9a4a">◀ aiming</span>':''}</h3>
+        <div class="row" style="gap:4px;flex-wrap:wrap">${dirBtns('flare', flare)}</div>
+      </div>
+      <div class="commit-sec" data-aim="moonbeam" style="${sec(aim==='moonbeam','#a9d4ff')}">
+        <h3 style="margin:0 0 3px">☾ Beam ${pick(beam)} ${aim==='moonbeam'?'<span style="color:#a9d4ff">◀ aiming</span>':''}</h3>
+        <div class="row" style="gap:4px;flex-wrap:wrap">${dirBtns('moonbeam', beam)}</div>
+      </div>`;
+    // Click a section (not its buttons) to switch which weapon the torus
+    // markers aim at.
+    document.querySelectorAll('#hud-right .commit-sec[data-aim]').forEach(s => {
+      s.onclick = (e) => {
+        if (e.target.closest('button[data-weapon]')) return;   // let the button act
+        G.aimWeapon = s.dataset.aim;
+        renderHUD();
+      };
+    });
     document.querySelectorAll('button[data-weapon][data-dir]').forEach(b => {
-      b.onclick = () => commitWeapon(pid, b.dataset.weapon, b.dataset.dir);
+      b.onclick = () => { G.aimWeapon = b.dataset.weapon; commitWeapon(pid, b.dataset.weapon, b.dataset.dir); };
     });
   } else if (G.phase === 'plot'){
     const pid = G.activePlayer;
@@ -8612,11 +8804,61 @@ renderer.domElement.addEventListener('mousemove', (ev) => {
 });
 renderer.domElement.addEventListener('mouseleave', hidePieceTooltip);
 
+// Track pointer-down so a weapon-commit click can tell a real tap from the end
+// of a rotate-drag (OBSERVE mode lets the user spin the torus AND click markers).
+let _pointerDownXY = null;
+renderer.domElement.addEventListener('pointerdown', (e) => { _pointerDownXY = [e.clientX, e.clientY]; });
+
+// Weapon-commit: the on-torus compass sprites are the directional dial. Hittable
+// from any angle (depthTest is disabled on them this phase) and in either camera
+// mode, so this runs BEFORE the cameraLocked gate.
+function handleCompassClick(ev){
+  if (G.activePlayer == null || isAI(G.activePlayer)) return;
+  // Ignore the click if the pointer moved appreciably since pointerdown — that's
+  // a rotate-drag in OBSERVE mode, not a deliberate pick.
+  if (_pointerDownXY){
+    const moved = Math.hypot(ev.clientX - _pointerDownXY[0], ev.clientY - _pointerDownXY[1]);
+    if (moved > 6) return;
+  }
+  const rect = renderer.domElement.getBoundingClientRect();
+  mouse.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(compassGroup.children, false);
+  if (!hits.length){
+    log('Click one of the blinking <b>N · NE · E …</b> markers on the torus to aim your weapon.');
+    return;
+  }
+  const key = hits[0].object.userData.compassKey;
+  if (!key) return;
+  commitWeapon(G.activePlayer, (G.aimWeapon === 'moonbeam') ? 'moonbeam' : 'flare', key);
+}
+
 renderer.domElement.addEventListener('click', (ev) => {
   if (G.flatView){
     log('Unroll (study) view is active — toggle <b>🌀 Unroll</b> off to plot moves.');
     sfx('invalid');
     return;
+  }
+  if (G.phase === 'weapon-commit'){ handleCompassClick(ev); return; }
+  // Node isolation — only when barrier lines are live. A direct hit on a node
+  // orb toggles its isolation (works in either camera mode); anything else
+  // falls through to normal piece/plot handling.
+  if (G.barriersActive && G.connections && G.connections.length && nodeGroup.children.length){
+    const isDrag = _pointerDownXY &&
+      Math.hypot(ev.clientX - _pointerDownXY[0], ev.clientY - _pointerDownXY[1]) > 6;
+    if (!isDrag){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const nodeHits = raycaster.intersectObjects(nodeGroup.children, true);
+      if (nodeHits.length){
+        let o = nodeHits[0].object;
+        while (o && o.userData.nodeId === undefined) o = o.parent;
+        if (o && o.userData.nodeId !== undefined){ selectNode(o.userData.nodeId); return; }
+      }
+    }
   }
   if (!cameraLocked){
     log('Camera is in ROTATE MODE — press <b>Space</b> (or click the top button) to switch to PLAY.');
@@ -8727,6 +8969,7 @@ renderer.domElement.addEventListener('click', (ev) => {
   selHoverTargetId = null;
   clearHighlights();
   clearPath();
+  clearNodeSelection();          // empty-space click also clears node isolation
   renderSelPortraits();
   if (G.pendingSuggestion){ G.pendingSuggestion = null; renderHUD(); }
 });
@@ -8743,6 +8986,9 @@ window.addEventListener('resize', resizeToStage);
 // (fonts, scrollbars, first layout); re-sync shortly after load.
 window.addEventListener('load', () => setTimeout(resizeToStage, 60));
 
+// Tracks whether the compass sprites are currently in their weapon-commit
+// "live dial" styling, so we only reset them once when the phase ends.
+let _compassLive = false;
 function tick(t){
   controls.update();
   tickAnimation(t);
@@ -8797,6 +9043,55 @@ function tick(t){
       }
       o.material.emissiveIntensity = pulse;
     });
+  }
+  // Weapon-commit: the compass markers become the directional dial. Blink them
+  // so they read as "pick one", render on top (depthTest off) so all 8 are
+  // visible and clickable from any angle without rotating, and solid-highlight
+  // the current pick in the active weapon's color.
+  if (G.phase === 'weapon-commit' && G.activePlayer != null && !isAI(G.activePlayer)){
+    const pid = G.activePlayer;
+    const aim = (G.aimWeapon === 'moonbeam') ? 'moonbeam' : 'flare';
+    const chosen = aim === 'moonbeam' ? G.moonbeamDir[pid] : G.flareDir[pid];
+    const tint = aim === 'moonbeam' ? [0.66, 0.83, 1.0] : [1.0, 0.60, 0.29];
+    const blink = 0.40 + Math.abs(Math.sin(t * 0.005)) * 0.60;
+    compassGroup.visible = true;
+    for (const sp of compassGroup.children){
+      if (!sp.material) continue;
+      sp.material.depthTest = false;
+      sp.renderOrder = 999;
+      const isChosen = chosen && chosen.key === sp.userData.compassKey;
+      if (isChosen){
+        sp.material.opacity = 1;
+        sp.material.color.setRGB(tint[0], tint[1], tint[2]);
+        sp.scale.set(0.95 * 2 * 1.22, 0.95 * 1.22, 1);
+      } else {
+        sp.material.opacity = blink;
+        sp.material.color.setRGB(1, 1, 1);
+        sp.scale.set(0.95 * 2, 0.95, 1);
+      }
+    }
+    _compassLive = true;
+  } else if (_compassLive){
+    // Restore default appearance once the commit phase is over.
+    for (const sp of compassGroup.children){
+      if (!sp.material) continue;
+      sp.material.depthTest = true;
+      sp.renderOrder = 0;
+      sp.material.opacity = 1;
+      sp.material.color.setRGB(1, 1, 1);
+      sp.scale.set(0.95 * 2, 0.95, 1);
+    }
+    _compassLive = false;
+  }
+  // Isolated-node lines breathe so the selection stays obvious.
+  if (G.selectedNode != null && connectionGroup.visible){
+    const p = 1.6 + Math.abs(Math.sin(t * 0.005)) * 0.9;
+    for (const tube of connectionGroup.children){
+      const ids = tube.userData.connNodeIds;
+      if (ids && tube.material && (ids[0] === G.selectedNode || ids[1] === G.selectedNode)){
+        tube.material.emissiveIntensity = p;
+      }
+    }
   }
   renderer.render(scene, camera);
   requestAnimationFrame(tick);
@@ -10149,14 +10444,17 @@ function applyCollapseState(){
   // First-load defaults — quiet corners, torus front-and-center.
   // (hud-right is the bottom-center action dock — stays FULL by default
   // because it carries the move buttons.)
+  // Left-edge telemetry stack (dashboard standings + action log) shows FULL by
+  // default — the user wants the trackers/metrics legible along the periphery,
+  // not folded into a one-line mini. Piece-ref + chat stay tucked away.
   const firstLoadDefaults = {
-    'log':           'min',
+    'log':           'full',
     'hud-left':      'min',
-    'hud-dashboard': 'min',
+    'hud-dashboard': 'full',
     'chat-panel':    'min',
     'hud-right':     'full',
   };
-  const LAYOUT_VERSION = 'v9-zones';
+  const LAYOUT_VERSION = 'v10-trackers';
   if (state.__layoutVersion !== LAYOUT_VERSION){
     Object.assign(state, firstLoadDefaults);
     state.__layoutVersion = LAYOUT_VERSION;
@@ -10386,6 +10684,8 @@ function refreshTicker(){
     beamEl.textContent  = `R+${bIn}`;
   }
   barrEl.textContent = G.barriersDissolved ? 'open' : (G.barriersActive ? 'up' : 'down');
+  renderTopPies();        // per-colour dials track the ticker
+  updateRingLabels();     // START ↔ GO on the start ring
 }
 
 /* ====================  CHAT  =============================================
@@ -10435,47 +10735,145 @@ function bindChatHandlers(){
   });
 }
 
-/* ====================  PIE CHART (SVG) — piece composition  =============
-   Per-player donut showing their living pieces broken down by type. */
+/* ====================  COMPOSITION GAUGE (SVG)  =========================
+   Per-player precision dial: machined metal bezel + tick ring, a gradient
+   donut of the living force split by piece type, a glass gloss highlight, and
+   a recessed well holding the crisp count. Built as scalable vector so it
+   stays razor-sharp at any size. IDs are namespaced per-player so 6 gauges can
+   share one document without their <defs> colliding. */
 function buildCompositionPie(pid, size = 64){
+  const base = HEX[pid] || '#8a90ff';
+  const ns   = `cp${pid}`;
+  const cx = 50, cy = 50, rO = 39, rI = 26.5;          // data-donut band radii
+  // hex shade — amt<0 darkens toward black, amt>0 lightens toward white
+  const shade = (hex, amt) => {
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    const f = c => Math.max(0, Math.min(255, Math.round(amt < 0 ? c*(1+amt) : c+(255-c)*amt))).toString(16).padStart(2,'0');
+    return `#${f(r)}${f(g)}${f(b)}`;
+  };
+  const P = (a, r) => [(cx + r*Math.cos(a)).toFixed(2), (cy + r*Math.sin(a)).toFixed(2)];
+  const band = (a0, a1, ri, ro) => {                    // annular-sector (donut slice)
+    const large = (a1 - a0) > Math.PI ? 1 : 0;
+    const [x0o,y0o]=P(a0,ro), [x1o,y1o]=P(a1,ro), [x1i,y1i]=P(a1,ri), [x0i,y0i]=P(a0,ri);
+    return `M ${x0o} ${y0o} A ${ro} ${ro} 0 ${large} 1 ${x1o} ${y1o} L ${x1i} ${y1i} A ${ri} ${ri} 0 ${large} 0 ${x0i} ${y0i} Z`;
+  };
+  // Machined-metal chrome shared by every gauge (filters + bezel/well/gloss).
+  const defs = `
+    <filter id="${ns}-sh" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1.3" stdDeviation="1.7" flood-color="#000" flood-opacity="0.6"/></filter>
+    <filter id="${ns}-gl" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="${ns}-bz" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.8)"/>
+      <stop offset="42%" stop-color="rgba(150,160,195,0.22)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.62)"/></linearGradient>
+    <radialGradient id="${ns}-wl" cx="50%" cy="36%" r="72%">
+      <stop offset="0%" stop-color="#221b3c"/><stop offset="70%" stop-color="#0c0820"/>
+      <stop offset="100%" stop-color="#050310"/></radialGradient>
+    <linearGradient id="${ns}-gs" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.62)"/>
+      <stop offset="48%" stop-color="rgba(255,255,255,0.06)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/></linearGradient>`;
+  // Tick ring — 24 fine graduations, every 6th longer/brighter.
+  let ticks = '';
+  for (let i = 0; i < 24; i++){
+    const a = i/24*Math.PI*2, major = (i % 6 === 0);
+    const [x0,y0] = P(a, 40.6), [x1,y1] = P(a, major ? 43.4 : 42.1);
+    ticks += `<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="rgba(255,255,255,${major?0.34:0.14})" stroke-width="${major?0.9:0.5}"/>`;
+  }
+  // Reusable chassis: base disc, bezel rings, ticks (used by full + empty states).
+  const chassis = `
+    <circle cx="50" cy="50" r="44" fill="#0a0818"/>
+    <circle cx="50" cy="50" r="44"   fill="none" stroke="rgba(0,0,0,0.62)" stroke-width="1.2"/>
+    <circle cx="50" cy="50" r="42.4" fill="none" stroke="url(#${ns}-bz)" stroke-width="2.6"/>
+    <circle cx="50" cy="50" r="40.8" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="0.5"/>
+    ${ticks}`;
+  const well = `
+    <circle cx="50" cy="50" r="${rI-0.3}" fill="url(#${ns}-wl)"/>
+    <circle cx="50" cy="50" r="${rI-0.3}" fill="none" stroke="rgba(0,0,0,0.72)" stroke-width="1"/>
+    <ellipse cx="50" cy="${cy-7}" rx="${rI-7}" ry="${rI-13}" fill="rgba(255,255,255,0.06)"/>`;
+  const open = `<svg class="mini-pie" width="${size}" height="${size}" viewBox="0 0 100 100" shape-rendering="geometricPrecision"><defs>`;
+
   const pieces = G.pieces.filter(p => p.alive && p.owner === pid);
   if (!pieces.length){
-    return `<svg class="mini-pie" width="${size}" height="${size}" viewBox="0 0 64 64">
-      <circle cx="32" cy="32" r="26" fill="none" stroke="rgba(150,135,180,0.3)" stroke-width="2" stroke-dasharray="2 3"/>
-      <text x="32" y="36" text-anchor="middle" fill="${HEX[pid]}88" font-family="ui-monospace,Menlo,monospace" font-size="9">∅</text>
-    </svg>`;
+    return `${open}${defs}</defs><g filter="url(#${ns}-sh)">${chassis}${well}
+      <text x="50" y="58" text-anchor="middle" fill="${shade(base,-0.1)}" font-family="ui-monospace,Menlo,monospace" font-size="20" font-weight="800" opacity="0.7">∅</text>
+    </g></svg>`;
   }
+
   const byType = {};
   for (const p of pieces) byType[p.type] = (byType[p.type] || 0) + 1;
   const total = pieces.length;
-  // Choose a hue per piece type (rotation around the team color)
   const types = Object.keys(byType);
+  // Monochromatic family — each type a light→dark variant of the team colour.
   const sliceColors = {};
   types.forEach((t, i) => {
-    // Light to dark variants by index
-    const baseHex = HEX[pid];
-    const baseR = parseInt(baseHex.slice(1,3),16), baseG = parseInt(baseHex.slice(3,5),16), baseB = parseInt(baseHex.slice(5,7),16);
-    const lift = (i / types.length) * 0.6 - 0.3;
-    const f = (c) => Math.max(0, Math.min(255, Math.round(c * (1 + lift)))).toString(16).padStart(2, '0');
-    sliceColors[t] = `#${f(baseR)}${f(baseG)}${f(baseB)}`;
+    const lift = types.length > 1 ? (i / (types.length - 1)) * 0.62 - 0.31 : 0;
+    sliceColors[t] = shade(base, lift);
   });
-  let svg = `<svg class="mini-pie" width="${size}" height="${size}" viewBox="0 0 64 64">`;
+  // Build per-slice radial gradients (lit on the outer rim) + donut bands.
+  let grads = '', slices = '';
   let acc = 0;
-  for (const t of types){
+  const gap = types.length > 1 ? 0.05 : 0;
+  types.forEach((t, i) => {
     const frac = byType[t] / total;
-    const startAng = acc * Math.PI * 2 - Math.PI/2;
-    const endAng   = (acc + frac) * Math.PI * 2 - Math.PI/2;
+    const a0 = acc*2*Math.PI - Math.PI/2 + gap;
+    const a1 = Math.max(a0 + 0.002, (acc + frac)*2*Math.PI - Math.PI/2 - gap);
     acc += frac;
-    const x1 = 32 + 26 * Math.cos(startAng), y1 = 32 + 26 * Math.sin(startAng);
-    const x2 = 32 + 26 * Math.cos(endAng),   y2 = 32 + 26 * Math.sin(endAng);
-    const large = frac > 0.5 ? 1 : 0;
-    svg += `<path d="M 32 32 L ${x1.toFixed(2)} ${y1.toFixed(2)} A 26 26 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${sliceColors[t]}" stroke="rgba(20,16,40,0.7)" stroke-width="0.6"><title>${PIECES[t].name} ×${byType[t]}</title></path>`;
+    const col = sliceColors[t];
+    grads += `<radialGradient id="${ns}-s${i}" gradientUnits="userSpaceOnUse" cx="${cx}" cy="${cy}" r="${rO}">
+      <stop offset="${(rI/rO).toFixed(3)}" stop-color="${shade(col,-0.30)}"/>
+      <stop offset="0.84" stop-color="${col}"/>
+      <stop offset="1" stop-color="${shade(col,0.36)}"/></radialGradient>`;
+    slices += `<path d="${band(a0,a1,rI,rO)}" fill="url(#${ns}-s${i})" stroke="rgba(0,0,0,0.45)" stroke-width="0.4"><title>${PIECES[t].name} ×${byType[t]}</title></path>`;
+  });
+  // Glass gloss: an annulus (even-odd) filled with the vertical sheen gradient.
+  const gloss = `<path fill-rule="evenodd" opacity="0.6" fill="url(#${ns}-gs)" d="M 50 ${50-rO} A ${rO} ${rO} 0 1 0 50 ${50+rO} A ${rO} ${rO} 0 1 0 50 ${50-rO} Z M 50 ${50-rI} A ${rI} ${rI} 0 1 1 50 ${50+rI} A ${rI} ${rI} 0 1 1 50 ${50-rI} Z"/>`;
+
+  return `${open}${defs}${grads}</defs>
+    <g filter="url(#${ns}-sh)">
+      ${chassis}
+      <g filter="url(#${ns}-gl)">${slices}</g>
+      ${gloss}
+      ${well}
+      <text x="50" y="58" text-anchor="middle" fill="#f3f1ff" font-family="ui-monospace,Menlo,monospace" font-size="23" font-weight="800" letter-spacing="-0.5">${total}</text>
+    </g></svg>`;
+}
+
+/* ====================  TOP COMPOSITION DIALS  ===========================
+   One donut per player strung across the upper sky (see #top-pies). Reuses
+   buildCompositionPie; the active player's dial lifts + glows, eliminated
+   colours grey out. Refreshed from refreshTicker so it tracks every change. */
+function renderTopPies(){
+  const host = document.getElementById('top-pies');
+  if (!host) return;
+  const players = (G.players && G.players.length) ? G.players : [];
+  if (!players.length || G.phase === 'setup'){ host.innerHTML = ''; host.style.display = 'none'; return; }
+  host.style.display = 'flex';
+  let html = '';
+  for (const pl of players){
+    const pid   = pl.id;
+    const alive = G.pieces.filter(p => p.alive && p.owner === pid).length;
+    const total = G.pieces.filter(p => p.owner === pid).length;
+    const hasSun = G.pieces.some(p => p.alive && p.owner === pid && p.type === 'sun');
+    const dead   = !hasSun && G.phase !== 'setup';
+    const active = (pid === G.activePlayer) && !dead && G.winner == null;
+    html += `<div class="tp-cell${dead ? ' dead' : ''}${active ? ' active' : ''}"
+        title="${NAME[pid]} — ${alive}/${total} pieces alive">
+      ${buildCompositionPie(pid, 52)}
+      <span class="tp-name" style="color:${dead ? '#6f6878' : HEX[pid]}">${NAME[pid]}${dead ? ' ✖' : ''}</span>
+      <span class="tp-num">${alive}/${total}</span>
+    </div>`;
   }
-  // Donut hole
-  svg += `<circle cx="32" cy="32" r="10" fill="rgba(20,16,40,0.95)"/>`;
-  svg += `<text x="32" y="36" text-anchor="middle" fill="${HEX[pid]}" font-family="ui-monospace,Menlo,monospace" font-size="11" font-weight="700">${total}</text>`;
-  svg += `</svg>`;
-  return svg;
+  host.innerHTML = html;
+}
+
+/* Keep ring-button labels honest as the match state changes. START only makes
+   sense pre-game; once a match is live that ring fires the current move (GO). */
+function updateRingLabels(){
+  const rs = document.getElementById('rb-start');
+  if (rs) rs.innerHTML = (G.phase === 'setup') ? 'START' : 'GO';
 }
 
 /* ====================  CAPTURE TREND BAR  ================================ */
@@ -10542,12 +10940,14 @@ log('Click <b>Start match</b> when ready.');
     set(startOn);
     btn.addEventListener('click', () => set(panel.style.display === 'none'));
   }
-  bindToggle(ringBtn('rb-dash','MATCH'), $('hud-dashboard'), true);
+  bindToggle(ringBtn('rb-dash','STATS'), $('hud-dashboard'), true);   // toggles the match-stats panel
   bindToggle(ringBtn('rb-log','LOG'),    $('log'),           true);
   bindToggle(ringBtn('rb-chat','CHAT'),  $('chat-panel'),    false);
 
+  // Pre-game this ring starts the match; once live it fires the current move.
   const start = ringBtn('rb-start','START');
   start.addEventListener('click', () => { const s=$('btn-start')||$('btn-go-big'); if (s) s.click(); });
+  updateRingLabels();   // set START/GO for the current phase
 })();
 </script>
 </body>
