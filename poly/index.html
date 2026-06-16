@@ -102,6 +102,17 @@
   #selection-banner .clear-btn {
     margin-left: 12px; color: #777; font-size: 11px; font-style: italic;
   }
+  /* Reveal-alert: surfaced when an isolated node has hidden B-cell backchannels.
+     Magenta to match the wormhole tubes (#FF6FE5). Clickable; shortcut is W. */
+  #selection-banner .worm-reveal {
+    margin-left: 10px; color: #b01890; cursor: pointer; font-weight: 500;
+    border: 1px solid rgba(176,24,144,0.35); border-radius: 3px;
+    padding: 1px 7px; background: rgba(255,111,229,0.08);
+    transition: background 140ms ease, border-color 140ms ease;
+  }
+  #selection-banner .worm-reveal:hover {
+    background: rgba(255,111,229,0.20); border-color: rgba(176,24,144,0.65);
+  }
   .solo-btn {
     background: rgba(0,0,0,0.04) !important; border: 1px solid rgba(0,0,0,0.12) !important;
     color: #555 !important; padding: 1px 6px !important; font-size: 9.5px !important;
@@ -667,7 +678,8 @@ const actorClusters = [
     { id: 'fcc',              name: 'FCC (acting / failing to act)' },
     { id: 'hhs',              name: 'HHS leadership (acting)' },
     { id: 'civil_society',    name: 'Organized civil society (as countervailing force)' },
-    { id: 'public_sector_workers', name: 'Public-sector workforce (as countervailing force)' }
+    { id: 'public_sector_workers', name: 'Public-sector workforce (as countervailing force)' },
+    { id: 'scotus',           name: 'Supreme Court (acting / reshaping precedent)' }
   ]},
   // ============================================================================
   // DISASTER CAPITALISM BENEFICIARIES — actors who profit from wars, disasters,
@@ -3193,7 +3205,7 @@ const actorLinks = [
   // Cabinet / agency ↔ ideology infrastructure
   { id: 'R044', code: 'Welwitschia-Bronze',a:'heritage',b:'us_exec',         channel: 'STAFF' },
   { id: 'R045', code: 'Cycad-Pewter',   a: 'federalist_soc', b: 'doj',       channel: 'STAFF' },
-  { id: 'R046', code: 'Ginkgo-Britannia',a:'federalist_soc',b:'scotus_TARGET_REPRESENTATION',channel:'INST' }, // placeholder, will fix below
+  { id: 'R046', code: 'Ginkgo-Britannia',a:'federalist_soc',b:'scotus',channel:'INST' }, // Federalist Society → SCOTUS (scotus is dual-role actor+target)
 
   // ICE / DHS apparatus
   { id: 'R047', code: 'Tussock-Sard',   a: 'ice_dhs',  b: 'el_salvador',     channel: 'ALLY' },
@@ -3333,7 +3345,7 @@ const actorLinks = [
 
 // Remove the placeholder R046 entry that referenced a non-existent target id.
 // (Federalist Society's actual influence on SCOTUS is structural — represented through R045 and other links.)
-const validActorLinks = actorLinks.filter(L => L.id !== 'R046');
+const validActorLinks = actorLinks;
 
 // ===========================================================================
 // B-CELLS (WORMHOLES) — benefit-inferred backchannel relationships
@@ -4092,7 +4104,17 @@ const flowTypesEnabled = {
   convergence: false,  // central attractor pulses
   wormhole:    false   // B-cell wormhole particles (benefit-inferred)
 };
-let showFlow = false;  // master toggle; default off
+let showFlow = false;       // EFFECTIVE flow state (derived in applyAutoFlow); off by default
+let flowUserPref = false;   // manual FLOW-button preference; auto-flow OR's on top of this
+// Auto-flow: whenever a SINGLE node is isolated, animate its (degree-bounded) network so
+// origin→destination flow is visible without reaching for the FLOW toggle. The manual FLOW
+// pref still governs cluster/group/no-selection states. Degree buttons rebuild, so expanding
+// the level automatically grows the animated frontier. Called at the top of rebuildAll() so
+// showFlow is correct before edges are built.
+function applyAutoFlow() {
+  showFlow = flowUserPref || selection.type === 'node';
+  setToggleActive('toggle-flow', showFlow);
+}
 
 // Separate group for actor-actor relationship edges (R-cells). Rendered as arcs ON the outer torus surface
 // so they remain visually distinct from operational edges that route through center or gap.
@@ -4303,8 +4325,10 @@ function buildWormholes() {
       wormholeGroup.add(anchor);
     });
 
-    // Wormhole particles — travel through the wormhole when flow is on
-    if (showFlow && flowTypesEnabled.wormhole) {
+    // Wormhole particles — travel through the wormhole when flow is on.
+    // Auto-flow also animates already-visible B-cells when a single node is isolated (this block
+    // only runs past the showWormholes guard, so it never force-reveals the hidden WORM layer).
+    if (showFlow && (flowTypesEnabled.wormhole || selection.type === 'node')) {
       const directions = wh.direction === 'MUTUAL' ? [true, false] :
                          wh.direction === 'A_BEN' ? [false] :
                          [true];
@@ -4617,7 +4641,10 @@ function buildActorLinks() {
   // Render if EITHER the static link tubes are toggled on OR relational flow particles are active.
   // This allows users to see directional R-cell flow without the visual weight of all 130 static arcs.
   const renderTubes = showActorLinks;
-  const renderRelFlow = showFlow && flowTypesEnabled.relational;
+  // Auto-flow: isolating a single node activates relational flow for its frontier R-cells even
+  // if the user hasn't enabled relational flow / LINKS — so a selected node's level-1 R-cell
+  // connections (e.g. R046 federalist_soc→scotus) reveal and animate, matching forward-cell flow.
+  const renderRelFlow = showFlow && (flowTypesEnabled.relational || selection.type === 'node');
   if (!renderTubes && !renderRelFlow) return;
 
   validActorLinks.forEach(link => {
@@ -5412,15 +5439,42 @@ document.getElementById('toggle-links').addEventListener('click', () => {
 });
 
 document.getElementById('toggle-flow').addEventListener('click', () => {
-  showFlow = !showFlow;
-  setToggleActive('toggle-flow', showFlow);
+  flowUserPref = !flowUserPref;  // manual pref; rebuildAll()→applyAutoFlow() derives effective showFlow
   rebuildAll();
 });
 
-document.getElementById('toggle-worm').addEventListener('click', () => {
-  showWormholes = !showWormholes;
+// Apply the current showWormholes state across button, geometry, and the banner
+// reveal-alert. Shared by the WORM button, the W shortcut, and the reveal click.
+function applyWormholeState() {
   setToggleActive('toggle-worm', showWormholes);
   buildWormholes();
+  updateSelectionBanner();  // drop or restore the hidden-backchannel reveal-alert
+}
+function revealWormholes() {
+  if (showWormholes) return;
+  showWormholes = true;
+  applyWormholeState();
+}
+document.getElementById('toggle-worm').addEventListener('click', () => {
+  showWormholes = !showWormholes;
+  applyWormholeState();
+});
+// Click the in-banner reveal-alert to show the hidden backchannels (delegated:
+// the banner's innerHTML is rebuilt on every selection change).
+document.getElementById('selection-banner').addEventListener('click', e => {
+  if (e.target.closest('.worm-reveal')) revealWormholes();
+});
+// Keyboard shortcut: W toggles the wormhole (B-cell backchannel) layer — the
+// "activate the wormhole view" shortcut paired with the banner reveal-alert.
+window.addEventListener('keydown', e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+  if (e.key === 'w' || e.key === 'W') {
+    e.preventDefault();
+    showWormholes = !showWormholes;
+    applyWormholeState();
+  }
 });
 
 document.getElementById('toggle-pole').addEventListener('click', () => {
@@ -5542,6 +5596,7 @@ setToggleActive('toggle-global', showGlobal);
 
 // Single rebuild entry-point — refreshes all visualization layers.
 function rebuildAll() {
+  applyAutoFlow();          // derive showFlow from selection + manual pref before edges build
   computeDegreeFrontier();  // must be first — every build step consults degreeFrontier
   buildEdges(activeChannels, activeTiers, activeModes);
   buildActorLinks();
@@ -5701,12 +5756,31 @@ renderer.domElement.addEventListener('pointerup', e => {
     selection = { type: 'none', value: null };
   } else {
     selection = { type: 'node', value: clickedId };
+    selectedDegree = 1;  // fresh isolation defaults to level-1; degree buttons expand from here
   }
   updateNodeVisuals();
   rebuildAll();
   updateSelectionBanner();
   updateLegendActiveStates();
 });
+
+// Count B-cell wormholes that WOULD render under the current selection + tier
+// filters but are hidden because the WORM layer is off. Mirrors buildWormholes()'s
+// visibility filter exactly so the surfaced count matches what reveal will show.
+// Wormhole edges are part of buildAdjacency(), so an isolated node's backchannel
+// partners are pulled into degreeFrontier — this reliably surfaces them.
+function hiddenWormholeCount() {
+  if (showWormholes) return 0;
+  let n = 0;
+  for (const wh of wormholes) {
+    if (!actorMeshes[wh.a] || !actorMeshes[wh.b]) continue;
+    const whTier = wh.tier || (wh.direction === 'MUTUAL' ? 'D' : (wh.direction === 'UNK' ? 'S' : 'I'));
+    if (!activeTiers.has(whTier)) continue;
+    if (selection.type !== 'none' && (!degreeFrontier.has(wh.a) || !degreeFrontier.has(wh.b))) continue;
+    n++;
+  }
+  return n;
+}
 
 function updateSelectionBanner() {
   const banner = document.getElementById('selection-banner');
@@ -5729,7 +5803,11 @@ function updateSelectionBanner() {
   } else if (selection.type === 'group') {
     label = 'Group: ' + selection.value;
   }
-  banner.innerHTML = `<strong>Isolated:</strong> ${label} <span style="opacity:0.65; margin-left:6px;">— ${degreeFrontier.size} nodes at ${selectedDegree}-degree</span> <span class="clear-btn">click anywhere to clear</span>`;
+  const hwc = hiddenWormholeCount();
+  const wormAlert = hwc > 0
+    ? ` <span class="worm-reveal" title="Benefit-inferred B-cell backchannels touch this selection but the WORM layer is hidden">⌖ ${hwc} hidden backchannel${hwc !== 1 ? 's' : ''} — reveal (W)</span>`
+    : '';
+  banner.innerHTML = `<strong>Isolated:</strong> ${label} <span style="opacity:0.65; margin-left:6px;">— ${degreeFrontier.size} nodes at ${selectedDegree}-degree</span>${wormAlert} <span class="clear-btn">click anywhere to clear</span>`;
   updateDegreeButtonStates();
 }
 
@@ -5868,7 +5946,7 @@ function setOperationalDefault() {
   showWormholes = false;      setToggleActive('toggle-worm', false);
   showPolarities = false;     setToggleActive('toggle-pole', false);
   showVortices = false;       setToggleActive('toggle-vortex', false);
-  showFlow = false;           setToggleActive('toggle-flow', false);
+  flowUserPref = false;       showFlow = false; setToggleActive('toggle-flow', false);
   selection = { type: 'none', value: null };
   selectedDegree = 1;
   rebuildAll();
