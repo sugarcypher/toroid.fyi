@@ -22,6 +22,16 @@ strat-dom-3d.rtf
 # Duplicate of matrix/index.html (verified identical via md5)
 matrix/indexM.html
 
+# HUD/build scratch — kept on disk for reference, not tracked or deployed.
+# _hud_flush_bezel.html is a superseded bezel prototype; its only novel bit is
+# roundedRectPoint() (rounded-rect perimeter distributor — abandoned in the v4
+# corners-only HUD). BUILD_COMPARISON.html is a dated A-vs-B decision record
+# already captured in project notes. _frame_preview.png is a render artifact.
+# (play/hud-concept.html is the LIVE port-target and is intentionally NOT here.)
+play/_hud_flush_bezel.html
+play/_frame_preview.png
+play/BUILD_COMPARISON.html
+
 # OS noise
 .DS_Store
 Thumbs.db
