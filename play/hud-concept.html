@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUD concept — corner clusters</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; overflow:hidden;
+    background:radial-gradient(120% 100% at 50% 50%, #06070e 0%, #04050b 55%, #020208 100%); }
+  body { font-family: ui-monospace, "SF Mono", Menlo, monospace; color:#dfeaff; }
+  #c { position:fixed; inset:0; display:block; }
+  #readout { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; opacity:.4; }
+  #readout .scr-k { font-size:9px; letter-spacing:.24em; color:#5f74a8; text-transform:uppercase; }
+  /* hover/selection readout — TOP edge, never over the centre board */
+  #topbar { position:fixed; left:50%; top:1.4%; transform:translateX(-50%); pointer-events:none;
+    font:600 13px "Futura","Space Grotesk",ui-monospace,monospace; letter-spacing:.12em; color:#dce8ff;
+    text-shadow:0 1px 5px #000, 0 0 10px rgba(80,140,255,.4); opacity:0; transition:opacity .14s; white-space:nowrap; }
+  #readout .scr-v { font-size:clamp(14px,2vw,24px); font-weight:700; color:#e7f0ff;
+    text-shadow:0 0 16px rgba(120,170,255,.5), 0 2px 6px #000; margin-top:3px; }
+  #readout .scr-sub { font-size:11px; color:#8fa0cc; margin-top:6px; }
+  #phases { position:fixed; left:50%; bottom:6px; transform:translateX(-50%); display:flex; gap:5px; z-index:5; }
+  #phases button { font:600 9px ui-monospace,Menlo,monospace; letter-spacing:.07em; color:#7e8db5;
+    background:rgba(10,16,28,0.7); border:1px solid rgba(120,150,210,0.3); border-radius:5px; padding:3px 8px; cursor:pointer; }
+  #phases button.on { color:#0b1422; background:#bcd0ff; border-color:#bcd0ff; }
+  #legend { position:fixed; left:50%; top:9px; transform:translateX(-50%); font-size:9px; color:#65708f; pointer-events:none; }
+  #legend b { color:#a6b4d6; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="topbar"></div>
+<div id="readout">
+  <div class="scr-k">SCREEN — kept clear for the torus</div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script>
+if (typeof THREE === 'undefined'){ document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:40px;left:50%;transform:translateX(-50%);background:#a02030;color:#fff;padding:14px;border-radius:8px;z-index:9">three.js failed to load</div>'); throw new Error('no three'); }
+
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const FOV=45,CAM_Z=22;
+const camera=new THREE.PerspectiveCamera(FOV,1,0.1,200); camera.position.set(0,0,CAM_Z);
+scene.add(new THREE.AmbientLight(0xffffff,0.42));
+const klight=new THREE.DirectionalLight(0xeaf2ff,1.15); klight.position.set(-6,10,16); scene.add(klight);
+const fill=new THREE.DirectionalLight(0x6f86c0,0.5); fill.position.set(8,-4,10); scene.add(fill);
+const rim=new THREE.PointLight(0x9ab4ff,0.8,160); rim.position.set(12,-8,18); scene.add(rim);
+// Premium reflections — a soft vertical-gradient environment the metal tiles mirror.
+try {
+  const pmrem=new THREE.PMREMGenerator(renderer); pmrem.compileEquirectangularShader();
+  const envScene=new THREE.Scene();
+  envScene.add(new THREE.Mesh(new THREE.SphereGeometry(60,32,16), new THREE.ShaderMaterial({ side:THREE.BackSide,
+    vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);} ',
+    fragmentShader:'varying vec3 vP; void main(){ float t=clamp(normalize(vP).y*0.5+0.5,0.0,1.0); vec3 a=vec3(0.16,0.21,0.34), b=vec3(0.02,0.03,0.07); gl_FragColor=vec4(mix(b,a,smoothstep(0.0,1.0,t)),1.0);} '})));
+  scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+} catch(e){}
+
+let visH=9,visW=14;
+function computeLayout(aspect){ visH=Math.tan(FOV*Math.PI/360)*CAM_Z; visW=visH*aspect; }
+
+/* ---- THE THREE TESSELLATING SHAPES (3D beveled) --------------------- */
+const TS=0.26;                                  // base tile size (smaller)
+function paraShape(w,h,sl){ const sh=new THREE.Shape();
+  sh.moveTo(-w/2,-h/2); sh.lineTo(w/2,-h/2); sh.lineTo(w/2+sl,h/2); sh.lineTo(-w/2+sl,h/2); sh.closePath(); return sh; }
+function trapShape(w,h,flip){ const b=w/2, t=w*0.30; const sh=new THREE.Shape();
+  if(!flip){ sh.moveTo(-b,-h/2); sh.lineTo(b,-h/2); sh.lineTo(t,h/2); sh.lineTo(-t,h/2); }
+  else      { sh.moveTo(-t,-h/2); sh.lineTo(t,-h/2); sh.lineTo(b,h/2); sh.lineTo(-b,h/2); }
+  sh.closePath(); return sh; }
+function triDirShape(s,dir){ const a={U:Math.PI/2,D:-Math.PI/2,L:Math.PI,R:0}[dir] ?? Math.PI/2; const sh=new THREE.Shape();
+  for(let i=0;i<3;i++){ const ang=a+i*2*Math.PI/3, x=Math.cos(ang)*s, y=Math.sin(ang)*s; i?sh.lineTo(x,y):sh.moveTo(x,y); }
+  sh.closePath(); return sh; }
+function shapeFor(def,idx){
+  const z=def.size;
+  if(def.shape==='para') return paraShape(TS*1.5*z, TS*1.05*z, TS*0.5*z);
+  if(def.shape==='trap') return trapShape(TS*1.6*z, TS*1.05*z, (def.flip ?? (idx%2))===1);
+  return triDirShape(TS*0.95*z, def.dir||'U');
+}
+function geo3D(def,idx){ const sh=shapeFor(def,idx); const d=TS*0.45*def.size;
+  const g=new THREE.ExtrudeGeometry(sh,{depth:d, bevelEnabled:true, bevelThickness:TS*0.16*def.size, bevelSize:TS*0.14*def.size, bevelSegments:1, steps:1});
+  g.translate(0,0,-d/2); return g; }
+
+const C={ play:0x9affc0, go:0x6effb0, adjust:0x86e8ff, window:0xb6a4ff, study:0x9be7e0,
+  tele:0x55d8ff, action:0xc9b6ff, power:0xe040fb, off:0xff8f5a, def:0x9affc0, flare:0xffb066, beam:0xa9d4ff };
+
+/* ---- REGISTRY — shape ∈ {para, trap, tri}; corner ∈ {TL,TR,BL,BR} ---- */
+const REG=[
+  // HERO (parallelograms) — BR, prominent
+  {name:'PLAY / ROTATE', shape:'para', color:C.play, corner:'BR', size:1.3, kind:'toggle', hero:true, defaultOn:true},
+  {name:'GO',            shape:'para', color:C.go,   corner:'BR', size:1.15, kind:'btn', hero:true},
+  // TELEMETRY (trapezoids) — TL, read-only
+  {name:'PHASE', val:'plot', shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'ROUND', val:'3',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'TURN',  val:'P1',   shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'POT',   val:'240',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'☀NEXT', val:'2',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'☾NEXT', val:'4',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  {name:'BARRIER',val:'up',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+  // CAMERA + STUDY (triangles + trapezoids) — BL
+  {name:'ROT ◀', shape:'tri', dir:'L', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'ROT ▶', shape:'tri', dir:'R', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'ROT ▲', shape:'tri', dir:'U', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'ROT ▼', shape:'tri', dir:'D', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'ZOOM +',shape:'tri', dir:'U', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'ZOOM −',shape:'tri', dir:'D', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+  {name:'UNROLL',shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+  {name:'LABELS',shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+  {name:'CLEAR', shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+  // WINDOWS (trapezoids) — TR
+  {name:'DASH',   shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle', defaultOn:true},
+  {name:'LOG',    shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle', defaultOn:true},
+  {name:'CHAT',   shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle'},
+  {name:'RULES',  shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+  {name:'GALLERY',shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+  {name:'PROFILE',shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+  // PHASE: PLOT (BR with hero)
+  {name:'SUGGEST',shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'AUTO',   shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'MANUAL', shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'LOCK',   shape:'trap', color:C.action, corner:'BR', size:1, phase:'plot', kind:'toggle'},
+  {name:'CONFIRM',shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'UNDO',   shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'DRAW',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'EXCH',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'OFF',    shape:'tri', dir:'U', color:C.off, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'OFF',    shape:'tri', dir:'U', color:C.off, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'DEF',    shape:'tri', dir:'D', color:C.def, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  {name:'DEF',    shape:'tri', dir:'D', color:C.def, corner:'BR', size:1, phase:'plot', kind:'btn'},
+  // PHASE: SETUP (BR)
+  {name:'SANDBOX',shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
+  {name:'SOLO',   shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle', defaultOn:true},
+  {name:'MULTI',  shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
+  {name:'◀',      shape:'tri', dir:'L', color:C.adjust, corner:'BR', size:1, phase:'setup', kind:'btn'},
+  {name:'▶',      shape:'tri', dir:'R', color:C.adjust, corner:'BR', size:1, phase:'setup', kind:'btn'},
+  {name:'START',  shape:'para', color:C.go, corner:'BR', size:1.4, phase:'setup', kind:'btn'},
+  // PHASE: WEAPON (BR compass triangles + flare/beam)
+  ...['N','NE','E','SE','S','SW','W','NW'].map((d,i)=>({name:d, shape:'tri', dir:['U','U','R','D','D','D','L','U'][i], color:C.flare, corner:'BR', size:0.9, phase:'weapon', kind:'btn'})),
+  {name:'☀FLARE',shape:'trap', color:C.flare, corner:'BR', size:1, phase:'weapon', kind:'toggle', defaultOn:true},
+  {name:'☾BEAM', shape:'trap', color:C.beam,  corner:'BR', size:1, phase:'weapon', kind:'toggle'},
+  // PHASE: ANOMALY (BR)
+  {name:'CHANNEL',   shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+  {name:'EXTINCT',   shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+  {name:'REGENESIS', shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+  {name:'CLAIM',     shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+];
+const PHASES=['persistent','setup','plot','weapon','anomaly'];
+let curPhase='plot';
+
+const field=new THREE.Group(); scene.add(field);
+const labelGroup=new THREE.Group(); scene.add(labelGroup);
+const GRAY=new THREE.Color(0x6f7892);
+let tiles=[];
+
+// High-legibility label: heavy clean sans-serif, white fill + thick dark outline
+// so it reads on any tile colour (gray rest or bright active).
+function faceLabel(text,sub){ const cv=document.createElement('canvas'); cv.width=512; cv.height=180; const x=cv.getContext('2d');
+  x.textAlign='center'; x.textBaseline='middle'; x.lineJoin='round';
+  const draw=(t,y,fs,fill)=>{ x.font=`500 ${fs}px "Futura", "Space Grotesk", system-ui, sans-serif`;
+    x.letterSpacing='1.5px'; x.lineWidth=Math.round(fs*0.15); x.strokeStyle='rgba(1,4,10,0.95)'; x.strokeText(t,256,y);
+    x.fillStyle=fill; x.fillText(t,256,y); };
+  if(sub){ draw(text,56,46,'#eaf2ff'); draw(sub,124,76,'#ffffff'); }
+  else   { draw(text,90,58,'#f4f8ff'); }
+  const t=new THREE.CanvasTexture(cv); t.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,opacity:0,depthTest:false})); sp.renderOrder=20; return sp; }
+
+function addTile(def,x,y,idx){
+  const geo=geo3D(def,idx);
+  const mat=new THREE.MeshStandardMaterial({color:GRAY.clone(),emissive:0x0a1018,emissiveIntensity:0.32,
+    metalness:0.95,roughness:0.26,envMapIntensity:1.15,transparent:true,opacity:0.9});
+  const mesh=new THREE.Mesh(geo,mat);
+  const grp=new THREE.Group(); grp.add(mesh); grp.position.set(x,y,0);
+  const rec={def,grp,mesh,mat,geo,accent:new THREE.Color(def.color),hover:0,pulse:0,base:new THREE.Vector3(x,y,0),
+    on:def.kind==='toggle'&&!!def.defaultOn, tele:def.kind==='tele', r:TS*def.size};
+  mesh.userData.rec=rec;
+  // NO text on the tiles — they are pure shapes; the name shows in the readout.
+  field.add(grp); tiles.push(rec);
+}
+function clearField(){ for(const r of tiles){ field.remove(r.grp); r.mat.dispose(); r.geo.dispose(); } tiles=[]; }
+
+/* ---- pack a corner: tight grid hugging the corner, growing inward ---- */
+// each cluster carries one uniform identifying glyph at its corner
+const glyphGroup=new THREE.Group(); scene.add(glyphGroup);
+const GLYPH={TL:'▦', TR:'▤', BL:'◉', BR:'▶'};
+function tileW(d){ const m=d.shape==='para'?2.0:d.shape==='trap'?1.6:1.7; return TS*d.size*m; }
+function tileH(d){ return TS*d.size*1.15; }
+function addGlyph(corner,color){
+  const cv=document.createElement('canvas'); cv.width=cv.height=128; const x=cv.getContext('2d');
+  x.textAlign='center'; x.textBaseline='middle';
+  x.shadowColor='#'+color.toString(16).padStart(6,'0'); x.shadowBlur=20;
+  x.font='86px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillStyle='#e6f3ff'; x.fillText(GLYPH[corner],64,70);
+  const tex=new THREE.CanvasTexture(cv); tex.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,opacity:0.96,depthTest:false}));
+  const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
+  sp.position.set(sx*visW*0.965, sy*visH*0.95, 1.4); sp.scale.set(TS*2.7,TS*2.7,1); sp.renderOrder=16; glyphGroup.add(sp);
+}
+function clearGlyphs(){ while(glyphGroup.children.length){ const g=glyphGroup.children[0]; glyphGroup.remove(g); g.material.map.dispose(); g.material.dispose(); } }
+
+// Frosted glass backing so each cluster reads as one cohesive premium module.
+const backGroup=new THREE.Group(); scene.add(backGroup);
+const infoGroup=new THREE.Group(); scene.add(infoGroup);   // triangular data-display fields
+const holoGroup=new THREE.Group(); scene.add(holoGroup);   // bottom-centre hologram token bays
+function clearGroup(g){ while(g.children.length){ const c=g.children[0]; g.remove(c);
+  if(c.geometry)c.geometry.dispose(); if(c.material){ if(c.material.map)c.material.map.dispose(); c.material.dispose(); } } }
+
+/* ===== NODE DESIGNATIONS + TRIANGULAR DISPLAY FIELDS =====================
+   Every corner node gets a designation: [H/L highest|lowest][U/L upper|lower]
+   [L/R left|right][NN]. Any THREE nodes link into a triangle whose interior is
+   a screen for information (mirrors the board's boundary-node→barrier idea).
+   Tons of node combos → tons of screen placements. */
+function assignDesignations(){
+  const byC={TL:[],TR:[],BL:[],BR:[]};
+  for(const r of tiles){ if(r.def.corner && byC[r.def.corner]) byC[r.def.corner].push(r); }
+  for(const k in byC){ const arr=byC[k].sort((a,b)=> b.base.y-a.base.y);   // highest first
+    const cv=k[0]==='T'?'U':'L', ch=k[1];
+    arr.forEach((r,i)=>{ const ht = i < arr.length/2 ? 'H':'L'; r.desig = ht+cv+ch+String(i+1).padStart(2,'0'); }); }
+}
+function nodeAt(corner, idx){ const a=tiles.filter(r=>r.def.corner===corner).sort((x,y)=>y.base.y-x.base.y); return a[idx]||a[0]; }
+function holoPanel(title, lines, color){
+  const cv=document.createElement('canvas'); cv.width=256; cv.height=168; const x=cv.getContext('2d');
+  const hex='#'+color.toString(16).padStart(6,'0');
+  x.fillStyle='rgba(4,11,20,0.5)'; x.fillRect(0,0,256,168);
+  x.strokeStyle=hex; x.lineWidth=2; x.strokeRect(3,3,250,162);
+  for(let i=8;i<168;i+=6){ x.strokeStyle='rgba(120,200,255,0.05)'; x.lineWidth=1; x.beginPath(); x.moveTo(0,i); x.lineTo(256,i); x.stroke(); }
+  x.textAlign='center'; x.fillStyle=hex; x.font='600 30px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(title,128,40);
+  x.fillStyle='#e6f3ff'; x.font='500 23px "Futura","Space Grotesk",system-ui,sans-serif';
+  lines.forEach((l,i)=> x.fillText(l,128,80+i*30));
+  const t=new THREE.CanvasTexture(cv); t.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,opacity:0.95,depthTest:false})); sp.renderOrder=18; return sp;
+}
+function findDesig(d){ return tiles.find(r=>r.desig===d); }
+function infoField(recs, color, title, lines){
+  if(recs.some(r=>!r)) return;
+  const p=recs.map(r=> r.base.clone());
+  const geo=new THREE.BufferGeometry().setFromPoints(p); geo.setIndex([0,1,2]);
+  const tri=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color, transparent:true, opacity:0.1, side:THREE.DoubleSide, depthWrite:false}));
+  tri.position.z=0.2; infoGroup.add(tri);
+  const ln=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:0.45}));
+  ln.position.z=0.25; infoGroup.add(ln);
+  const c=p[0].clone().add(p[1]).add(p[2]).multiplyScalar(1/3);
+  // size the holo readout to the (preferably small) triangle, clamped
+  const w=Math.max(...p.map(v=>v.x))-Math.min(...p.map(v=>v.x));
+  const pw=Math.max(1.0, Math.min(2.2, w*0.55));
+  const panel=holoPanel(title, lines, color); panel.position.set(c.x,c.y,0.6); panel.scale.set(pw, pw*0.66, 1); infoGroup.add(panel);
+}
+// 2-node ELLIPSE field — the two nodes are the major-axis endpoints; use when a
+// 3-node triangle would be too pinched or too broad.
+function ellipseField(a, b, color, title, lines){
+  if(!a||!b) return;
+  const pa=a.base, pb=b.base, cx=(pa.x+pb.x)/2, cy=(pa.y+pb.y)/2;
+  const dx=pb.x-pa.x, dy=pb.y-pa.y, len=Math.hypot(dx,dy), ang=Math.atan2(dy,dx);
+  const rMaj=len/2, rMin=Math.max(0.55, len*0.3), seg=52;
+  const ring=[]; for(let i=0;i<=seg;i++){ const t=i/seg*Math.PI*2; ring.push(new THREE.Vector3(Math.cos(t)*rMaj, Math.sin(t)*rMin, 0)); }
+  const fillShape=new THREE.Shape(); ring.forEach((p,i)=> i?fillShape.lineTo(p.x,p.y):fillShape.moveTo(p.x,p.y)); fillShape.closePath();
+  const fill=new THREE.Mesh(new THREE.ShapeGeometry(fillShape), new THREE.MeshBasicMaterial({color,transparent:true,opacity:0.1,side:THREE.DoubleSide,depthWrite:false}));
+  fill.position.set(cx,cy,0.2); fill.rotation.z=ang; infoGroup.add(fill);
+  const ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints(ring), new THREE.LineBasicMaterial({color,transparent:true,opacity:0.5}));
+  ln.position.set(cx,cy,0.25); ln.rotation.z=ang; infoGroup.add(ln);
+  const pw=Math.max(1.0, Math.min(2.2, rMaj*0.95));
+  const panel=holoPanel(title,lines,color); panel.position.set(cx,cy,0.6); panel.scale.set(pw,pw*0.66,1); infoGroup.add(panel);
+}
+// SEGMENTED PARALLELOGRAM data strips (top + bottom, between the clusters) — each
+// parallelogram carries one labelled stat: small LABEL above, big VALUE below.
+function cellLabelSprite(label, val, color){
+  const cv=document.createElement('canvas'); cv.width=200; cv.height=104; const x=cv.getContext('2d');
+  x.textAlign='center'; x.textBaseline='middle';
+  x.fillStyle='#'+color.toString(16).padStart(6,'0'); x.font='600 24px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(label,100,28);
+  x.fillStyle='#f1f6ff'; x.font='700 44px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(val,100,72);
+  const t=new THREE.CanvasTexture(cv); t.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,opacity:0.99,depthTest:false})); sp.renderOrder=19; return sp;
+}
+function stripRow(items, y, color){
+  const segW=TS*2.7, gap=TS*0.18, slant=TS*0.55, h=TS*1.0;
+  const total=items.length*(segW+gap)-gap;
+  items.forEach(([label,val],i)=>{
+    const x=-total/2 + i*(segW+gap) + segW/2;
+    const geo=new THREE.ExtrudeGeometry(paraShape(segW,h,slant), {depth:h*0.42, bevelEnabled:true, bevelThickness:h*0.12, bevelSize:h*0.1, bevelSegments:1});
+    geo.translate(0,0,-h*0.21);
+    const mat=new THREE.MeshStandardMaterial({ color:0x26344c, emissive:0x0a1018, emissiveIntensity:0.34, metalness:0.9, roughness:0.3, envMapIntensity:1.05, transparent:true, opacity:0.86 });
+    const m=new THREE.Mesh(geo,mat); m.position.set(x,y,0.2); infoGroup.add(m);
+    const sp=cellLabelSprite(label,val,color); sp.position.set(x,y,0.7); sp.scale.set(segW*1.02, segW*1.02*104/200, 1); infoGroup.add(sp);
+  });
+}
+function buildInfoFields(){
+  clearGroup(infoGroup);
+  // TOP strip = live match telemetry; BOTTOM strip = economy / last actions.
+  stripRow([['PHASE','plot'],['ROUND','3'],['TURN','P1'],['POT','240'],['☀ IN','2'],['☾ IN','4'],['WALL','up']], visH*0.92, 0x55d8ff);
+  stripRow([['INDIGO','38'],['SIENNA','38'],['RAKE','5%'],['FLARE','H4'],['BEAM','C9']], -visH*0.92, 0xc9b6ff);
+  // (node-mapped TRIANGLE infoField() + 2-node ellipseField() remain available on demand)
+}
+// representative game-piece geometry (real integration would use PIECES meshes)
+function pieceGeo(type,s){ switch(type){
+  case 'possibility': return new THREE.OctahedronGeometry(s,0);
+  case 'moon':        return new THREE.TorusGeometry(s*0.78, s*0.3, 10, 22);
+  case 'sun':         return new THREE.IcosahedronGeometry(s,0);
+  default:            return new THREE.OctahedronGeometry(s,0); } }
+// the piece's full move set as grid offsets [dx,dy]
+function moveCells(type){ const out=[];
+  if(type==='possibility'){ for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++) if(a||b) out.push([a,b]); }       // king-step
+  else if(type==='moon'){ for(const[ax,ay] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]]) for(let r=1;r<=3;r++) out.push([ax*r,ay*r]); } // 8-dir slider
+  else if(type==='sun'){ for(let a=-3;a<=3;a++)for(let b=-3;b<=3;b++) if(a||b) out.push([a,b]); }            // omni range-3
+  return out; }
+// holo readout: name · coordinate + a 7×7 move map
+function holoInfo(h){ const cv=document.createElement('canvas'); cv.width=200; cv.height=232; const x=cv.getContext('2d');
+  const hex='#'+h.color.toString(16).padStart(6,'0');
+  x.fillStyle='rgba(4,11,20,0.55)'; x.fillRect(0,0,200,232); x.strokeStyle=hex; x.lineWidth=2; x.strokeRect(3,3,194,226);
+  x.textAlign='center'; x.fillStyle=hex; x.font='600 22px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(h.label,100,26);
+  x.fillStyle='#e6f3ff'; x.font='500 17px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(h.name+' · '+h.coord,100,48);
+  const N=7, cell=21, gx=100-(N*cell)/2, gy=60, cc=(N-1)/2;
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){ x.strokeStyle='rgba(120,180,230,0.12)'; x.lineWidth=1; x.strokeRect(gx+c*cell,gy+r*cell,cell,cell); }
+  for(const[dx,dy] of moveCells(h.piece)){ const c=cc+dx, r=cc-dy; if(c<0||c>=N||r<0||r>=N) continue;
+    x.globalAlpha=0.35; x.fillStyle=hex; x.fillRect(gx+c*cell+2,gy+r*cell+2,cell-4,cell-4); x.globalAlpha=1; }
+  x.fillStyle=hex; x.fillRect(gx+cc*cell+1,gy+cc*cell+1,cell-2,cell-2);
+  const t=new THREE.CanvasTexture(cv); t.needsUpdate=true;
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,opacity:0.96,depthTest:false})); sp.scale.set(TS*4.8,TS*5.6,1); sp.renderOrder=18; return sp; }
+function buildHolograms(){
+  clearGroup(holoGroup);
+  const HOLO=[
+    {label:'SELECTED', color:0x6effb0, piece:'possibility', coord:'H4', name:'Possibility'},
+    {label:'TARGET',   color:0xff8f5a, piece:'moon',        coord:'C9', name:'Moon'},
+  ];
+  HOLO.forEach((h,i)=>{ const x=(i?1:-1)*2.7, y=-visH*0.6;
+    const geo=pieceGeo(h.piece, TS*1.25);
+    const fill=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:h.color, transparent:true, opacity:0.18, depthWrite:false}));
+    const wire=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color:h.color, transparent:true, opacity:0.9}));
+    const g=new THREE.Group(); g.add(fill); g.add(wire); g.position.set(x, y+TS*3.0, 1.5); g.userData.spin=0.6; holoGroup.add(g);
+    const info=holoInfo(h); info.position.set(x, y-TS*0.6, 1.6); holoGroup.add(info);
+  });
+}
+function roundedRectShape(w,h,r){ const s=new THREE.Shape(), x=-w/2, y=-h/2;
+  s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r);
+  s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
+  s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
+function addBacking(b,color){
+  const pad=TS*1.4, w=(b.maxX-b.minX)+pad*2, h=(b.maxY-b.minY)+pad*2, cx=(b.minX+b.maxX)/2, cy=(b.minY+b.maxY)/2;
+  const geo=new THREE.ShapeGeometry(roundedRectShape(w,h,TS*1.3));
+  const plate=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0x0b1120, transparent:true, opacity:0.5, depthWrite:false}));
+  plate.position.set(cx,cy,-0.6);
+  const line=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:0.42}));
+  line.position.set(cx,cy,-0.55);
+  backGroup.add(plate); backGroup.add(line);
+}
+function clearBacking(){ while(backGroup.children.length){ const c=backGroup.children[0]; backGroup.remove(c); c.geometry.dispose(); c.material.dispose(); } }
+
+// flow-pack a corner inward, grouped by shape → tidy, NO overlap
+function layoutCorner(corner, items, color){
+  if(!items.length) return;
+  const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
+  const ax=sx*visW*0.95, ay=sy*visH*0.93;
+  // KEEP registry order → mixed shapes (para/trap/tri) interlock; pack tight.
+  const gap=TS*0.12, rowBudget=visW*0.22, insetX=TS*2.6, insetY=TS*0.9;  // glyph sits at the very corner
+  let x=0,y=0,rowH=0; const B={minX:1e9,minY:1e9,maxX:-1e9,maxY:-1e9};
+  items.forEach((d,i)=>{ const w=tileW(d), h=tileH(d);
+    if(x>0 && x+w>rowBudget){ x=0; y+=rowH+gap; rowH=0; }
+    const cx=ax - sx*(x + w/2 + insetX), cy=ay - sy*(y + h/2 + insetY);
+    d.flip=(i%2); addTile(d, cx, cy, i);
+    B.minX=Math.min(B.minX,cx-w/2); B.maxX=Math.max(B.maxX,cx+w/2); B.minY=Math.min(B.minY,cy-h/2); B.maxY=Math.max(B.maxY,cy+h/2);
+    x+=w+gap; rowH=Math.max(rowH,h); });
+  addBacking(B, color);
+}
+function build(){
+  clearField(); clearGlyphs(); clearBacking();
+  const active=REG.filter(d=>!d.phase || d.phase===curPhase);
+  const heroes=active.filter(d=>d.hero);
+  const byC={TL:[],TR:[],BL:[],BR:[]};
+  active.filter(d=>!d.hero).forEach(d=> byC[d.corner].push(d));
+  const cc={TL:C.tele, TR:C.window, BL:C.adjust, BR:C.go};
+  for(const k of ['TL','TR','BL','BR']){ if(byC[k].length){ layoutCorner(k, byC[k], cc[k]); addGlyph(k, cc[k]); } }
+  // STANDALONE hero buttons — bottom, flanking the hologram token bays
+  const hy=-visH*0.84, n=heroes.length;
+  heroes.forEach((d,i)=> addTile(d, (i?1:-1)*4.0, hy, i));
+  assignDesignations();
+  buildInfoFields();
+  buildHolograms();
+}
+
+function setPhase(p){ curPhase=p; build(); }
+addEventListener('keydown',e=>{ const i='12345'.indexOf(e.key); if(i>=0) setPhase(PHASES[i]); });  // keys 1-5 preview phases
+
+const ray=new THREE.Raycaster(); const ndc=new THREE.Vector2();
+let hovered=null,selected=null,downXY=null;
+function pickRec(ev){ const r=canvas.getBoundingClientRect();
+  ndc.x=((ev.clientX-r.left)/r.width)*2-1; ndc.y=-((ev.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(ndc,camera); const h=ray.intersectObjects(tiles.map(t=>t.mesh),false);
+  return h.length? h[0].object.userData.rec:null; }
+const topbar=document.getElementById('topbar');
+function showRec(r){
+  if(!r){ topbar.style.opacity=0; topbar.textContent=''; return; }
+  topbar.style.opacity=1;
+  topbar.textContent = r.def.name + (r.tele&&r.def.val!=null ? ': '+r.def.val : '') + (r.on?' · ON':'')
+    + '   —   ' + r.def.kind + (r.def.phase?(' · '+r.def.phase):'');
+}
+canvas.addEventListener('pointermove',ev=>{ if(ev.pointerType==='touch')return; const r=pickRec(ev);
+  if(r!==hovered){ hovered=r; canvas.style.cursor=r?'pointer':'default'; showRec(r||selected); } });
+canvas.addEventListener('pointerdown',ev=>{ downXY=[ev.clientX,ev.clientY]; });
+canvas.addEventListener('pointerup',ev=>{ if(!downXY)return; const m=Math.hypot(ev.clientX-downXY[0],ev.clientY-downXY[1]); downXY=null;
+  if(m>6)return; const r=pickRec(ev); if(!r){selected=null; showRec(hovered); return;} selected=r;
+  if(r.def.kind==='toggle') r.on=!r.on; r.pulse=1; showRec(r); });
+function onResize(){ const w=innerWidth,h=innerHeight,a=w/h; camera.aspect=a; camera.updateProjectionMatrix();
+  renderer.setSize(w,h); computeLayout(a); hovered=selected=null; build(); }
+addEventListener('resize',onResize);
+
+let _t0=performance.now();
+function animate(){ requestAnimationFrame(animate);
+  const t=(performance.now()-_t0)/1000;
+  for(const g of holoGroup.children){ if(g.userData&&g.userData.spin){ g.rotation.y=t*g.userData.spin; g.rotation.x=0.4+Math.sin(t*0.6)*0.2; } }
+  for(const r of tiles){ const hero=r.def.hero; const want=(r===hovered||r===selected||r.on||hero)?1:0;
+    if(want===0 && r.hover<0.001 && !r.pulse && !r.tele) continue;
+    r.hover += (want-r.hover)*0.22; if(r.pulse){ r.pulse*=0.9; if(r.pulse<0.02)r.pulse=0; } const pulse=r.pulse||0;
+    let k=Math.min(1, r.hover+pulse*0.6);
+    if(r.tele){ k=Math.max(k,0.55); r.grp.position.z=r.r*1.3 + r.hover*r.r*2.6 + pulse*r.r*1.2;   // lit + RAISED, and lifts MORE on hover like the rest
+      r.grp.scale.setScalar(1.04 + r.hover*0.3 + pulse*0.15); }
+    else if(hero){ k=Math.max(k,0.78);                                                         // standalone, always lit
+      if(r.def.name.indexOf('PLAY')===0) r.accent.set(r.on?0x9affc0:0xf1b067);                 // PLAY green ↔ ROTATE amber
+      r.grp.position.z=r.r*2.2 + r.hover*r.r*1.4 + pulse*r.r*1.4; r.grp.scale.setScalar(1.05+r.hover*0.2+pulse*0.16); }
+    else { r.grp.position.z=r.hover*r.r*3.2+pulse*r.r*1.4; r.grp.scale.setScalar(1+r.hover*0.3+pulse*0.16); }
+    r.mat.opacity = r.tele? 0.74+k*0.26 : 0.85+k*0.15;
+    r.mat.color.copy(GRAY).lerp(r.accent, r.tele? 0.5+k*0.3 : k);
+    r.mat.emissiveIntensity = (r.tele?0.85:0.4) + k*0.9;
+    r.mat.emissive.copy(new THREE.Color(0x0a1018)).lerp(r.accent, r.tele? 0.45 : k*0.5); }
+  renderer.render(scene,camera);
+}
+// Load the site's brand font (Space Grotesk) before drawing label canvases.
+const _hp=location.hash.slice(1);
+function start(){ onResize(); setPhase(PHASES.includes(_hp)?_hp:'plot'); animate(); }
+try {
+  const SG=new FontFace('Space Grotesk', 'url(../assets/fonts/space-grotesk-latin.woff2)', {weight:'300 600'});
+  SG.load().then(f=>{ document.fonts.add(f); }).catch(()=>{}).finally(start);
+} catch(e){ start(); }
+</script>
+</body>
+</html>
