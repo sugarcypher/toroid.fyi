@@ -10950,5 +10950,285 @@ log('Click <b>Start match</b> when ready.');
   updateRingLabels();   // set START/GO for the current phase
 })();
 </script>
+
+<!-- ===================================================================== -->
+<!-- HUD PORT v1 — node-constellation shell replacing the painted frame.    -->
+<!-- The constellation is a transparent THREE.js overlay; each control node -->
+<!-- dispatches the EXISTING game button via .click() (buttons stay in the  -->
+<!-- DOM, just display:none). Board + all panels/docks/modals untouched.    -->
+<!-- ===================================================================== -->
+<style id="hud-port-style">
+  #frame { display:none !important; }            /* painted green frame + gameframe.PNG art */
+  .ring-btn { display:none !important; }          /* old ring chrome — replaced by the clusters */
+  #hud-canvas { position:fixed; inset:0; z-index:5; pointer-events:none; display:block; }
+  #hud-topbar { position:fixed; left:50%; top:3px; transform:translateX(-50%); z-index:6;
+    pointer-events:none; font:600 12px ui-monospace,Menlo,monospace; letter-spacing:.1em;
+    color:#dce8ff; text-shadow:0 1px 5px #000,0 0 10px rgba(80,140,255,.4); opacity:0;
+    transition:opacity .14s; white-space:nowrap; }
+</style>
+<canvas id="hud-canvas"></canvas>
+<div id="hud-topbar"></div>
+<script>
+(function(){
+  if (typeof THREE === 'undefined') return;
+  const canvas=document.getElementById('hud-canvas');
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setClearColor(0x000000,0); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const scene=new THREE.Scene();
+  const FOV=45,CAM_Z=22;
+  const camera=new THREE.PerspectiveCamera(FOV,1,0.1,200); camera.position.set(0,0,CAM_Z);
+  scene.add(new THREE.AmbientLight(0xffffff,0.42));
+  const klight=new THREE.DirectionalLight(0xeaf2ff,1.15); klight.position.set(-6,10,16); scene.add(klight);
+  const fill=new THREE.DirectionalLight(0x6f86c0,0.5); fill.position.set(8,-4,10); scene.add(fill);
+  const rim=new THREE.PointLight(0x9ab4ff,0.8,160); rim.position.set(12,-8,18); scene.add(rim);
+  try {
+    const pmrem=new THREE.PMREMGenerator(renderer); pmrem.compileEquirectangularShader();
+    const envScene=new THREE.Scene();
+    envScene.add(new THREE.Mesh(new THREE.SphereGeometry(60,32,16), new THREE.ShaderMaterial({ side:THREE.BackSide,
+      vertexShader:'varying vec3 vP; void main(){ vP=position; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);} ',
+      fragmentShader:'varying vec3 vP; void main(){ float t=clamp(normalize(vP).y*0.5+0.5,0.0,1.0); vec3 a=vec3(0.16,0.21,0.34), b=vec3(0.02,0.03,0.07); gl_FragColor=vec4(mix(b,a,smoothstep(0.0,1.0,t)),1.0);} '})));
+    scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+  } catch(e){}
+
+  let visH=9,visW=14;
+  function computeLayout(aspect){ visH=Math.tan(FOV*Math.PI/360)*CAM_Z; visW=visH*aspect; }
+
+  const TS=0.26;
+  function paraShape(w,h,sl){ const sh=new THREE.Shape();
+    sh.moveTo(-w/2,-h/2); sh.lineTo(w/2,-h/2); sh.lineTo(w/2+sl,h/2); sh.lineTo(-w/2+sl,h/2); sh.closePath(); return sh; }
+  function trapShape(w,h,flip){ const b=w/2, t=w*0.30; const sh=new THREE.Shape();
+    if(!flip){ sh.moveTo(-b,-h/2); sh.lineTo(b,-h/2); sh.lineTo(t,h/2); sh.lineTo(-t,h/2); }
+    else      { sh.moveTo(-t,-h/2); sh.lineTo(t,-h/2); sh.lineTo(b,h/2); sh.lineTo(-b,h/2); }
+    sh.closePath(); return sh; }
+  function triDirShape(s,dir){ const a={U:Math.PI/2,D:-Math.PI/2,L:Math.PI,R:0}[dir] ?? Math.PI/2; const sh=new THREE.Shape();
+    for(let i=0;i<3;i++){ const ang=a+i*2*Math.PI/3, x=Math.cos(ang)*s, y=Math.sin(ang)*s; i?sh.lineTo(x,y):sh.moveTo(x,y); }
+    sh.closePath(); return sh; }
+  function shapeFor(def,idx){ const z=def.size;
+    if(def.shape==='para') return paraShape(TS*1.5*z, TS*1.05*z, TS*0.5*z);
+    if(def.shape==='trap') return trapShape(TS*1.6*z, TS*1.05*z, (def.flip ?? (idx%2))===1);
+    return triDirShape(TS*0.95*z, def.dir||'U'); }
+  function geo3D(def,idx){ const sh=shapeFor(def,idx); const d=TS*0.45*def.size;
+    const g=new THREE.ExtrudeGeometry(sh,{depth:d, bevelEnabled:true, bevelThickness:TS*0.16*def.size, bevelSize:TS*0.14*def.size, bevelSegments:1, steps:1});
+    g.translate(0,0,-d/2); return g; }
+
+  const C={ play:0x9affc0, go:0x6effb0, adjust:0x86e8ff, window:0xb6a4ff, study:0x9be7e0,
+    tele:0x55d8ff, action:0xc9b6ff, power:0xe040fb, off:0xff8f5a, def:0x9affc0, flare:0xffb066, beam:0xa9d4ff };
+
+  const REG=[
+    {name:'PLAY / ROTATE', shape:'para', color:C.play, corner:'BR', size:1.3, kind:'toggle', hero:true, defaultOn:true},
+    {name:'GO',            shape:'para', color:C.go,   corner:'BR', size:1.15, kind:'btn', hero:true},
+    {name:'PHASE', val:'plot', shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'ROUND', val:'3',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'TURN',  val:'P1',   shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'POT',   val:'240',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'☀NEXT', val:'2',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'☾NEXT', val:'4',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'BARRIER',val:'up',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
+    {name:'ROT ◀', shape:'tri', dir:'L', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'ROT ▶', shape:'tri', dir:'R', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'ROT ▲', shape:'tri', dir:'U', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'ROT ▼', shape:'tri', dir:'D', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'ZOOM +',shape:'tri', dir:'U', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'ZOOM −',shape:'tri', dir:'D', color:C.adjust, corner:'BL', size:1, kind:'btn'},
+    {name:'UNROLL',shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+    {name:'LABELS',shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+    {name:'CLEAR', shape:'trap', color:C.study, corner:'BL', size:1, kind:'toggle'},
+    {name:'DASH',   shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle', defaultOn:true},
+    {name:'LOG',    shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle', defaultOn:true},
+    {name:'CHAT',   shape:'trap', color:C.window, corner:'TR', size:1, kind:'toggle'},
+    {name:'RULES',  shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+    {name:'GALLERY',shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+    {name:'PROFILE',shape:'trap', color:C.window, corner:'TR', size:1, kind:'btn'},
+    {name:'SUGGEST',shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'AUTO',   shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'MANUAL', shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'LOCK',   shape:'trap', color:C.action, corner:'BR', size:1, phase:'plot', kind:'toggle'},
+    {name:'CONFIRM',shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'UNDO',   shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'DRAW',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'EXCH',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'SANDBOX',shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
+    {name:'SOLO',   shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle', defaultOn:true},
+    {name:'MULTI',  shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
+    {name:'START',  shape:'para', color:C.go, corner:'BR', size:1.4, phase:'setup', kind:'btn'},
+    ...['N','NE','E','SE','S','SW','W','NW'].map((d,i)=>({name:d, shape:'tri', dir:['U','U','R','D','D','D','L','U'][i], color:C.flare, corner:'BR', size:0.9, phase:'weapon', kind:'btn'})),
+    {name:'☀FLARE',shape:'trap', color:C.flare, corner:'BR', size:1, phase:'weapon', kind:'toggle', defaultOn:true},
+    {name:'☾BEAM', shape:'trap', color:C.beam,  corner:'BR', size:1, phase:'weapon', kind:'toggle'},
+    {name:'CHANNEL',   shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+    {name:'EXTINCT',   shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+    {name:'REGENESIS', shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+    {name:'CLAIM',     shape:'para', color:C.power, corner:'BR', size:1.1, phase:'anomaly', kind:'btn'},
+  ];
+  let curPhase='plot';
+
+  const field=new THREE.Group(); scene.add(field);
+  const GRAY=new THREE.Color(0x6f7892);
+  let tiles=[];
+  function addTile(def,x,y,idx){
+    const geo=geo3D(def,idx);
+    const mat=new THREE.MeshStandardMaterial({color:GRAY.clone(),emissive:0x0a1018,emissiveIntensity:0.32,
+      metalness:0.95,roughness:0.26,envMapIntensity:1.15,transparent:true,opacity:0.9});
+    const mesh=new THREE.Mesh(geo,mat);
+    const grp=new THREE.Group(); grp.add(mesh); grp.position.set(x,y,0);
+    const rec={def,grp,mesh,mat,geo,accent:new THREE.Color(def.color),hover:0,pulse:0,base:new THREE.Vector3(x,y,0),
+      on:def.kind==='toggle'&&!!def.defaultOn, tele:def.kind==='tele', r:TS*def.size};
+    mesh.userData.rec=rec; field.add(grp); tiles.push(rec);
+  }
+  function clearField(){ for(const r of tiles){ field.remove(r.grp); r.mat.dispose(); r.geo.dispose(); } tiles=[]; }
+
+  const glyphGroup=new THREE.Group(); scene.add(glyphGroup);
+  const GLYPH={TL:'▦', TR:'▤', BL:'◉', BR:'▶'};
+  function tileW(d){ const m=d.shape==='para'?2.0:d.shape==='trap'?1.6:1.7; return TS*d.size*m; }
+  function tileH(d){ return TS*d.size*1.15; }
+  function addGlyph(corner,color){
+    const cv=document.createElement('canvas'); cv.width=cv.height=128; const x=cv.getContext('2d');
+    x.textAlign='center'; x.textBaseline='middle';
+    x.shadowColor='#'+color.toString(16).padStart(6,'0'); x.shadowBlur=20;
+    x.font='86px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillStyle='#e6f3ff'; x.fillText(GLYPH[corner],64,70);
+    const tex=new THREE.CanvasTexture(cv); tex.needsUpdate=true;
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,opacity:0.96,depthTest:false}));
+    const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
+    sp.position.set(sx*visW*0.965, sy*visH*0.95, 1.4); sp.scale.set(TS*2.7,TS*2.7,1); sp.renderOrder=16; glyphGroup.add(sp);
+  }
+  function clearGlyphs(){ while(glyphGroup.children.length){ const g=glyphGroup.children[0]; glyphGroup.remove(g); g.material.map.dispose(); g.material.dispose(); } }
+
+  const backGroup=new THREE.Group(); scene.add(backGroup);
+  function roundedRectShape(w,h,r){ const s=new THREE.Shape(), x=-w/2, y=-h/2;
+    s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r);
+    s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
+    s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
+  function addBacking(b,color){
+    const pad=TS*1.4, w=(b.maxX-b.minX)+pad*2, h=(b.maxY-b.minY)+pad*2, cx=(b.minX+b.maxX)/2, cy=(b.minY+b.maxY)/2;
+    const geo=new THREE.ShapeGeometry(roundedRectShape(w,h,TS*1.3));
+    const plate=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0x0b1120, transparent:true, opacity:0.5, depthWrite:false}));
+    plate.position.set(cx,cy,-0.6);
+    const line=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:0.42}));
+    line.position.set(cx,cy,-0.55);
+    backGroup.add(plate); backGroup.add(line);
+  }
+  function clearBacking(){ while(backGroup.children.length){ const c=backGroup.children[0]; backGroup.remove(c); c.geometry.dispose(); c.material.dispose(); } }
+
+  function layoutCorner(corner, items, color){
+    if(!items.length) return;
+    const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
+    const ax=sx*visW*0.95, ay=sy*visH*0.93;
+    const gap=TS*0.12, rowBudget=visW*0.22, insetX=TS*2.6, insetY=TS*0.9;
+    let x=0,y=0,rowH=0; const B={minX:1e9,minY:1e9,maxX:-1e9,maxY:-1e9};
+    items.forEach((d,i)=>{ const w=tileW(d), h=tileH(d);
+      if(x>0 && x+w>rowBudget){ x=0; y+=rowH+gap; rowH=0; }
+      const cx=ax - sx*(x + w/2 + insetX), cy=ay - sy*(y + h/2 + insetY);
+      d.flip=(i%2); addTile(d, cx, cy, i);
+      B.minX=Math.min(B.minX,cx-w/2); B.maxX=Math.max(B.maxX,cx+w/2); B.minY=Math.min(B.minY,cy-h/2); B.maxY=Math.max(B.maxY,cy+h/2);
+      x+=w+gap; rowH=Math.max(rowH,h); });
+    addBacking(B, color);
+  }
+
+  // Bind telemetry tiles to the live game ticker pills (real data on hover).
+  const TELE_PILL={'PHASE':'phase-pill','ROUND':'round-pill','TURN':'turn-pill','POT':'pot-pill','☀NEXT':'flare-pill','☾NEXT':'beam-pill','BARRIER':'barr-pill'};
+  function bindTele(){ for(const r of tiles){ if(r.tele && TELE_PILL[r.def.name]){ const el=document.getElementById(TELE_PILL[r.def.name]); if(el){ const t=(el.textContent||'').replace(/\s+/g,' ').trim(); if(t) r.def.val=t; } } } }
+
+  function build(){
+    clearField(); clearGlyphs(); clearBacking();
+    const active=REG.filter(d=>!d.phase||d.phase===curPhase);
+    const heroes=active.filter(d=>d.hero);
+    const byC={TL:[],TR:[],BL:[],BR:[]};
+    active.filter(d=>!d.hero).forEach(d=> byC[d.corner].push(d));
+    const cc={TL:C.tele,TR:C.window,BL:C.adjust,BR:C.go};
+    for(const k of ['TL','TR','BL','BR']){ if(byC[k].length){ layoutCorner(k,byC[k],cc[k]); addGlyph(k,cc[k]); } }
+    const hy=-visH*0.84;
+    heroes.forEach((d,i)=> addTile(d,(i?1:-1)*4.0,hy,i));
+    bindTele();
+  }
+
+  /* ---- DISPATCH: node → existing game control (reuse, never reimplement) ---- */
+  const WIRE={
+    'PLAY / ROTATE':'lock-toggle',
+    'DASH':'rb-dash','LOG':'rb-log','CHAT':'rb-chat',
+    'RULES':'btn-rules','GALLERY':'btn-gallery','PROFILE':'btn-profile',
+    'LABELS':'btn-labels','UNROLL':'btn-flat','CLEAR':'btn-clear-board',
+    'SUGGEST':'btn-suggest-commit','AUTO':'btn-autoplay','MANUAL':'btn-manual',
+    'LOCK':'btn-lock-auto','CONFIRM':'btn-confirm-card','UNDO':'btn-undo',
+    'DRAW':'btn-draw','EXCH':'btn-exchange','START':'btn-start',
+    'EXTINCT':'btn-anomaly-extinct','REGENESIS':'btn-anomaly-revive',
+    'CHANNEL':'btn-anomaly-recall','CLAIM':'an-claim'
+  };
+  const KEYMAP={'ROT ◀':['ArrowLeft','ArrowLeft'],'ROT ▶':['ArrowRight','ArrowRight'],'ROT ▲':['ArrowUp','ArrowUp'],'ROT ▼':['ArrowDown','ArrowDown'],'ZOOM +':['=','Equal'],'ZOOM −':['-','Minus']};
+  function clickId(id){ const b=document.getElementById(id); if(b){ b.click(); return true; } return false; }
+  function dispatch(r){
+    const n=r.def.name;
+    if(n==='GO'){ clickId('btn-go-big')||clickId('btn-start'); return; }
+    if(WIRE[n]){ clickId(WIRE[n]); return; }
+    if(KEYMAP[n]){ const a=KEYMAP[n]; document.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); window.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); return; }
+    if(n==='SANDBOX'||n==='SOLO'||n==='MULTI'){ const b=document.querySelector('[data-mode="'+n.toLowerCase()+'"]'); if(b) b.click(); return; }
+    /* Unmapped (weapon compass N..NW, ☀FLARE/☾BEAM, setup ◀▶) — still reachable
+       via the #hud-right phase dock, which stays live. Wired in a later pass. */
+  }
+
+  /* ---- interaction: HUD canvas is pointer-transparent; we raycast in
+     capture phase and only act when the click lands on the board area (not a
+     panel/modal) AND hits a tile — so panels always win where they overlap. */
+  const ray=new THREE.Raycaster(); const ndc=new THREE.Vector2();
+  let hovered=null,selected=null,downXY=null;
+  function pickRec(ev){ const r=canvas.getBoundingClientRect();
+    ndc.x=((ev.clientX-r.left)/r.width)*2-1; ndc.y=-((ev.clientY-r.top)/r.height)*2+1;
+    ray.setFromCamera(ndc,camera); const h=ray.intersectObjects(tiles.map(t=>t.mesh),false);
+    return h.length? h[0].object.userData.rec:null; }
+  function onBoard(ev){ const t=ev.target; if(!t) return false;
+    if(t===document.body) return true;
+    return !!(t.closest && t.closest('#stage')); }
+  const topbar=document.getElementById('hud-topbar');
+  function showRec(r){ if(!r){ topbar.style.opacity=0; topbar.textContent=''; return; }
+    topbar.style.opacity=1;
+    topbar.textContent = r.def.name + (r.tele&&r.def.val!=null?': '+r.def.val:'') + (r.on?' · ON':''); }
+  window.addEventListener('pointermove',ev=>{ if(ev.pointerType==='touch')return; const r=onBoard(ev)?pickRec(ev):null;
+    if(r!==hovered){ hovered=r; document.body.style.cursor=r?'pointer':''; showRec(r||selected); } }, true);
+  window.addEventListener('mousedown',ev=>{ if(onBoard(ev)&&pickRec(ev)) ev.stopPropagation(); }, true);
+  window.addEventListener('click',ev=>{ if(onBoard(ev)&&pickRec(ev)) ev.stopPropagation(); }, true);
+  window.addEventListener('pointerdown',ev=>{ if(onBoard(ev)&&pickRec(ev)){ downXY=[ev.clientX,ev.clientY]; ev.stopPropagation(); } else downXY=null; }, true);
+  window.addEventListener('pointerup',ev=>{ if(!downXY) return; const m=Math.hypot(ev.clientX-downXY[0],ev.clientY-downXY[1]); downXY=null;
+    const r=pickRec(ev); if(!r) return; ev.stopPropagation(); if(m>6) return;
+    if(r.def.kind==='toggle') r.on=!r.on; r.pulse=1; selected=r; showRec(r); dispatch(r); }, true);
+
+  function onResize(){ const w=innerWidth,h=innerHeight,a=w/h; camera.aspect=a; camera.updateProjectionMatrix();
+    renderer.setSize(w,h); computeLayout(a); hovered=selected=null; build(); }
+  addEventListener('resize',onResize);
+
+  /* ---- phase sync: the constellation's active cluster follows the game ---- */
+  function hudPhase(){ const p=(document.body.dataset.phase||'').toLowerCase();
+    if(p==='setup') return 'setup';
+    if(p==='weapon-commit') return 'weapon';
+    if(p==='plot') return 'plot';
+    if(p.indexOf('anomaly')>=0) return 'anomaly';
+    return 'persistent'; }
+  function syncPhase(){ const np=hudPhase(); if(np!==curPhase){ curPhase=np; build(); } }
+  new MutationObserver(syncPhase).observe(document.body,{attributes:true,attributeFilter:['data-phase']});
+  setInterval(bindTele, 1000);   // keep telemetry values fresh
+
+  let _t0=performance.now();
+  function animate(){ requestAnimationFrame(animate);
+    const t=(performance.now()-_t0)/1000;
+    for(const r of tiles){ const hero=r.def.hero; const want=(r===hovered||r===selected||r.on||hero)?1:0;
+      if(want===0 && r.hover<0.001 && !r.pulse && !r.tele) continue;
+      r.hover += (want-r.hover)*0.22; if(r.pulse){ r.pulse*=0.9; if(r.pulse<0.02)r.pulse=0; } const pulse=r.pulse||0;
+      let k=Math.min(1, r.hover+pulse*0.6);
+      if(r.tele){ k=Math.max(k,0.55); r.grp.position.z=r.r*1.3 + r.hover*r.r*2.6 + pulse*r.r*1.2;
+        r.grp.scale.setScalar(1.04 + r.hover*0.3 + pulse*0.15); }
+      else if(hero){ k=Math.max(k,0.78);
+        if(r.def.name.indexOf('PLAY')===0) r.accent.set(r.on?0x9affc0:0xf1b067);
+        r.grp.position.z=r.r*2.2 + r.hover*r.r*1.4 + pulse*r.r*1.4; r.grp.scale.setScalar(1.05+r.hover*0.2+pulse*0.16); }
+      else { r.grp.position.z=r.hover*r.r*3.2+pulse*r.r*1.4; r.grp.scale.setScalar(1+r.hover*0.3+pulse*0.16); }
+      r.mat.opacity = r.tele? 0.74+k*0.26 : 0.85+k*0.15;
+      r.mat.color.copy(GRAY).lerp(r.accent, r.tele? 0.5+k*0.3 : k);
+      r.mat.emissiveIntensity = (r.tele?0.85:0.4) + k*0.9;
+      r.mat.emissive.copy(new THREE.Color(0x0a1018)).lerp(r.accent, r.tele? 0.45 : k*0.5); }
+    renderer.render(scene,camera);
+  }
+  function start(){ curPhase=hudPhase(); onResize(); animate(); }
+  try {
+    const SG=new FontFace('Space Grotesk', 'url(../assets/fonts/space-grotesk-latin.woff2)', {weight:'300 600'});
+    SG.load().then(f=>{ document.fonts.add(f); }).catch(()=>{}).finally(start);
+  } catch(e){ start(); }
+})();
+</script>
 </body>
 </html>
