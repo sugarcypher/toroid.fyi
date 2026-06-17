@@ -11047,6 +11047,10 @@ log('Click <b>Start match</b> when ready.');
     {name:'UNDO',   shape:'para', color:C.action, corner:'BR', size:1, phase:'plot', kind:'btn'},
     {name:'DRAW',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
     {name:'EXCH',   shape:'para', color:C.window, corner:'BR', size:1, phase:'plot', kind:'btn'},
+    {name:'OFF', shape:'tri', dir:'U', color:C.off, corner:'BR', size:1, phase:'plot', kind:'btn', slot:['offensive',0]},
+    {name:'OFF', shape:'tri', dir:'U', color:C.off, corner:'BR', size:1, phase:'plot', kind:'btn', slot:['offensive',1]},
+    {name:'DEF', shape:'tri', dir:'D', color:C.def, corner:'BR', size:1, phase:'plot', kind:'btn', slot:['defensive',0]},
+    {name:'DEF', shape:'tri', dir:'D', color:C.def, corner:'BR', size:1, phase:'plot', kind:'btn', slot:['defensive',1]},
     {name:'SANDBOX',shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
     {name:'SOLO',   shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle', defaultOn:true},
     {name:'MULTI',  shape:'trap', color:C.go, corner:'BR', size:1, phase:'setup', kind:'toggle'},
@@ -11172,8 +11176,9 @@ log('Click <b>Start match</b> when ready.');
     if(n==='☾BEAM'){ const s=document.querySelector('#hud-right .commit-sec[data-aim="moonbeam"]'); if(s) s.click(); return; }
     // setup: ◀ / ▶ step the player-count
     if(n==='◀'||n==='▶'){ const cur=curCount(); const nx=(n==='◀')?Math.max(1,cur-1):Math.min(6,cur+1); clickId('btn-'+nx+'p'); return; }
-    /* Still unmapped: OFF/DEF (plot directional card slots) — reachable via the
-       #hud-right dock; wired when the card-attach UX is finalized. */
+    // plot: OFF/DEF pick the idx-th offensive/defensive card for attach (then click
+    // a piece on the board, then the CONFIRM node). Mirrors the dock's tri-card order.
+    if(r.def.slot){ const cards=document.querySelectorAll('#hud-right .tri-card.'+r.def.slot[0]+'[data-card]'); const el=cards[r.def.slot[1]]; if(el) el.click(); return; }
   }
 
   /* ---- interaction: HUD canvas is pointer-transparent; we raycast in
