@@ -11153,6 +11153,12 @@ log('Click <b>Start match</b> when ready.');
     'CHANNEL':'btn-anomaly-recall','CLAIM':'an-claim'
   };
   const KEYMAP={'ROT ◀':['ArrowLeft','ArrowLeft'],'ROT ▶':['ArrowRight','ArrowRight'],'ROT ▲':['ArrowUp','ArrowUp'],'ROT ▼':['ArrowDown','ArrowDown'],'ZOOM +':['=','Equal'],'ZOOM −':['-','Minus']};
+  const COMPASS_KEYS=['N','NE','E','SE','S','SW','W','NW'];
+  // which weapon the dock is currently aiming (the section whose h3 reads "aiming")
+  function aimedWeapon(){ const secs=document.querySelectorAll('#hud-right .commit-sec[data-aim]');
+    for(const s of secs){ if(/aiming/.test(s.textContent)) return s.dataset.aim; } return 'flare'; }
+  // current setup player-count (the highlighted btn-Np)
+  function curCount(){ for(let i=1;i<=6;i++){ const b=document.getElementById('btn-'+i+'p'); if(b&&b.classList.contains('good')) return i; } return 1; }
   function clickId(id){ const b=document.getElementById(id); if(b){ b.click(); return true; } return false; }
   function dispatch(r){
     const n=r.def.name;
@@ -11160,8 +11166,14 @@ log('Click <b>Start match</b> when ready.');
     if(WIRE[n]){ clickId(WIRE[n]); return; }
     if(KEYMAP[n]){ const a=KEYMAP[n]; document.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); window.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); return; }
     if(n==='SANDBOX'||n==='SOLO'||n==='MULTI'){ const b=document.querySelector('[data-mode="'+n.toLowerCase()+'"]'); if(b) b.click(); return; }
-    /* Unmapped (weapon compass N..NW, ☀FLARE/☾BEAM, setup ◀▶) — still reachable
-       via the #hud-right phase dock, which stays live. Wired in a later pass. */
+    // weapon-commit: compass node commits the currently-aimed weapon in direction n
+    if(COMPASS_KEYS.indexOf(n)>=0){ const b=document.querySelector('#hud-right .commit-sec[data-aim="'+aimedWeapon()+'"] button[data-dir="'+n+'"]'); if(b) b.click(); return; }
+    if(n==='☀FLARE'){ const s=document.querySelector('#hud-right .commit-sec[data-aim="flare"]'); if(s) s.click(); return; }
+    if(n==='☾BEAM'){ const s=document.querySelector('#hud-right .commit-sec[data-aim="moonbeam"]'); if(s) s.click(); return; }
+    // setup: ◀ / ▶ step the player-count
+    if(n==='◀'||n==='▶'){ const cur=curCount(); const nx=(n==='◀')?Math.max(1,cur-1):Math.min(6,cur+1); clickId('btn-'+nx+'p'); return; }
+    /* Still unmapped: OFF/DEF (plot directional card slots) — reachable via the
+       #hud-right dock; wired when the card-attach UX is finalized. */
   }
 
   /* ---- interaction: HUD canvas is pointer-transparent; we raycast in
