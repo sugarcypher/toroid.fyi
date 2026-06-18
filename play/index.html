@@ -1781,9 +1781,9 @@ const G = {
   moonbeamDir: { 0: null, 1: null, 2: null, 3: null, 4: null, 5: null },
 
   /* Pending battle queue — when same-type pieces clash, the resolution
-     is suspended and a Connect-Four micro-game decides the outcome. */
-  pendingBattle: null,    // { attacker, defender, target, kind:'capture'|'collision', resume }
-  battleQueue: [],        // additional pending battles from a multi-collision reveal
+     is suspended and a mini-game duel decides the outcome. Drained
+     sequentially by drainBattleQueueThen. */
+  battleQueue: [],
 
   /* Match telemetry — counters surfaced in the dashboard. Per-player
      accumulators reset on startGame; the graveyard derives from G.pieces.
@@ -1929,7 +1929,25 @@ function cellSize(t){
 }
 
 /* Inclusive integer in [lo, hi]. */
-function randInt(lo, hi){ return lo + Math.floor(Math.random() * (hi - lo + 1)); }
+/* ---- Deterministic match RNG (mulberry32) ----
+   All SHARED game-logic randomness (card draws, AI decisions, disaster
+   rolls, duel setups + duel AI, Anomaly scheduling/tiebreaks) must come
+   from rng(): two lockstep clients running the same seed and the same
+   input log then stay state-identical. Visual FX, audio noise, reticle
+   drift, and local contest-trial content keep Math.random — those may
+   differ per viewer and must NOT consume from the shared stream.
+   Seeded in startGame from G.nextMatchSeed (injected by the online room)
+   or a fresh random seed for local play. */
+let _rngState = 1;
+function seedRng(seed){ _rngState = (seed >>> 0) || 1; }
+function rng(){
+  _rngState = (_rngState + 0x6D2B79F5) >>> 0;
+  let t = _rngState;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+function randInt(lo, hi){ return lo + Math.floor(rng() * (hi - lo + 1)); }
 
 /* Human-readable cell label for the toroidal board.
    Field: column letter A..P (u-axis, 16 cols) + row number 0..11 (v-axis) → e.g. "H4".
@@ -3108,6 +3126,16 @@ function drawSuggestionPath(fromPos, toPos){
 const privacyEl = document.getElementById('privacy');
 let privacyContinuation = null;
 function showPrivacy(playerId, action, onAck){
+  // ONLINE: physical distance replaces the curtain. Keep the local viewer
+  // locked to OUR seat (never adopt the opponent's perspective) and proceed.
+  if (NET.active){
+    G.activePlayer = playerId;
+    G.viewerPlayer = NET.seat;
+    renderEntities();
+    renderHUD();
+    if (onAck) onAck();
+    return;
+  }
   const title = document.getElementById('privacy-title');
   const body  = document.getElementById('privacy-body');
   title.innerHTML = `<span class="seat-dot" style="background:${HEX[playerId]}"></span>${NAME[playerId]} — ${action}`;
@@ -3223,6 +3251,7 @@ function isInHomeZone(playerId, u, v){
 }
 
 function placeNode(owner, u, v){
+  if (netDefer('node', { pid: owner, u, v }, owner)) return;
   if (!isInHomeZone(owner, u, v)){
     log(`${NAME[owner]}: that cell isn't in your home territory. Place nodes only on your own side.`);
     sfx('invalid');
@@ -3743,7 +3772,10 @@ function validMoves(p){
   // From the Veil: warp back to any empty Field cell within range 4 of player's home pole.
   // (Teleporters already enumerated both planes above — skip to avoid duplicate/over-broad targets.)
   if (pt === 'veil' && def.kind !== 'teleport'){
-    const homePoleV = p.owner === 0 ? 1 : 10;
+    // Home band: even seats hold the upper v-band (pole v=1), odd seats the
+    // lower (pole v=10) — matches the 2P/4P/6P isInHomeZone tables. (Was
+    // hardcoded for 2P; seats 2 and 4 used to warp toward the ENEMY band.)
+    const homePoleV = (p.owner % 2 === 0) ? 1 : 10;
     for (let u = 0; u < U_CELLS; u++) for (let v = 0; v < V_CELLS; v++){
       if (!pieceAt(u, v, 'field')) {
         const dv = Math.min(modWrap(v - homePoleV, V_CELLS), modWrap(homePoleV - v, V_CELLS));
@@ -5036,11 +5068,16 @@ function maybeAiC4(){
   const choices = [];
   for (let c = 0; c < C4_COLS; c++) if (c4.grid[0][c] == null) choices.push(c);
   if (!choices.length) return;
-  const col = choices[Math.floor(Math.random() * choices.length)];
+  const col = choices[Math.floor(rng() * choices.length)];
   setTimeout(() => c4Drop(col), 380);
 }
 function c4Drop(col){
   if (!c4 || c4.over) return;
+  if (NET.active && !NET.applying && !isAI(c4.turn)){
+    if (c4.turn !== NET.seat){ sfx('invalid'); return; }
+    netSend('duel', { key: 'c4', data: { col } });
+    return;
+  }
   // Find the lowest empty row in this column
   let landed = -1;
   for (let r = C4_ROWS - 1; r >= 0; r--){
@@ -5254,7 +5291,7 @@ function bkWinner(state){
   }
   // tie-break: collect all top scorers, pick randomly. Returns { o, sc }.
   const top = state.owners.filter(o => state.score[o] === best.sc);
-  return { o: top[Math.floor(Math.random() * top.length)], sc: best.sc };
+  return { o: top[Math.floor(rng() * top.length)], sc: best.sc };
 }
 
 let bk = null;
@@ -5288,7 +5325,17 @@ function runBlockusBattle(battle, done){
   const rot = document.getElementById('bk-rotate');
   if (rot) rot.onclick = () => { bk.selOriIdx++; bkRender(); };
   const pass = document.getElementById('bk-pass');
-  if (pass) pass.onclick = () => { if (!bk || bk.over || isAI(bk.turn)) return; bk.passed[bk.turn] = true; log(`🧩 ${NAME[bk.turn]} passes (out of the Blockus duel).`); bkAfterAction(); };
+  const bkDoPass = () => { if (!bk || bk.over) return; bk.passed[bk.turn] = true; log(`🧩 ${NAME[bk.turn]} passes (out of the Blockus duel).`); bkAfterAction(); };
+  NET.duel['bk-pass'] = bkDoPass;
+  if (pass) pass.onclick = () => {
+    if (!bk || bk.over || isAI(bk.turn)) return;
+    if (NET.active && !NET.applying){
+      if (bk.turn !== NET.seat){ sfx('invalid'); return; }
+      netSend('duel', { key: 'bk-pass', data: {} });
+      return;
+    }
+    bkDoPass();
+  };
   bkRender();
   bkMaybeAi();
 }
@@ -5343,6 +5390,11 @@ function bkRender(){
 }
 
 function bkClickCell(r, c){
+  if (NET.active && !NET.applying && bk && !bk.over && !isAI(bk.turn)){
+    if (bk.turn !== NET.seat){ sfx('invalid'); return; }
+    netSend('duel', { key: 'bk-place', data: { r, c, pieceId: bk.selPieceId, oriIdx: bk.selOriIdx } });
+    return;
+  }
   if (!bk || bk.over || isAI(bk.turn)) return;
   const pc = bk.remaining[bk.turn].find(p => p.idx === bk.selPieceId);
   if (!pc){ return; }
@@ -5453,7 +5505,7 @@ function aiPickPlot(pid){
   // we fall back to the full roster.
   const isPawn = (p) => p.type === 'diag1' || p.type === 'ortho1';
   let pool = own;
-  if (Math.random() < 0.80){
+  if (rng() < 0.80){
     const pawns = own.filter(p => isPawn(p) && validMoves(p).length > 0);
     if (pawns.length) pool = pawns;
   }
@@ -5463,7 +5515,7 @@ function aiPickPlot(pid){
   for (const piece of pool){
     const moves = validMoves(piece);
     for (const t of moves){
-      let score = Math.random() * 0.5;        // jitter
+      let score = rng() * 0.5;                // jitter
       const occ = pieceAt(t[0], t[1], t[2]);
       if (occ && occ.owner !== pid){
         score += 8;                            // captures are great
@@ -5488,8 +5540,8 @@ function aiTakeNodePlacementTurn(pid){
   // Pick a random empty cell in own home zone.
   let attempts = 0, u, v;
   while (attempts++ < 200){
-    u = Math.floor(Math.random() * U_CELLS);
-    v = Math.floor(Math.random() * V_CELLS);
+    u = Math.floor(rng() * U_CELLS);
+    v = Math.floor(rng() * V_CELLS);
     if (!isInHomeZone(pid, u, v)) continue;
     if (G.nodes.some(n => n.u === u && n.v === v)) continue;
     if (pieceAt(u, v, 'field')) continue;
@@ -5500,7 +5552,7 @@ function aiTakeNodePlacementTurn(pid){
 
 function aiTakeWeaponCommitTurn(pid){
   // Pick a random direction for each weapon.
-  const rnd = () => COMPASS[Math.floor(Math.random() * COMPASS.length)];
+  const rnd = () => COMPASS[Math.floor(rng() * COMPASS.length)];
   commitWeapon(pid, 'flare',    rnd().key);
   setTimeout(() => commitWeapon(pid, 'moonbeam', rnd().key), 80);
 }
@@ -5516,8 +5568,8 @@ function aiTakePlotTurn(pid){
   // revive when our graveyard out-populates everyone else's).
   maybeAiBehemoth(pid);
   // Optionally stage a card before plotting.
-  if (G.hand[pid].length && Math.random() < 0.3){
-    const c = G.hand[pid][Math.floor(Math.random() * G.hand[pid].length)];
+  if (G.hand[pid].length && rng() < 0.3){
+    const c = G.hand[pid][Math.floor(rng() * G.hand[pid].length)];
     if (c && c.type !== 'shroud') stageCard(pid, c.type);
   }
   let attempts = 0;
@@ -5540,6 +5592,7 @@ function aiTakePlotTurn(pid){
 /* Mid-match AI takeover toggle — call this when a human disconnects to
    hand the seat off to the computer for the rest of the match. */
 function setSeatAI(pid, on){
+  if (netDefer('seat-ai', { pid, on }, null)) return;
   if (on){
     G.aiSeats.add(pid);
     log(`<b>🤖 ${NAME[pid]} taken over by AI</b> for the remainder of the match.`);
@@ -5569,7 +5622,7 @@ const MINI_GAMES = [
   { id:'polarity', name:'Polarity Grid',   run: runPolarityBattle        },
 ];
 function runMiniGameBattle(battle, done){
-  const game = MINI_GAMES[Math.floor(Math.random() * MINI_GAMES.length)];
+  const game = MINI_GAMES[Math.floor(rng() * MINI_GAMES.length)];
   log(`⚔ <b>Same-type clash — ${game.name} duel!</b>`);
   game.run(battle, done);
 }
@@ -5734,8 +5787,8 @@ function runPrecisionAimBattle(battle, done){
     // AI: aim with noise. Lower noise = harder bot.
     setTimeout(() => {
       const noise = 30;
-      const x = CX + (Math.random() - 0.5) * noise * 2;
-      const y = CY + (Math.random() - 0.5) * noise * 2;
+      const x = CX + (rng() - 0.5) * noise * 2;
+      const y = CY + (rng() - 0.5) * noise * 2;
       fireShot(x, y);
     }, 700);
   };
@@ -5746,11 +5799,17 @@ function runPrecisionAimBattle(battle, done){
     state.cursor.x = e.clientX - rect.left;
     state.cursor.y = e.clientY - rect.top;
   });
+  NET.duel.aim = (d) => fireShot(d.x, d.y);
   canvas.addEventListener('click', (e) => {
     if (state.locked) return;
     if (isAI(state.turn)) return;
-    const rect = canvas.getBoundingClientRect();
-    // Fire at the RETICLE position, not the cursor — drift is the skill
+    // Fire at the RETICLE position, not the cursor — drift is the skill.
+    // Online: the computed landing coords ARE the input (drift stays local).
+    if (NET.active && !NET.applying){
+      if (state.turn !== NET.seat){ sfx('invalid'); return; }
+      netSend('duel', { key: 'aim', data: { x: state.reticle.x, y: state.reticle.y } });
+      return;
+    }
     fireShot(state.reticle.x, state.reticle.y);
   });
   updateTurnText();
@@ -5795,8 +5854,8 @@ function runCupShuffleBattle(battle, done){
   // Shuffle: 6 random swaps
   const seq = [];
   for (let k = 0; k < 6; k++){
-    const i = Math.floor(Math.random() * 3);
-    let j = Math.floor(Math.random() * 3);
+    const i = Math.floor(rng() * 3);
+    let j = Math.floor(rng() * 3);
     while (j === i) j = (j + 1) % 3;
     seq.push([i, j]);
   }
@@ -5815,13 +5874,19 @@ function runCupShuffleBattle(battle, done){
       document.getElementById('cup-token-track').textContent = '';
       if (isAI(def.owner)){
         setTimeout(() => {
-          const aiPick = cups[Math.floor(Math.random() * 3)];
+          const aiPick = cups[Math.floor(rng() * 3)];
           aiPick.click();
         }, 700);
       }
+      NET.duel.cup = (d) => { const el = cups[d.choice]; if (el && el.onclick) el.onclick(); };
       cups.forEach(c => {
         c.onclick = () => {
           const choice = parseInt(c.dataset.cup, 10);
+          if (NET.active && !NET.applying && !isAI(def.owner)){
+            if (def.owner !== NET.seat){ sfx('invalid'); return; }
+            netSend('duel', { key: 'cup', data: { choice } });
+            return;
+          }
           const correct = (choice === 0);   // cup 0 was the original token-cup
           // Highlight result
           cups.forEach(cc => cc.style.opacity = '0.4');
@@ -5888,7 +5953,7 @@ function runMemoryMatchBattle(battle, done){
   const glyphs = ['☀','☾','✦','☽','◇','⤴','⚇','│'];
   const deck = [...glyphs, ...glyphs];
   for (let i = deck.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rng() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
   const grid = document.getElementById('mm-grid');
@@ -5904,7 +5969,7 @@ function runMemoryMatchBattle(battle, done){
     const avail = [];
     for (let i = 0; i < 16; i++) if (!state.matched.has(i) && !state.flipped.find(c => c.idx === i)) avail.push(i);
     if (avail.length === 0) return;
-    const idx = avail[Math.floor(Math.random() * avail.length)];
+    const idx = avail[Math.floor(rng() * avail.length)];
     const card = grid.children[idx];
     if (card) card.click();
     if (state.flipped.length < 2) setTimeout(mmAiPick, 380);
@@ -5919,6 +5984,10 @@ function runMemoryMatchBattle(battle, done){
     }
     return false;
   };
+  NET.duel.mm = (d) => {
+    const el = Array.from(document.querySelectorAll('#c4-grid [data-idx]')).find(x => +x.dataset.idx === d.idx);
+    if (el) el.click();
+  };
   for (let i = 0; i < 16; i++){
     const card = document.createElement('div');
     card.dataset.idx = i;
@@ -5928,6 +5997,11 @@ function runMemoryMatchBattle(battle, done){
       const idx = parseInt(card.dataset.idx, 10);
       if (state.matched.has(idx) || state.flipped.find(c => c.idx === idx)) return;
       if (state.flipped.length >= 2) return;
+      if (NET.active && !NET.applying && !isAI(state.turn)){
+        if (state.turn !== NET.seat){ sfx('invalid'); return; }
+        netSend('duel', { key: 'mm', data: { idx } });
+        return;
+      }
       card.style.color = 'var(--accent)';
       card.style.background = 'rgba(182,164,255,0.18)';
       sfx('select');
@@ -6031,20 +6105,25 @@ function runSequenceEchoBattle(battle, done){
       let i = 0;
       const aiTick = () => {
         if (i < state.sequence.length){
-          const correct = Math.random() < 0.85;
-          const press = correct ? state.sequence[i] : Math.floor(Math.random() * 4);
+          const correct = rng() < 0.85;
+          const press = correct ? state.sequence[i] : Math.floor(rng() * 4);
           buttons[press].click();
           i++;
           setTimeout(aiTick, 350);
         } else {
           // Add a random new button
-          buttons[Math.floor(Math.random() * 4)].click();
+          buttons[Math.floor(rng() * 4)].click();
         }
       };
       setTimeout(aiTick, 450);
     }
   };
   const onButton = (idx) => {
+    if (NET.active && !NET.applying && !isAI(state.turn)){
+      if (state.turn !== NET.seat){ sfx('invalid'); return; }
+      netSend('duel', { key: 'echo', data: { i: idx } });
+      return;
+    }
     if (state.phase !== 'input') return;
     flash(idx, 180);
     if (state.inputIdx < state.sequence.length){
@@ -6079,9 +6158,10 @@ function runSequenceEchoBattle(battle, done){
       playSequence(startInput);
     }
   };
+  NET.duel.echo = (d) => onButton(d.i);
   buttons.forEach((b, i) => { b.onclick = () => onButton(i); });
   // Seed with 2 starter buttons to make initial rounds reasonable
-  state.sequence = [Math.floor(Math.random()*4), Math.floor(Math.random()*4)];
+  state.sequence = [Math.floor(rng()*4), Math.floor(rng()*4)];
   updateProgress();
   // Wait for the Start button before auto-playing the sequence — landing on
   // a duel modal that immediately flashes lights gave players no time to
@@ -6093,8 +6173,12 @@ function runSequenceEchoBattle(battle, done){
     if (startBtn){ startBtn.disabled = true; startBtn.style.display = 'none'; }
     playSequence(startInput);
   };
+  NET.duel['echo-start'] = beginDuel;
   if (startBtn){
-    startBtn.onclick = beginDuel;
+    startBtn.onclick = () => {
+      if (NET.active && !NET.applying){ netSend('duel', { key: 'echo-start', data: {} }); return; }
+      beginDuel();
+    };
     // If BOTH sides are AI, auto-start so AI-vs-AI doesn't hang.
     if (isAI(att.owner) && isAI(def.owner)){
       setTimeout(beginDuel, 300);
@@ -6134,7 +6218,7 @@ function runPolarityBattle(battle, done){
           if (grid[r][c] == null) empties.push([r, c]);
         }
         if (!empties.length) return;
-        const [r, c] = empties[Math.floor(Math.random() * empties.length)];
+        const [r, c] = empties[Math.floor(rng() * empties.length)];
         const cell = cells[r*4 + c];
         if (cell) cell.click();
       }, 420);
@@ -6158,12 +6242,21 @@ function runPolarityBattle(battle, done){
     }
     return best;
   };
+  NET.duel.pg = (d) => {
+    const el = Array.from(document.querySelectorAll('#c4-grid [data-r]')).find(x => +x.dataset.r === d.r && +x.dataset.c === d.c);
+    if (el) el.click();
+  };
   for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++){
     const cell = document.createElement('div');
     cell.dataset.r = r; cell.dataset.c = c;
     cell.style.cssText = 'width:52px;height:52px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:background 120ms ease';
     cell.onclick = () => {
       if (grid[r][c] != null) return;
+      if (NET.active && !NET.applying && !isAI(state.turn)){
+        if (state.turn !== NET.seat){ sfx('invalid'); return; }
+        netSend('duel', { key: 'pg', data: { r, c } });
+        return;
+      }
       grid[r][c] = state.turn;
       cell.style.background = `${HEX[state.turn]}66`;
       cell.style.borderColor = HEX[state.turn];
@@ -6242,10 +6335,10 @@ const ANOMALY_SHAPE_COLORS = [
    body and reports a numeric score (higher = better; only compared within
    the same game). ai() simulates a plausible mid-band score for AI seats. */
 const ANOMALY_GAMES = [
-  { id:'typing', name:'Typing Velocity',  desc:'Type the sentence. Speed × accuracy.',                 run: anomalyTypingGame, ai: () => 28 + Math.random()*42 },
-  { id:'recall', name:'Flash Recall',     desc:'A passage flashes for 2.6s. Answer 3 questions.',      run: anomalyRecallGame, ai: () => Math.floor(Math.random()*4)*100 + Math.floor(Math.random()*28) },
-  { id:'math',   name:'Equation Storm',   desc:'Solve as many equations as you can in 20 seconds.',    run: anomalyMathGame,   ai: () => 2.5 + Math.random()*7 },
-  { id:'census', name:'Phantom Census',   desc:'A field of shapes flashes. Count the asked kind.',     run: anomalyCensusGame, ai: () => 35 + Math.random()*60 },
+  { id:'typing', name:'Typing Velocity',  desc:'Type the sentence. Speed × accuracy.',                 run: anomalyTypingGame, ai: () => 28 + rng()*42 },
+  { id:'recall', name:'Flash Recall',     desc:'A passage flashes for 2.6s. Answer 3 questions.',      run: anomalyRecallGame, ai: () => Math.floor(rng()*4)*100 + Math.floor(rng()*28) },
+  { id:'math',   name:'Equation Storm',   desc:'Solve as many equations as you can in 20 seconds.',    run: anomalyMathGame,   ai: () => 2.5 + rng()*7 },
+  { id:'census', name:'Phantom Census',   desc:'A field of shapes flashes. Count the asked kind.',     run: anomalyCensusGame, ai: () => 35 + rng()*60 },
 ];
 
 function anomalyGridEl(){ return document.getElementById('c4-grid'); }
@@ -6434,7 +6527,7 @@ function anomalyEligiblePids(){
     G.pieces.some(p => p.alive && p.owner === id));
 }
 function scheduleNextAnomalyContest(){
-  G.behemoth.nextChallengeRound = G.round + 2 + Math.floor(Math.random() * 3);
+  G.behemoth.nextChallengeRound = G.round + 2 + Math.floor(rng() * 3);
 }
 function maybeAnnounceAnomalyEra(){
   const B = G.behemoth;
@@ -6488,7 +6581,7 @@ function awardAnomalyToken(pid, how){
 /* ---------- the contest driver (hotseat-sequenced) ---------- */
 function runAnomalyContest(eligible, then){
   const bo3 = eligible.length === 2;
-  const games = [...ANOMALY_GAMES].sort(() => Math.random() - 0.5).slice(0, bo3 ? 3 : 1);
+  const games = [...ANOMALY_GAMES].sort(() => rng() - 0.5).slice(0, bo3 ? 3 : 1);
   const allAI = eligible.every(id => isAI(id));
   const points = {}; eligible.forEach(id => points[id] = 0);
   sfx('challenge');
@@ -6500,11 +6593,11 @@ function runAnomalyContest(eligible, then){
       const scores = {}; eligible.forEach(id => scores[id] = game.ai());
       const top = Math.max(...eligible.map(id => scores[id]));
       const winners = eligible.filter(id => scores[id] === top);
-      points[winners[Math.floor(Math.random() * winners.length)]]++;
+      points[winners[Math.floor(rng() * winners.length)]]++;
     }
     const top = Math.max(...eligible.map(id => points[id]));
     const champs = eligible.filter(id => points[id] === top);
-    awardAnomalyToken(champs[Math.floor(Math.random() * champs.length)], 'simulated contest');
+    awardAnomalyToken(champs[Math.floor(rng() * champs.length)], 'simulated contest');
     then();
     return;
   }
@@ -6516,16 +6609,21 @@ function runAnomalyContest(eligible, then){
   const finishContest = () => {
     const top = Math.max(...eligible.map(id => points[id]));
     const champs = eligible.filter(id => points[id] === top);
-    const champ = champs[Math.floor(Math.random() * champs.length)];
+    const champ = champs[Math.floor(rng() * champs.length)];
     anomalyStage(`<div style="padding:24px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center">
       <div style="font-size:18px"><b style="color:${HEX[champ]}">${NAME[champ]} wins the Anomaly's favor</b>${champs.length > 1 ? ' <span class="small">(tie broken by the cosmos)</span>' : ''}</div>
       <div class="small" style="color:var(--muted)">${eligible.map(id => `${NAME[id]} ${points[id]}`).join(' · ')}</div>
       <button id="an-claim" style="padding:10px 26px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.08);color:inherit;cursor:pointer;font-size:14px">CLAIM</button>
     </div>`);
-    document.getElementById('an-claim').onclick = () => {
+    const anDoClaim = () => {
       document.getElementById('c4-modal').classList.remove('show');
       awardAnomalyToken(champ, bo3 ? 'best of 3' : games[0].name);
       then();
+    };
+    NET.duel['an-claim'] = anDoClaim;
+    document.getElementById('an-claim').onclick = () => {
+      if (NET.active && !NET.applying){ netSend('duel', { key: 'an-claim', data: {} }); return; }
+      anDoClaim();
     };
   };
 
@@ -6537,7 +6635,7 @@ function runAnomalyContest(eligible, then){
         // Score the trial.
         const top = Math.max(...eligible.map(id => scores[id]));
         const winners = eligible.filter(id => scores[id] === top);
-        const w = winners[Math.floor(Math.random() * winners.length)];
+        const w = winners[Math.floor(rng() * winners.length)];
         points[w]++;
         log(`☄ trial ${gi + 1} (${game.name}): ${eligible.map(id => `${NAME[id]} ${scores[id]}`).join(' · ')} → <b style="color:${HEX[w]}">${NAME[w]}</b> takes the point.`);
         const needed = bo3 ? 2 : 1;
@@ -6548,13 +6646,41 @@ function runAnomalyContest(eligible, then){
           <div class="small" style="color:var(--muted)">points — ${eligible.map(id => `${NAME[id]} ${points[id]}`).join(' · ')}</div>
           <button id="an-next" style="padding:9px 22px;border:1px solid var(--border);border-radius:8px;background:rgba(255,255,255,0.08);color:inherit;cursor:pointer">NEXT TRIAL — ${games[gi + 1].name}</button>
         </div>`);
-        document.getElementById('an-next').onclick = () => playGame(gi + 1);
+        const anDoNext = () => playGame(gi + 1);
+        NET.duel['an-next'] = anDoNext;
+        document.getElementById('an-next').onclick = () => {
+          if (NET.active && !NET.applying){ netSend('duel', { key: 'an-next', data: {} }); return; }
+          anDoNext();
+        };
         return;
       }
       const pid = eligible[si];
       if (isAI(pid)){
         scores[pid] = Math.round(games[gi].ai() * 10) / 10;
         playSeat(si + 1);
+        return;
+      }
+      // ONLINE: each human plays the trial on their OWN screen; the score
+      // travels through the input log so both clients continue identically.
+      // Trial content stays local-random — only the score is shared state.
+      if (NET.active){
+        NET.duel['an-score'] = (d) => { scores[pid] = d.score; playSeat(si + 1); };
+        if (pid !== NET.seat){
+          anomalyStage(`<div style="padding:24px;text-align:center">Trial ${gi + 1} of ${games.length}: <b>${game.name}</b><br><br><span class="small" style="color:var(--muted)">waiting for ${NAME[pid]}'s score…</span></div>`);
+          return;
+        }
+        anomalyStage(`<div style="padding:24px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center">
+          <div style="font-size:16px">Trial ${gi + 1} of ${games.length}: <b>${game.name}</b></div>
+          <div class="small" style="color:var(--muted)">${game.desc}</div>
+          <button id="an-start" style="padding:10px 26px;border:1px solid ${HEX[pid]};border-radius:8px;background:rgba(255,255,255,0.08);color:inherit;cursor:pointer;font-size:14px">START TRIAL</button>
+        </div>`);
+        document.getElementById('an-start').onclick = () => {
+          sfx('turn-change');
+          game.run(pid, anomalyGridEl(), (score) => {
+            anomalyStage(`<div style="padding:24px;text-align:center">score <b>${score}</b> — submitting…</div>`);
+            netSend('duel', { key: 'an-score', data: { score } });
+          });
+        };
         return;
       }
       // Hotseat handoff gate — hide the trial until the right player is seated.
@@ -6576,6 +6702,7 @@ function runAnomalyContest(eligible, then){
 
 /* ---------- staging (plot phase) ---------- */
 function stageBehemoth(pid, pole){
+  if (netDefer('behemoth', { pid, pole }, pid)) return;
   const B = G.behemoth;
   if (!B.holders.has(pid) || B.spent.has(pid)){ sfx('invalid'); return; }
   if (B.claimedBy != null && B.claimedBy !== pid){
@@ -6590,6 +6717,7 @@ function stageBehemoth(pid, pole){
   renderHUD();
 }
 function unstageBehemoth(pid){
+  if (netDefer('behemoth-recall', { pid }, pid)) return;
   const B = G.behemoth;
   if (B.claimedBy !== pid) return;
   B.claimedBy = null;
@@ -6675,10 +6803,197 @@ function maybeAiBehemoth(pid){
   const mine = mobile(pid), bestRival = Math.max(...rivals.map(mobile));
   const myDead = deadOf(pid), rivalDeadMax = Math.max(...rivals.map(deadOf));
   // EXTINCT when badly outnumbered — the reset costs the leader far more.
-  if (bestRival - mine >= 6 && Math.random() < 0.5){ stageBehemoth(pid, 'extinct'); return; }
+  if (bestRival - mine >= 6 && rng() < 0.5){ stageBehemoth(pid, 'extinct'); return; }
   // REVIVE when our graveyard clearly out-populates everyone else's.
-  if (myDead >= 6 && myDead > rivalDeadMax + 2 && Math.random() < 0.5){ stageBehemoth(pid, 'revive'); }
+  if (myDead >= 6 && myDead > rivalDeadMax + 2 && rng() < 0.5){ stageBehemoth(pid, 'revive'); }
 }
+
+/* ========================================================================
+   ONLINE — LOCKSTEP NET LAYER (Path A)
+   Two browsers run the full engine; the SchesRoom Durable Object (server/)
+   assigns seats, owns the match seed, and sequences every game-affecting
+   human action into an ordered input log. Both clients apply the SAME log
+   on the SAME seed → identical simulations. Discipline:
+     - Human-origin actions are DEFERRED (netDefer): relayed, not applied;
+       they execute only when the room sequences them back (NET.applying).
+     - AI actions are never relayed — both clients compute them identically
+       from the shared rng() stream.
+     - The pump applies queued inputs only when the engine is at a stable
+       point (interactive phase, no animations, or the matching duel is
+       live), so rng consumption interleaves identically on both clients.
+   ======================================================================== */
+const NET = {
+  active: false, ws: null, seat: null, code: null, seed: null,
+  players: null, status: 'idle',           // idle|connecting|lobby|playing
+  applying: false, queue: [], appliedSeq: 0,
+  duel: {},                                 // duel-scoped apply handlers
+  pump: null, _logLenAtJoin: 0,
+};
+function netBase(){
+  const p = new URLSearchParams(location.search).get('server');
+  return (p || localStorage.getItem('sches-server') || location.origin).replace(/\/$/, '');
+}
+function netName(){
+  let n = localStorage.getItem('sches-player-name');
+  if (!n){ n = 'P' + Math.floor(1000 + Math.random() * 9000); localStorage.setItem('sches-player-name', n); }
+  return n;
+}
+function netSend(type, data){
+  if (!NET.ws || NET.ws.readyState !== 1){ log('<b style="color:var(--bad)">🌐 not connected — action dropped.</b>'); sfx('invalid'); return; }
+  NET.ws.send(JSON.stringify({ t:'input', payload:{ type, data } }));
+}
+/* Gate for human-origin actions. Returns true when the action was deferred
+   to the room (caller must bail). AI and sequenced applications fall through. */
+function netDefer(type, data, actorPid){
+  if (!NET.active || NET.applying) return false;
+  if (actorPid != null && isAI(actorPid)) return false;
+  if (actorPid != null && actorPid !== NET.seat){ sfx('invalid'); return true; }   // seat lock
+  netSend(type, data);
+  return true;
+}
+const NET_APPLY = {
+  'start-match': () => {
+    if (G.round >= 1 && G.phase !== 'setup') return;      // reconnect echo — already running
+    G.nextMatchSeed = NET.seed;
+    G.frontMode = 'sandbox'; G.entryFee = 0;
+    G.humanCount = 2; G.playerCount = 2;
+    startGame();
+  },
+  'node':            (d) => { if (placeNode(d.pid, d.u, d.v)) advanceNodePlacement(); },
+  'weapon':          (d) => commitWeapon(d.pid, d.weapon, d.dir),
+  'plot':            (d) => plotMove(d.pieceId, d.target),
+  'unplot':          ()  => unplotLast(),
+  'stage-card':      (d) => stageCard(d.pid, d.card),
+  'unstage-card':    (d) => unstageCard(d.pid),
+  'attach-card':     (d) => attachCardToPiece(d.pid, d.card, d.pieceId),
+  'draw':            (d) => drawOneCard(d.pid, d.category),
+  'exchange':        (d) => exchangeCard(d.pid, d.card),
+  'behemoth':        (d) => stageBehemoth(d.pid, d.pole),
+  'behemoth-recall': (d) => unstageBehemoth(d.pid),
+  'seat-ai':         (d) => setSeatAI(d.pid, d.on),
+  'duel':            (d) => { const h = NET.duel[d.key]; if (h) h(d.data); else console.warn('[net] no duel handler:', d.key); },
+};
+function netCanApply(entry){
+  const { type, data } = entry.payload;
+  if (type === 'start-match') return true;
+  if (type === 'duel') return !!NET.duel[data && data.key];   // duel live on this client
+  if (parallelAnimations.size > 0) return false;
+  if (typeof activeAnimation !== 'undefined' && activeAnimation) return false;   // plotMove drops moves mid-animation — never let that gate an applied input
+  const modal = document.getElementById('c4-modal');
+  if (modal && modal.classList.contains('show')) return false;
+  return G.phase === 'plot' || G.phase === 'node-place' || G.phase === 'weapon-commit';
+}
+function netPump(){
+  while (NET.queue.length){
+    const e = NET.queue[0];
+    if (e.seq < NET.appliedSeq){ NET.queue.shift(); continue; }    // reconnect dedupe
+    if (e.seq > NET.appliedSeq) return;                            // gap — wait
+    if (!netCanApply(e)) return;
+    NET.queue.shift();
+    NET.applying = true;
+    try {
+      const h = NET_APPLY[e.payload.type];
+      if (h) h(e.payload.data, e.seat); else console.warn('[net] unknown input type', e.payload.type);
+    } catch (err){ console.error('[net] apply failed', e.payload.type, err); }
+    finally { NET.applying = false; }
+    NET.appliedSeq = e.seq + 1;
+  }
+}
+function netInitGlobalDuelHandlers(){
+  NET.duel.c4 = (d) => c4Drop(d.col);
+  NET.duel['bk-place'] = (d) => { if (!bk) return; bk.selPieceId = d.pieceId; bk.selOriIdx = d.oriIdx; bkClickCell(d.r, d.c); };
+}
+async function netCreateRoom(){
+  try {
+    const r = await fetch(netBase() + '/api/room', { method: 'POST' }).then(r => r.json());
+    if (r.code) netJoinRoom(r.code); else log('🌐 room creation failed.');
+  } catch (e){ log('<b style="color:var(--bad)">🌐 cannot reach server</b> — ' + netBase()); }
+}
+function netJoinRoom(code){
+  code = String(code).toUpperCase().trim();
+  NET.status = 'connecting'; NET.code = code; renderHUD();
+  const ws = new WebSocket(netBase().replace(/^http/, 'ws') + '/api/room/' + code + '/ws');
+  NET.ws = ws;
+  ws.onopen = () => ws.send(JSON.stringify({ t: 'join', name: netName() }));
+  ws.onmessage = (ev) => { try { netOnMessage(JSON.parse(ev.data)); } catch (e){ console.error('[net] bad msg', e); } };
+  ws.onclose = () => {
+    if (NET.status === 'idle') return;
+    log('🌐 <b>connection lost</b> — rejoining…');
+    setTimeout(() => { if (NET.status !== 'idle') netJoinRoom(code); }, 1500);
+  };
+}
+function netOnMessage(m){
+  if (m.t === 'joined'){
+    NET.seat = m.seat; NET.seed = m.seed; NET.players = m.players;
+    NET.status = 'lobby'; NET.active = true; NET._logLenAtJoin = (m.log || []).length;
+    NET.queue = (m.log || []).slice();
+    netInitGlobalDuelHandlers();
+    if (!NET.pump) NET.pump = setInterval(netPump, 120);
+    log('🌐 joined room <b>' + m.code + '</b> as <b style="color:' + HEX[m.seat] + '">' + NAME[m.seat] + '</b>.');
+    renderHUD();
+  } else if (m.t === 'peer'){
+    const before = NET.players; NET.players = m.players;
+    for (const s of [0, 1]){
+      const was = before && before[s] && before[s].connected, is = m.players[s] && m.players[s].connected;
+      if (was && !is) log('🌐 <b style="color:' + HEX[s] + '">' + NAME[s] + ' disconnected</b> — they can rejoin, or either player may hand the seat to the AI.');
+      if (!was && is && before && before[s]) log('🌐 <b style="color:' + HEX[s] + '">' + NAME[s] + ' reconnected.</b>');
+    }
+    renderHUD();
+  } else if (m.t === 'start'){
+    NET.players = m.players; NET.status = 'playing';
+    // Only the host seeds the log, and only on a FRESH room (not a rejoin).
+    if (NET.seat === 0 && NET._logLenAtJoin === 0 && !NET._sentStart){
+      NET._sentStart = true;
+      netSend('start-match', {});
+    }
+    renderHUD();
+  } else if (m.t === 'input'){
+    NET.queue.push(m);
+  } else if (m.t === 'error'){
+    log('🌐 <b style="color:var(--bad)">' + m.message + '</b>');
+  }
+}
+function netWaitingHTML(doing){
+  const opp = NET.players && NET.players[1 - NET.seat];
+  const oppName = opp ? opp.name : 'opponent';
+  const conn = opp && opp.connected;
+  return '<div class="row"><span class="pill warn">🌐 ' + oppName + ' is ' + doing + '…</span></div>' +
+    '<p class="hint">' + (conn ? 'Linked. Their commitment arrives when sealed.' :
+      '<b style="color:var(--bad)">Opponent disconnected</b> — waiting for a rejoin to room ' + NET.code +
+      '.</p><div class="row" style="margin-top:6px"><button class="ax-pill danger" onclick="netSend(\'seat-ai\', { pid: 1 - NET.seat, on: true })">🤖 hand their seat to the AI</button></div><p class="hint">') + '</p>';
+}
+function netLobbyHTML(){
+  if (NET.status === 'idle') return '' +
+    '<hr style="border:none;border-top:1px solid var(--border);margin:10px 0">' +
+    '<div class="row" style="gap:6px;align-items:center;flex-wrap:wrap">' +
+      '<span class="pill">🌐 ONLINE</span>' +
+      '<button id="net-create" class="ghost" style="padding:6px 11px">Create room</button>' +
+      '<input id="net-code" placeholder="CODE" maxlength="5" style="width:64px;text-transform:uppercase;font-family:ui-monospace,Menlo,monospace;padding:6px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:inherit">' +
+      '<button id="net-join" class="ghost" style="padding:6px 11px">Join</button>' +
+    '</div>' +
+    '<p class="hint small" style="margin-top:4px">Lockstep 2-player · server: ' + netBase() + '</p>';
+  if (NET.status === 'connecting') return '<div class="row" style="margin-top:8px"><span class="pill warn">🌐 connecting to room ' + (NET.code || '') + '…</span></div>';
+  const seats = [0, 1].map(s => {
+    const p = NET.players && NET.players[s];
+    return '<span style="color:' + HEX[s] + '">' + (p ? p.name + (p.connected ? '' : ' (away)') : '— open —') + '</span>';
+  }).join(' vs ');
+  return '' +
+    '<hr style="border:none;border-top:1px solid var(--border);margin:10px 0">' +
+    '<div class="row" style="gap:8px;align-items:center;flex-wrap:wrap">' +
+      '<span class="pill good">🌐 room ' + NET.code + '</span><span class="small">' + seats + '</span>' +
+    '</div>' +
+    '<p class="hint small" style="margin-top:4px">' + (NET.status === 'playing' ? 'Match starting…' : 'Share the code — the match auto-starts when both seats fill.') + '</p>';
+}
+function netWireLobby(){
+  const c = document.getElementById('net-create'); if (c) c.onclick = () => netCreateRoom();
+  const j = document.getElementById('net-join'), inp = document.getElementById('net-code');
+  if (j && inp) j.onclick = () => { if (inp.value.trim()) netJoinRoom(inp.value); };
+}
+// ?room=CODE&server=http://localhost:8787 → auto-join (testing + invite links)
+setTimeout(() => {
+  const r = new URLSearchParams(location.search).get('room');
+  if (r) netJoinRoom(r);
+}, 800);
 
 /* Drain the battle queue, running each battle to completion before the next.
    Calls finishRound() once the queue is empty. */
@@ -6911,7 +7226,7 @@ function dealStarterHands(){
     G.hand[pl.id] = [];
     for (let i = 0; i < STARTING_HAND; i++){
       const pool = i % 2 === 0 ? CARD_POOL_DEFENSIVE : CARD_POOL_OFFENSIVE;
-      const type = pool[Math.floor(Math.random() * pool.length)];
+      const type = pool[Math.floor(rng() * pool.length)];
       G.hand[pl.id].push({ type, id: `${pl.id}-${i}-${type}` });
     }
   }
@@ -6930,7 +7245,7 @@ function drawRoundCards(){
     const def = G.hand[pl.id].filter(c => CARDS[c.type] && CARDS[c.type].cat === 'defensive').length;
     const off = G.hand[pl.id].filter(c => CARDS[c.type] && CARDS[c.type].cat === 'offensive').length;
     const pool = def <= off ? CARD_POOL_DEFENSIVE : CARD_POOL_OFFENSIVE;
-    const type = pool[Math.floor(Math.random() * pool.length)];
+    const type = pool[Math.floor(rng() * pool.length)];
     G.hand[pl.id].push({ type, id: `${pl.id}-r${G.round}-${type}` });
   }
 }
@@ -6938,6 +7253,7 @@ function drawRoundCards(){
 /* Single-card draw triggered by the "Draw card" button (consumes a draw
    action). Returns true if a card was added. */
 function drawOneCard(playerId, category){
+  if (netDefer('draw', { pid: playerId, category }, playerId)) return false;
   if (!G.hand[playerId]) return false;
   if (G.hand[playerId].length >= MAX_HAND_SIZE){
     log(`Hand full — discard or play a card first.`); sfx('invalid'); return false;
@@ -6945,8 +7261,10 @@ function drawOneCard(playerId, category){
   const pool = category === 'offensive' ? CARD_POOL_OFFENSIVE
              : category === 'defensive' ? CARD_POOL_DEFENSIVE
              : CARD_POOL;
-  const type = pool[Math.floor(Math.random() * pool.length)];
-  G.hand[playerId].push({ type, id: `${playerId}-d${Date.now()}-${type}` });
+  const type = pool[Math.floor(rng() * pool.length)];
+  // Deterministic id — Date.now() here diverged lockstep clients (same card, different clocks).
+  G._cardSeq = (G._cardSeq || 0) + 1;
+  G.hand[playerId].push({ type, id: `${playerId}-d${G._cardSeq}-${type}` });
   sfx('card-stage');
   log(`<b>${NAME[playerId]}</b> drew <b>${CARDS[type].name}</b>.`);
   renderHUD();
@@ -6955,6 +7273,7 @@ function drawOneCard(playerId, category){
 
 /* Exchange — discard a card and draw a fresh one from the same category. */
 function exchangeCard(playerId, cardName){
+  if (netDefer('exchange', { pid: playerId, card: cardName }, playerId)) return false;
   if (!G.hand[playerId]) return false;
   const idx = G.hand[playerId].findIndex(c => c.type === cardName);
   if (idx < 0){ log('Card not in hand.'); sfx('invalid'); return false; }
@@ -6964,6 +7283,10 @@ function exchangeCard(playerId, cardName){
 }
 
 function startGame(){
+  // Deterministic seed — online play injects G.nextMatchSeed from the room.
+  G.matchSeed = (G.nextMatchSeed != null ? G.nextMatchSeed : Math.floor(Math.random() * 0xffffffff)) >>> 0;
+  G.nextMatchSeed = null;
+  seedRng(G.matchSeed);
   // Refresh player roster from playerCount.
   G.players = [];
   for (let i = 0; i < G.playerCount; i++) G.players.push({ id:i, name:NAME[i] });
@@ -7023,7 +7346,6 @@ function startGame(){
   for (const p of G.pieces){ p.behemothAltered = false; }
   G.flareDir    = { 0:null, 1:null, 2:null, 3:null, 4:null, 5:null };
   G.moonbeamDir = { 0:null, 1:null, 2:null, 3:null, 4:null, 5:null };
-  G.pendingBattle = null;
   G.battleQueue = [];
   for (const pid of [0,1,2,3,4,5]){
     G.stats[pid] = { captures:0, battlesWon:0, battlesLost:0, flaresFired:0, beamsFired:0, sunsSet:0, nodesPlaced:0 };
@@ -7031,7 +7353,7 @@ function startGame(){
   G.roundSnap = null;
   G.matchLog = [];
   G.matchLog._t0 = Date.now();
-  G.minAlive = { 0:99, 1:99, 2:99, 3:99 };
+  G.minAlive = { 0:99, 1:99, 2:99, 3:99, 4:99, 5:99 };
   const rsEl = document.getElementById('round-summary');
   if (rsEl) rsEl.classList.remove('show');
   matchEvent('match-start', { playerCount: G.playerCount, entryFee: G.entryFee, seats: { ...seatAssignments } });
@@ -7141,6 +7463,7 @@ function beginWeaponCommitPhase(){
 }
 
 function commitWeapon(playerId, weapon, dirKey){
+  if (netDefer('weapon', { pid: playerId, weapon, dir: dirKey }, playerId)) return;
   const dir = COMPASS.find(c => c.key === dirKey);
   if (!dir) return;
   if (weapon === 'flare')    G.flareDir[playerId]    = { key: dir.key, du: dir.du, dv: dir.dv, icon: dir.icon };
@@ -7170,6 +7493,7 @@ function commitWeapon(playerId, weapon, dirKey){
      5. Surviving captures apply. New round begins. */
 
 function plotMove(pieceId, target){
+  if (netDefer('plot', { pieceId, target }, G.activePlayer)) return;
   const pid = G.activePlayer;
   if (G.phase !== 'plot') return;
   if (activeAnimation) return;
@@ -7202,6 +7526,7 @@ function plotMove(pieceId, target){
 
 function unplotLast(){
   const pid = G.activePlayer;
+  if (netDefer('unplot', {}, pid)) return;
   if (G.plotted[pid].length){
     G.plotted[pid].pop();
     G.ready[pid] = false;
@@ -7258,6 +7583,7 @@ function advanceRound(){
   const seatChanged = (G.activePlayer !== nextId);
   G.viewerPlayer = nextId;
   G.activePlayer = nextId;
+  if (NET.active) G.viewerPlayer = NET.seat;   // online: never adopt the opponent's view
   setPhase('plot');
   renderEntities();
   renderHUD();
@@ -7662,6 +7988,7 @@ function tickParallelAnimations(now){
 /* Player-level (utility) cards stage on the player slot; piece-attached
    cards are routed through attachCardToPiece by the UI. */
 function stageCard(playerId, cardType){
+  if (netDefer('stage-card', { pid: playerId, card: cardType }, playerId)) return;
   const def = CARDS[cardType];
   if (!def) return;
   if (def.cat !== 'utility'){
@@ -7693,6 +8020,7 @@ function consumeCard(playerId, cardType){
   G.cardStaged[playerId] = null;
 }
 function unstageCard(playerId){
+  if (netDefer('unstage-card', { pid: playerId }, playerId)) return;
   // Cancel both player-level and piece-attached pending cards for this player.
   G.cardStaged[playerId] = null;
   G.shielded[playerId] = null;
@@ -7749,6 +8077,7 @@ function toggleAutoplayLock(){
    on the piece (piece.activeCard) and triggers on damage flow. Card is
    removed from the hand at attach time. */
 function attachCardToPiece(playerId, cardName, pieceId){
+  if (netDefer('attach-card', { pid: playerId, card: cardName, pieceId }, playerId)) return false;
   if (!G.hand[playerId]) return false;
   const idx = G.hand[playerId].findIndex(c => c.type === cardName);
   if (idx < 0){ log(`<b>${NAME[playerId]}</b> doesn't hold that card.`); sfx('invalid'); return false; }
@@ -8226,6 +8555,14 @@ function renderHUD(){
       el.onclick = () => { G.entryFee = parseInt(el.dataset.fee, 10); renderHUD(); };
     });
     document.getElementById('btn-start').onclick = startGame;
+    // ---- ONLINE lobby (lockstep 2P) ----
+    const lobbyHost = document.createElement('div');
+    lobbyHost.id = 'net-lobby';
+    lobbyHost.innerHTML = netLobbyHTML();
+    ctl.appendChild(lobbyHost);
+    netWireLobby();
+  } else if (G.phase === 'node-place' && NET.active && G.activePlayer !== NET.seat){
+    ctl.innerHTML = netWaitingHTML('placing nodes');
   } else if (G.phase === 'node-place'){
     const placedMe = G.nodes.filter(n => n.owner === G.activePlayer).length;
     ctl.innerHTML = `
@@ -8234,6 +8571,8 @@ function renderHUD(){
       <div class="hint" style="margin-top:8px;color:var(--accent)">
         Each cross-player pair will become an impassable line on reveal. Place so your barriers cut enemies, not yourself.
       </div>`;
+  } else if (G.phase === 'weapon-commit' && NET.active && G.activePlayer !== NET.seat){
+    ctl.innerHTML = netWaitingHTML('committing weapons');
   } else if (G.phase === 'weapon-commit'){
     const pid = G.activePlayer;
     const flare = G.flareDir[pid];
@@ -8277,6 +8616,8 @@ function renderHUD(){
     document.querySelectorAll('button[data-weapon][data-dir]').forEach(b => {
       b.onclick = () => { G.aimWeapon = b.dataset.weapon; commitWeapon(pid, b.dataset.weapon, b.dataset.dir); };
     });
+  } else if (G.phase === 'plot' && NET.active && G.activePlayer !== NET.seat){
+    ctl.innerHTML = netWaitingHTML('plotting their moves');
   } else if (G.phase === 'plot'){
     const pid = G.activePlayer;
     const need = plotsRequired(pid);
