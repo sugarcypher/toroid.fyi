@@ -8345,8 +8345,8 @@ function renderHUD(){
     const cardPending = !!G.pendingCardAttach;
 
     ctl.innerHTML = `
-      <!-- Row A: suggested move bubble + control pills -->
-      <div class="row" style="gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap">
+      <!-- Row A: suggested move bubble + control pills (now on constellation nodes) -->
+      <div class="row port-redundant" style="gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap">
         ${suggestBubble}
         <button class="ax-pill pink" id="btn-autoplay">Auto play</button>
         <button class="ax-pill ${lockState}" id="btn-lock-auto">${G.autoplayLocked ? '🔒 Locked' : 'Lock'}</button>
@@ -8354,8 +8354,8 @@ function renderHUD(){
         <button class="ax-pill purple" id="btn-confirm-card" ${cardPending ? '' : 'disabled'}>Confirm</button>
       </div>
 
-      <!-- Row B: reset, triangle card slots, refresh, GO, draw, exchange, padlock -->
-      <div class="row" style="gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap;margin-top:8px">
+      <!-- Row B: reset, triangle card slots, refresh, GO, draw, exchange, padlock (now on nodes) -->
+      <div class="row port-redundant" style="gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap;margin-top:8px">
         <button class="ax-pill pink" id="btn-reset" style="padding:5px 10px;font-size:11px">Reset</button>
         <div style="display:flex;gap:4px;align-items:flex-end">
           ${triSlot(offensive[0], 'offensive')}
@@ -10960,9 +10960,18 @@ log('Click <b>Start match</b> when ready.');
 <style id="hud-port-style">
   #frame { display:none !important; }            /* painted green frame + gameframe.PNG art */
   .ring-btn { display:none !important; }          /* old ring chrome — replaced by the clusters */
+  /* ZERO-FLOATER LAW: every persistent DOM panel is hidden — ALL HUD lives in the
+     constellation canvas (corner clusters + top/bottom data strips). Buttons stay
+     in the DOM (display:none) so node .click() dispatch still works. Summoned
+     full-screen modals (rules/gallery/profile/mini-games) + the privacy gate are
+     kept — those are invoked, not floating. */
+  #top, #top-pies, #hud-left, #hud-right, #hud-dashboard, #log, #chat-panel,
+  #round-summary, #sel-portraits, #rotation-readout, #combo-panel, #suggest-panel,
+  #toast-layer, #achievement-toast, #mode-chip, #instructions-zone, #orbital-spine,
+  #top-cluster, #restore-rail, #piece-tooltip { display:none !important; }
   #hud-canvas { position:fixed; inset:0; z-index:5; pointer-events:none; display:block; }
-  #hud-topbar { position:fixed; left:50%; top:3px; transform:translateX(-50%); z-index:6;
-    pointer-events:none; font:600 12px ui-monospace,Menlo,monospace; letter-spacing:.1em;
+  #hud-topbar { position:fixed; left:50%; top:8.5%; transform:translateX(-50%); z-index:6;
+    pointer-events:none; font:600 13px ui-monospace,Menlo,monospace; letter-spacing:.1em;
     color:#dce8ff; text-shadow:0 1px 5px #000,0 0 10px rgba(80,140,255,.4); opacity:0;
     transition:opacity .14s; white-space:nowrap; }
 </style>
@@ -11003,12 +11012,20 @@ log('Click <b>Start match</b> when ready.');
   function triDirShape(s,dir){ const a={U:Math.PI/2,D:-Math.PI/2,L:Math.PI,R:0}[dir] ?? Math.PI/2; const sh=new THREE.Shape();
     for(let i=0;i<3;i++){ const ang=a+i*2*Math.PI/3, x=Math.cos(ang)*s, y=Math.sin(ang)*s; i?sh.lineTo(x,y):sh.moveTo(x,y); }
     sh.closePath(); return sh; }
-  function shapeFor(def,idx){ const z=def.size;
+  // Discrete size tiers by how central the control is (4 standard sizes).
+  const IMP={
+    'SUGGEST':4,'AUTO':4,'CONFIRM':4,'DASH':4,'LOG':4,'EXTINCT':4,'REGENESIS':4,'CHANNEL':4,'☀FLARE':4,'☾BEAM':4,
+    'MANUAL':3,'UNDO':3,'DRAW':3,'RULES':3,'CHAT':3,'ROT ◀':3,'ROT ▶':3,'ROT ▲':3,'ROT ▼':3,'LABELS':3,'SANDBOX':3,'SOLO':3,'MULTI':3,
+    'PROFILE':1,'GALLERY':1,'EXCH':1,'CLEAR':1,'ZOOM +':1,'ZOOM −':1,'POT':1,'BARRIER':1,'☀NEXT':1,'☾NEXT':1
+  };
+  const SZ={1:0.82,2:1.05,3:1.32,4:1.65};
+  function nodeSize(def){ return SZ[IMP[def.name]||2]; }
+  function shapeFor(def,idx){ const z=nodeSize(def);
     if(def.shape==='para') return paraShape(TS*1.5*z, TS*1.05*z, TS*0.5*z);
     if(def.shape==='trap') return trapShape(TS*1.6*z, TS*1.05*z, (def.flip ?? (idx%2))===1);
     return triDirShape(TS*0.95*z, def.dir||'U'); }
-  function geo3D(def,idx){ const sh=shapeFor(def,idx); const d=TS*0.45*def.size;
-    const g=new THREE.ExtrudeGeometry(sh,{depth:d, bevelEnabled:true, bevelThickness:TS*0.16*def.size, bevelSize:TS*0.14*def.size, bevelSegments:1, steps:1});
+  function geo3D(def,idx){ const sh=shapeFor(def,idx); const z=nodeSize(def), d=TS*0.45*z;
+    const g=new THREE.ExtrudeGeometry(sh,{depth:d, bevelEnabled:true, bevelThickness:TS*0.16*z, bevelSize:TS*0.14*z, bevelSegments:1, steps:1});
     g.translate(0,0,-d/2); return g; }
 
   const C={ play:0x9affc0, go:0x6effb0, adjust:0x86e8ff, window:0xb6a4ff, study:0x9be7e0,
@@ -11075,7 +11092,7 @@ log('Click <b>Start match</b> when ready.');
     const mesh=new THREE.Mesh(geo,mat);
     const grp=new THREE.Group(); grp.add(mesh); grp.position.set(x,y,0);
     const rec={def,grp,mesh,mat,geo,accent:new THREE.Color(def.color),hover:0,pulse:0,base:new THREE.Vector3(x,y,0),
-      on:def.kind==='toggle'&&!!def.defaultOn, tele:def.kind==='tele', r:TS*def.size};
+      on:def.kind==='toggle'&&!!def.defaultOn, tele:def.kind==='tele', r:TS*nodeSize(def)};
     mesh.userData.rec=rec; field.add(grp); tiles.push(rec);
   }
   function clearField(){ for(const r of tiles){ field.remove(r.grp); r.mat.dispose(); r.geo.dispose(); } tiles=[]; }
@@ -11097,34 +11114,50 @@ log('Click <b>Start match</b> when ready.');
   function clearGlyphs(){ while(glyphGroup.children.length){ const g=glyphGroup.children[0]; glyphGroup.remove(g); g.material.map.dispose(); g.material.dispose(); } }
 
   const backGroup=new THREE.Group(); scene.add(backGroup);
+  let triLines=[];                                   // triangle-edge materials (recoloured by camera mode)
+  const CAM_PINK=0xff2d95, CAM_VIOLET=0x9a4dff;       // PLAY = hot pink, ROTATE = violet
+  function camColor(){ try{ return (typeof cameraLocked!=='undefined' && cameraLocked) ? CAM_PINK : CAM_VIOLET; }catch(e){ return CAM_PINK; } }
+  function addHeroLabel(rec, text){ const cv=document.createElement('canvas'); cv.width=256; cv.height=96; const x=cv.getContext('2d');
+    x.clearRect(0,0,256,96); x.textAlign='center'; x.textBaseline='middle'; x.font='700 50px "Futura","Space Grotesk",system-ui,sans-serif';
+    x.lineJoin='round'; x.lineWidth=9; x.strokeStyle='rgba(2,10,6,0.92)'; x.strokeText(text,128,52); x.fillStyle='#06120a'; x.fillText(text,128,52);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,opacity:0.98,depthTest:false}));
+    sp.scale.set(TS*4.4, TS*4.4*96/256, 1); sp.position.set(rec.base.x, rec.base.y, rec.r*2.6+0.5); sp.renderOrder=21; field.add(sp); }
   function roundedRectShape(w,h,r){ const s=new THREE.Shape(), x=-w/2, y=-h/2;
     s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r);
     s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
     s.lineTo(x,y+r); s.quadraticCurveTo(x,y,x+r,y); return s; }
-  function addBacking(b,color){
-    const pad=TS*1.4, w=(b.maxX-b.minX)+pad*2, h=(b.maxY-b.minY)+pad*2, cx=(b.minX+b.maxX)/2, cy=(b.minY+b.maxY)/2;
-    const geo=new THREE.ShapeGeometry(roundedRectShape(w,h,TS*1.3));
-    const plate=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0x0b1120, transparent:true, opacity:0.5, depthWrite:false}));
-    plate.position.set(cx,cy,-0.6);
-    const line=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:0.42}));
-    line.position.set(cx,cy,-0.55);
+  // Uniform right-triangle cluster backing: the 90° vertex sits in the screen
+  // corner, the two equal legs run along the screen edges, hypotenuse faces centre.
+  function addTriBacking(corner, L, color){
+    const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
+    const cx=sx*visW*0.99, cy=sy*visH*0.985;          // right-angle vertex at the corner
+    const P0=new THREE.Vector3(cx, cy, 0);            // 90°
+    const P1=new THREE.Vector3(cx - sx*L, cy, 0);     // leg along the horizontal edge
+    const P2=new THREE.Vector3(cx, cy - sy*L, 0);     // leg along the vertical edge
+    const geo=new THREE.BufferGeometry().setFromPoints([P0,P1,P2]); geo.setIndex([0,1,2]); geo.computeVertexNormals();
+    const plate=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color:0x0b1120, transparent:true, opacity:0.5, side:THREE.DoubleSide, depthWrite:false}));
+    plate.position.z=-0.6;
+    const line=new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color:camColor(), transparent:true, opacity:0.62}));
+    line.position.z=-0.55; triLines.push(line.material);   // recoloured per camera mode in animate
     backGroup.add(plate); backGroup.add(line);
   }
-  function clearBacking(){ while(backGroup.children.length){ const c=backGroup.children[0]; backGroup.remove(c); c.geometry.dispose(); c.material.dispose(); } }
+  function clearBacking(){ triLines=[]; while(backGroup.children.length){ const c=backGroup.children[0]; backGroup.remove(c); c.geometry.dispose(); c.material.dispose(); } }
 
-  function layoutCorner(corner, items, color){
-    if(!items.length) return;
-    const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1;
-    const ax=sx*visW*0.95, ay=sy*visH*0.93;
-    const gap=TS*0.12, rowBudget=visW*0.22, insetX=TS*2.6, insetY=TS*0.9;
-    let x=0,y=0,rowH=0; const B={minX:1e9,minY:1e9,maxX:-1e9,maxY:-1e9};
-    items.forEach((d,i)=>{ const w=tileW(d), h=tileH(d);
-      if(x>0 && x+w>rowBudget){ x=0; y+=rowH+gap; rowH=0; }
-      const cx=ax - sx*(x + w/2 + insetX), cy=ay - sy*(y + h/2 + insetY);
-      d.flip=(i%2); addTile(d, cx, cy, i);
-      B.minX=Math.min(B.minX,cx-w/2); B.maxX=Math.max(B.maxX,cx+w/2); B.minY=Math.min(B.minY,cy-h/2); B.maxY=Math.max(B.maxY,cy+h/2);
-      x+=w+gap; rowH=Math.max(rowH,h); });
-    addBacking(B, color);
+  // Triangular lattice that FILLS the right triangle: rows parallel to the
+  // hypotenuse (apex at the corner), uniform spacing — reads as a control panel.
+  const G_SP=TS*2.75;
+  function gridPoints(maxUV){ const K=Math.max(0,Math.floor(maxUV/G_SP)); const pts=[];
+    for(let lvl=0; lvl<=K; lvl++){ for(let a=0;a<=lvl;a++){ pts.push([(lvl-a)*G_SP, a*G_SP]); } }
+    return pts; }
+  function layoutTriCluster(corner, nodes, triLeg){
+    const sx=corner[1]==='R'?1:-1, sy=corner[0]==='T'?1:-1, Xc=visW*0.99, Yc=visH*0.985;
+    const n=nodes.length; let R=0; while((R+1)*(R+2)/2 < n) R++;   // rows to hold n nodes
+    const u0=triLeg*0.11, span=triLeg*0.82, g=span/(R+1);          // per-cluster spacing → fills the triangle
+    const sorted=nodes.slice().sort((a,b)=> nodeSize(b)-nodeSize(a)); // bigger near the apex
+    let idx=0;
+    for(let lvl=0; lvl<=R && idx<n; lvl++){ const cnt=Math.min(lvl+1, n-idx), off=(lvl+1-cnt)/2;
+      for(let a=0; a<cnt; a++){ const aa=a+off, u=u0+(lvl-aa)*g, v=u0+aa*g;
+        const d=sorted[idx++]; d.flip=(idx%2); addTile(d, sx*Xc - sx*u, sy*Yc - sy*v, idx); } }
   }
 
   // Bind telemetry tiles to the live game ticker pills (real data on hover).
@@ -11138,16 +11171,71 @@ log('Click <b>Start match</b> when ready.');
     const byC={TL:[],TR:[],BL:[],BR:[]};
     active.filter(d=>!d.hero).forEach(d=> byC[d.corner].push(d));
     const cc={TL:C.tele,TR:C.window,BL:C.adjust,BR:C.go};
-    for(const k of ['TL','TR','BL','BR']){ if(byC[k].length){ layoutCorner(k,byC[k],cc[k]); addGlyph(k,cc[k]); } }
+    // Uniform triangle sized to the densest corner so every cluster fills its
+    // triangle with the same node spacing (control-panel feel).
+    let nMax=0; for(const k in byC) nMax=Math.max(nMax, byC[k].length);
+    let Kr=0; while((Kr+1)*(Kr+2)/2 < nMax) Kr++;
+    const triLeg=(Kr+2.0)*G_SP;
+    const liveCorners=[];
+    for(const k of ['TL','TR','BL','BR']){ if(byC[k].length){ layoutTriCluster(k,byC[k],triLeg); addGlyph(k,cc[k]); addTriBacking(k,triLeg,cc[k]); liveCorners.push({k}); } }
+    buildReadouts(liveCorners, triLeg);   // one hover-readout per triangle (nearest-corner only)
     const hy=-visH*0.84;
     heroes.forEach((d,i)=> addTile(d,(i?1:-1)*4.0,hy,i));
+    if((document.body.dataset.phase||'')==='setup'){ const _h=tiles.find(t=>t.def.name==='PLAY / ROTATE'); if(_h) addHeroLabel(_h,'START'); }
     bindTele();
   }
+
+  /* ===== INTEGRATED DATA STRIPS — dashboard (top edge) + action log (bottom edge)
+     Rendered IN the HUD canvas, in the tile language, as the outermost top/bottom
+     frame pieces between the corner clusters. Bound live to G; symbol+colour coded;
+     near-zero footprint. No floating DOM. ===== */
+  function clearGroup(g){ while(g.children.length){ const c=g.children[0]; g.remove(c); if(c.geometry)c.geometry.dispose(); if(c.material){ if(c.material.map)c.material.map.dispose(); c.material.dispose(); } } }
+  const dataGroup=new THREE.Group(); scene.add(dataGroup);
+  let showDash=true, showLog=true, dashSprite=null, logSprite=null;
+  const PHEX={0:0x6168ff,1:0xd24a32,2:0x3fc46d,3:0xe063c7,4:0xffd838,5:0x22b8d6};
+  function pHex(i){ return PHEX[i]!=null?PHEX[i]:0x8ea0c8; }
+  function hx(n){ return '#'+(((n>>>0)&0xffffff)).toString(16).padStart(6,'0'); }
+  function liveG(){ try{ return (typeof G!=='undefined'&&G)?G:null; }catch(e){ return null; } }
+  function makeBar(w,h){ const g=new THREE.ExtrudeGeometry(roundedRectShape(w,h,h*0.42),{depth:h*0.42,bevelEnabled:true,bevelThickness:h*0.16,bevelSize:h*0.12,bevelSegments:1}); g.translate(0,0,-h*0.21);
+    const m=new THREE.MeshStandardMaterial({color:0x141b2c,emissive:0x070b14,emissiveIntensity:0.42,metalness:0.9,roughness:0.34,envMapIntensity:1.0,transparent:true,opacity:0.92}); return new THREE.Mesh(g,m); }
+  // DASHBOARD: per-player colour tab + symbolic combat stats (⬤alive ⚔captures ☠lost ☼suns)
+  function dashTex(){ const G=liveG(); const cv=document.createElement('canvas'); cv.width=1024; cv.height=72; const x=cv.getContext('2d'); x.clearRect(0,0,1024,72); x.textBaseline='middle';
+    const players=(G&&G.players&&G.players.length)?G.players:[{id:0,name:'P1'},{id:1,name:'P2'}]; const n=players.length, segW=1024/n;
+    players.forEach((pl,i)=>{ const pid=pl.id!=null?pl.id:i; const col=hx(pHex(pid)); const x0=i*segW;
+      const alive=G?G.pieces.filter(p=>p.alive&&p.owner===pid).length:0;
+      const lost =G?G.pieces.filter(p=>!p.alive&&p.owner===pid).length:0;
+      const s=(G&&G.stats&&G.stats[pid])?G.stats[pid]:{captures:0,sunsSet:0};
+      const active=!!(G&&pid===G.activePlayer&&G.phase!=='setup'&&G.winner==null);
+      x.fillStyle=col; x.globalAlpha=active?1:0.78; x.fillRect(x0+12,16,7,40); x.globalAlpha=1;
+      x.textAlign='left'; x.fillStyle=active?'#ffffff':'#cdd8ee'; x.font='600 23px "Futura","Space Grotesk",system-ui,sans-serif';
+      x.fillText((pl.name||('P'+(pid+1))), x0+28, 26);
+      x.fillStyle=col; x.font='500 21px "Futura","Space Grotesk",system-ui,sans-serif';
+      x.fillText('⬤'+alive+'   ⚔'+(s.captures||0)+'   ☠'+lost+'   ☼'+(s.sunsSet||0), x0+28, 52);
+      if(i>0){ x.strokeStyle='rgba(150,180,235,0.16)'; x.lineWidth=1; x.beginPath(); x.moveTo(x0,10); x.lineTo(x0,62); x.stroke(); } });
+    const t=new THREE.CanvasTexture(cv); t.needsUpdate=true; return t; }
+  // ACTION LOG: recent G.matchLog events as colour+glyph chips, newest at the right.
+  const EV_GLYPH={capture:'⚔','path-damage':'✦',damage:'✦','weapon-kill':'☄','flares-fired':'☀','beams-fired':'☾',nova:'✷','match-end':'★','anomaly-era':'◬','anomaly-token':'✸'};
+  function evColor(e){ const d=e.data||{}; const a=(d.attacker!=null)?d.attacker:(d.owner!=null?d.owner:(d.winner!=null?d.winner:(d.pid!=null?d.pid:null))); return a!=null?pHex(a):0x9fb0d8; }
+  function logTex(){ const G=liveG(); const cv=document.createElement('canvas'); cv.width=1024; cv.height=60; const x=cv.getContext('2d'); x.clearRect(0,0,1024,60); x.textBaseline='middle'; x.textAlign='center';
+    const ml=(G&&G.matchLog)?G.matchLog:[]; const N=Math.min(17, ml.length); const step=56;
+    if(!N){ x.fillStyle='rgba(159,176,216,0.45)'; x.font='500 18px "Futura","Space Grotesk",system-ui,sans-serif'; x.textAlign='right'; x.fillText('— action log —',1008,30); }
+    for(let k=0;k<N;k++){ const e=ml[ml.length-1-k]; const col=hx(evColor(e)); const cx=1004-26-k*step;
+      const w=step-10,h=40,ux=cx-w/2,uy=10,r=11; x.fillStyle='rgba(10,16,28,0.5)'; x.strokeStyle=col; x.lineWidth=1.6;
+      x.beginPath(); x.moveTo(ux+r,uy); x.arcTo(ux+w,uy,ux+w,uy+h,r); x.arcTo(ux+w,uy+h,ux,uy+h,r); x.arcTo(ux,uy+h,ux,uy,r); x.arcTo(ux,uy,ux+w,uy,r); x.closePath(); x.fill(); x.stroke();
+      x.fillStyle=col; x.font='600 25px "Futura","Space Grotesk",system-ui,sans-serif'; x.fillText(EV_GLYPH[e.type]||'•', cx, 31); }
+    const t=new THREE.CanvasTexture(cv); t.needsUpdate=true; return t; }
+  function stripSprite(tex,w,h,y){ const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true,opacity:0.99,depthTest:false})); sp.scale.set(w,h,1); sp.position.set(0,y,0.4); sp.renderOrder=17; return sp; }
+  function buildDataStrips(){ clearGroup(dataGroup); logSprite=null;
+    const barW=Math.min(visW*1.3, visW*2 - TS*11), botY=-visH*0.9, logH=barW*60/1024;
+    if(showLog){ const b=makeBar(barW,logH*0.92); b.position.set(0,botY,-0.2); dataGroup.add(b);
+      logSprite=stripSprite(logTex(), barW, logH, botY); dataGroup.add(logSprite); } }
+  function refreshStrips(){ const Gp=liveG(); const n=(Gp&&Gp.players&&Gp.players.length)?Gp.players.length:2; if(n!==_solN) buildSolar();
+    if(logSprite){ const o=logSprite.material.map; logSprite.material.map=logTex(); logSprite.material.needsUpdate=true; if(o)o.dispose(); } }
 
   /* ---- DISPATCH: node → existing game control (reuse, never reimplement) ---- */
   const WIRE={
     'PLAY / ROTATE':'lock-toggle',
-    'DASH':'rb-dash','LOG':'rb-log','CHAT':'rb-chat',
+    'CHAT':'rb-chat',
     'RULES':'btn-rules','GALLERY':'btn-gallery','PROFILE':'btn-profile',
     'LABELS':'btn-labels','UNROLL':'btn-flat','CLEAR':'btn-clear-board',
     'SUGGEST':'btn-suggest-commit','AUTO':'btn-autoplay','MANUAL':'btn-manual',
@@ -11166,7 +11254,10 @@ log('Click <b>Start match</b> when ready.');
   function clickId(id){ const b=document.getElementById(id); if(b){ b.click(); return true; } return false; }
   function dispatch(r){
     const n=r.def.name;
+    if(n==='DASH'){ showDash=!showDash; solarGroup.visible=showDash; return; }   // toggle the solar team/turn display
+    if(n==='LOG'){ showLog=!showLog; buildDataStrips(); return; }                 // toggle the bottom action-log strip
     if(n==='GO'){ clickId('btn-go-big')||clickId('btn-start'); return; }
+    if(n==='PLAY / ROTATE'){ if((document.body.dataset.phase||'')==='setup') clickId('btn-start'); else clickId('lock-toggle'); return; }
     if(WIRE[n]){ clickId(WIRE[n]); return; }
     if(KEYMAP[n]){ const a=KEYMAP[n]; document.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); window.dispatchEvent(new KeyboardEvent('keydown',{key:a[0],code:a[1],bubbles:true,cancelable:true})); return; }
     if(n==='SANDBOX'||n==='SOLO'||n==='MULTI'){ const b=document.querySelector('[data-mode="'+n.toLowerCase()+'"]'); if(b) b.click(); return; }
@@ -11193,10 +11284,80 @@ log('Click <b>Start match</b> when ready.');
   function onBoard(ev){ const t=ev.target; if(!t) return false;
     if(t===document.body) return true;
     return !!(t.closest && t.closest('#stage')); }
-  const topbar=document.getElementById('hud-topbar');
-  function showRec(r){ if(!r){ topbar.style.opacity=0; topbar.textContent=''; return; }
-    topbar.style.opacity=1;
-    topbar.textContent = r.def.name + (r.tele&&r.def.val!=null?': '+r.def.val:'') + (r.on?' · ON':''); }
+  // ===== TURN INDICATOR (vertical player dots, top-centre) + per-triangle hover READOUTS =====
+  const solarGroup=new THREE.Group(); scene.add(solarGroup);
+  const readGroup=new THREE.Group(); scene.add(readGroup);
+  let suns=[], readoutSpots=[], readoutWH=[0,0], _solN=-1;
+  // SOLAR HORIZON — image-only merge of turn + team-size. Each player is a sun in
+  // their colour; its HEIGHT above the horizon (bottom of the band) = team size,
+  // sinking as pieces are taken. Active player's sun is bright + enlarged; others
+  // dim. When a player's Sun piece is SET, the filled disc vanishes and only an
+  // empty corona remains (so a revived team can re-fill it).
+  function buildSolar(){
+    while(solarGroup.children.length){ const c=solarGroup.children[0]; solarGroup.remove(c); if(c.geometry)c.geometry.dispose(); if(c.material)c.material.dispose(); }
+    suns=[]; const G=liveG(); const players=(G&&G.players&&G.players.length)?G.players:[{id:0},{id:1}]; _solN=players.length; const n=players.length;
+    // Large suns; shrink as players are added (so N fit). 2P → big; 6P → smaller.
+    const layoutSpan=Math.min(visW*0.78, visW*2 - TS*14);
+    const rad=Math.min(visH*0.13, layoutSpan/(n*2.3));
+    const horizonY=visH*0.73, topY=visH*0.90;
+    const hl=new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-layoutSpan/2-rad,horizonY,0.3),new THREE.Vector3(layoutSpan/2+rad,horizonY,0.3)]), new THREE.LineBasicMaterial({color:0x46506e,transparent:true,opacity:0.42}));
+    hl.renderOrder=17; solarGroup.add(hl);
+    players.forEach((pl,i)=>{ const pid=pl.id!=null?pl.id:i; const col=pHex(pid);
+      const x = n>1 ? -layoutSpan/2 + layoutSpan*(i/(n-1)) : 0;
+      const corona=new THREE.Mesh(new THREE.RingGeometry(rad*1.0, rad*1.13, 48), new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.4,depthTest:false,side:THREE.DoubleSide})); corona.renderOrder=18;
+      const disc=new THREE.Mesh(new THREE.CircleGeometry(rad*0.95, 48), new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.9,depthTest:false})); disc.renderOrder=18;
+      solarGroup.add(corona); solarGroup.add(disc);
+      suns.push({pid,x,corona,disc,horizonY,topY}); }); }
+  function updateSolar(){ const G=liveG(); const setup=!!(G&&G.phase==='setup'); const ap=(G&&G.winner==null&&!setup)?G.activePlayer:-1;
+    for(const s of suns){ let alive=0,total=0,sunAlive=false;
+      if(G&&G.pieces){ for(const p of G.pieces){ if(p.owner===s.pid){ total++; if(p.alive){ alive++; if(p.type==='sun') sunAlive=true; } } } }
+      if(setup){ alive=total=1; sunAlive=true; }                 // setup: full suns, nobody active
+      const frac=total>0?alive/total:0, y=s.horizonY + frac*(s.topY-s.horizonY), active=(s.pid===ap);
+      s.disc.position.set(s.x,y,0.4); s.corona.position.set(s.x,y,0.39);
+      s.disc.visible = sunAlive;                                 // Sun set → empty corona only
+      s.disc.material.opacity = active?1.0:0.5;
+      s.corona.material.opacity = sunAlive ? (active?0.95:0.45) : 0.85;
+      const sc=active?1.28:1.0; s.disc.scale.setScalar(sc); s.corona.scale.setScalar(sc*(sunAlive?1:1.12)); } }
+  function readoutDraw(x, text){ x.clearRect(0,0,600,160);
+    if(text){ x.font='600 57px "Futura","Space Grotesk",system-ui,sans-serif';
+      const w=Math.min(588, x.measureText(text).width+68), h=108, ux=(600-w)/2, uy=(160-h)/2, r=24;
+      x.fillStyle='rgba(8,13,24,0.86)'; x.strokeStyle='rgba(150,184,236,0.62)'; x.lineWidth=3.5;
+      x.beginPath(); x.moveTo(ux+r,uy); x.arcTo(ux+w,uy,ux+w,uy+h,r); x.arcTo(ux+w,uy+h,ux,uy+h,r); x.arcTo(ux,uy+h,ux,uy,r); x.arcTo(ux,uy,ux+w,uy,r); x.closePath(); x.fill(); x.stroke();
+      x.textAlign='center'; x.textBaseline='middle'; x.fillStyle='#eef4ff'; x.fillText(text,300,84); } }
+  // one readout per triangle, at the hypotenuse midpoint (median lateral termination)
+  function buildReadouts(boxes, triLeg){ clearGroup(readGroup);
+    // OUTSIDE the triangle: push past the hypotenuse toward the board so the label
+    // has open space to be large + legible (not cramped inside the corner).
+    readoutSpots = boxes.map(o=>{ const sx=o.k[1]==='R'?1:-1, sy=o.k[0]==='T'?1:-1; const cx=sx*visW*0.99, cy=sy*visH*0.985;
+      return {k:o.k, x:cx - sx*triLeg*0.78, y:cy - sy*triLeg*0.78}; });
+    readoutSpots.push({k:'BC', x:0, y:-visH*0.66});   // heroes → bottom-centre, in open space
+    const H=TS*6.2; readoutWH=[H*600/160, H]; }
+  // Recreate the sprite (content drawn at creation) so the texture always uploads.
+  function setReadout(corner, text){ clearGroup(readGroup);
+    if(!text) return; const spot=readoutSpots.find(s=>s.k===corner); if(!spot) return;
+    const cv=document.createElement('canvas'); cv.width=600; cv.height=160; readoutDraw(cv.getContext('2d'), text);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,opacity:0.99,depthTest:false}));
+    sp.scale.set(readoutWH[0], readoutWH[1], 1); sp.position.set(spot.x, spot.y, 0.7); sp.renderOrder=20; readGroup.add(sp); }
+  // Plain-language names for the cryptic node labels (shown in the readout on hover).
+  const LABELS={
+    'PLAY / ROTATE':'PLAY / ROTATE CAMERA','GO':'GO','DASH':'TEAM / TURN DISPLAY','LOG':'ACTION LOG',
+    'CHAT':'CHAT','RULES':'RULES','GALLERY':'PIECE GALLERY','PROFILE':'PROFILE',
+    'LABELS':'BOARD LABELS','UNROLL':'UNROLL BOARD','CLEAR':'CLEAR PANELS',
+    'ROT ◀':'ROTATE LEFT','ROT ▶':'ROTATE RIGHT','ROT ▲':'ROTATE UP','ROT ▼':'ROTATE DOWN',
+    'ZOOM +':'ZOOM IN','ZOOM −':'ZOOM OUT',
+    'SUGGEST':'SUGGESTED MOVE','AUTO':'AUTO-PLAY','MANUAL':'MANUAL SELECT','LOCK':'LOCK AUTO-PLAY',
+    'CONFIRM':'CONFIRM CARD','UNDO':'UNDO PLOT','DRAW':'DRAW CARD','EXCH':'EXCHANGE CARD',
+    'OFF':'ATTACK CARD','DEF':'DEFENSE CARD',
+    'SANDBOX':'SANDBOX','SOLO':'SOLO VS AI','MULTI':'MULTIPLAYER','START':'START MATCH','◀':'FEWER PLAYERS','▶':'MORE PLAYERS',
+    '☀FLARE':'AIM FLARE','☾BEAM':'AIM BEAM',
+    'N':'FIRE NORTH','NE':'FIRE NORTHEAST','E':'FIRE EAST','SE':'FIRE SOUTHEAST','S':'FIRE SOUTH','SW':'FIRE SOUTHWEST','W':'FIRE WEST','NW':'FIRE NORTHWEST',
+    'CHANNEL':'CHANNEL POWER','EXTINCT':'EXTINCTION','REGENESIS':'REGENESIS','CLAIM':'CLAIM POWER',
+    'PHASE':'PHASE','ROUND':'ROUND','TURN':'TURN','POT':'POT','☀NEXT':'NEXT FLARE','☾NEXT':'NEXT BEAM','BARRIER':'BARRIER'
+  };
+  function showRec(r){ if(!r){ setReadout(null,''); return; }
+    const nm = LABELS[r.def.name] || r.def.name;
+    const txt = nm + (r.tele&&r.def.val!=null?': '+r.def.val:'') + (r.on?' ·ON':'');
+    setReadout(r.def.corner || 'BC', txt); }
   window.addEventListener('pointermove',ev=>{ if(ev.pointerType==='touch')return; const r=onBoard(ev)?pickRec(ev):null;
     if(r!==hovered){ hovered=r; document.body.style.cursor=r?'pointer':''; showRec(r||selected); } }, true);
   window.addEventListener('mousedown',ev=>{ if(onBoard(ev)&&pickRec(ev)) ev.stopPropagation(); }, true);
@@ -11207,7 +11368,7 @@ log('Click <b>Start match</b> when ready.');
     if(r.def.kind==='toggle') r.on=!r.on; r.pulse=1; selected=r; showRec(r); dispatch(r); }, true);
 
   function onResize(){ const w=innerWidth,h=innerHeight,a=w/h; camera.aspect=a; camera.updateProjectionMatrix();
-    renderer.setSize(w,h); computeLayout(a); hovered=selected=null; build(); }
+    renderer.setSize(w,h); computeLayout(a); hovered=selected=null; build(); buildDataStrips(); buildSolar(); }
   addEventListener('resize',onResize);
 
   /* ---- phase sync: the constellation's active cluster follows the game ---- */
@@ -11224,6 +11385,7 @@ log('Click <b>Start match</b> when ready.');
   let _t0=performance.now();
   function animate(){ requestAnimationFrame(animate);
     const t=(performance.now()-_t0)/1000;
+    { const _cc=camColor(); for(let i=0;i<triLines.length;i++) triLines[i].color.setHex(_cc); }   // triangle edges = camera-mode colour
     for(const r of tiles){ const hero=r.def.hero; const want=(r===hovered||r===selected||r.on||hero)?1:0;
       if(want===0 && r.hover<0.001 && !r.pulse && !r.tele) continue;
       r.hover += (want-r.hover)*0.22; if(r.pulse){ r.pulse*=0.9; if(r.pulse<0.02)r.pulse=0; } const pulse=r.pulse||0;
@@ -11231,16 +11393,17 @@ log('Click <b>Start match</b> when ready.');
       if(r.tele){ k=Math.max(k,0.55); r.grp.position.z=r.r*1.3 + r.hover*r.r*2.6 + pulse*r.r*1.2;
         r.grp.scale.setScalar(1.04 + r.hover*0.3 + pulse*0.15); }
       else if(hero){ k=Math.max(k,0.78);
-        if(r.def.name.indexOf('PLAY')===0) r.accent.set(r.on?0x9affc0:0xf1b067);
+        if(r.def.name.indexOf('PLAY')===0){ const _su=(document.body.dataset.phase||'')==='setup'; r.accent.set(_su?0x6effb0:camColor()); }
         r.grp.position.z=r.r*2.2 + r.hover*r.r*1.4 + pulse*r.r*1.4; r.grp.scale.setScalar(1.05+r.hover*0.2+pulse*0.16); }
       else { r.grp.position.z=r.hover*r.r*3.2+pulse*r.r*1.4; r.grp.scale.setScalar(1+r.hover*0.3+pulse*0.16); }
       r.mat.opacity = r.tele? 0.74+k*0.26 : 0.85+k*0.15;
       r.mat.color.copy(GRAY).lerp(r.accent, r.tele? 0.5+k*0.3 : k);
       r.mat.emissiveIntensity = (r.tele?0.85:0.4) + k*0.9;
       r.mat.emissive.copy(new THREE.Color(0x0a1018)).lerp(r.accent, r.tele? 0.45 : k*0.5); }
+    updateSolar();
     renderer.render(scene,camera);
   }
-  function start(){ curPhase=hudPhase(); onResize(); animate(); }
+  function start(){ curPhase=hudPhase(); onResize(); animate(); setInterval(refreshStrips, 700); }
   try {
     const SG=new FontFace('Space Grotesk', 'url(../assets/fonts/space-grotesk-latin.woff2)', {weight:'300 600'});
     SG.load().then(f=>{ document.fonts.add(f); }).catch(()=>{}).finally(start);
