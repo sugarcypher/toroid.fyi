@@ -1826,7 +1826,7 @@ const G = {
   // Each player has a token wallet that persists across matches. Match start antes from
   // every player's wallet into the pot. On settlement, 5% rake to the house, 95% to winner.
   wallets: { 0: 199999, 1: 199999, 2: 199999, 3: 199999, 4: 199999, 5: 199999 },
-  entryFee: 100,
+  entryFee: 0,        // no in-game wager — monetisation is platform access (pay-to-play), not per-match betting
   pot: 0,
   houseRake: 0,
   rakeRate: 0.05,
@@ -4903,7 +4903,7 @@ function settleMatch(){
     G.houseRake += rake;
     G.settlement = { winner: -1, pot: G.pot, rake, takeHome: 0 };
     sfx('settle');
-    log(`<b>SETTLEMENT.</b> No winner — full pot ${G.pot} ⛁ to the house.`);
+    log(G.pot > 0 ? `<b>SETTLEMENT.</b> No winner — full pot ${G.pot} ⛁ to the house.` : `<b>DRAW.</b> No surviving Sun — no winner.`);
     G.pot = 0;
     matchEvent('match-end', { winner: -1, takeHome: 0, rake });
     return;
@@ -4914,7 +4914,7 @@ function settleMatch(){
   G.houseRake += rake;
   G.settlement = { winner: G.winner, pot: G.pot, rake, takeHome };
   sfx('settle');
-  log(`<b>SETTLEMENT.</b> Pot ${G.pot} ⛁ → ${NAME[G.winner]} takes ${takeHome} ⛁ · house rake ${rake} ⛁ (cumulative ${G.houseRake} ⛁).`);
+  log(G.pot > 0 ? `<b>SETTLEMENT.</b> Pot ${G.pot} ⛁ → ${NAME[G.winner]} takes ${takeHome} ⛁ · house rake ${rake} ⛁ (cumulative ${G.houseRake} ⛁).` : `<b>VICTORY.</b> ${NAME[G.winner]} wins the match.`);
   G.pot = 0;
   matchEvent('match-end', { winner: G.winner, takeHome, rake });
   // Achievement sweep BEFORE commit so first-victory sees the pre-bump win count.
@@ -8207,20 +8207,10 @@ function renderHUD(){
       </div>
       ${G.playerCount===6 ? '<div class="hint" style="color:var(--accent)">Compact 32-piece formation per side (vs 38 in 2P/4P).</div>' : ''}
 
-      ${showStakes ? `
-      <details style="margin-top:12px">
-        <summary class="hint" style="cursor:pointer"><b>Stakes</b> <span class="small" style="color:var(--muted)">(optional · multiplayer)</span></summary>
-        <div class="row" style="margin-top:6px">
-          ${fees.map(f => `<button class="${G.entryFee===f?'good':'ghost'}" data-fee="${f}">${f} ⛁</button>`).join(' ')}
-        </div>
-        <div class="hint" style="margin-top:6px;font-family:ui-monospace,Menlo,monospace;font-size:11px">
-          Pot <b>${projectedPot}</b> · rake 5% · <b style="color:var(--good)">winner ${projectedWin} ⛁</b>
-        </div>
-      </details>` : `
-      <div class="hint small" style="margin-top:12px;color:var(--muted)">${G.frontMode==='sandbox' ? 'Sandbox · no stakes, no ante.' : 'Solo · practice, no stakes.'}</div>`}
+      <div class="hint small" style="margin-top:12px;color:var(--muted)">${G.humanCount===1 ? 'Solo vs AI' : (G.frontMode==='sandbox' ? 'Sandbox practice' : 'Free play')} · no wager.</div>
 
       <div class="hint small" style="margin-top:10px;color:var(--muted)">Hotkeys: <b>Space</b> / right-click toggle Play/Rotate.</div>
-      <button id="btn-start" class="go-button" style="margin-top:10px;width:100%">${showStakes ? 'Ante &amp; start match' : 'Start match'}</button>`;
+      <button id="btn-start" class="go-button" style="margin-top:10px;width:100%">Start match</button>`;
     document.querySelectorAll('button[data-mode]').forEach(el => {
       el.onclick = () => { G.frontMode = el.dataset.mode; if (el.dataset.mode !== 'multi') G.entryFee = 0; renderHUD(); };
     });
@@ -9106,14 +9096,14 @@ function openRulesModal(){
     <h1>📜 Strata-Dom-3D — Rules &amp; Tips
       <button class="x-close" id="rules-close">close ✕</button>
     </h1>
-    <p class="small">A simultaneous-reveal Warplan game on a toroid play surface, with hidden cards, pre-committed weapons, and Connect-Four duels. 2 or 4 players. Pure-skill once cards and directions are committed.</p>
+    <p class="small">A simultaneous-reveal Warplan game on a toroid play surface, with hidden cards, pre-committed weapons, and Connect-Four duels. 1–6 players. Pure-skill once cards and directions are committed.</p>
 
     <h2>1 · Win Condition</h2>
-    <p>You win by <b>setting (extinguishing) every other player's Sun</b>. In 2P, the first Sun to fall ends the match. In 4P, the last player with a living Sun wins. When a Sun is set, that player's entire faction <b>NOVAS</b> — every remaining piece explodes, taking out everything in adjacent cells. The cascade can clear the board if it kills another Sun.</p>
+    <p>You win by <b>setting (extinguishing) every other player's Sun</b>. 1 player is solo vs AI; with 2 players the first Sun to fall ends the match; with 3–6 the last player with a living Sun wins. When a Sun is set, that player's entire faction <b>NOVAS</b> — every remaining piece explodes, taking out everything in adjacent cells. The cascade can clear the board if it kills another Sun.</p>
 
     <h2>2 · Phases (in order)</h2>
     <div class="rules-grid">
-      <div class="rules-card"><h3>① Setup</h3><p class="small">Pick player count (2 or 4) and ante. Each player puts up the entry fee. Pot is held; winner takes 95%, house keeps 5% rake.</p></div>
+      <div class="rules-card"><h3>① Setup</h3><p class="small">Pick player count (<b>1–6</b>) and mode. 1 = solo vs AI; odd counts add one AI. <b>No wager</b> — matches are free; the paywall is platform access (pay-to-play after the free grab).</p></div>
       <div class="rules-card"><h3>② Node Placement</h3><p class="small">Each player privately places nodes in their home territory. <b>More players → fewer nodes each, fewer connections per node</b>: 2P 4/3, 3P 3/2, 4P 2/2, 5P 2/1, 6P 1/1. Each node connects to its NEAREST cross-player nodes — those lines are walls, the cells they cross are impassable, everything else stays normal play space.</p></div>
       <div class="rules-card"><h3>③ Weapon Commit</h3><p class="small"><b>Blind upstream.</b> Each player privately picks a direction (N/NE/E/SE/S/SW/W/NW) for their Sun's flare AND their Moon's beam. Both directions LOCK for the entire match. The world will move; the shot fires anyway.</p></div>
       <div class="rules-card"><h3>④ Warplan Plot</h3><p class="small">Each round: every player privately plots a single move. Cards can be staged. When everyone is ready, all plots animate <b>simultaneously</b>.</p></div>
@@ -9152,7 +9142,8 @@ function openRulesModal(){
     </table>
     <p class="small" style="color:var(--muted);margin-top:6px">Audit guard: every applied move is re-validated against this table at execution time. If anything ever slips past, you'll see a red <b>illegal move blocked</b> entry in the log and a console.error trace — no piece can move outside its declared pattern.</p>
 
-    <h2>5 · Cards (drawn at match start)</h2>
+    <h2>5 · Cards</h2>
+    <p class="small">Each player <b>draws 3</b> at match start from this 6-type pool (then ~1 per round, capped at 5 in hand).</p>
     <div class="rules-grid">
       <div class="rules-card"><h3>🛡 Aegis</h3><p class="small">Shield one own piece — blocks the next destruction (capture, weapon, nova).</p></div>
       <div class="rules-card"><h3>⛔ Skip</h3><p class="small">Highest-threat enemy can't plot a move next round (cards still play).</p></div>
@@ -9183,8 +9174,8 @@ function openRulesModal(){
       <div class="rules-card"><h3>☄ Extinction</h3><p class="small">EVERY non-Sun/Moon piece on the board dies — shields, cards, and immunity count for nothing. Only Suns and Moons remain. No novas fire. The match continues from a near-empty world; the fallen remember where they fell.</p></div>
     </div>
 
-    <h2>11 · Wager &amp; Rake</h2>
-    <p>Each player antes the entry fee at match start. Settlement: winner gets <b>95%</b> of the pot, house takes <b>5%</b> rake. Wallet persists across matches in your profile.</p>
+    <h2>11 · Access</h2>
+    <p>No in-match wager. Matches are free to play; full access is <b>pay-to-play platform access</b> (after the free user grab). Your profile and stats persist across matches.</p>
 
     <h2>Strategy Tips</h2>
     <div class="tip">Place your nodes so the resulting barrier LINES <b>cut your enemy's lanes, not your own</b>. The glowing tubes and the cells under them are the actual impassable terrain — everything else stays normal play space.</div>
@@ -11037,7 +11028,6 @@ log('Click <b>Start match</b> when ready.');
     {name:'PHASE', val:'plot', shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
     {name:'ROUND', val:'3',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
     {name:'TURN',  val:'P1',   shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
-    {name:'POT',   val:'240',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
     {name:'☀NEXT', val:'2',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
     {name:'☾NEXT', val:'4',    shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
     {name:'BARRIER',val:'up',  shape:'trap', color:C.tele, corner:'TL', size:1, kind:'tele'},
