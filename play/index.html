@@ -11084,7 +11084,7 @@ log('Click <b>Start match</b> when ready.');
 
   const field=new THREE.Group(); scene.add(field);
   const GRAY=new THREE.Color(0x6f7892);
-  let tiles=[];
+  let tiles=[], heroLabels=[];
   function addTile(def,x,y,idx){
     const geo=geo3D(def,idx);
     const mat=new THREE.MeshStandardMaterial({color:GRAY.clone(),emissive:0x0a1018,emissiveIntensity:0.32,
@@ -11095,7 +11095,8 @@ log('Click <b>Start match</b> when ready.');
       on:def.kind==='toggle'&&!!def.defaultOn, tele:def.kind==='tele', r:TS*nodeSize(def)};
     mesh.userData.rec=rec; field.add(grp); tiles.push(rec);
   }
-  function clearField(){ for(const r of tiles){ field.remove(r.grp); r.mat.dispose(); r.geo.dispose(); } tiles=[]; }
+  function clearField(){ for(const r of tiles){ field.remove(r.grp); r.mat.dispose(); r.geo.dispose(); } tiles=[];
+    for(const sp of heroLabels){ field.remove(sp); if(sp.material.map)sp.material.map.dispose(); sp.material.dispose(); } heroLabels=[]; }
 
   const glyphGroup=new THREE.Group(); scene.add(glyphGroup);
   const GLYPH={TL:'▦', TR:'▤', BL:'◉', BR:'▶'};
@@ -11121,7 +11122,7 @@ log('Click <b>Start match</b> when ready.');
     x.clearRect(0,0,256,96); x.textAlign='center'; x.textBaseline='middle'; x.font='700 50px "Futura","Space Grotesk",system-ui,sans-serif';
     x.lineJoin='round'; x.lineWidth=9; x.strokeStyle='rgba(2,10,6,0.92)'; x.strokeText(text,128,52); x.fillStyle='#06120a'; x.fillText(text,128,52);
     const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),transparent:true,opacity:0.98,depthTest:false}));
-    sp.scale.set(TS*4.4, TS*4.4*96/256, 1); sp.position.set(rec.base.x, rec.base.y, rec.r*2.6+0.5); sp.renderOrder=21; field.add(sp); }
+    sp.scale.set(TS*4.4, TS*4.4*96/256, 1); sp.position.set(rec.base.x, rec.base.y, rec.r*2.6+0.5); sp.renderOrder=21; field.add(sp); heroLabels.push(sp); }
   function roundedRectShape(w,h,r){ const s=new THREE.Shape(), x=-w/2, y=-h/2;
     s.moveTo(x+r,y); s.lineTo(x+w-r,y); s.quadraticCurveTo(x+w,y,x+w,y+r); s.lineTo(x+w,y+h-r);
     s.quadraticCurveTo(x+w,y+h,x+w-r,y+h); s.lineTo(x+r,y+h); s.quadraticCurveTo(x,y+h,x,y+h-r);
@@ -11177,7 +11178,10 @@ log('Click <b>Start match</b> when ready.');
     let Kr=0; while((Kr+1)*(Kr+2)/2 < nMax) Kr++;
     const triLeg=(Kr+2.0)*G_SP;
     const liveCorners=[];
-    for(const k of ['TL','TR','BL','BR']){ if(byC[k].length){ layoutTriCluster(k,byC[k],triLeg); addGlyph(k,cc[k]); addTriBacking(k,triLeg,cc[k]); liveCorners.push({k}); } }
+    for(const k of ['TL','TR','BL','BR']){
+      addTriBacking(k,triLeg,cc[k]);   // ALWAYS draw the frame triangle (stable 4-corner frame)
+      if(byC[k].length){ layoutTriCluster(k,byC[k],triLeg); addGlyph(k,cc[k]); }
+      liveCorners.push({k}); }
     buildReadouts(liveCorners, triLeg);   // one hover-readout per triangle (nearest-corner only)
     const hy=-visH*0.84;
     heroes.forEach((d,i)=> addTile(d,(i?1:-1)*4.0,hy,i));
