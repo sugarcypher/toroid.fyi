@@ -11362,14 +11362,19 @@ log('Click <b>Start match</b> when ready.');
     const nm = LABELS[r.def.name] || r.def.name;
     const txt = nm + (r.tele&&r.def.val!=null?': '+r.def.val:'') + (r.on?' ·ON':'');
     setReadout(r.def.corner || 'BC', txt); }
+  function clearHover(){ if(hovered){ hovered=null; document.body.style.cursor=''; showRec(null); } }
   window.addEventListener('pointermove',ev=>{ if(ev.pointerType==='touch')return; const r=onBoard(ev)?pickRec(ev):null;
-    if(r!==hovered){ hovered=r; document.body.style.cursor=r?'pointer':''; showRec(r||selected); } }, true);
+    if(r!==hovered){ hovered=r; document.body.style.cursor=r?'pointer':''; showRec(r); } }, true);
+  window.addEventListener('pointerout',ev=>{ if(!ev.relatedTarget) clearHover(); });   // pointer left the window → drop hover
+  window.addEventListener('blur', clearHover);
   window.addEventListener('mousedown',ev=>{ if(onBoard(ev)&&pickRec(ev)) ev.stopPropagation(); }, true);
   window.addEventListener('click',ev=>{ if(onBoard(ev)&&pickRec(ev)) ev.stopPropagation(); }, true);
   window.addEventListener('pointerdown',ev=>{ if(onBoard(ev)&&pickRec(ev)){ downXY=[ev.clientX,ev.clientY]; ev.stopPropagation(); } else downXY=null; }, true);
   window.addEventListener('pointerup',ev=>{ if(!downXY) return; const m=Math.hypot(ev.clientX-downXY[0],ev.clientY-downXY[1]); downXY=null;
     const r=pickRec(ev); if(!r) return; ev.stopPropagation(); if(m>6) return;
-    if(r.def.kind==='toggle') r.on=!r.on; r.pulse=1; selected=r; showRec(r); dispatch(r); }, true);
+    // momentary action: toggles flip their on-state, everything else just pulses
+    // and returns (do NOT persist 'selected', or buttons stay ejected).
+    if(r.def.kind==='toggle') r.on=!r.on; r.pulse=1; showRec(r); dispatch(r); }, true);
 
   function onResize(){ const w=innerWidth,h=innerHeight,a=w/h; camera.aspect=a; camera.updateProjectionMatrix();
     renderer.setSize(w,h); computeLayout(a); hovered=selected=null; build(); buildDataStrips(); buildSolar(); }
@@ -11390,7 +11395,7 @@ log('Click <b>Start match</b> when ready.');
   function animate(){ requestAnimationFrame(animate);
     const t=(performance.now()-_t0)/1000;
     { const _cc=camColor(); for(let i=0;i<triLines.length;i++) triLines[i].color.setHex(_cc); }   // triangle edges = camera-mode colour
-    for(const r of tiles){ const hero=r.def.hero; const want=(r===hovered||r===selected||r.on||hero)?1:0;
+    for(const r of tiles){ const hero=r.def.hero; const want=(r===hovered||r.on||hero)?1:0;
       if(want===0 && r.hover<0.001 && !r.pulse && !r.tele) continue;
       r.hover += (want-r.hover)*0.22; if(r.pulse){ r.pulse*=0.9; if(r.pulse<0.02)r.pulse=0; } const pulse=r.pulse||0;
       let k=Math.min(1, r.hover+pulse*0.6);
