@@ -6939,6 +6939,15 @@ async function netCreateRoom(seats){
     if (r.code) netJoinRoom(r.code); else log('🌐 room creation failed.');
   } catch (e){ log('<b style="color:var(--bad)">🌐 cannot reach server</b> — ' + netBase()); }
 }
+// Quick Play — matchmaking: paired into a waiting room of the chosen size, or host a fresh one.
+async function netQuickPlay(seats){
+  try {
+    seats = Math.max(2, Math.min(6, seats || (typeof G !== 'undefined' && G.playerCount) || 2));
+    const r = await fetch(netBase() + '/api/quickplay?seats=' + seats).then(r => r.json());
+    if (r.code){ log(r.matched ? '🌐 <b>matched</b> — joining…' : '🌐 hosting a quick ' + seats + '-player room — waiting for players…'); netJoinRoom(r.code); }
+    else log('🌐 matchmaking failed.');
+  } catch (e){ log('<b style="color:var(--bad)">🌐 cannot reach server</b> — ' + netBase()); }
+}
 function netJoinRoom(code){
   code = String(code).toUpperCase().trim();
   NET.status = 'connecting'; NET.code = code; renderHUD();
@@ -6997,6 +7006,7 @@ function netLobbyHTML(){
     '<hr style="border:none;border-top:1px solid var(--border);margin:10px 0">' +
     '<div class="row" style="gap:6px;align-items:center;flex-wrap:wrap">' +
       '<span class="pill">🌐 ONLINE</span>' +
+      '<button id="net-quick" class="good" style="padding:6px 11px">⚡ Quick Play</button>' +
       '<button id="net-create" class="ghost" style="padding:6px 11px">Create room</button>' +
       '<input id="net-code" placeholder="CODE" maxlength="5" style="width:64px;text-transform:uppercase;font-family:ui-monospace,Menlo,monospace;padding:6px;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:inherit">' +
       '<button id="net-join" class="ghost" style="padding:6px 11px">Join</button>' +
@@ -7015,6 +7025,7 @@ function netLobbyHTML(){
     '<p class="hint small" style="margin-top:4px">' + (NET.status === 'playing' ? 'Match starting…' : 'Share the code — the match auto-starts when all seats fill.') + '</p>';
 }
 function netWireLobby(){
+  const q = document.getElementById('net-quick'); if (q) q.onclick = () => netQuickPlay();
   const c = document.getElementById('net-create'); if (c) c.onclick = () => netCreateRoom();
   const j = document.getElementById('net-join'), inp = document.getElementById('net-code');
   if (j && inp) j.onclick = () => { if (inp.value.trim()) netJoinRoom(inp.value); };
