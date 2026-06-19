@@ -6836,10 +6836,36 @@ function netBase(){
   return (p || localStorage.getItem('sches-server') || 'https://sches.13531nxt.workers.dev').replace(/\/$/, '');
 }
 function netName(){
+  if (schAuth.user) return schAuth.user.handle;       // prefer the signed-in account
   let n = localStorage.getItem('sches-player-name');
   if (!n){ n = 'P' + Math.floor(1000 + Math.random() * 9000); localStorage.setItem('sches-player-name', n); }
   return n;
 }
+
+/* ---- Cloud accounts (D1-backed; talks to the Sches Worker) ----
+   Token in localStorage['sches-token']; schAuth.user is the cached session.
+   Used for multiplayer identity now; the full cloud-native Profile UI + match/
+   MMR write-back are the remaining step-4 client polish. */
+const schAuth = {
+  user: null, profile: null, stat: null, entitlement: null,
+  token(){ return localStorage.getItem('sches-token') || ''; },
+  async api(path, opts = {}){
+    const r = await fetch(netBase() + path, {
+      method: opts.method || 'GET',
+      headers: { 'content-type': 'application/json', ...(this.token() ? { authorization: 'Bearer ' + this.token() } : {}) },
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || ('http ' + r.status));
+    return j;
+  },
+  async register(handle, password){ const j = await this.api('/api/auth/register', { method: 'POST', body: { handle, password } }); localStorage.setItem('sches-token', j.token); await this.refresh(); return j; },
+  async login(handle, password){ const j = await this.api('/api/auth/login', { method: 'POST', body: { handle, password } }); localStorage.setItem('sches-token', j.token); await this.refresh(); return j; },
+  async logout(){ try { await this.api('/api/auth/logout', { method: 'POST' }); } catch (e){} localStorage.removeItem('sches-token'); this.user = this.profile = this.stat = this.entitlement = null; },
+  async refresh(){ if (!this.token()){ this.user = null; return null; } try { const j = await this.api('/api/me'); this.user = j.user; this.profile = j.profile; this.stat = j.stat; this.entitlement = j.entitlement; return j; } catch (e){ if (/401|unauth/i.test(e.message)) localStorage.removeItem('sches-token'); this.user = null; return null; } },
+};
+// Load the session on boot (non-blocking).
+schAuth.refresh().then(() => { if (schAuth.user) log(`<b>👤 signed in</b> as <b>${schAuth.user.handle}</b> · ${schAuth.entitlement?.tier || 'free'} tier.`); }).catch(() => {});
 function netSend(type, data){
   if (!NET.ws || NET.ws.readyState !== 1){ log('<b style="color:var(--bad)">🌐 not connected — action dropped.</b>'); sfx('invalid'); return; }
   NET.ws.send(JSON.stringify({ t:'input', payload:{ type, data } }));
@@ -10206,6 +10232,7 @@ function renderProfileModal(){
         setActiveSession(p.key);
         log(`<b>👤 Logged in:</b> ${p.name} (wallet ${p.wallet} ⛁).`);
         sfx('reward');
+        try { await schAuth.login(name, pw); } catch (ce){ /* cloud account optional; local login still valid */ }
         // Daily login bonus — claim automatically on successful login.
         const bonus = DB.claimDailyBonus(p.key);
         if (bonus.claimed){
@@ -10232,6 +10259,8 @@ function renderProfileModal(){
         setActiveSession(p.key);
         log(`<b>👤 Created profile:</b> ${p.name}.`);
         sfx('reward');
+        try { await schAuth.register(name, pw); log('<b>☁ cloud account created</b> — stats & multiplayer identity synced.'); }
+        catch (ce){ log('<span class="small" style="color:var(--muted)">☁ cloud signup skipped (' + ce.message + ') — local profile works; use an 8+ char password and an a–z/0–9/_ name to enable cloud.</span>'); }
         profileTab = 'stats';
         renderProfileModal();
         renderHUD();
@@ -10243,6 +10272,7 @@ function renderProfileModal(){
   if (logoutBtn){
     logoutBtn.onclick = () => {
       setActiveSession(null);
+      schAuth.logout();
       seatAssignments[0] = seatAssignments[1] = seatAssignments[2] = seatAssignments[3] = null;
       profileTab = 'login';
       renderProfileModal();
