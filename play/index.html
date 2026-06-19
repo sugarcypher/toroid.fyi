@@ -6831,7 +6831,9 @@ const NET = {
 };
 function netBase(){
   const p = new URLSearchParams(location.search).get('server');
-  return (p || localStorage.getItem('sches-server') || location.origin).replace(/\/$/, '');
+  // Default to the deployed Sches relay Worker; override with ?server= or
+  // localStorage['sches-server'] for local dev (wrangler dev on :8787).
+  return (p || localStorage.getItem('sches-server') || 'https://sches.13531nxt.workers.dev').replace(/\/$/, '');
 }
 function netName(){
   let n = localStorage.getItem('sches-player-name');
