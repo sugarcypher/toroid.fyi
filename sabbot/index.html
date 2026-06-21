@@ -561,6 +561,37 @@
   }
   body.dark-mode footer.instrument-footer code { background: rgba(255,255,255,0.06); }
   footer.instrument-footer strong { color: var(--text); }
+
+  /* TEMPORAL-DYNAMICS LAYER (v0.2) */
+  .temporal-section { background: var(--panel-bg); border:1px solid var(--panel-border); padding:22px 28px 26px; border-radius:3px; margin-top:28px; }
+  .temporal-section h2 { font-size:15.5px; font-weight:600; letter-spacing:-0.005em; margin-bottom:6px; }
+  .temporal-section .compare-subtitle { font-size:11.5px; color:var(--text-muted); margin-bottom:16px; }
+  .temporal-section h3 { font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:700; margin:22px 0 10px; }
+  .temporal-section p { font-size:11.5px; line-height:1.55; color:var(--text-muted); margin-bottom:10px; }
+  .temporal-section p strong { color:var(--text); }
+  .construct-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:14px 0 6px; }
+  @media (max-width:680px){ .construct-grid { grid-template-columns:1fr; } }
+  .construct-card { border:1px solid var(--panel-border); border-radius:3px; padding:12px 14px; }
+  .construct-card .ct-name { font-weight:700; font-size:11.5px; color:var(--text); margin-bottom:4px; }
+  .construct-card .ct-formula { font-family:'SF Mono',Menlo,monospace; font-size:11px; color:var(--tab-cell-ref); margin-bottom:6px; }
+  .construct-card .ct-desc { font-size:10.5px; line-height:1.5; color:var(--text-muted); }
+  .demo-banner { font-size:10.5px; font-weight:700; letter-spacing:0.02em; color:var(--score-mid); border:1px dashed var(--score-mid); border-radius:3px; padding:8px 12px; margin:6px 0 14px; line-height:1.5; }
+  .vel-metric-row { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
+  .vel-metric { border:1px solid var(--panel-border); border-radius:3px; padding:10px 14px; min-width:150px; }
+  .vel-metric .vm-label { font-size:9.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:700; margin-bottom:3px; }
+  .vel-metric .vm-value { font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--text); }
+  .vel-metric .vm-sub { font-size:10px; color:var(--text-muted); margin-top:2px; }
+  .temporal-table { width:100%; border-collapse:collapse; font-size:11.5px; margin-top:6px; }
+  .temporal-table th { text-align:left; padding:8px 10px 8px 0; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:700; border-bottom:1px solid var(--panel-border-strong); white-space:nowrap; }
+  .temporal-table th.center { text-align:center; padding:8px 6px; }
+  .temporal-table td { padding:9px 10px 9px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+  body.dark-mode .temporal-table td { border-bottom-color:rgba(255,255,255,0.05); }
+  .temporal-table td.center { text-align:center; padding:9px 6px; font-variant-numeric:tabular-nums; font-weight:600; }
+  .vpos { color:var(--score-high); } .vneg { color:var(--score-low); }
+  .control-divider td { font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:700; padding-top:16px; }
+  .control-row td { font-style:italic; color:var(--text-muted); }
+  .pred-pill { display:inline-block; padding:3px 9px; font-size:10.5px; font-weight:700; border-radius:2px; border:1px dashed var(--panel-border-strong); font-style:normal; }
+  .await-note { font-size:10.5px; color:var(--text-muted); font-style:italic; line-height:1.55; }
 </style>
 </head>
 <body translate="yes">
@@ -663,6 +694,41 @@
       <!-- Rendered by JS -->
     </tbody>
   </table>
+</div>
+
+<!-- TEMPORAL-DYNAMICS LAYER (v0.2) -->
+<div class="temporal-section">
+  <h2>Temporal-dynamics layer <span style="font-weight:400;color:var(--text-muted);">· v0.2 module</span></h2>
+  <p class="compare-subtitle">The static index scores regime <em>state</em>. This layer adds the derivatives the static instrument structurally cannot provide — how fast the signature moves, how fast the engineered population grows, and whether onsets cluster in time. Destruction is a rate, not a state.</p>
+
+  <div class="construct-grid">
+    <div class="construct-card">
+      <div class="ct-name">Signature velocity</div>
+      <div class="ct-formula">V = Σ wᵢ·(dSᵢ/dt)</div>
+      <div class="ct-desc">Per-dimension and composite rate of change across dated epochs, in index-points per quarter. Positive = intensifying engineered signature; near-zero on a high score = entrenched equilibrium, not active capture.</div>
+    </div>
+    <div class="construct-card">
+      <div class="ct-name">Breadth-velocity</div>
+      <div class="ct-formula">B(t) = ΔN₇₀ / Δt</div>
+      <div class="ct-desc">Rate at which architectures cross the engineered threshold (≥70), against a fixed denominator. The formal version of "all levels at once." Valid only with the full frame — including negative controls — in the denominator.</div>
+    </div>
+    <div class="construct-card">
+      <div class="ct-name">Onset synchrony</div>
+      <div class="ct-formula">Σ = 1 − (σ_τ / σ_null)</div>
+      <div class="ct-desc">Temporal concentration of threshold-crossings vs an independent-onset null. Σ→1: far more bunched than chance (coordination signal); Σ→0: indistinguishable from independent drift. Falsifiable — read only as excess over a historical transition baseline.</div>
+    </div>
+  </div>
+
+  <h3>Live computation — illustrative dataset</h3>
+  <div class="demo-banner">⚠ ILLUSTRATIVE SYNTHETIC DATA — abstract architectures α / β / γ. These are NOT real agency scores; they exist only to demonstrate that the machinery computes. The six seed architectures await longitudinal back-scoring (≥3 dated epochs each) before any real velocity, breadth, or synchrony is shown.</div>
+  <div class="vel-metric-row" id="vel-system-metrics"></div>
+  <table class="temporal-table">
+    <thead><tr><th>Illustrative architecture</th><th class="center">epochs</th><th class="center">composite (latest)</th><th class="center">V (pts/qtr)</th><th class="center">onset τ</th></tr></thead>
+    <tbody id="vel-tbody"></tbody>
+  </table>
+
+  <h3>Real architectures — longitudinal status</h3>
+  <p class="await-note" id="vel-real-status">—</p>
 </div>
 
 <footer class="instrument-footer">
@@ -1408,8 +1474,120 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
   document.getElementById('theme-toggle').blur();
 });
 
+// ============================================================================
+// TEMPORAL-DYNAMICS LAYER (v0.2): velocity, breadth-velocity, synchrony
+// ============================================================================
+
+// Real seed architectures await longitudinal back-scoring — epochs intentionally empty.
+const REAL_EPOCHS = { doge:[], obbba:[], ice:[], irs:[], nih:[], va:[] };
+
+// ILLUSTRATIVE synthetic series (abstract architectures) — demonstrates the math ONLY.
+// t in quarters; s = per-dimension scores. No real-agency claims are encoded here.
+const DEMO_EPOCHS = {
+  'Illustrative α': [
+    { t:0, s:{s1_outcome:48,s2_domain:40,s3_remediation:38,s4_recruitment:42,s5_information:52} },
+    { t:1, s:{s1_outcome:66,s2_domain:58,s3_remediation:55,s4_recruitment:60,s5_information:71} },
+    { t:2, s:{s1_outcome:82,s2_domain:74,s3_remediation:70,s4_recruitment:76,s5_information:88} }
+  ],
+  'Illustrative β': [
+    { t:0, s:{s1_outcome:40,s2_domain:36,s3_remediation:34,s4_recruitment:38,s5_information:44} },
+    { t:1, s:{s1_outcome:58,s2_domain:52,s3_remediation:50,s4_recruitment:55,s5_information:64} },
+    { t:2, s:{s1_outcome:78,s2_domain:70,s3_remediation:66,s4_recruitment:72,s5_information:84} }
+  ],
+  'Illustrative γ': [
+    { t:0, s:{s1_outcome:30,s2_domain:28,s3_remediation:26,s4_recruitment:30,s5_information:32} },
+    { t:1, s:{s1_outcome:36,s2_domain:34,s3_remediation:33,s4_recruitment:36,s5_information:38} },
+    { t:2, s:{s1_outcome:44,s2_domain:42,s3_remediation:40,s4_recruitment:44,s5_information:46} }
+  ]
+};
+
+function compositeOfScores(s){ return Math.round(Object.keys(WEIGHTS).reduce((a,k)=>a+WEIGHTS[k]*s[k],0)); }
+
+function velocityOf(series){
+  if(series.length<2) return null;
+  const a=series[series.length-2], b=series[series.length-1];
+  const dt=(b.t-a.t)||1;
+  let V=0;
+  for(const k of Object.keys(WEIGHTS)){ V+=WEIGHTS[k]*((b.s[k]-a.s[k])/dt); }
+  return +V.toFixed(1);
+}
+
+// first time composite crosses >=70, linearly interpolated within the crossing interval
+function onsetTime(series){
+  for(let i=0;i<series.length;i++){
+    if(compositeOfScores(series[i].s)>=70){
+      if(i===0) return series[0].t;
+      const p=series[i-1], c=series[i];
+      const cp=compositeOfScores(p.s), cc=compositeOfScores(c.s);
+      const frac=(70-cp)/((cc-cp)||1);
+      return +(p.t+frac*(c.t-p.t)).toFixed(2);
+    }
+  }
+  return null;
+}
+
+function breadthAndSynchrony(dataset){
+  const entries=Object.entries(dataset).filter(([,s])=>s.length);
+  const allT=[...new Set(entries.flatMap(([,s])=>s.map(e=>e.t)))].sort((a,b)=>a-b);
+  const N70=allT.map(t=>({t, n:entries.filter(([,s])=>{ const e=s.find(x=>x.t===t); return e&&compositeOfScores(e.s)>=70; }).length}));
+  let B=null;
+  if(N70.length>=2){ const a=N70[N70.length-2], b=N70[N70.length-1]; B=+(((b.n-a.n)/((b.t-a.t)||1)).toFixed(2)); }
+  const onsets=entries.map(([,s])=>onsetTime(s)).filter(v=>v!==null);
+  let Sigma=null, sigTau=null;
+  if(onsets.length>=2){
+    const mean=onsets.reduce((a,v)=>a+v,0)/onsets.length;
+    sigTau=Math.sqrt(onsets.reduce((a,v)=>a+(v-mean)**2,0)/onsets.length);
+    const sigNull=((allT[allT.length-1]-allT[0])/Math.sqrt(12))||1; // dispersion of uniform onset over window
+    Sigma=+(1-sigTau/sigNull).toFixed(2);
+  }
+  return { N70, B, Sigma, sigTau };
+}
+
+function renderTemporal(){
+  const tbody=document.getElementById('vel-tbody');
+  tbody.innerHTML=Object.entries(DEMO_EPOCHS).map(([name,series])=>{
+    const comp=compositeOfScores(series[series.length-1].s);
+    const V=velocityOf(series); const tau=onsetTime(series);
+    const vCls=V===null?'':(V>0?'vpos':'vneg');
+    return `<tr><td>${name}</td><td class="center">${series.length}</td><td class="center">${comp}</td>
+      <td class="center ${vCls}">${V===null?'—':(V>0?'+':'')+V}</td>
+      <td class="center">${tau===null?'—':tau}</td></tr>`;
+  }).join('');
+
+  const bs=breadthAndSynchrony(DEMO_EPOCHS);
+  const latest=bs.N70[bs.N70.length-1];
+  document.getElementById('vel-system-metrics').innerHTML=`
+    <div class="vel-metric"><div class="vm-label">N₇₀ (latest epoch)</div><div class="vm-value">${latest.n}/${Object.keys(DEMO_EPOCHS).length}</div><div class="vm-sub">architectures ≥70 at t=${latest.t}</div></div>
+    <div class="vel-metric"><div class="vm-label">Breadth-velocity B(t)</div><div class="vm-value">${bs.B===null?'—':(bs.B>0?'+':'')+bs.B}</div><div class="vm-sub">crossings ≥70 / quarter</div></div>
+    <div class="vel-metric"><div class="vm-label">Onset synchrony Σ</div><div class="vm-value">${bs.Sigma===null?'—':bs.Sigma}</div><div class="vm-sub">vs independent-onset null (σ_τ=${bs.sigTau===null?'—':bs.sigTau.toFixed(2)})</div></div>`;
+
+  const ready=Object.values(REAL_EPOCHS).filter(s=>s.length>=2).length;
+  document.getElementById('vel-real-status').textContent =
+    `${ready} of ${Object.keys(REAL_EPOCHS).length} seed architectures have ≥2 dated epochs. Velocity, breadth-velocity, and synchrony for the real seeds remain uncomputed pending evidence-anchored back-scoring at ≥3 epochs (target: 2025-Q1 / 2025-Q3 / 2026-Q1). No synthetic agency figures are published here by design.`;
+}
+
+// ============================================================================
+// NEGATIVE CONTROLS (pre-registered predictions; not yet evidence-scored)
+// ============================================================================
+const CONTROLS = [
+  { name:'C1 — IHS chronic underfunding', band:'Genuine (0–30)', test:'S2,S3' },
+  { name:'C2 — Reinventing Government (1993–2000)', band:'Genuine–low Mixed (<35)', test:'S1,S5 — key test' },
+  { name:'C3 — HealthCare.gov (2013)', band:'Genuine (0–30)', test:'S3 inversion' },
+  { name:'C4 — opposite-valence policy', band:'Mixed (30–70), unpinned', test:'analyst-bias' },
+  { name:'C5 — well-functioning function', band:'Genuine floor (0–15)', test:'baseline' }
+];
+
+function renderControls(){
+  const tbody=document.getElementById('comparison-tbody');
+  const divider=`<tr class="control-divider"><td colspan="7">Negative controls — pre-registered predictions (not yet evidence-scored)</td></tr>`;
+  const rows=CONTROLS.map(c=>`<tr class="control-row"><td>${c.name}</td><td colspan="5" style="text-align:center;"><span class="pred-pill">predicted: ${c.band}</span></td><td class="center" style="font-size:10px;font-style:normal;">${c.test}</td></tr>`).join('');
+  tbody.insertAdjacentHTML('beforeend', divider+rows);
+}
+
 // Initial render
 renderComparison();
+renderControls();
+renderTemporal();
 renderArchitecture('doge');
 </script>
 </body>
