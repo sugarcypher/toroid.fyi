@@ -606,6 +606,25 @@
   .gloss-entry dt { font-weight:700; font-size:12px; color:var(--text); margin-bottom:3px; }
   .gloss-entry dd { margin:0; font-size:11px; line-height:1.55; color:var(--text-muted); }
   .gloss-entry dd a { color:var(--tab-cell-ref); }
+
+  /* RESOURCE-OPERATIONS LAYER (candidate dimensions) */
+  .resourceops-section { background:var(--panel-bg); border:1px solid var(--panel-border); padding:22px 28px 26px; border-radius:3px; margin-top:28px; }
+  .resourceops-section h2 { font-size:15.5px; font-weight:600; letter-spacing:-0.005em; margin-bottom:6px; }
+  .resourceops-section h2 .ro-badge { font-weight:700; font-size:9.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--score-mid); border:1px dashed var(--score-mid); border-radius:2px; padding:2px 7px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+  .resourceops-section .compare-subtitle { font-size:11.5px; color:var(--text-muted); margin-bottom:14px; line-height:1.55; }
+  .resourceops-section h3 { font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:700; margin:22px 0 10px; }
+  .ro-table { width:100%; border-collapse:collapse; font-size:11px; margin-top:4px; }
+  .ro-table th { text-align:left; padding:8px 10px 8px 0; font-size:9.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:700; border-bottom:1px solid var(--panel-border-strong); vertical-align:bottom; }
+  .ro-table td { padding:9px 10px 9px 0; border-bottom:1px solid rgba(0,0,0,0.05); vertical-align:top; line-height:1.5; }
+  body.dark-mode .ro-table td { border-bottom-color:rgba(255,255,255,0.05); }
+  .ro-dim-id { font-weight:700; color:var(--text); white-space:nowrap; }
+  .ro-case { font-weight:600; color:var(--text); }
+  .ro-tag { display:inline-block; font-size:9px; color:var(--text-muted); border:1px solid var(--panel-border-strong); border-radius:2px; padding:1px 5px; margin:1px 2px 1px 0; white-space:nowrap; }
+  .ro-pass { color:var(--score-high); font-weight:700; }
+  .ro-low { color:var(--score-low); font-weight:700; }
+  .ro-result { border:1px solid var(--panel-border); border-radius:3px; padding:14px 16px; font-size:11.5px; line-height:1.6; color:var(--text-muted); }
+  .ro-result .ro-rho { font-size:22px; font-weight:700; color:var(--text); font-variant-numeric:tabular-nums; }
+  .ro-result strong { color:var(--text); }
 </style>
 </head>
 <body translate="yes">
@@ -750,6 +769,24 @@
     <thead><tr><th>Placeholder (sandbox)</th><th class="center">checkpoints</th><th class="center">latest score</th><th class="center">velocity (pts/qtr)</th><th class="center">crossed ≥70 at</th></tr></thead>
     <tbody id="vel-tbody"></tbody>
   </table>
+</div>
+
+<!-- RESOURCE-OPERATIONS LAYER (candidate) -->
+<div class="resourceops-section" id="resource-ops">
+  <h2>Resource-operations layer <span class="ro-badge">candidate · outside the composite index</span></h2>
+  <p class="compare-subtitle">The five signatures measure how an architecture is run. This layer measures <strong>active operations on public resources and power</strong> — generating cost, spending force, or inflicting harm for a non-public payoff. These dimensions are <strong>candidates</strong>: documented and scored against negative controls, but deliberately <em>not</em> folded into the composite Obfuscratic Sabbotarchy Index until a pre-registered, expanded scoring validates them. Events are tagged occurred / contested; intent and causation are tagged separately from the events.</p>
+
+  <h3>The four operations on the resource axis</h3>
+  <table class="ro-table" id="ro-dims"></table>
+
+  <h3>Worked anchors (2025–26)</h3>
+  <table class="ro-table" id="ro-anchors"></table>
+
+  <h3>First S6 selective-allocation computation</h3>
+  <div class="ro-result" id="ro-s6"></div>
+
+  <h3>Negative controls — validation (all returned LOW)</h3>
+  <table class="ro-table" id="ro-controls"></table>
 </div>
 
 <!-- GLOSSARY -->
@@ -1690,10 +1727,57 @@ function linkifyGlossary(root){
   });
 }
 
+// ============================================================================
+// RESOURCE-OPERATIONS LAYER (candidate dimensions S6/S7/S8 + S3 link)
+// ============================================================================
+const RESOURCE_OPS = {
+  dims: [
+    ['S3','Anti-remediation','existing','block or refuse an available fix','the fix itself','preserve exploitable dysfunction','2024 bipartisan border bill killed'],
+    ['S6','Selective-allocation asymmetry','candidate · redefined','resource aligned needs, skip greater ones','money / relief','financial capture + political alignment','Argentina swap; $1.776B self-settlement fund'],
+    ['S7','Asset/standing dissipation','candidate','expend force, lives, and legality','military assets, personnel, rule-of-law','political leverage + spectacle','Caribbean/Pacific boat strikes; Maduro capture'],
+    ['S8','Induced-harm coercion','candidate','create or deepen a crisis in a target population','target-population welfare','geopolitical coercion','Cuba oil blockade; Venezuela pre-capture pressure']
+  ],
+  anchors: [
+    ['$1.776B "Anti-Weaponization Fund" / IRS self-settlement','S6 · passing',['occurred: structure','contested: payouts'],'Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund.'],
+    ['Argentina $20B currency swap','S6 · signal',['occurred','repayment corroborated'],'A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction.'],
+    ['Caribbean / Pacific boat strikes','S7',['occurred','intent contested'],'200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only.'],
+    ['Venezuela','S8 → S7 → S6 chain',['occurred'],'Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed into U.S.-controlled accounts (S6). Not a bailout — the flow is extraction.'],
+    ['Cuba oil blockade','S8',['occurred','causal share contested'],'Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality up to 9.9/1000, UN warns children dying. Scored on major-proximate-cause contribution, not sole cause.'],
+    ['Immigration enforcement','S3 → S6 chain',['occurred: structure'],'2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). "Entire system manufactured" overreaches — migration itself is not US-made.']
+  ],
+  controls: [
+    ['S6','COVID-19 ACIP vaccine allocation (2020)','doses tracked mortality / exposure risk — genuine triage'],
+    ['S7','1991 Gulf War (Desert Storm)','real threat, UN + congressional authorization, defined aim'],
+    ['S8','UNSCR 2664 / OFAC humanitarian licenses (2022)','humanitarian carve-outs preserved; no instrumentalized harm']
+  ]
+};
+
+function renderResourceOps(){
+  const dims = document.getElementById('ro-dims');
+  if(!dims) return;
+  dims.innerHTML =
+    '<thead><tr><th>Dim</th><th>Operation</th><th>Mechanism</th><th>What moves</th><th>Payoff</th><th>Anchor case</th></tr></thead><tbody>' +
+    RESOURCE_OPS.dims.map(d=>`<tr><td class="ro-dim-id">${d[0]}<br><span style="font-weight:400;font-size:9px;color:var(--text-muted);">${d[2]}</span></td><td><strong>${d[1]}</strong></td><td>${d[3]}</td><td>${d[4]}</td><td>${d[5]}</td><td>${d[6]}</td></tr>`).join('') +
+    '</tbody>';
+  document.getElementById('ro-anchors').innerHTML =
+    '<thead><tr><th>Case</th><th>Dimension</th><th>Tags</th><th>Finding</th></tr></thead><tbody>' +
+    RESOURCE_OPS.anchors.map(a=>`<tr><td class="ro-case">${a[0]}</td><td>${a[1]}</td><td>${a[2].map(t=>`<span class="ro-tag">${t}</span>`).join('')}</td><td>${a[3]}</td></tr>`).join('') +
+    '</tbody>';
+  document.getElementById('ro-s6').innerHTML =
+    `<span class="ro-rho">ρ = −0.57</span> &nbsp;(Spearman, n = 9) — allocation runs <strong>against</strong> need.<br>` +
+    `Highest-mortality crises are cut hardest (USAID-cut populations, OBBBA Medicaid, SNAP, overdose response); lowest-humanitarian-need cases are funded most (border enforcement +~$170B; Argentina). The payoff conjunction holds. ` +
+    `<strong>Caveats, stated plainly:</strong> at n = 9 this is <em>not</em> statistically significant (critical ≈ 0.70); and de-biasing the first pass — a mechanical death-based need metric over an expanded population — <em>shrank</em> the figure from −0.89 to −0.57. The inversion is directionally robust but moderate. Graduating S6 from candidate to scored requires a pre-registered population of 15–20 crises fixed from an external index before allocation is examined.`;
+  document.getElementById('ro-controls').innerHTML =
+    '<thead><tr><th>Dim</th><th>Control instance</th><th>Predicted</th><th>Result</th></tr></thead><tbody>' +
+    RESOURCE_OPS.controls.map(c=>`<tr><td class="ro-dim-id">${c[0]}</td><td>${c[1]}</td><td>LOW</td><td><span class="ro-low">LOW</span> — ${c[2]}</td></tr>`).join('') +
+    '</tbody>';
+}
+
 // Initial render
 renderComparison();
 renderControls();
 renderTemporal();
+renderResourceOps();
 renderArchitecture('doge');
 linkifyGlossary(document.querySelector('.container'));
 </script>
