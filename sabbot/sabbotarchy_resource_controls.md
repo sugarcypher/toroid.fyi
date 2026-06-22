@@ -43,21 +43,21 @@ Each component is normalized and the need-score is their fixed-weight sum (provi
 
 ### S6 control — genuine triage (predicted LOW)
 
-*Candidate:* a documented disaster-response or public-health allocation in which resources flowed to the most severe, time-critical needs first (e.g., a major hurricane or pandemic response where deployment tracked casualty and exposure data).
+*Named instance:* **U.S. COVID-19 vaccine phased allocation, Dec 2020 (CDC/ACIP Phase 1a → 1b/1c).** Doses were allocated first to health-care personnel and long-term-care residents, then by descending age/comorbidity risk — i.e., allocation explicitly tracked mortality and exposure risk. This is the genuine-triage profile: allocation-rank positively correlated with need-rank.
 *Prediction:* **Genuine band (0–30).** Need-rank and allocation-rank positively correlated (ρ > 0); no inverse-to-need-plus-payoff pattern.
 *Decisive test:* the ρ statistic and the payoff conjunction.
 *Falsification trigger:* if a genuine-triage case scores in the engineered band, the need-ranking metric is miscalibrated or the payoff conjunction is being applied too loosely — S6 is not yet usable.
 
 ### S7 control — genuine national-security action (predicted LOW)
 
-*Candidate:* a use of force against a real, imminent threat, with congressional authorization (or clear statutory basis), proportionate means, and a strategic public benefit — scored on the same four-part test as the candidate S7 cases.
+*Named instance:* **the 1991 Gulf War (Operation Desert Storm).** UN Security Council Resolution 678 authorized force; the U.S. Congress authorized it (Jan 12 1991); a broad coalition acted to a defined, limited aim (reverse Iraq's annexation of Kuwait) and stopped on achieving it. Real threat, lawful authorization, proportionate-to-aim means, restored-sovereignty public benefit — the lawful-force profile S7 must score low.
 *Prediction:* **Genuine band (0–30).** Justification not manufactured (real threat); assets expended toward a public-strategic end; not primarily factional/spectacle.
 *Decisive test:* test 1 (manufactured pretext?) and test 4 (factional vs. public payoff?).
 *Falsification trigger:* if a lawful, proportionate, publicly-beneficial action scores engineered, S7 is reading ordinary statecraft as signature and must be tightened before use. (S7 is already the most intent-exposed dimension; this control is its principal safeguard.)
 
 ### S8 control — carve-out-preserving targeted sanction (predicted LOW)
 
-*Candidate:* a targeted sanctions regime that retained explicit humanitarian carve-outs for food and medicine and produced no measurable civilian-mortality effect.
+*Named instance:* **UN Security Council Resolution 2664 (Dec 9 2022) and the parallel OFAC humanitarian general licenses.** These established a standing humanitarian carve-out across UN (and U.S.) sanctions regimes, explicitly exempting food, medicine, and humanitarian transactions — designed precisely to prevent population-level civilian harm. Carve-outs preserved, no instrumentalized immiseration — the profile S8 must score low. (Contrast with S8's passing anchors, where the carve-outs are *removed* — the Cuba oil/fuel blockade producing the documented pediatric toll.)
 *Prediction:* **Genuine band (0–30).** Harm not deliberately inflicted on a civilian population; no instrumentalized immiseration.
 *Decisive test:* test 1 (deliberate causation of civilian harm?) and test 2 (harm falls on non-combatants?).
 *Falsification trigger:* if a carve-out-preserving sanction scores as induced-harm coercion, S8 is conflating *any* sanction with weaponized suffering — the signature must be the *removal* of carve-outs and resulting population-level harm, not sanctions per se.
@@ -79,7 +79,14 @@ The pairing is the point: a dimension earns the right to score its passing ancho
 - Predictions and the need-ranking metric are **locked** at this publication; amendments dated and logged.
 - Formal scoring of any architecture on S6 / S7 / S8 remains blocked until each control is scored and returns its predicted low band.
 - The candidate dimensions stay **outside the composite Obfuscratic Sabbotarchy Index** until validated (carried from v0.3 §14.9).
-- Next: identify and name the specific control architectures (the §15.2 candidates are categories; each needs one named, dated instance with its evidence anchors) and assemble the S6 crisis population with its four named sources.
+- Control instances are now **named and dated** (§15.2): COVID-19 vaccine ACIP allocation (S6), the 1991 Gulf War (S7), UNSCR 2664 / OFAC humanitarian general licenses (S8). Remaining: formally score each by the rubric, and assemble the S6 crisis population with its four named sources.
+
+## 15.5 Second-anchor results (June 2026 verification)
+
+Two passing anchors from v0.3 §14.8 were re-checked against neutral sources, per the rule that a partisan or interested origin must be corroborated before locking. Both were revised; one materially.
+
+- **$1.776B "Anti-Weaponization Fund" (was "$1.8B slush fund").** Neutral sources (DOJ release, NBC, Wikipedia, *Time*) revise the picture: the settlement gives plaintiffs **a formal apology and no monetary damages**, and the durable secured benefit is the **IRS being "forever barred" from auditing past returns of Trump, family, or their companies**; meanwhile Acting AG Blanche testified DOJ would **not proceed** with the fund. Net effect: the cash-payout/"slush fund" framing is demoted to *contested / possibly cancelled*, and the S6 anchor is re-grounded on the documented self-settlement structure + audit-bar (which hold regardless of the fund). The dimension still passes — but on stronger, documented terms. This is the second-anchor discipline working as designed: the neutral check weakened the weak part and hardened the case.
+- **Argentina $20B swap.** Repayment of the ~$2.5B drawn is now **independently corroborated** (Reuters, Bloomberg, Buenos Aires Herald, UPI; central bank settled Dec 2025), upgrading it from interested-source (Bessent) to occurred. Only the "tens of millions in profit" gloss remains Bessent's characterization. Conclusion unchanged: Argentina is a *selective-allocation* signal (real crisis, selected by alignment), not extraction.
 
 ---
 
