@@ -562,7 +562,7 @@
   body.dark-mode footer.instrument-footer code { background: rgba(255,255,255,0.06); }
   footer.instrument-footer strong { color: var(--text); }
 
-  /* TEMPORAL-DYNAMICS LAYER (v0.2) */
+  /* TEMPORAL-DYNAMICS LAYER (part of v0.4) */
   .temporal-section { background: var(--panel-bg); border:1px solid var(--panel-border); padding:22px 28px 26px; border-radius:3px; margin-top:28px; }
   .temporal-section h2 { font-size:15.5px; font-weight:600; letter-spacing:-0.005em; margin-bottom:6px; }
   .temporal-section .compare-subtitle { font-size:11.5px; color:var(--text-muted); margin-bottom:16px; }
@@ -711,10 +711,11 @@
   <p class="compare-note" style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-top:14px;"><strong style="color:var(--text);">About the negative controls (bottom rows).</strong> These are cases we expect to score <em>low</em> — including a deliberately near-identical historical case, the 1990s "Reinventing Government" federal workforce cuts. Listing them, and committing to an expected band <em>before</em> running the scoring, is how this instrument shows it can return a low score rather than only ever confirming high ones. The dates are when each case <em>operated</em>; the band is a pre-committed estimate, not a forecast. None are evidence-scored yet — they mark the validity test still to be run.</p>
 </div>
 
-<!-- TEMPORAL-DYNAMICS LAYER (v0.2) -->
+<!-- TEMPORAL-DYNAMICS LAYER (part of v0.4) -->
 <div class="temporal-section">
-  <h2>Temporal-dynamics layer <span style="font-weight:400;color:var(--text-muted);">· v0.2 module</span></h2>
+  <h2>Temporal-dynamics layer</h2>
   <p class="compare-subtitle">The comparison table above is a <em>snapshot</em> — each architecture's five-signature score at one moment. This layer adds <strong>time</strong>: it tracks the same five signatures across dated checkpoints to answer three questions the snapshot cannot.</p>
+  <p style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-bottom:10px;"><strong style="color:var(--text);">How it connects:</strong> this is not a separate tool — it is the time-derivative of <em>this</em> instrument. It runs on the same five signatures and the same six architectures in the comparison table above, and (once scored) on the candidate resource-operations dimensions S6–S8 documented in the methodology increments. The real-architecture table is the first one below; the abstract sandbox sits beneath it only to show the formulas compute.</p>
   <p style="font-size:11.5px;line-height:1.6;color:var(--text-muted);margin-bottom:4px;"><strong style="color:var(--text);">In plain terms:</strong> (1) <strong>velocity</strong> — is an architecture's engineered-incompetence score <em>rising</em>, and how fast? A score of 80 reached slowly (an old, settled dysfunction) is not the same as 80 reached in a year (an active capture). (2) <strong>breadth-velocity</strong> — how quickly are <em>new</em> architectures crossing into the engineered band? This is the "everything at once" feeling, made into a number. (3) <strong>synchrony</strong> — when architectures cross the line, do they cross <em>together</em>? Coordinated programs cross in clusters; unrelated dysfunction crosses at random times. Synchrony is the one number here that can come out <em>against</em> the coordination claim — which is exactly why it's worth measuring.</p>
 
   <div class="construct-grid">
@@ -735,19 +736,19 @@
     </div>
   </div>
 
-  <h3>Worked example — how the math behaves <span style="font-weight:400;text-transform:none;letter-spacing:0;">(sandbox, not real data)</span></h3>
-  <div class="demo-banner">⚠ This block runs on three <strong>made-up placeholder architectures</strong> (α / β / γ) so you can see the formulas actually compute. These are not agencies and not claims about anything — they are a sandbox. The real six (below) stay blank on purpose until each is scored at three dated checkpoints.</div>
+  <h3>The real six architectures — longitudinal status</h3>
+  <p class="await-note">The same six architectures as the comparison table above. Each needs its five signatures re-scored at three dated checkpoints (target: 2025-Q1 · 2025-Q3 · 2026-Q1) before a real velocity can be shown. None are back-scored yet, so all read <em>awaiting</em> — no invented numbers are published in their place. <strong>This table is where the layer joins the rest of the instrument;</strong> the sandbox beneath it only proves the formulas run.</p>
+  <table class="temporal-table" style="margin-top:10px;">
+    <thead><tr><th>Architecture</th><th class="center">current snapshot</th><th class="center">checkpoints scored</th><th class="center">velocity</th></tr></thead>
+    <tbody id="vel-real-tbody"></tbody>
+  </table>
+
+  <h3 style="margin-top:24px;">Formula demonstration <span style="font-weight:400;text-transform:none;letter-spacing:0;">— sandbox, not real data</span></h3>
+  <div class="demo-banner">⚠ The rows below are three <strong>made-up placeholder architectures</strong> (α / β / γ) that exist only so you can watch velocity, breadth-velocity, and synchrony actually compute. They are not agencies and assert nothing. Once the real six above are back-scored, the same machinery runs on them and this sandbox is retired.</div>
   <div class="vel-metric-row" id="vel-system-metrics"></div>
   <table class="temporal-table">
     <thead><tr><th>Placeholder (sandbox)</th><th class="center">checkpoints</th><th class="center">latest score</th><th class="center">velocity (pts/qtr)</th><th class="center">crossed ≥70 at</th></tr></thead>
     <tbody id="vel-tbody"></tbody>
-  </table>
-
-  <h3>The real six architectures — longitudinal status</h3>
-  <p class="await-note">These are the same six from the comparison table. Each needs its five signatures re-scored at three dated checkpoints (target: 2025-Q1 · 2025-Q3 · 2026-Q1) before a real velocity can be shown. None are back-scored yet, so all read <em>awaiting</em> — and no invented numbers are published in their place.</p>
-  <table class="temporal-table" style="margin-top:10px;">
-    <thead><tr><th>Architecture</th><th class="center">current snapshot</th><th class="center">checkpoints scored</th><th class="center">velocity</th></tr></thead>
-    <tbody id="vel-real-tbody"></tbody>
   </table>
 </div>
 
@@ -1517,7 +1518,7 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 });
 
 // ============================================================================
-// TEMPORAL-DYNAMICS LAYER (v0.2): velocity, breadth-velocity, synchrony
+// TEMPORAL-DYNAMICS LAYER (part of v0.4): velocity, breadth-velocity, synchrony
 // ============================================================================
 
 // Real seed architectures await longitudinal back-scoring — epochs intentionally empty.
