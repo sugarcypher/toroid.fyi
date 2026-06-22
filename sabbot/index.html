@@ -634,6 +634,13 @@
   .ro-step b { color:var(--tab-cell-ref); }
   .ro-arrow { display:flex; align-items:center; padding:0 9px; color:var(--text-muted); font-size:15px; }
   .ro-slope-wrap { overflow-x:auto; padding-top:4px; }
+  /* candidate signature cards + integrated resource-ops subheads */
+  .sig-preview-card.sig-cand { border:1px dashed var(--score-mid) !important; }
+  .sig-preview-card.sig-cand .sig-num { color:var(--score-mid); }
+  .sig-preview-card.sig-cand .sig-weight { color:var(--score-mid); font-weight:600; }
+  .ro-badge { font-weight:700; font-size:9.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--score-mid); border:1px dashed var(--score-mid); border-radius:2px; padding:2px 7px; margin-left:8px; vertical-align:middle; white-space:nowrap; }
+  .comparison-section h3.ro-subhead { font-size:13px; font-weight:600; letter-spacing:-0.005em; margin:26px 0 4px; }
+  .comparison-section h4.ro-subhead2 { font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); font-weight:700; margin:20px 0 8px; }
 </style>
 </head>
 <body translate="yes">
@@ -684,6 +691,21 @@
     <div class="sig-name">Information-Architecture Asymmetry</div>
     <div class="sig-weight">weight: 0.30</div>
   </div>
+  <div class="sig-preview-card sig-cand">
+    <div class="sig-num">Signature 6 · candidate</div>
+    <div class="sig-name">Selective-Allocation Asymmetry</div>
+    <div class="sig-weight">outside index</div>
+  </div>
+  <div class="sig-preview-card sig-cand">
+    <div class="sig-num">Signature 7 · candidate</div>
+    <div class="sig-name">Asset / Standing Dissipation</div>
+    <div class="sig-weight">outside index</div>
+  </div>
+  <div class="sig-preview-card sig-cand">
+    <div class="sig-num">Signature 8 · candidate</div>
+    <div class="sig-name">Induced-Harm Coercion</div>
+    <div class="sig-weight">outside index</div>
+  </div>
 </div>
 
 <!-- ARCHITECTURE SELECTOR -->
@@ -719,7 +741,7 @@
 <!-- CROSS-ARCHITECTURE COMPARISON -->
 <div class="comparison-section">
   <h2>Cross-architecture comparison</h2>
-  <p class="compare-subtitle">All six seed architectures scored on each of the five signature dimensions. Click any row to load that architecture above.</p>
+  <p class="compare-subtitle">Six seed architectures scored on the five signature dimensions (click a row to load it above), followed by the candidate resource-operations cases (S6–S8, outside the composite index) and the pre-registered negative controls.</p>
   <table class="comparison-table" id="comparison-table">
     <thead>
       <tr>
@@ -737,6 +759,21 @@
     </tbody>
   </table>
   <p class="compare-note" style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-top:14px;"><strong style="color:var(--text);">About the negative controls (bottom rows).</strong> These are cases we expect to score <em>low</em> — including a deliberately near-identical historical case, the 1990s "Reinventing Government" federal workforce cuts. Listing them, and committing to an expected band <em>before</em> running the scoring, is how this instrument shows it can return a low score rather than only ever confirming high ones. The dates are when each case <em>operated</em>; the band is a pre-committed estimate, not a forecast. None are evidence-scored yet — they mark the validity test still to be run.</p>
+
+  <h3 class="ro-subhead">Resource-operations layer <span class="ro-badge">candidate · outside the composite index</span></h3>
+  <p class="compare-subtitle">Beyond <em>how</em> an architecture is run (S1–S5), these candidate dimensions measure active operations on public resources and power — generating cost, spending force, or inflicting harm for a non-public payoff. They are <strong>not</strong> in the composite index; the worked cases sit in the table above (the S6–S8 group). Events are tagged occurred / contested; intent and causation are tagged separately.</p>
+  <table class="ro-table" id="ro-dims"></table>
+
+  <h4 class="ro-subhead2">Cross-operation chains</h4>
+  <p class="compare-subtitle" style="margin-bottom:8px;">The dimensions chain on a single target — the meta-signature, harder to explain as a string of independent good-faith choices than any one operation alone.</p>
+  <div id="ro-chains"></div>
+
+  <h4 class="ro-subhead2">First S6 selective-allocation computation</h4>
+  <div class="ro-result" id="ro-s6"></div>
+
+  <h4 class="ro-subhead2">Where the money goes vs. where the need is</h4>
+  <p class="compare-subtitle" style="margin-bottom:6px;">Each crisis connects its <em>need</em> rank (left, by attributable deaths) to its <em>funding</em> rank (right). Crossing lines are the inversion the ρ statistic measures.</p>
+  <div class="ro-slope-wrap" id="ro-slope"></div>
 </div>
 
 <!-- TEMPORAL-DYNAMICS LAYER (part of v0.4) -->
@@ -778,32 +815,6 @@
     <thead><tr><th>Placeholder (sandbox)</th><th class="center">checkpoints</th><th class="center">latest score</th><th class="center">velocity (pts/qtr)</th><th class="center">crossed ≥70 at</th></tr></thead>
     <tbody id="vel-tbody"></tbody>
   </table>
-</div>
-
-<!-- RESOURCE-OPERATIONS LAYER (candidate) -->
-<div class="resourceops-section" id="resource-ops">
-  <h2>Resource-operations layer <span class="ro-badge">candidate · outside the composite index</span></h2>
-  <p class="compare-subtitle">The five signatures measure how an architecture is run. This layer measures <strong>active operations on public resources and power</strong> — generating cost, spending force, or inflicting harm for a non-public payoff. These dimensions are <strong>candidates</strong>: documented and scored against negative controls, but deliberately <em>not</em> folded into the composite Obfuscratic Sabbotarchy Index until a pre-registered, expanded scoring validates them. Events are tagged occurred / contested; intent and causation are tagged separately from the events.</p>
-
-  <h3>The four operations on the resource axis</h3>
-  <table class="ro-table" id="ro-dims"></table>
-
-  <h3>Worked anchors (2025–26)</h3>
-  <table class="ro-table" id="ro-anchors"></table>
-
-  <h3>Cross-operation chains</h3>
-  <p class="compare-subtitle" style="margin-bottom:8px;">The dimensions are not independent — they chain on a single target. Chaining is the meta-signature: harder to explain as a string of independent good-faith choices than any one operation alone.</p>
-  <div id="ro-chains"></div>
-
-  <h3>First S6 selective-allocation computation</h3>
-  <div class="ro-result" id="ro-s6"></div>
-
-  <h3>Where the money goes vs. where the need is</h3>
-  <p class="compare-subtitle" style="margin-bottom:6px;">Each crisis connects its <em>need</em> rank (left, by attributable deaths) to its <em>funding</em> rank (right). Crossing lines are the inversion the ρ statistic measures.</p>
-  <div class="ro-slope-wrap" id="ro-slope"></div>
-
-  <h3>Negative controls — validation (all returned LOW)</h3>
-  <table class="ro-table" id="ro-controls"></table>
 </div>
 
 <!-- GLOSSARY -->
@@ -1684,11 +1695,20 @@ const CONTROLS = [
   { name:'C5 — well-functioning function', band:'Genuine floor (0–15)', test:'baseline' }
 ];
 
+function renderResourceCases(){
+  const tbody=document.getElementById('comparison-tbody');
+  const divider=`<tr class="control-divider"><td colspan="7">Resource-operations cases — candidate dimensions S6–S8 (outside the composite index; events tagged occurred / contested)</td></tr>`;
+  const rows=RESOURCE_OPS.anchors.map(a=>`<tr class="control-row"><td>${a[0]}</td><td colspan="6"><span class="ro-tag" style="font-style:normal;font-weight:700;">${a[1]}</span> ${a[2].map(t=>`<span class="ro-tag" style="font-style:normal;">${t}</span>`).join('')}<div style="font-style:normal;font-size:10px;color:var(--text-muted);margin-top:3px;line-height:1.45;">${a[3]}</div></td></tr>`).join('');
+  tbody.insertAdjacentHTML('beforeend', divider+rows);
+}
+
 function renderControls(){
   const tbody=document.getElementById('comparison-tbody');
   const divider=`<tr class="control-divider"><td colspan="7">Negative controls — validity check · expected band committed before scoring (not yet evidence-scored)</td></tr>`;
   const rows=CONTROLS.map(c=>`<tr class="control-row"><td>${c.name}</td><td colspan="5" style="text-align:center;"><span class="pred-pill">expected: ${c.band}</span></td><td class="center" style="font-size:10px;font-style:normal;">${c.test}</td></tr>`).join('');
-  tbody.insertAdjacentHTML('beforeend', divider+rows);
+  const roDivider=`<tr class="control-divider"><td colspan="7">Resource-operations controls (S6–S8) — all returned LOW</td></tr>`;
+  const roRows=RESOURCE_OPS.controls.map(c=>`<tr class="control-row"><td>${c[1]}</td><td colspan="5"><span class="ro-tag" style="font-style:normal;font-weight:700;">${c[0]}</span> ${c[2]}</td><td class="center" style="font-style:normal;"><span class="ro-low">LOW</span></td></tr>`).join('');
+  tbody.insertAdjacentHTML('beforeend', divider+rows+roDivider+roRows);
 }
 
 // ============================================================================
@@ -1813,24 +1833,17 @@ function renderResourceOps(){
     '<thead><tr><th>Dim</th><th>Operation</th><th>Mechanism</th><th>What moves</th><th>Payoff</th><th>Anchor case</th></tr></thead><tbody>' +
     RESOURCE_OPS.dims.map(d=>`<tr><td class="ro-dim-id">${d[0]}<br><span style="font-weight:400;font-size:9px;color:var(--text-muted);">${d[2]}</span></td><td><strong>${d[1]}</strong></td><td>${d[3]}</td><td>${d[4]}</td><td>${d[5]}</td><td>${d[6]}</td></tr>`).join('') +
     '</tbody>';
-  document.getElementById('ro-anchors').innerHTML =
-    '<thead><tr><th>Case</th><th>Dimension</th><th>Tags</th><th>Finding</th></tr></thead><tbody>' +
-    RESOURCE_OPS.anchors.map(a=>`<tr><td class="ro-case">${a[0]}</td><td>${a[1]}</td><td>${a[2].map(t=>`<span class="ro-tag">${t}</span>`).join('')}</td><td>${a[3]}</td></tr>`).join('') +
-    '</tbody>';
   document.getElementById('ro-s6').innerHTML =
     `<span class="ro-rho">ρ = −0.57</span> &nbsp;(Spearman, n = 9) — allocation runs <strong>against</strong> need.<br>` +
     `Highest-mortality crises are cut hardest (USAID-cut populations, OBBBA Medicaid, SNAP, overdose response); lowest-humanitarian-need cases are funded most (border enforcement +~$170B; Argentina). The payoff conjunction holds. ` +
     `<strong>Caveats, stated plainly:</strong> at n = 9 this is <em>not</em> statistically significant (critical ≈ 0.70); and de-biasing the first pass — a mechanical death-based need metric over an expanded population — <em>shrank</em> the figure from −0.89 to −0.57. The inversion is directionally robust but moderate. Graduating S6 from candidate to scored requires a pre-registered population of 15–20 crises fixed from an external index before allocation is examined.`;
-  document.getElementById('ro-controls').innerHTML =
-    '<thead><tr><th>Dim</th><th>Control instance</th><th>Predicted</th><th>Result</th></tr></thead><tbody>' +
-    RESOURCE_OPS.controls.map(c=>`<tr><td class="ro-dim-id">${c[0]}</td><td>${c[1]}</td><td>LOW</td><td><span class="ro-low">LOW</span> — ${c[2]}</td></tr>`).join('') +
-    '</tbody>';
   document.getElementById('ro-chains').innerHTML = roChains();
   document.getElementById('ro-slope').innerHTML = roSlope();
 }
 
 // Initial render
 renderComparison();
+renderResourceCases();
 renderControls();
 renderTemporal();
 renderResourceOps();
