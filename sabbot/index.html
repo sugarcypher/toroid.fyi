@@ -1782,32 +1782,13 @@ function linkifyGlossary(root){
 // ============================================================================
 // RESOURCE-OPERATIONS LAYER (candidate dimensions S6/S7/S8 + S3 link)
 // ============================================================================
-const RESOURCE_OPS = {
-  dims: [
-    ['S3','Anti-remediation','existing','block or refuse an available fix','the fix itself','preserve exploitable dysfunction','2024 bipartisan border bill killed'],
-    ['S6','Selective-allocation asymmetry','candidate · redefined','resource aligned needs, skip greater ones','money / relief','financial capture + political alignment','Argentina swap; $1.776B self-settlement fund'],
-    ['S7','Asset/standing dissipation','candidate','expend force, lives, and legality','military assets, personnel, rule-of-law','political leverage + spectacle','Caribbean/Pacific boat strikes; Maduro capture'],
-    ['S8','Induced-harm coercion','candidate','create or deepen a crisis in a target population','target-population welfare','geopolitical coercion','Cuba oil blockade; Venezuela pre-capture pressure']
-  ],
-  anchors: [
-    ['$1.776B "Anti-Weaponization Fund" / IRS self-settlement','S6 · passing',['occurred: structure','contested: payouts'],'Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund.'],
-    ['Argentina $20B currency swap','S6 · signal',['occurred','repayment corroborated'],'A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction.'],
-    ['Caribbean / Pacific boat strikes','S7',['occurred','intent contested'],'200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only.'],
-    ['Venezuela','S8 → S7 → S6 chain',['occurred'],'Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed into U.S.-controlled accounts (S6). Not a bailout — the flow is extraction.'],
-    ['Cuba oil blockade','S8',['occurred','causal share contested'],'Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality up to 9.9/1000, UN warns children dying. Scored on major-proximate-cause contribution, not sole cause.'],
-    ['Immigration enforcement','S3 → S6 chain',['occurred: structure'],'2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). "Entire system manufactured" overreaches — migration itself is not US-made.']
-  ],
-  controls: [
-    ['S6','COVID-19 ACIP vaccine allocation (2020)','doses tracked mortality / exposure risk — genuine triage'],
-    ['S7','1991 Gulf War (Desert Storm)','real threat, UN + congressional authorization, defined aim'],
-    ['S8','UNSCR 2664 / OFAC humanitarian licenses (2022)','humanitarian carve-outs preserved; no instrumentalized harm']
-  ]
-};
-
-const RO_CHAINS = [
-  ['Immigration', ['S3 · block the 2024 bipartisan fix','sustained crisis','S6 · +$170B detention capture (B040)']],
-  ['Venezuela', ['S8 · pressure + oil blockade','S7 · strikes → Maduro capture','S6 · oil → U.S.-controlled accounts']]
-];
+/* SSOT-GEN:START (generated from data/sabbotarchy.json by build/sync.mjs — do not hand-edit) */
+const SAB_VERSION = "v0.4";
+const RESOURCE_OPS = {"dims":[["S3","Anti-remediation","existing","block or refuse an available fix","the fix itself","preserve exploitable dysfunction","2024 bipartisan border bill killed"],["S6","Selective-allocation asymmetry","candidate · redefined","resource aligned needs, skip greater ones","money / relief","financial capture + political alignment","Argentina swap; $1.776B self-settlement fund"],["S7","Asset/standing dissipation","candidate","expend force, lives, and legality","military assets, personnel, rule-of-law","political leverage + spectacle","Caribbean/Pacific boat strikes; Maduro capture"],["S8","Induced-harm coercion","candidate","create or deepen a crisis in a target population","target-population welfare","geopolitical coercion","Cuba oil blockade; Venezuela pre-capture pressure"]],"anchors":[["$1.776B \"Anti-Weaponization Fund\" / IRS self-settlement","S6 · passing",["occurred: structure","contested: payouts"],"Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund."],["Argentina $20B currency swap","S6 · signal",["occurred","repayment corroborated"],"A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction."],["Caribbean / Pacific boat strikes","S7",["occurred","intent contested"],"200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only."],["Venezuela","S8 → S7 → S6 chain",["occurred"],"Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed into U.S.-controlled accounts (S6). Not a bailout — the flow is extraction."],["Cuba oil blockade","S8",["occurred","causal share contested"],"Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality up to 9.9/1000, UN warns children dying. Scored on major-proximate-cause contribution, not sole cause."],["Immigration enforcement","S3 → S6 chain",["occurred: structure"],"2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). \"Entire system manufactured\" overreaches — migration itself is not US-made."]],"controls":[["S6","COVID-19 ACIP vaccine allocation (2020)","doses tracked mortality / exposure risk — genuine triage"],["S7","1991 Gulf War (Desert Storm)","real threat, UN + congressional authorization, defined aim"],["S8","UNSCR 2664 / OFAC humanitarian licenses (2022)","humanitarian carve-outs preserved; no instrumentalized harm"]]};
+const RO_CHAINS = [["Immigration",["S3 · block the 2024 bipartisan fix","sustained crisis","S6 · +$170B detention capture (B040)"]],["Venezuela",["S8 · pressure + oil blockade","S7 · strikes → Maduro capture","S6 · oil → U.S.-controlled accounts"]]];
+const DIM_META = {"S3":{"name":"Anti-remediation","measures":"How resistance to correction varies with the cost of the fix — the signature is resisting cheap or even negative-cost fixes.","test":["A fix is available?","Resistance disproportionate to its (low) cost?","Cheap / transparency fixes resisted as hard as expensive ones?","Resistance protects the dysfunction itself?"],"control":"a genuinely under-resourced agency → positive cost-resistance slope (LOW)"},"S6":{"name":"Selective-Allocation Asymmetry","measures":"Whether resource deployment tracks NEED or PAYOFF across the whole portfolio of crises.","test":["Allocation decoupled / inverted vs need? (Spearman ρ)","Resourced set shares a capture or alignment payoff?","Comparable-or-greater needs systematically skipped?","Framed as fiscal prudence / necessity?"],"control":"COVID-19 ACIP vaccine allocation (2020) → LOW (tracked mortality risk)"},"S7":{"name":"Asset / Standing Dissipation","measures":"Expenditure of force, lives, and legal legitimacy for a non-public, factional payoff under a manufactured pretext.","test":["Manufactured / pretextual justification?","Assets, lives, or legality expended?","Net public value low vs the stated aim?","Factional / spectacle payoff rather than public-strategic?"],"control":"1991 Gulf War → LOW (real threat, authorized, defined aim)"},"S8":{"name":"Induced-Harm Coercion","measures":"Deliberate creation or deepening of a humanitarian crisis in a target population, used as a coercion lever.","test":["Harm caused or materially deepened by deliberate action?","Harm falls on a civilian / non-combatant population?","Instrumentalized — tied to a coercive demand?","Obfuscated as something other than what it is?"],"control":"UNSCR 2664 / OFAC humanitarian licenses (2022) → LOW (carve-outs preserved)"}};
+const S6 = {"rho":"−0.57","rhoFirst":"−0.89","n":9,"needOrder":["USAID","Overdose","Firearm","Medicaid","SNAP","Maternal","Disaster","Border","Argentina"],"allocOrder":["Border","Argentina","Maternal","Firearm","Overdose","Disaster","USAID","SNAP","Medicaid"]};
+/* SSOT-GEN:END */
 function roChains(){
   return RO_CHAINS.map(ch=>{
     const steps = ch[1].map((s,i)=>{
@@ -1819,8 +1800,8 @@ function roChains(){
   }).join('');
 }
 function roSlope(){
-  const need = ['USAID','Overdose','Firearm','Medicaid','SNAP','Maternal','Disaster','Border','Argentina'];
-  const allocOrder = ['Border','Argentina','Maternal','Firearm','Overdose','Disaster','USAID','SNAP','Medicaid'];
+  const need = S6.needOrder;
+  const allocOrder = S6.allocOrder;
   const needRank = {}, allocRank = {};
   need.forEach((c,i)=>needRank[c]=i);
   allocOrder.forEach((c,i)=>allocRank[c]=i);
@@ -1837,16 +1818,9 @@ function roSlope(){
   need.forEach(c=>{const y=y0+needRank[c]*dy; s+=`<circle cx="${x0}" cy="${y}" r="3" fill="var(--text-muted)"/><text x="${x0-8}" y="${y+3}" text-anchor="end" font-size="10" fill="var(--text)">${c}</text>`;});
   allocOrder.forEach((c,i)=>{const y=y0+i*dy; s+=`<circle cx="${x1}" cy="${y}" r="3" fill="var(--text-muted)"/><text x="${x1+8}" y="${y+3}" text-anchor="start" font-size="10" fill="var(--text)">${c}</text>`;});
   s += `</svg>`;
-  s += `<div style="font-size:9.5px;color:var(--text-muted);margin-top:6px;line-height:1.5;"><span style="color:var(--accent-red);font-weight:700;">red</span> = high need, under-funded · <span style="color:var(--score-mid);font-weight:700;">gold</span> = low need, over-funded · gray = funding tracks need. Heavy crossing = the inversion (ρ = −0.57, n = 9; directionally robust, not yet significant).</div>`;
+  s += `<div style="font-size:9.5px;color:var(--text-muted);margin-top:6px;line-height:1.5;"><span style="color:var(--accent-red);font-weight:700;">red</span> = high need, under-funded · <span style="color:var(--score-mid);font-weight:700;">gold</span> = low need, over-funded · gray = funding tracks need. Heavy crossing = the inversion (ρ = ${S6.rho}, n = ${S6.n}; directionally robust, not yet significant).</div>`;
   return s;
 }
-
-const DIM_META = {
-  S3:{name:'Anti-remediation',measures:'How resistance to correction varies with the cost of the fix — the signature is resisting cheap or even negative-cost fixes.',test:['A fix is available?','Resistance disproportionate to its (low) cost?','Cheap / transparency fixes resisted as hard as expensive ones?','Resistance protects the dysfunction itself?'],control:'a genuinely under-resourced agency → positive cost-resistance slope (LOW)'},
-  S6:{name:'Selective-Allocation Asymmetry',measures:'Whether resource deployment tracks NEED or PAYOFF across the whole portfolio of crises.',test:['Allocation decoupled / inverted vs need? (Spearman ρ)','Resourced set shares a capture or alignment payoff?','Comparable-or-greater needs systematically skipped?','Framed as fiscal prudence / necessity?'],control:'COVID-19 ACIP vaccine allocation (2020) → LOW (tracked mortality risk)'},
-  S7:{name:'Asset / Standing Dissipation',measures:'Expenditure of force, lives, and legal legitimacy for a non-public, factional payoff under a manufactured pretext.',test:['Manufactured / pretextual justification?','Assets, lives, or legality expended?','Net public value low vs the stated aim?','Factional / spectacle payoff rather than public-strategic?'],control:'1991 Gulf War → LOW (real threat, authorized, defined aim)'},
-  S8:{name:'Induced-Harm Coercion',measures:'Deliberate creation or deepening of a humanitarian crisis in a target population, used as a coercion lever.',test:['Harm caused or materially deepened by deliberate action?','Harm falls on a civilian / non-combatant population?','Instrumentalized — tied to a coercive demand?','Obfuscated as something other than what it is?'],control:'UNSCR 2664 / OFAC humanitarian licenses (2022) → LOW (carve-outs preserved)'}
-};
 
 function roTypologySVG(){
   const nodes=[['S6','give money','var(--score-mid)',72],['S7','spend force / lives','var(--accent-red)',182],['S3','withhold the fix','var(--text-muted)',300],['S8','destroy welfare','var(--accent-red)',410]];
@@ -1896,9 +1870,9 @@ function renderResourceOps(){
     RESOURCE_OPS.dims.map(d=>`<tr><td class="ro-dim-id">${d[0]}<br><span style="font-weight:400;font-size:9px;color:var(--text-muted);">${d[2]}</span></td><td><strong>${d[1]}</strong></td><td>${d[3]}</td><td>${d[4]}</td><td>${d[5]}</td><td>${d[6]}</td></tr>`).join('') +
     '</tbody>';
   document.getElementById('ro-s6').innerHTML =
-    `<span class="ro-rho">ρ = −0.57</span> &nbsp;(Spearman, n = 9) — allocation runs <strong>against</strong> need.<br>` +
+    `<span class="ro-rho">ρ = ${S6.rho}</span> &nbsp;(Spearman, n = ${S6.n}) — allocation runs <strong>against</strong> need.<br>` +
     `Highest-mortality crises are cut hardest (USAID-cut populations, OBBBA Medicaid, SNAP, overdose response); lowest-humanitarian-need cases are funded most (border enforcement +~$170B; Argentina). The payoff conjunction holds. ` +
-    `<strong>Caveats, stated plainly:</strong> at n = 9 this is <em>not</em> statistically significant (critical ≈ 0.70); and de-biasing the first pass — a mechanical death-based need metric over an expanded population — <em>shrank</em> the figure from −0.89 to −0.57. The inversion is directionally robust but moderate. Graduating S6 from candidate to scored requires a pre-registered population of 15–20 crises fixed from an external index before allocation is examined.`;
+    `<strong>Caveats, stated plainly:</strong> at n = ${S6.n} this is <em>not</em> statistically significant (critical ≈ 0.70); and de-biasing the first pass — a mechanical death-based need metric over an expanded population — <em>shrank</em> the figure from ${S6.rhoFirst} to ${S6.rho}. The inversion is directionally robust but moderate. Graduating S6 from candidate to scored requires a pre-registered population of 15–20 crises fixed from an external index before allocation is examined.`;
   document.getElementById('ro-chains').innerHTML = roChains();
   document.getElementById('ro-slope').innerHTML = roSlope();
 }
