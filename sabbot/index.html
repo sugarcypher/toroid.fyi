@@ -592,6 +592,20 @@
   .control-row td { font-style:italic; color:var(--text-muted); }
   .pred-pill { display:inline-block; padding:3px 9px; font-size:10.5px; font-weight:700; border-radius:2px; border:1px dashed var(--panel-border-strong); font-style:normal; }
   .await-note { font-size:10.5px; color:var(--text-muted); font-style:italic; line-height:1.55; }
+
+  /* GLOSSARY + term links */
+  .gloss-link { color:var(--tab-cell-ref); text-decoration:none; border-bottom:1px dotted var(--tab-cell-ref); cursor:pointer; }
+  .gloss-link:hover { border-bottom-style:solid; }
+  .glossary-section { background:var(--panel-bg); border:1px solid var(--panel-border); padding:22px 28px 26px; border-radius:3px; margin-top:28px; }
+  .glossary-section h2 { font-size:15.5px; font-weight:600; letter-spacing:-0.005em; margin-bottom:6px; }
+  .glossary-section .compare-subtitle { font-size:11.5px; color:var(--text-muted); margin-bottom:14px; }
+  .gloss-dl { margin:0; }
+  .gloss-entry { padding:11px 0; border-bottom:1px solid rgba(0,0,0,0.05); scroll-margin-top:20px; }
+  body.dark-mode .gloss-entry { border-bottom-color:rgba(255,255,255,0.05); }
+  .gloss-entry:target { background:rgba(202,138,4,0.10); }
+  .gloss-entry dt { font-weight:700; font-size:12px; color:var(--text); margin-bottom:3px; }
+  .gloss-entry dd { margin:0; font-size:11px; line-height:1.55; color:var(--text-muted); }
+  .gloss-entry dd a { color:var(--tab-cell-ref); }
 </style>
 </head>
 <body translate="yes">
@@ -694,12 +708,14 @@
       <!-- Rendered by JS -->
     </tbody>
   </table>
+  <p class="compare-note" style="font-size:11px;line-height:1.6;color:var(--text-muted);margin-top:14px;"><strong style="color:var(--text);">About the negative controls (bottom rows).</strong> These are cases we expect to score <em>low</em> — including a deliberately near-identical historical case, the 1990s "Reinventing Government" federal workforce cuts. Listing them, and committing to an expected band <em>before</em> running the scoring, is how this instrument shows it can return a low score rather than only ever confirming high ones. The dates are when each case <em>operated</em>; the band is a pre-committed estimate, not a forecast. None are evidence-scored yet — they mark the validity test still to be run.</p>
 </div>
 
 <!-- TEMPORAL-DYNAMICS LAYER (v0.2) -->
 <div class="temporal-section">
   <h2>Temporal-dynamics layer <span style="font-weight:400;color:var(--text-muted);">· v0.2 module</span></h2>
-  <p class="compare-subtitle">The static index scores regime <em>state</em>. This layer adds the derivatives the static instrument structurally cannot provide — how fast the signature moves, how fast the engineered population grows, and whether onsets cluster in time. Destruction is a rate, not a state.</p>
+  <p class="compare-subtitle">The comparison table above is a <em>snapshot</em> — each architecture's five-signature score at one moment. This layer adds <strong>time</strong>: it tracks the same five signatures across dated checkpoints to answer three questions the snapshot cannot.</p>
+  <p style="font-size:11.5px;line-height:1.6;color:var(--text-muted);margin-bottom:4px;"><strong style="color:var(--text);">In plain terms:</strong> (1) <strong>velocity</strong> — is an architecture's engineered-incompetence score <em>rising</em>, and how fast? A score of 80 reached slowly (an old, settled dysfunction) is not the same as 80 reached in a year (an active capture). (2) <strong>breadth-velocity</strong> — how quickly are <em>new</em> architectures crossing into the engineered band? This is the "everything at once" feeling, made into a number. (3) <strong>synchrony</strong> — when architectures cross the line, do they cross <em>together</em>? Coordinated programs cross in clusters; unrelated dysfunction crosses at random times. Synchrony is the one number here that can come out <em>against</em> the coordination claim — which is exactly why it's worth measuring.</p>
 
   <div class="construct-grid">
     <div class="construct-card">
@@ -719,16 +735,37 @@
     </div>
   </div>
 
-  <h3>Live computation — illustrative dataset</h3>
-  <div class="demo-banner">⚠ ILLUSTRATIVE SYNTHETIC DATA — abstract architectures α / β / γ. These are NOT real agency scores; they exist only to demonstrate that the machinery computes. The six seed architectures await longitudinal back-scoring (≥3 dated epochs each) before any real velocity, breadth, or synchrony is shown.</div>
+  <h3>Worked example — how the math behaves <span style="font-weight:400;text-transform:none;letter-spacing:0;">(sandbox, not real data)</span></h3>
+  <div class="demo-banner">⚠ This block runs on three <strong>made-up placeholder architectures</strong> (α / β / γ) so you can see the formulas actually compute. These are not agencies and not claims about anything — they are a sandbox. The real six (below) stay blank on purpose until each is scored at three dated checkpoints.</div>
   <div class="vel-metric-row" id="vel-system-metrics"></div>
   <table class="temporal-table">
-    <thead><tr><th>Illustrative architecture</th><th class="center">epochs</th><th class="center">composite (latest)</th><th class="center">V (pts/qtr)</th><th class="center">onset τ</th></tr></thead>
+    <thead><tr><th>Placeholder (sandbox)</th><th class="center">checkpoints</th><th class="center">latest score</th><th class="center">velocity (pts/qtr)</th><th class="center">crossed ≥70 at</th></tr></thead>
     <tbody id="vel-tbody"></tbody>
   </table>
 
-  <h3>Real architectures — longitudinal status</h3>
-  <p class="await-note" id="vel-real-status">—</p>
+  <h3>The real six architectures — longitudinal status</h3>
+  <p class="await-note">These are the same six from the comparison table. Each needs its five signatures re-scored at three dated checkpoints (target: 2025-Q1 · 2025-Q3 · 2026-Q1) before a real velocity can be shown. None are back-scored yet, so all read <em>awaiting</em> — and no invented numbers are published in their place.</p>
+  <table class="temporal-table" style="margin-top:10px;">
+    <thead><tr><th>Architecture</th><th class="center">current snapshot</th><th class="center">checkpoints scored</th><th class="center">velocity</th></tr></thead>
+    <tbody id="vel-real-tbody"></tbody>
+  </table>
+</div>
+
+<!-- GLOSSARY -->
+<div class="glossary-section" id="glossary" data-gloss-skip>
+  <h2>Glossary</h2>
+  <p class="compare-subtitle">Terms used across the instrument. Dotted-underlined words in the panels link here; coined framework predicates link out to the <a href="/predicates/" style="color:var(--tab-cell-ref);">predicates</a> pages.</p>
+  <dl class="gloss-dl">
+    <div class="gloss-entry" id="gloss-antiprogressives"><dt>AntiProgressives</dt><dd>Analytical name (Polymorphic Catalysis Toroid cell A020) for the broad cross-organizational coalition — Heritage, the Federalist Society, CNP, Claremont, ALEC, MAGA Inc and allied actors — treated as one operational pattern rather than a single org. Used here as an actor in the S5 coordination evidence.</dd></div>
+    <div class="gloss-entry" id="gloss-schedulef"><dt>Schedule F · Schedule Policy/Career</dt><dd>Executive-branch job category (Executive Order, Jan 20 2025; OPM final rule Feb 2026) reclassifying career civil-service policy roles — OPM estimate ~50,000 positions / ~2% of the workforce — and removing Merit Systems Protection Board appeal and statutory whistleblower protection. The architecture is in force; mass replacement of named incumbents is still prospective.</dd></div>
+    <div class="gloss-entry" id="gloss-p2025"><dt>Project 2025</dt><dd>Heritage Foundation-led ~900-page presidential transition blueprint. In this instrument it is the principal internal-coordination evidence anchor for S5 (information-architecture asymmetry): high internal coherence flanked by manufactured external incoherence.</dd></div>
+    <div class="gloss-entry" id="gloss-directfile"><dt>Direct File</dt><dd>IRS free public online tax-filing tool (TY2024 pilot; ~300,000 users across 25 states; 94% of 2025 users rated it excellent/above-average; GAO rated the pilot a success). The IRS told states it "will not be available in Filing Season 2026." The S2 example of a working public-facing function being ended.</dd></div>
+    <div class="gloss-entry" id="gloss-eitc"><dt>EITC</dt><dd>Earned Income Tax Credit — a refundable credit for low-income workers. Its retained audit capacity is the S2 example of extraction <em>against</em> those least able to defend themselves, co-existing with reduced audit capacity for high-net-worth filers.</dd></div>
+    <div class="gloss-entry" id="gloss-heritage"><dt>Heritage (Heritage Foundation)</dt><dd>Conservative think tank; lead organizer of Project 2025 and a central node in the coordination evidence for S5.</dd></div>
+    <div class="gloss-entry" id="gloss-fedsoc"><dt>Federalist Society</dt><dd>Lawyers' network central to the federal judicial-nominee pipeline (toroid cell R040). Appears as an actor in the coalition-internal coordination architecture.</dd></div>
+    <div class="gloss-entry" id="gloss-toroid"><dt>Polymorphic Catalysis Toroid</dt><dd>The companion relational instrument mapping the operating coalition's actors, targets and back-channels. Cell references in this instrument (<code>7.297</code>, <code>R040</code>, <code>B040</code>…) anchor each score to a documented toroid entry. The toroid is the evidence layer; this instrument is the measurement layer.</dd></div>
+    <div class="gloss-entry" id="gloss-predicates"><dt>Coined predicates — Obfuscratic · Sabbotarchy · Multimalocracy</dt><dd>The framework's coined terms, defined in full on the <a href="/predicates/">predicates</a> pages: <a href="/predicates/obfuscratic/">Obfuscratic</a> (the operational signature — rule operating through manufactured incoherence), <a href="/predicates/sabbotarchy/">Sabbotarchy</a> (the regime form — rule by sabotage), and <a href="/predicates/multimalocracy/">Multimalocracy</a> (the 42-mode taxonomy in which Sabbotarchy is one mode).</dd></div>
+  </dl>
 </div>
 
 <footer class="instrument-footer">
@@ -1422,6 +1459,11 @@ function renderArchitecture(archKey) {
   document.querySelectorAll('.comparison-table tr.arch-row').forEach(row => {
     row.classList.toggle('active', row.dataset.arch === archKey);
   });
+  // Linkify glossary terms in the freshly-rendered panels + description
+  if (typeof linkifyGlossary === 'function') {
+    linkifyGlossary(document.getElementById('signatures-grid'));
+    linkifyGlossary(document.getElementById('arch-description'));
+  }
 }
 
 // ============================================================================
@@ -1561,9 +1603,19 @@ function renderTemporal(){
     <div class="vel-metric"><div class="vm-label">Breadth-velocity B(t)</div><div class="vm-value">${bs.B===null?'—':(bs.B>0?'+':'')+bs.B}</div><div class="vm-sub">crossings ≥70 / quarter</div></div>
     <div class="vel-metric"><div class="vm-label">Onset synchrony Σ</div><div class="vm-value">${bs.Sigma===null?'—':bs.Sigma}</div><div class="vm-sub">vs independent-onset null (σ_τ=${bs.sigTau===null?'—':bs.sigTau.toFixed(2)})</div></div>`;
 
-  const ready=Object.values(REAL_EPOCHS).filter(s=>s.length>=2).length;
-  document.getElementById('vel-real-status').textContent =
-    `${ready} of ${Object.keys(REAL_EPOCHS).length} seed architectures have ≥2 dated epochs. Velocity, breadth-velocity, and synchrony for the real seeds remain uncomputed pending evidence-anchored back-scoring at ≥3 epochs (target: 2025-Q1 / 2025-Q3 / 2026-Q1). No synthetic agency figures are published here by design.`;
+  // Real six seeds: show current snapshot + awaiting status (connects this layer to the table above)
+  const realBody=document.getElementById('vel-real-tbody');
+  realBody.innerHTML=Object.entries(REAL_EPOCHS).map(([key,series])=>{
+    const arch=ARCHITECTURES[key];
+    const snap=computeComposite(arch);
+    const n=series.length;
+    const vel = n>=2 ? velocityOf(series) : null;
+    const namePieces=arch.name.split(' / ');
+    return `<tr><td>${namePieces[0]}${namePieces[1]?`<span style="color:var(--text-muted);"> / ${namePieces[1]}</span>`:''}</td>
+      <td class="center">${snap}</td>
+      <td class="center">${n}</td>
+      <td class="center" style="font-style:italic;color:var(--text-muted);font-weight:400;">${vel===null?'awaiting':(vel>0?'+':'')+vel}</td></tr>`;
+  }).join('');
 }
 
 // ============================================================================
@@ -1579,9 +1631,62 @@ const CONTROLS = [
 
 function renderControls(){
   const tbody=document.getElementById('comparison-tbody');
-  const divider=`<tr class="control-divider"><td colspan="7">Negative controls — pre-registered predictions (not yet evidence-scored)</td></tr>`;
-  const rows=CONTROLS.map(c=>`<tr class="control-row"><td>${c.name}</td><td colspan="5" style="text-align:center;"><span class="pred-pill">predicted: ${c.band}</span></td><td class="center" style="font-size:10px;font-style:normal;">${c.test}</td></tr>`).join('');
+  const divider=`<tr class="control-divider"><td colspan="7">Negative controls — validity check · expected band committed before scoring (not yet evidence-scored)</td></tr>`;
+  const rows=CONTROLS.map(c=>`<tr class="control-row"><td>${c.name}</td><td colspan="5" style="text-align:center;"><span class="pred-pill">expected: ${c.band}</span></td><td class="center" style="font-size:10px;font-style:normal;">${c.test}</td></tr>`).join('');
   tbody.insertAdjacentHTML('beforeend', divider+rows);
+}
+
+// ============================================================================
+// GLOSSARY + term linkification
+// ============================================================================
+const GLOSSARY = {
+  'AntiProgressives': { id:'gloss-antiprogressives' },
+  'Schedule F': { id:'gloss-schedulef' },
+  'Project 2025': { id:'gloss-p2025' },
+  'Direct File': { id:'gloss-directfile' },
+  'EITC': { id:'gloss-eitc' },
+  'Federalist Society': { id:'gloss-fedsoc' },
+  'Heritage': { id:'gloss-heritage' },
+  'Polymorphic Catalysis Toroid': { id:'gloss-toroid' },
+  'Obfuscratic': { href:'/predicates/obfuscratic/' },
+  'Sabbotarchy': { href:'/predicates/sabbotarchy/' },
+  'Multimalocracy': { href:'/predicates/multimalocracy/' }
+};
+
+function linkifyGlossary(root){
+  if(!root) return;
+  const terms = Object.keys(GLOSSARY).sort((a,b)=>b.length-a.length);
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re = new RegExp('\\b(' + terms.map(esc).join('|') + ')\\b');
+  const skip = new Set(['A','SCRIPT','STYLE','CODE','BUTTON','H1','H2','H3','SVG','TEXT']);
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode(n){
+    if(!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+    for(let p=n.parentNode; p && p!==root.parentNode; p=p.parentNode){
+      if(p.nodeType===1){
+        if(skip.has(p.tagName.toUpperCase())) return NodeFilter.FILTER_REJECT;
+        if(p.namespaceURI && p.namespaceURI.indexOf('svg')>=0) return NodeFilter.FILTER_REJECT;
+        if(p.hasAttribute && p.hasAttribute('data-gloss-skip')) return NodeFilter.FILTER_REJECT;
+      }
+    }
+    return NodeFilter.FILTER_ACCEPT;
+  }});
+  const textNodes = []; let x;
+  while(x = walker.nextNode()) textNodes.push(x);
+  textNodes.forEach(node => {
+    let n = node, m;
+    while(n.nodeValue && (m = re.exec(n.nodeValue))){
+      const term = m[1], entry = GLOSSARY[term];
+      const mid = n.splitText(m.index);
+      const rest = mid.splitText(term.length);
+      const a = document.createElement('a');
+      a.className = 'gloss-link';
+      a.textContent = term;
+      a.setAttribute('href', entry.href ? entry.href : '#' + entry.id);
+      if(entry.href) a.setAttribute('title', 'Definition · predicates');
+      mid.parentNode.replaceChild(a, mid);
+      n = rest;
+    }
+  });
 }
 
 // Initial render
@@ -1589,6 +1694,7 @@ renderComparison();
 renderControls();
 renderTemporal();
 renderArchitecture('doge');
+linkifyGlossary(document.querySelector('.container'));
 </script>
 </body>
 </html>
