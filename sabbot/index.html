@@ -625,6 +625,15 @@
   .ro-result { border:1px solid var(--panel-border); border-radius:3px; padding:14px 16px; font-size:11.5px; line-height:1.6; color:var(--text-muted); }
   .ro-result .ro-rho { font-size:22px; font-weight:700; color:var(--text); font-variant-numeric:tabular-nums; }
   .ro-result strong { color:var(--text); }
+  /* resource-ops diagrams */
+  .ro-chain { margin:10px 0 14px; }
+  .ro-chain-label { font-size:10px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-muted); font-weight:700; margin-bottom:6px; }
+  .ro-chain-row { display:flex; flex-wrap:wrap; align-items:center; gap:0; }
+  .ro-step { background:rgba(0,0,0,0.03); border:1px solid var(--panel-border); border-radius:3px; padding:7px 11px; font-size:10.5px; line-height:1.35; color:var(--text); max-width:210px; }
+  body.dark-mode .ro-step { background:rgba(255,255,255,0.04); }
+  .ro-step b { color:var(--tab-cell-ref); }
+  .ro-arrow { display:flex; align-items:center; padding:0 9px; color:var(--text-muted); font-size:15px; }
+  .ro-slope-wrap { overflow-x:auto; padding-top:4px; }
 </style>
 </head>
 <body translate="yes">
@@ -782,8 +791,16 @@
   <h3>Worked anchors (2025–26)</h3>
   <table class="ro-table" id="ro-anchors"></table>
 
+  <h3>Cross-operation chains</h3>
+  <p class="compare-subtitle" style="margin-bottom:8px;">The dimensions are not independent — they chain on a single target. Chaining is the meta-signature: harder to explain as a string of independent good-faith choices than any one operation alone.</p>
+  <div id="ro-chains"></div>
+
   <h3>First S6 selective-allocation computation</h3>
   <div class="ro-result" id="ro-s6"></div>
+
+  <h3>Where the money goes vs. where the need is</h3>
+  <p class="compare-subtitle" style="margin-bottom:6px;">Each crisis connects its <em>need</em> rank (left, by attributable deaths) to its <em>funding</em> rank (right). Crossing lines are the inversion the ρ statistic measures.</p>
+  <div class="ro-slope-wrap" id="ro-slope"></div>
 
   <h3>Negative controls — validation (all returned LOW)</h3>
   <table class="ro-table" id="ro-controls"></table>
@@ -1752,6 +1769,43 @@ const RESOURCE_OPS = {
   ]
 };
 
+const RO_CHAINS = [
+  ['Immigration', ['S3 · block the 2024 bipartisan fix','sustained crisis','S6 · +$170B detention capture (B040)']],
+  ['Venezuela', ['S8 · pressure + oil blockade','S7 · strikes → Maduro capture','S6 · oil → U.S.-controlled accounts']]
+];
+function roChains(){
+  return RO_CHAINS.map(ch=>{
+    const steps = ch[1].map((s,i)=>{
+      const p = s.split(' · ');
+      const body = p.length>1 ? `<b>${p[0]}</b> ${p.slice(1).join(' · ')}` : s;
+      return `<div class="ro-step">${body}</div>` + (i<ch[1].length-1 ? `<div class="ro-arrow">→</div>` : '');
+    }).join('');
+    return `<div class="ro-chain"><div class="ro-chain-label">${ch[0]}</div><div class="ro-chain-row">${steps}</div></div>`;
+  }).join('');
+}
+function roSlope(){
+  const need = ['USAID','Overdose','Firearm','Medicaid','SNAP','Maternal','Disaster','Border','Argentina'];
+  const allocOrder = ['Border','Argentina','Maternal','Firearm','Overdose','Disaster','USAID','SNAP','Medicaid'];
+  const needRank = {}, allocRank = {};
+  need.forEach((c,i)=>needRank[c]=i);
+  allocOrder.forEach((c,i)=>allocRank[c]=i);
+  const x0=158, x1=322, y0=34, dy=36, h=y0+8*dy+20;
+  let s = `<svg viewBox="0 0 480 ${h}" preserveAspectRatio="xMidYMid meet" style="width:100%;max-width:520px;">`;
+  s += `<text x="150" y="18" text-anchor="end" font-size="9" fill="var(--text-muted)">NEED (high→low)</text>`;
+  s += `<text x="330" y="18" text-anchor="start" font-size="9" fill="var(--text-muted)">FUNDING (most→least)</text>`;
+  need.forEach(c=>{
+    const yL=y0+needRank[c]*dy, yR=y0+allocRank[c]*dy, diff=allocRank[c]-needRank[c];
+    const col = diff>1 ? 'var(--accent-red)' : (diff<-1 ? 'var(--score-mid)' : 'var(--text-muted)');
+    const w = Math.abs(diff)>1 ? 2 : 1;
+    s += `<line x1="${x0}" y1="${yL}" x2="${x1}" y2="${yR}" stroke="${col}" stroke-width="${w}" opacity="0.8"/>`;
+  });
+  need.forEach(c=>{const y=y0+needRank[c]*dy; s+=`<circle cx="${x0}" cy="${y}" r="3" fill="var(--text-muted)"/><text x="${x0-8}" y="${y+3}" text-anchor="end" font-size="10" fill="var(--text)">${c}</text>`;});
+  allocOrder.forEach((c,i)=>{const y=y0+i*dy; s+=`<circle cx="${x1}" cy="${y}" r="3" fill="var(--text-muted)"/><text x="${x1+8}" y="${y+3}" text-anchor="start" font-size="10" fill="var(--text)">${c}</text>`;});
+  s += `</svg>`;
+  s += `<div style="font-size:9.5px;color:var(--text-muted);margin-top:6px;line-height:1.5;"><span style="color:var(--accent-red);font-weight:700;">red</span> = high need, under-funded · <span style="color:var(--score-mid);font-weight:700;">gold</span> = low need, over-funded · gray = funding tracks need. Heavy crossing = the inversion (ρ = −0.57, n = 9; directionally robust, not yet significant).</div>`;
+  return s;
+}
+
 function renderResourceOps(){
   const dims = document.getElementById('ro-dims');
   if(!dims) return;
@@ -1771,6 +1825,8 @@ function renderResourceOps(){
     '<thead><tr><th>Dim</th><th>Control instance</th><th>Predicted</th><th>Result</th></tr></thead><tbody>' +
     RESOURCE_OPS.controls.map(c=>`<tr><td class="ro-dim-id">${c[0]}</td><td>${c[1]}</td><td>LOW</td><td><span class="ro-low">LOW</span> — ${c[2]}</td></tr>`).join('') +
     '</tbody>';
+  document.getElementById('ro-chains').innerHTML = roChains();
+  document.getElementById('ro-slope').innerHTML = roSlope();
 }
 
 // Initial render
