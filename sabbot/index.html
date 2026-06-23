@@ -732,6 +732,7 @@
   <button class="arch-btn" data-arch="irs">IRS dismantling</button>
   <button class="arch-btn" data-arch="nih">NIH research-funding compression</button>
   <button class="arch-btn" data-arch="va">VA workforce restructuring</button>
+  <button class="arch-btn" data-arch="rollback">Regulatory rollback</button>
 </div>
 
 <!-- COMPOSITE INDEX -->
@@ -824,6 +825,30 @@
     <thead><tr><th>Architecture</th><th class="center">snapshot (2026-Q1)</th><th class="center">checkpoints</th><th class="center">velocity (pts/interval)</th></tr></thead>
     <tbody id="vel-real-tbody"></tbody>
   </table>
+</div>
+
+<!-- PRIOR-ADMINISTRATION BASELINE -->
+<div class="temporal-section" id="baseline-section">
+  <h2>Prior-administration baseline <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(reform lineage — the Σ null)</span></h2>
+  <p class="compare-subtitle">Three structurally-comparable prior government-reform programs, back-scored as negative controls. All land in the Genuine band — mass reform/downsizing by itself does not trigger the signature — and they give the baseline against which the current onset-synchrony reads as excess. Indicative, evidence-anchored (audit trail: <code>sabbotarchy_backscoring_evidence.md</code> §12).</p>
+  <table class="temporal-table">
+    <thead><tr><th>Program (administration)</th><th class="center">years</th><th class="center">composite</th><th>why Genuine</th></tr></thead>
+    <tbody id="baseline-tbody"></tbody>
+  </table>
+  <p class="await-note" id="baseline-note"></p>
+</div>
+
+<!-- SUPPORTING AGENDAS / RELATED FORCES -->
+<div class="glossary-section" id="supporting-agendas" data-gloss-skip>
+  <h2>Supporting agendas / related forces <span style="font-weight:400;color:var(--text-muted);font-size:11px;">(doctrinal substrate — not scored)</span></h2>
+  <p class="compare-subtitle">Strategic doctrines, not architectures — not measured on the five signatures. They explain <em>why</em> engineered dysfunction is politically rewarded rather than punished: the layer that makes a sabbotarchy self-sustaining.</p>
+  <dl class="gloss-dl">
+    <div class="gloss-entry"><dt>Two-Santa Claus Theory (Jude Wanniski, 1976)</dt><dd>In power, be the "tax-cut Santa" — cut taxes, never balance budgets; out of power, become the "spending-cut Santa," forcing the other party into austerity and tax increases. The deficit is the instrument, not the concern — the explicit ruin-then-blame ratchet.</dd></div>
+    <div class="gloss-entry"><dt>Starve the Beast</dt><dd>Cut revenue first → manufacture deficits → invoke the deficits to demand spending cuts that could not pass on their own merits. The fiscal arm of the same ratchet.</dd></div>
+    <div class="gloss-entry"><dt>The Shock Doctrine (Naomi Klein, 2007)</dt><dd>Use real or manufactured crises to push unpopular policy while the public is disoriented — the crisis-exploitation arm, and the theory behind the S6/S7/S8 resource operations.</dd></div>
+    <div class="gloss-entry"><dt>Asymmetric deficit-hawkery (the ratchet)</dt><dd>Deficits expand in the tax-cut phase; "deficit concern" reappears only in opposition — the mechanism by which each cycle leaves the state smaller. The downstream effect the velocity / breadth metrics are measuring.</dd></div>
+  </dl>
+  <p class="await-note">Analytic role: the five signatures measure <em>what</em> is done to each architecture; the resource-operations dimensions measure <em>how</em> value, force, and harm are moved; this layer explains <em>why it persists</em>. Explicitly outside the measured apparatus.</p>
 </div>
 
 <!-- GLOSSARY -->
@@ -1138,6 +1163,51 @@ const ARCHITECTURES = {
         internal_evidence: 'Project 2025 VA-architecture blueprint internally coherent; coalition-internal "veteran choice" framing coordinated; sustained pipeline of policy briefs from Concerned Veterans for America / Heritage / Koch-network architecture',
         external_evidence: 'Sustained simultaneous "we support veterans" + 83K workforce reduction; "improving care" + documented wait-time deterioration; "veteran choice" + reducing direct-care capacity (forcing private utilization not choosing it); aligned-media production of "VA failure" narrative justifying privatization architecture',
         anchors: ['7.333 (VA restructuring)', '7.270 (aligned-media)']
+      }
+    }
+  },
+  rollback: {
+    name: 'Regulatory Rollback / deregulation',
+    description: 'Cross-domain deregulation 2025–2026 (environmental, health, labor, financial, civil-rights): EO 14192 10:1 repeal mandate, 2009 GHG Endangerment Finding rescinded ("single largest deregulatory action in U.S. history," finalized Feb 2026), PFAS limits rescinded/delayed, CFPB dismantled, DOJ Civil Rights Division redirected. Stated rationale: "unleashing prosperity," "cutting red tape." Added v0.8 as a seventh architecture (candidate).',
+    scores: {
+      s1_outcome: {
+        score: 88,
+        stated_beneficiary: 'the public via "prosperity"; consumers via "lower costs"; "cutting red tape"',
+        actual_beneficiary: 'regulated industry — fossil-fuel/polluter architecture (GHG endangerment-finding repeal), employer architecture (independent-contractor reclassification), financial-firm architecture (CFPB dismantling), chemical industry (PFAS rollback); public bears externalized health/safety/environmental cost',
+        directional_concentration: 'high — public protections converted into industry cost-savings; externalities transferred to the public',
+        magnitude: 'EPA claimed >$1.3T from the endangerment-finding/vehicle package; PFAS rollback affects ~73M people; OIRA claimed $211.8B savings (GWU found ~92% from declaring already-obsolete rules obsolete)',
+        anchors: ['EO 14192 (10:1 deregulation mandate)', '2009 GHG Endangerment Finding rescission', 'PFAS drinking-water rollback']
+      },
+      s2_domain: {
+        score: 85,
+        public_facing_competence: 18,
+        extractive_competence: 85,
+        examples_public_failing: 'EPA Office of Research and Development eliminated (up to 1,155 of 1,540 scientists); PFAS drinking-water limits delayed to 2031 / four rescinded; CFPB consumer-protection function gutted; clean-power and vehicle GHG standards repealed',
+        examples_extraction_succeeding: 'DOJ Civil Rights enforcement capacity retained but redirected to favored targets (antisemitism / transgender / EO enforcement) and away from voting/disability; industry-favorable rulemaking on schedule; EPA retains narrow particulate-labeling rules while killing climate rules',
+        anchors: ['EPA ORD elimination', 'DOJ Civil Rights Division redirection']
+      },
+      s3_remediation: {
+        score: 86,
+        cheap_fixes_resisted: 'Notice-and-comment bypassed via APA "good cause" exception (OMB M-25-36, Oct 2025); CFPB court-reinstatement orders contested across three rulings; novel CRA workaround transmitting a 2023 land order years late to make it repealable',
+        expensive_fixes_resisted: 'Restoration of repealed environmental/consumer protections — categorical refusal; reinstatement of the Endangerment Finding — categorical',
+        slope: 'inverted — the procedural safeguards themselves (notice-and-comment, the rulemaking record) are removed to accelerate repeal, the cleanest form of structural protection',
+        anchors: ['OMB M-25-36 (good-cause bypass)', 'CFPB litigation']
+      },
+      s4_recruitment: {
+        score: 84,
+        technical_retention: 22,
+        loyalty_advancement: 84,
+        dissent_tolerance: 14,
+        notes: 'EPA Office of Research and Development eliminated — up to 1,155 of 1,540 scientists (chemists, biologists, toxicologists) targeted; ~23% total EPA workforce cut. DOJ Civil Rights Division lost ~70% of attorneys (voting/education/disability sections gutted). Expert regulatory and scientific capacity hollowed; remaining capacity realigned to favored priorities.',
+        anchors: ['EPA ORD layoffs', 'DOJ Civil Rights attorney exodus']
+      },
+      s5_information: {
+        score: 92,
+        internal_coherence: 92,
+        external_coherence: 18,
+        internal_evidence: 'EO 14192 imposes a coordinated 10:1 repeal mandate and "significantly less than zero" net-cost rule; OIRA produced a coordinated "report card" claiming 129 deregulatory actions per 1 regulation and $211.8B savings, self-graded "A-plus"',
+        external_evidence: 'GWU Regulatory Studies Center (Mar 2026) found OIRA "gamed its methodology": the real CFR-amending ratio is ~43:1; 428 of 646 claimed actions are sub-regulatory guidance; ~92% of the $211.8B is Treasury/DHS/HHS declaring already-obsolete rules obsolete (zero rulemakings). Genuine output did fall (Federal Register 107,262→61,584 pages), but the headline metric is manufactured — a textbook manufactured-metric debunked by independent analysis',
+        anchors: ['OIRA EO 14192 report card', 'GWU Reg Studies Center debunk']
       }
     }
   }
@@ -1783,8 +1853,9 @@ const RESOURCE_OPS = {"dims":[["S3","Anti-remediation","existing","block or refu
 const RO_CHAINS = [["Immigration",["S3 · block the 2024 bipartisan fix","sustained crisis","S6 · +$170B detention capture (B040)"]],["Venezuela",["S8 · pressure + oil blockade","S7 · strikes → Maduro capture","S6 · oil → U.S.-controlled accounts"]]];
 const DIM_META = {"S3":{"name":"Anti-remediation","measures":"How resistance to correction varies with the cost of the fix — the signature is resisting cheap or even negative-cost fixes.","test":["A fix is available?","Resistance disproportionate to its (low) cost?","Cheap / transparency fixes resisted as hard as expensive ones?","Resistance protects the dysfunction itself?"],"control":"a genuinely under-resourced agency → positive cost-resistance slope (LOW)"},"S6":{"name":"Selective-Allocation Asymmetry","measures":"Whether resource deployment tracks NEED or PAYOFF across the whole portfolio of crises.","test":["Allocation decoupled / inverted vs need? (Spearman ρ)","Resourced set shares a capture or alignment payoff?","Comparable-or-greater needs systematically skipped?","Framed as fiscal prudence / necessity?"],"control":"COVID-19 ACIP vaccine allocation (2020) → LOW (tracked mortality risk)"},"S7":{"name":"Asset / Standing Dissipation","measures":"Expenditure of force, lives, and legal legitimacy for a non-public, factional payoff under a manufactured pretext.","test":["Manufactured / pretextual justification?","Assets, lives, or legality expended?","Net public value low vs the stated aim?","Factional / spectacle payoff rather than public-strategic?"],"control":"1991 Gulf War → LOW (real threat, authorized, defined aim)"},"S8":{"name":"Induced-Harm Coercion","measures":"Deliberate creation or deepening of a humanitarian crisis in a target population, used as a coercion lever.","test":["Harm caused or materially deepened by deliberate action?","Harm falls on a civilian / non-combatant population?","Instrumentalized — tied to a coercive demand?","Obfuscated as something other than what it is?"],"control":"UNSCR 2664 / OFAC humanitarian licenses (2022) → LOW (carve-outs preserved)"}};
 const S6 = {"rho":"−0.57","rhoFirst":"−0.89","n":9,"needOrder":["USAID","Overdose","Firearm","Medicaid","SNAP","Maternal","Disaster","Border","Argentina"],"allocOrder":["Border","Argentina","Maternal","Firearm","Overdose","Disaster","USAID","SNAP","Medicaid"]};
-const SEED_EPOCHS = {"doge":[{"t":0,"s":{"s1_outcome":70,"s2_domain":72,"s3_remediation":80,"s4_recruitment":80,"s5_information":78}},{"t":1,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":85,"s4_recruitment":84,"s5_information":86}},{"t":2,"s":{"s1_outcome":88,"s2_domain":91,"s3_remediation":86,"s4_recruitment":84,"s5_information":93}}],"obbba":[{"t":0,"s":{"s1_outcome":20,"s2_domain":5,"s3_remediation":5,"s4_recruitment":15,"s5_information":25}},{"t":1,"s":{"s1_outcome":85,"s2_domain":70,"s3_remediation":70,"s4_recruitment":65,"s5_information":88}},{"t":2,"s":{"s1_outcome":92,"s2_domain":79,"s3_remediation":82,"s4_recruitment":73,"s5_information":89}}],"ice":[{"t":0,"s":{"s1_outcome":62,"s2_domain":70,"s3_remediation":55,"s4_recruitment":55,"s5_information":72}},{"t":1,"s":{"s1_outcome":85,"s2_domain":84,"s3_remediation":75,"s4_recruitment":76,"s5_information":82}},{"t":2,"s":{"s1_outcome":87,"s2_domain":88,"s3_remediation":81,"s4_recruitment":79,"s5_information":86}}],"irs":[{"t":0,"s":{"s1_outcome":70,"s2_domain":68,"s3_remediation":60,"s4_recruitment":72,"s5_information":70}},{"t":1,"s":{"s1_outcome":88,"s2_domain":88,"s3_remediation":80,"s4_recruitment":76,"s5_information":88}},{"t":2,"s":{"s1_outcome":94,"s2_domain":95,"s3_remediation":89,"s4_recruitment":76,"s5_information":92}}],"nih":[{"t":0,"s":{"s1_outcome":55,"s2_domain":58,"s3_remediation":50,"s4_recruitment":60,"s5_information":58}},{"t":1,"s":{"s1_outcome":78,"s2_domain":80,"s3_remediation":70,"s4_recruitment":66,"s5_information":78}},{"t":2,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":74,"s4_recruitment":68,"s5_information":81}}],"va":[{"t":0,"s":{"s1_outcome":50,"s2_domain":55,"s3_remediation":55,"s4_recruitment":58,"s5_information":62}},{"t":1,"s":{"s1_outcome":72,"s2_domain":74,"s3_remediation":68,"s4_recruitment":62,"s5_information":74}},{"t":2,"s":{"s1_outcome":80,"s2_domain":79,"s3_remediation":71,"s4_recruitment":64,"s5_information":76}}]};
+const SEED_EPOCHS = {"doge":[{"t":0,"s":{"s1_outcome":70,"s2_domain":72,"s3_remediation":80,"s4_recruitment":80,"s5_information":78}},{"t":1,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":85,"s4_recruitment":84,"s5_information":86}},{"t":2,"s":{"s1_outcome":88,"s2_domain":91,"s3_remediation":86,"s4_recruitment":84,"s5_information":93}}],"obbba":[{"t":0,"s":{"s1_outcome":20,"s2_domain":5,"s3_remediation":5,"s4_recruitment":15,"s5_information":25}},{"t":1,"s":{"s1_outcome":85,"s2_domain":70,"s3_remediation":70,"s4_recruitment":65,"s5_information":88}},{"t":2,"s":{"s1_outcome":92,"s2_domain":79,"s3_remediation":82,"s4_recruitment":73,"s5_information":89}}],"ice":[{"t":0,"s":{"s1_outcome":62,"s2_domain":70,"s3_remediation":55,"s4_recruitment":55,"s5_information":72}},{"t":1,"s":{"s1_outcome":85,"s2_domain":84,"s3_remediation":75,"s4_recruitment":76,"s5_information":82}},{"t":2,"s":{"s1_outcome":87,"s2_domain":88,"s3_remediation":81,"s4_recruitment":79,"s5_information":86}}],"irs":[{"t":0,"s":{"s1_outcome":70,"s2_domain":68,"s3_remediation":60,"s4_recruitment":72,"s5_information":70}},{"t":1,"s":{"s1_outcome":88,"s2_domain":88,"s3_remediation":80,"s4_recruitment":76,"s5_information":88}},{"t":2,"s":{"s1_outcome":94,"s2_domain":95,"s3_remediation":89,"s4_recruitment":76,"s5_information":92}}],"nih":[{"t":0,"s":{"s1_outcome":55,"s2_domain":58,"s3_remediation":50,"s4_recruitment":60,"s5_information":58}},{"t":1,"s":{"s1_outcome":78,"s2_domain":80,"s3_remediation":70,"s4_recruitment":66,"s5_information":78}},{"t":2,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":74,"s4_recruitment":68,"s5_information":81}}],"va":[{"t":0,"s":{"s1_outcome":50,"s2_domain":55,"s3_remediation":55,"s4_recruitment":58,"s5_information":62}},{"t":1,"s":{"s1_outcome":72,"s2_domain":74,"s3_remediation":68,"s4_recruitment":62,"s5_information":74}},{"t":2,"s":{"s1_outcome":80,"s2_domain":79,"s3_remediation":71,"s4_recruitment":64,"s5_information":76}}],"rollback":[{"t":0,"s":{"s1_outcome":55,"s2_domain":60,"s3_remediation":65,"s4_recruitment":50,"s5_information":70}},{"t":1,"s":{"s1_outcome":80,"s2_domain":80,"s3_remediation":80,"s4_recruitment":80,"s5_information":82}},{"t":2,"s":{"s1_outcome":88,"s2_domain":85,"s3_remediation":86,"s4_recruitment":84,"s5_information":92}}]};
 const EPOCH_LABELS = ["2025-Q1","2025-Q3","2026-Q1"];
+const BASELINES = [{"name":"Grace Commission","admin":"Reagan","years":"1982–84","composite":14,"note":"Advisory survey; GAO/CBO discounted savings; mostly unenacted; no personnel action."},{"name":"Reinventing Government","admin":"Clinton–Gore","years":"1993–2000","composite":19,"note":"~426k cut via legislated voluntary buyouts; savings to deficit (surplus 1998); GPRA + public GAO audits."},{"name":"President's Management Agenda","admin":"GW Bush","years":"2001–08","composite":20,"note":"Public quarterly scorecards; in-house won ~87–91% of A-76 competitions; GAO-validated; recorded own slippage."}];
 /* SSOT-GEN:END */
 function roChains(){
   return RO_CHAINS.map(ch=>{
@@ -1883,6 +1954,15 @@ function renderResourceOps(){
   document.getElementById('ro-slope').innerHTML = roSlope();
 }
 
+function renderBaselines(){
+  const tb=document.getElementById('baseline-tbody');
+  if(!tb || typeof BASELINES==='undefined' || !BASELINES.length) return;
+  tb.innerHTML=BASELINES.map(b=>`<tr><td><strong>${b.name}</strong><span style="color:var(--text-muted);"> · ${b.admin}</span></td><td class="center">${b.years}</td><td class="center"><span class="composite-pill" style="border:1px solid var(--score-low);color:var(--score-low);">${b.composite}</span></td><td style="font-size:10.5px;color:var(--text-muted);line-height:1.45;">${b.note}</td></tr>`).join('');
+  const mean=Math.round(BASELINES.reduce((a,b)=>a+b.composite,0)/BASELINES.length);
+  const note=document.getElementById('baseline-note');
+  if(note) note.innerHTML=`Mean baseline ≈ <strong>${mean}</strong> (Genuine) vs. current seeds 76–91 — the discrimination result across three administrations and both parties. None produced engineered-band crossings or a tight onset cluster, so the current Σ reads as <strong>excess over a ~0 baseline</strong>, not a standalone number.`;
+}
+
 // Initial render
 renderComparison();
 renderResourceCases();
@@ -1890,6 +1970,7 @@ renderControls();
 renderTemporal();
 renderResourceOps();
 renderCaseButtons();
+renderBaselines();
 renderArchitecture('doge');
 linkifyGlossary(document.querySelector('.container'));
 </script>

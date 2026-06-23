@@ -292,4 +292,47 @@ Built out, these give a real prior-transition distribution against which the cur
 
 ---
 
-*Increment v0.7 · June 2026 · adds projected-mortality S1 evidence (per-program ranges, projected-tagged, non-summable), the rollback source set, and the Reinventing-Government negative-control back-score (≈19, Genuine) establishing the discrimination result and the Σ transition-baseline. Reagan Grace Commission + GW Bush PMA queued as additional baselines. Epoch scores live in `data/sabbotarchy.json`; rendered via `build/sync.mjs`.*
+## 12. The reform-lineage baseline — three prior transitions, all Genuine
+
+Three structurally-comparable prior government-reform programs, back-scored as negative controls (indicative, evidence-anchored). All land in the **Genuine band (0–30)** — establishing that mass reform/downsizing by itself does not trigger the signature.
+
+| Baseline (admin) | Cut / scope | Composite | Why Genuine (sourced) |
+|---|---|---|---|
+| **Grace Commission** (Reagan, 1982–84) | advisory; 2,478 recs, $424B claimed | **≈14** | Private-funded *survey*, no personnel/enforcement power; GAO/CBO openly discounted savings (~$98B of $298B scored); most recs never enacted; fully published. |
+| **Reinventing Government** (Clinton, 1993–2000) | ~426,000 positions cut | **≈19** | Savings → deficit reduction (surplus by 1998); voluntary buyouts legislated 391–17/99–1; GPRA + repeated self-critical GAO audits. |
+| **President's Management Agenda** (GW Bush, 2001–08) | scorecard + competitive sourcing | **≈20** | Quarterly public scorecards 2001→2008; in-house teams won ~87–91% of A-76 competitions; GAO validated the process; scorecard recorded its own backsliding. |
+
+**Mean baseline ≈ 18 (Genuine).** Current seeds: 76–91. The separation is the discrimination result, now across **three administrations and both parties**.
+
+*Grace caveat:* structural conflict-of-interest (corporate volunteers auditing agencies they transact with) — academic critique (Goodsell 1984), not operational sabotage; keeps S2 off zero. *PMA caveat:* the A-76 competitive-sourcing controversy and contested savings ($1.4B/yr, $6.9B cumulative — EPI/GAO questioned) keep it the highest of the three. Sources: gao.gov/assets/123531.pdf (Grace GAO/CBO) · congress.gov H.R.3345 (FWRA) · gao.gov/products/gao-07-95 (PMA) · everycrsreport RS21416.
+
+**Σ de-confounding (now defensible).** None of the three prior transitions produced engineered-band crossings *or* a tight onset cluster — Grace was advisory and discounted, NPR/PMA rolled out gradually over years under public audit. So the current pattern (six-plus architectures crossing ≥70 within one interval) is **not** what a genuine administration transition looks like in the historical record. The v0.6 Σ≈0.37 can now be read as **excess over a ~0 baseline**, not as a standalone descriptive number — the move from "confounded" to "diagnostic" that the velocity extension required.
+
+## 13. Regulatory Rollback — seventh architecture (candidate, scored on S1–S5)
+
+Deregulation across environmental/health/labor/financial/civil-rights domains. Back-scored **62 → 81 → 88** (A/B/C), velocity **+7**. (Full per-dimension epochs in `data/sabbotarchy.json`.)
+
+- **S1 (88):** Stated "unleashing prosperity / cut red tape"; realized beneficiary = regulated industry (GHG endangerment-finding repeal — "single largest deregulatory action in U.S. history," finalized 2026-02-12; PFAS limits rescinded/delayed affecting ~73M people; CFPB dismantled). Public bears externalized cost. *occurred (C); proposals at B.*
+- **S2 (85):** DOJ Civil Rights Division — capacity *retained but redirected* (~70% of attorneys departed; remaining redirected from voting/disability to antisemitism/transgender/EO enforcement) — clean "enforcement against disfavored targets." EPA keeps particulate labels while killing climate rules.
+- **S3 (86):** Notice-and-comment bypassed via APA "good cause" (OMB M-25-36, Oct 2025); CFPB court-reinstatement orders contested across three rulings; novel CRA workaround on a 2023 land order. Process safeguards themselves removed to speed repeal.
+- **S4 (84):** EPA ORD eliminated — up to 1,155 of 1,540 scientists; ~23% total EPA cut; DOJ Civil Rights ~70% attorney loss. Expert regulatory capacity hollowed.
+- **S5 (92) — the cleanest S5 in the instrument:** OIRA claimed **129 deregulatory : 1 regulatory** and **$211.8B** savings, self-graded "A-plus" (Dec 2025). GWU Regulatory Studies Center (2026-03-18) found OIRA **"gamed its methodology"**: real CFR-amending ratio ~43:1; **428 of 646** actions are sub-regulatory guidance; **92% of the $211.8B** is Treasury/DHS/HHS declaring *already-obsolete* rules obsolete (zero rulemakings). Genuine output did fall (Federal Register 107,262→61,584 pages) — but the headline metric is manufactured. *Manufactured-metric, debunked — import the ratio only paired with the GWU counter.*
+
+Sources: regulatorystudies.columbian.gwu.edu/behind-2118-billion-evaluating-eo-14192s-deregulatory-accounting · federalregister.gov 2025-02345 (EO 14192), 2025-10991 (power plants), 2026-03962 (contractor rule) · eelp.law.harvard.edu (endangerment finding) · govexec.com/management/2026/04/trump-deregulation-numbers-process-changes/413062/ · brookings.edu reg tracker · civilrights.org/trump-rollbacks/.
+
+## 14. Supporting agendas / related forces — the doctrinal substrate (NOT scored on S1–S5)
+
+These are strategic *doctrines*, not architectures. They are not measured on the five signatures; they are the political theory that explains **why** engineered dysfunction is rewarded rather than punished — the layer that makes a sabbotarchy self-sustaining. Documented as context.
+
+- **The Two-Santa Claus Theory** (Jude Wanniski, *National Observer*, 1976). Prescription: when in power, Republicans play the "tax-cut Santa" (cut taxes, never balance budgets); when out of power, become the "spending-cut Santa," demanding austerity and forcing Democrats into the politically suicidal role of raising taxes / cutting popular programs. The deficit is the *instrument*, not the concern. Directly names the **ruin-then-blame ratchet**: create fiscal pressure, attribute the resulting strain to "government," and use it to justify cutting the targeted programs.
+- **Starve the Beast** (operationalized by Grover Norquist et al.). Cut revenue first → manufacture deficits → invoke the deficits to demand spending cuts that could not pass on their own merits. The fiscal arm of the same ratchet.
+- **The Shock Doctrine** (Naomi Klein, 2007). Use real or manufactured crises to push through unpopular policy while the public is disoriented — the crisis-exploitation arm. (Already referenced as the theory behind the S6/S7/S8 resource operations.)
+- **Asymmetric deficit-hawkery (the ratchet itself).** Empirically, deficits expand under the tax-cut phase and "deficit concern" reappears only in opposition — the mechanism by which each cycle leaves the state smaller. This is the doctrine the *velocity/breadth* metrics are unconsciously measuring the downstream effect of.
+
+**Why this layer matters analytically:** the five-signature instrument measures *what* is being done to specific architectures; the resource-operations dimensions measure *how* value/force/harm is moved; this doctrinal layer explains *why it persists* — engineered incompetence discredits government in general, which the doctrine then converts into a mandate for further cuts. It belongs in the instrument as a **"Supporting Agendas / Related Forces"** context panel, explicitly outside the measured/scored apparatus.
+
+*Sources:* Wanniski, "Taxes and a Two-Santa Theory," 1976 (widely reprinted; Wikipedia "Two Santa Claus theory"); Klein, *The Shock Doctrine* (2007); Bartlett, "'Starve the Beast': Origins and Development of a Budgetary Metaphor," *The Independent Review* (2007).
+
+---
+
+*Increment v0.8 · June 2026 · adds the full reform-lineage baseline (Grace ≈14 / NPR ≈19 / PMA ≈20, mean ≈18, Genuine — de-confounds Σ as excess-over-baseline), the Regulatory-Rollback seventh architecture (62→81→88, with the GWU-debunked 129:1 metric as its S5 anchor), and the Supporting-Agendas doctrinal layer (Two Santas / Starve the Beast / Shock Doctrine), explicitly unscored. Epoch + baseline scores live in `data/sabbotarchy.json`; rendered via `build/sync.mjs`.*

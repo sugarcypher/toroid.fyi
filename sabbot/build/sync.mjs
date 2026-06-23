@@ -32,6 +32,7 @@ const block = [
   `const S6 = ${JSON.stringify(d.s6)};`,
   `const SEED_EPOCHS = ${JSON.stringify(d.epochs || {})};`,
   `const EPOCH_LABELS = ${JSON.stringify(d.epochLabels || [])};`,
+  `const BASELINES = ${JSON.stringify(d.baselines || [])};`,
   END
 ].join('\n');
 
