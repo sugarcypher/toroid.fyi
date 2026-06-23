@@ -30,6 +30,8 @@ const block = [
   `const RO_CHAINS = ${JSON.stringify(d.chains)};`,
   `const DIM_META = ${JSON.stringify(d.dimMeta)};`,
   `const S6 = ${JSON.stringify(d.s6)};`,
+  `const SEED_EPOCHS = ${JSON.stringify(d.epochs || {})};`,
+  `const EPOCH_LABELS = ${JSON.stringify(d.epochLabels || [])};`,
   END
 ].join('\n');
 

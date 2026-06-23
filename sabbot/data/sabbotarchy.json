@@ -35,5 +35,38 @@
     "n": 9,
     "needOrder": ["USAID","Overdose","Firearm","Medicaid","SNAP","Maternal","Disaster","Border","Argentina"],
     "allocOrder": ["Border","Argentina","Maternal","Firearm","Overdose","Disaster","USAID","SNAP","Medicaid"]
+  },
+  "epochLabels": ["2025-Q1","2025-Q3","2026-Q1"],
+  "epochs": {
+    "doge": [
+      {"t":0,"s":{"s1_outcome":70,"s2_domain":72,"s3_remediation":80,"s4_recruitment":80,"s5_information":78}},
+      {"t":1,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":85,"s4_recruitment":84,"s5_information":86}},
+      {"t":2,"s":{"s1_outcome":88,"s2_domain":91,"s3_remediation":86,"s4_recruitment":84,"s5_information":93}}
+    ],
+    "obbba": [
+      {"t":0,"s":{"s1_outcome":20,"s2_domain":5,"s3_remediation":5,"s4_recruitment":15,"s5_information":25}},
+      {"t":1,"s":{"s1_outcome":85,"s2_domain":70,"s3_remediation":70,"s4_recruitment":65,"s5_information":88}},
+      {"t":2,"s":{"s1_outcome":92,"s2_domain":79,"s3_remediation":82,"s4_recruitment":73,"s5_information":89}}
+    ],
+    "ice": [
+      {"t":0,"s":{"s1_outcome":62,"s2_domain":70,"s3_remediation":55,"s4_recruitment":55,"s5_information":72}},
+      {"t":1,"s":{"s1_outcome":85,"s2_domain":84,"s3_remediation":75,"s4_recruitment":76,"s5_information":82}},
+      {"t":2,"s":{"s1_outcome":87,"s2_domain":88,"s3_remediation":81,"s4_recruitment":79,"s5_information":86}}
+    ],
+    "irs": [
+      {"t":0,"s":{"s1_outcome":70,"s2_domain":68,"s3_remediation":60,"s4_recruitment":72,"s5_information":70}},
+      {"t":1,"s":{"s1_outcome":88,"s2_domain":88,"s3_remediation":80,"s4_recruitment":76,"s5_information":88}},
+      {"t":2,"s":{"s1_outcome":94,"s2_domain":95,"s3_remediation":89,"s4_recruitment":76,"s5_information":92}}
+    ],
+    "nih": [
+      {"t":0,"s":{"s1_outcome":55,"s2_domain":58,"s3_remediation":50,"s4_recruitment":60,"s5_information":58}},
+      {"t":1,"s":{"s1_outcome":78,"s2_domain":80,"s3_remediation":70,"s4_recruitment":66,"s5_information":78}},
+      {"t":2,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":74,"s4_recruitment":68,"s5_information":81}}
+    ],
+    "va": [
+      {"t":0,"s":{"s1_outcome":50,"s2_domain":55,"s3_remediation":55,"s4_recruitment":58,"s5_information":62}},
+      {"t":1,"s":{"s1_outcome":72,"s2_domain":74,"s3_remediation":68,"s4_recruitment":62,"s5_information":74}},
+      {"t":2,"s":{"s1_outcome":80,"s2_domain":79,"s3_remediation":71,"s4_recruitment":64,"s5_information":76}}
+    ]
   }
 }
