@@ -818,18 +818,10 @@
   </div>
 
   <h3>The real six architectures — longitudinal status</h3>
-  <p class="await-note">The same six architectures as the comparison table above. Each needs its five signatures re-scored at three dated checkpoints (target: 2025-Q1 · 2025-Q3 · 2026-Q1) before a real velocity can be shown. None are back-scored yet, so all read <em>awaiting</em> — no invented numbers are published in their place. <strong>This table is where the layer joins the rest of the instrument;</strong> the sandbox beneath it only proves the formulas run.</p>
+  <p class="await-note">The same six architectures as the comparison table above. Each needs its five signatures re-scored at three dated checkpoints (target: 2025-Q1 · 2025-Q3 · 2026-Q1) before a real velocity can be shown. None are back-scored yet, so all read <em>awaiting</em> — no invented numbers are published in their place. <strong>Live velocity, breadth-velocity, and onset-synchrony populate here once the seeds are scored at three dated checkpoints</strong> — nothing fabricated stands in for them.</p>
   <table class="temporal-table" style="margin-top:10px;">
     <thead><tr><th>Architecture</th><th class="center">current snapshot</th><th class="center">checkpoints scored</th><th class="center">velocity</th></tr></thead>
     <tbody id="vel-real-tbody"></tbody>
-  </table>
-
-  <h3 style="margin-top:24px;">Formula demonstration <span style="font-weight:400;text-transform:none;letter-spacing:0;">— sandbox, not real data</span></h3>
-  <div class="demo-banner">⚠ The rows below are three <strong>made-up placeholder architectures</strong> (α / β / γ) that exist only so you can watch velocity, breadth-velocity, and synchrony actually compute. They are not agencies and assert nothing. Once the real six above are back-scored, the same machinery runs on them and this sandbox is retired.</div>
-  <div class="vel-metric-row" id="vel-system-metrics"></div>
-  <table class="temporal-table">
-    <thead><tr><th>Placeholder (sandbox)</th><th class="center">checkpoints</th><th class="center">latest score</th><th class="center">velocity (pts/qtr)</th><th class="center">crossed ≥70 at</th></tr></thead>
-    <tbody id="vel-tbody"></tbody>
   </table>
 </div>
 
@@ -1668,24 +1660,7 @@ function breadthAndSynchrony(dataset){
 }
 
 function renderTemporal(){
-  const tbody=document.getElementById('vel-tbody');
-  tbody.innerHTML=Object.entries(DEMO_EPOCHS).map(([name,series])=>{
-    const comp=compositeOfScores(series[series.length-1].s);
-    const V=velocityOf(series); const tau=onsetTime(series);
-    const vCls=V===null?'':(V>0?'vpos':'vneg');
-    return `<tr><td>${name}</td><td class="center">${series.length}</td><td class="center">${comp}</td>
-      <td class="center ${vCls}">${V===null?'—':(V>0?'+':'')+V}</td>
-      <td class="center">${tau===null?'—':tau}</td></tr>`;
-  }).join('');
-
-  const bs=breadthAndSynchrony(DEMO_EPOCHS);
-  const latest=bs.N70[bs.N70.length-1];
-  document.getElementById('vel-system-metrics').innerHTML=`
-    <div class="vel-metric"><div class="vm-label">N₇₀ (latest epoch)</div><div class="vm-value">${latest.n}/${Object.keys(DEMO_EPOCHS).length}</div><div class="vm-sub">architectures ≥70 at t=${latest.t}</div></div>
-    <div class="vel-metric"><div class="vm-label">Breadth-velocity B(t)</div><div class="vm-value">${bs.B===null?'—':(bs.B>0?'+':'')+bs.B}</div><div class="vm-sub">crossings ≥70 / quarter</div></div>
-    <div class="vel-metric"><div class="vm-label">Onset synchrony Σ</div><div class="vm-value">${bs.Sigma===null?'—':bs.Sigma}</div><div class="vm-sub">vs independent-onset null (σ_τ=${bs.sigTau===null?'—':bs.sigTau.toFixed(2)})</div></div>`;
-
-  // Real six seeds: show current snapshot + awaiting status (connects this layer to the table above)
+  // Real six seeds: current snapshot + awaiting status (sandbox demo removed)
   const realBody=document.getElementById('vel-real-tbody');
   realBody.innerHTML=Object.entries(REAL_EPOCHS).map(([key,series])=>{
     const arch=ARCHITECTURES[key];
