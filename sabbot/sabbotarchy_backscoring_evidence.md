@@ -233,4 +233,63 @@ Per-checkpoint S1–S5 (anchored to the dated evidence above; C = current static
 
 ---
 
-*Increment v0.6 · June 2026 · raw evidence audit trail + back-scores for longitudinal scoring. Epoch scores are written to `data/sabbotarchy.json` (`epochs`) and rendered by the instrument's temporal layer via `build/sync.mjs`.*
+## 8. Projected mortality from spending cuts — S1 evidence (ranges only; never a single body count)
+
+**Method discipline (binding).** There is no constant "deaths per dollar." Each program has a different, mostly uncertain mortality channel; estimates that exist are *modeled projections* with wide ranges and different horizons/populations; several items have no defensible estimate and one has no mortality channel at all. These figures may anchor an S1 *projected-outcome* row, tagged projected, as **per-program ranges** — they may **not** be summed (heterogeneous methods, overlapping populations, double-counting) and may **not** be reduced to one headline number.
+
+**Defensible (modeled, projected):**
+- **SNAP cuts (~$186–193B):** ~**93,000** premature deaths (under-65) from the reconciliation bill's access barriers (Penn/NYU); ~**69,600** by 2040 from the work-requirement expansions (CAP). Foundation: SNAP participation associated with 1–2 pp lower all-cause mortality, ages 40–64 (Health Affairs 2019). *projected.* americanprogress.org/article/snap-cuts-could-lead-to-70000-avoidable-deaths/ ; newsweek.com/snap-benefits-update-trumps-cuts-could-lead-to-70000-deaths-11711692
+- **USAID dismantlement (NOT in the user's cut list, but the robust anchor):** ~**14M** deaths by 2030 incl. ~4.5M children under 5 (Lancet/UCLA); aggregate aid cuts 9.4M (continued) → 22.6M (deepened) by 2030. The one mortality argument that is well-modeled — and it dwarfs the domestic list by ~2 orders of magnitude. *projected.* newsroom.ucla.edu/stories/USAID-cuts-global-impact-14-million-deaths
+- **CHIP ($5.8B/2yr):** directional only — a 10-pt rise in Medicaid/CHIP child eligibility ≈ ~3% decline in child mortality (KFF); loss runs the other way, but a death count needs the *number of children who lose coverage*, which the dollar figure does not supply. *directional.* kff.org/affordable-care-act/the-impact-of-the-childrens-health-insurance-program-chip-what-does-the-research-tell-us/
+
+**No defensible per-dollar mortality estimate (state explicitly; do not fabricate):**
+- **$333M CDC infectious-disease / $136M preparedness / $76.3M CDC Global Health** — real outbreak-prevention channel, but no published per-dollar death figure; preparedness pays off only in tail events. Global-health cuts broadly sit in the USAID/Lancet family but this line is not separately modeled.
+- **$3.7B NIH researchers** — NIH-specific mortality is *thin*; the quantified harm is ~**74,000 clinical-trial participants** disrupted (CIDRAP), not deaths. Do **not** import USAID figures onto NIH.
+- **Fogarty International Center** — training pipeline; indirect, long-horizon; not quantifiable as deaths.
+- **$874M DOE Office of Science** — basic physical science (physics, computing, materials, energy); **no proximate mortality channel.** Assigning it a body count would be fabrication. This is the clean proof that dollars→deaths is not a valid conversion.
+
+## 9. Additional sources logged (for the candidate Regulatory-Rollback architecture)
+
+- **Brookings Regulatory Tracker** (curated, dated deregulatory actions across environmental/health/labor; last update 2026-03-31). Headline **"129 deregulatory actions per 1 new regulation"** (OIRA) — but the GWU Regulatory Studies Center found OIRA **"gamed its methodology"** to inflate the ratio. Import the ratio only as a **contested, debunked S5 manufactured-metric**, paired with the GWU counter; use the tracker itself as the evidence source for specific dated rollbacks. brookings.edu/articles/tracking-regulatory-changes-in-the-second-trump-administration/
+- **The Leadership Conference — Trump rollbacks tracker** (civilrights.org/trump-rollbacks/) — civil-rights/regulatory rollback compilation; second corroborating source for the rollback architecture.
+- **Minor S6 anchor (low weight):** Lincoln Memorial Reflecting Pool resurface + $1.74M "nano-bubble" anti-algae system, total >$16M (Atlantic Industrial Coatings; Green Water Solutions); Trump's "vandalism forced drainage" claim fact-checked on timeline/cost/contractor (PolitiFact, CNN). Fits S6 manufactured/vanity-cost + S5 manufactured-pretext, but magnitude is trivial (~$16M) beside the structural cases — illustrative footnote, tagged contested, not a headline.
+
+---
+
+## 10. Negative-control back-score — Reinventing Government (the Σ baseline)
+
+**Purpose:** C2 from the negative-control set — the prior administration's *structurally near-identical* mass federal-workforce reduction. It tests the framework's hardest question: does the instrument key on "big workforce cut" (in which case it would also score NPR high and be invalid), or on the engineered *signature* (in which case NPR scores LOW despite the cut)?
+
+**The cut is comparable in size.** Clinton–Gore NPR: **~426,000** positions cut 1993–2000 (federal civilian workforce −19%, lowest since 1960). DOGE: ~387,000 departures in CY2025. Same order of magnitude — so size cannot be what separates them.
+
+**Indicative back-scores (LOW-confidence, evidence-anchored; NOT evidence-scored to the seed standard) — checkpoints ≈1993 / 1996 / 2000:**
+
+| Signature | NPR score | Why LOW (sourced in §-dossier) |
+|---|---|---|
+| S1 outcome-distribution | ~20 | Savings directed to deficit reduction → budget surplus by 1998; no extraction architecture. (Shadow-contractor displacement keeps it off zero.) |
+| S2 domain-selective | ~25 | Program *led* with "put customers first"; later phase deepened public-facing service focus. Documented service strain, but across-the-board, not selective protect-the-extractor. |
+| S3 anti-remediation | ~15 | Iterative and transparent; GAO critiques engaged not suppressed; Congress openly modified/rejected proposals. |
+| S4 recruitment | ~20 | Voluntary buyouts (VSIP ≤$25k) + attrition under FWRA 1994 (passed **391–17 / 99–1**); RIFs minimized by design; unions consulted; no loyalty screening. |
+| S5 information-architecture | ~15 | GPRA 1993 statutory performance reporting + repeated **public GAO audits including self-critical ones** (GGD-99-120 found OMB double-counted savings) = high external coherence. |
+
+**Composite ≈ 19 (Genuine band, 0–30).** Against DOGE's **89**, on a *larger* workforce cut.
+
+**Result — the framework passes its hardest test.** The C2 falsification trigger ("if a structurally-identical prior reform scores ≥70, the instrument is keying on workforce-reduction, not signature, and the seed scores are invalid") did **not** fire. NPR scores ~19; DOGE ~89. The instrument discriminates between genuine reform and the engineered signature. This is the single most important validation to date — and it is a cross-party one (NPR is a Democratic-administration reform scored LOW), which answers the cherry-picking / partisan-instrument charge directly.
+
+**Implication for the synchrony number (Σ).** The v0.6 onset-synchrony Σ≈0.37 was flagged as confounded with "ordinary administration transition." NPR is the baseline test of that confound, and it breaks the confound two ways: (a) NPR never crosses the engineered threshold at all, so a comparable prior transition produced **no** engineered-band onsets to cluster; and (b) NPR's changes rolled out *gradually over years* (1993 launch → 1994 FWRA → attrition through 2000), the opposite of a tight onset cluster. So the current pattern — six architectures crossing into the engineered band within one interval — is **not** what a genuine prior reform-transition looks like. *Honest limit:* one control is not a full null distribution; a defensible synchrony baseline needs the reform *lineage* (next section).
+
+## 11. The reform lineage — baseline must be plural, not a single control
+
+"Reinventing government" is not new; efficiency/downsizing reform recurs across administrations of both parties. The negative-control baseline should therefore be the **lineage**, and the framework's discriminator is **signature-presence, not reform-rhetoric-presence** (the mere existence of a downsizing program is non-diagnostic — which is exactly why controls are mandatory):
+
+- **Reagan — Grace Commission (President's Private Sector Survey on Cost Control), 1982–84.** ~2,478 recommendations, ~$424B claimed savings; largely *not* implemented; openly reported (GAO/CBO reviewed and discounted the savings). Predicted band: **Genuine (low)** — transparent, advisory, externally audited. *To be compiled as a second baseline control.*
+- **Clinton–Gore — NPR, 1993–2000** — scored ~19 above (Genuine).
+- **G.W. Bush — President's Management Agenda, 2001–08** — scorecard-based, GAO-tracked. Predicted: Genuine/low. *Candidate baseline.*
+
+Built out, these give a real prior-transition distribution against which the current administration's signature *level* and onset *synchrony* can be read as **excess over baseline** rather than as standalone numbers — the move that turns Σ from descriptive to diagnostic.
+
+*Sources (NPR):* en.wikipedia.org/wiki/National_Partnership_for_Reinventing_Government · congress.gov H.R.3345 (FWRA 1994) · presidency.ucsb.edu (EO 12839; FWRA signing statement) · gao.gov/products/ggd-99-120 · govinfo.library.unt.edu/npr · brookings.edu (Kettl, "Has Government Been 'Reinvented?'") · politifact.com 2025-02-06.
+
+---
+
+*Increment v0.7 · June 2026 · adds projected-mortality S1 evidence (per-program ranges, projected-tagged, non-summable), the rollback source set, and the Reinventing-Government negative-control back-score (≈19, Genuine) establishing the discrimination result and the Σ transition-baseline. Reagan Grace Commission + GW Bush PMA queued as additional baselines. Epoch scores live in `data/sabbotarchy.json`; rendered via `build/sync.mjs`.*
