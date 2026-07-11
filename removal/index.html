@@ -160,6 +160,10 @@
 
   /* DATA TABLES */
   table.data { width: 100%; border-collapse: collapse; font-size: 12px; margin: 14px 0 6px; }
+  /* Mobile: wide tables scroll inside their own box — the page never scrolls sideways */
+  @media (max-width: 760px) {
+    table.data, table.double-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  }
   table.data th, table.data td { text-align: left; padding: 8px 12px 8px 0; vertical-align: top; line-height: 1.45; }
   table.data th {
     font-family: 'SF Mono', Menlo, monospace; font-size: 9.5px; text-transform: uppercase;

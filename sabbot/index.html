@@ -662,10 +662,26 @@
   .ro-typology-wrap { overflow-x:auto; padding:4px 0 6px; }
   .arch-btn.arch-cand { border:1px dashed var(--score-mid); }
   .arch-cand-label { font-size:9px; text-transform:uppercase; letter-spacing:0.05em; color:var(--score-mid); font-weight:700; align-self:center; margin-left:8px; }
+
+  /* Breadcrumb back to the site */
+  .bread { font-family:'SF Mono',Menlo,monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); margin-bottom:18px; }
+  .bread a { color:var(--text-muted); text-decoration:none; border-bottom:1px dotted var(--panel-border-strong); }
+  .bread a:hover { color:var(--text); border-bottom-style:solid; }
+  .bread .sep { margin:0 8px; opacity:0.5; }
+
+  /* Mobile: wide data tables scroll inside their own box — the page never scrolls sideways */
+  @media (max-width: 760px) {
+    .container { padding:20px 16px 60px; }
+    .comparison-table, .temporal-table, .ro-table, .evidence-table {
+      display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    }
+  }
 </style>
 </head>
 <body translate="yes">
 <div class="container">
+
+<nav class="bread" aria-label="Breadcrumb"><a href="/">surface</a><span class="sep">/</span><a href="/system/">the system</a><span class="sep">/</span>sabbot · the deception arcane</nav>
 
 <header class="instrument-header">
   <div class="instrument-title">
