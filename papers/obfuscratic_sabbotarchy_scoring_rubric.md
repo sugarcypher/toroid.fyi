@@ -42,7 +42,7 @@ Every score should be paired with documented evidence anchors. Unanchored scores
 
 The score should reflect the *combination* of qualitative categorical mismatch and quantitative magnitude. An architecture with extreme magnitude but moderate categorical distinctness might score 70–80; an architecture with extreme categorical distinctness but moderate magnitude might score 60–75; an architecture with both extreme categorical distinctness and extreme magnitude scores 85–100.
 
-The OBBBA / Medicaid administration scores 92 because (a) the stated beneficiary (taxpayers via fiscal responsibility) and the realized beneficiary (~$1.3T upward wealth transfer + private-equity nursing-home extraction architecture) are categorically distinct, and (b) the magnitude is extreme (10.9-15M coverage losses, ~$665B program reduction, ~$1.3T transfer). Both qualitative and quantitative criteria are at maximum.
+The OBBBA / Medicaid administration scores 92 because (a) the stated beneficiary (taxpayers via fiscal responsibility) and the realized-beneficiary structure (~$2.3T of provisions accruing mainly to the top income decile per CBO/JCT distributional analysis + private-equity nursing-home extraction architecture) are categorically distinct, and (b) the magnitude is extreme — PROJECTED (CBO/CBPP, 2034 horizon): 9.9–15M coverage losses, ~$911B net Medicaid reduction (CBO Jul 2025). These are forecast outcomes, scored as projected-outcome evidence, not realized counts. Both qualitative and quantitative criteria are at maximum. *(v1.2 correction: an earlier edition stated an unanchored "$1.3T upward wealth transfer" as realized; withdrawn per the evidence audit.)*
 
 ---
 
@@ -72,13 +72,14 @@ The signature score is *not* the difference between the two axes — it is the d
 | Both axes <30 | 0–20 | Genuine incompetence — architecture performs both function classes poorly |
 | Extractive >60, public-facing 30–60 | 30–60 | Mixed pattern — selectivity present but not extreme |
 | Extractive >70, public-facing <30 | 60–85 | Engineered-pattern signature — selectivity is structural |
-| Extractive >85, public-facing <20 | 85–100 | Extreme signature — surgical precision in extraction co-existing with catastrophic public-facing failure |
+| Extractive >85, public-facing <20 | 85–100 | Extreme-Asymmetry — precision in enforcement/procurement functions co-existing with catastrophic public-facing failure |
+| Public-facing >70, extractive <40 | 0–20 | Anti-signature — service functions outperform enforcement/procurement functions; disconfirms the engineered reading for this dimension |
 
 **Scoring guidance:**
 
 The signature score should reflect both the magnitude of the differential and the structural integration of the pattern. An architecture that displays selectivity intermittently scores lower than an architecture that displays selectivity consistently across all observed time windows.
 
-The IRS dismantling scores 95 (extractive 89, public-facing 8) because the differential is extreme and structural: Direct File terminated (catastrophic public-facing failure for low-income filers); EITC audit-architecture retained (extraction against the same population); high-net-worth audit capacity reduced ~60% (extraction against this population eliminated). The selectivity is consistent across all observed dimensions of the architecture.
+The IRS dismantling scores 95 (extractive 89, public-facing 8) because the differential is extreme and structural: Direct File terminated (catastrophic public-facing failure for low-income filers); EITC audit-architecture retained (extraction against the same population); Global High Wealth audit capacity down ~38% on staffing-based estimates (audit pressure on this population sharply reduced). The selectivity is consistent across all observed dimensions of the architecture.
 
 ---
 
@@ -113,7 +114,7 @@ The IRS dismantling scores 95 (extractive 89, public-facing 8) because the diffe
 
 The inverted slope is the most diagnostic. When a near-zero-cost correction is categorically refused with the same intensity as a billion-dollar rebuild, the resistance is structural protection of the dysfunction, not budget conservation.
 
-The DOGE federal workforce reduction architecture scores 86 because the Inspector General reinstatement (effectively zero direct cost; the statutory requirement exists, the IGs are available) has been categorically refused with the same intensity as full Schedule F rescission. The cost-resistance ratio is unbounded.
+The DOGE federal workforce reduction architecture scores 86 because the Inspector General reinstatement (effectively zero direct cost; the statutory requirement exists, the IGs are available) has been refused with intensity comparable to full Schedule F rescission. *(v1.2 correction: a September 2025 federal ruling found the firings unlawful but declined to order reinstatement — the President may re-fire after the mandated notice — so the resistance is partly judicial-procedural; the earlier "unbounded cost-resistance ratio" claim overreached the record and is withdrawn. The example is supportive, not decisive.)*
 
 ---
 
@@ -130,9 +131,11 @@ The DOGE federal workforce reduction architecture scores 86 because the Inspecto
 
 **Sub-scoring axes:**
 
-- **Technical retention rate** (0–100): percentage of experienced technical personnel retained or advanced based on technical competence
-- **Loyalty advancement rate** (0–100): percentage of advancement decisions explained by loyalty-signaling rather than technical-competence
-- **Dissent tolerance** (0–100): percentage of internal dissent that survives without retaliation
+- **Technical retention rate** (0–100): the analyst's ordinal placement of how far experienced technical personnel are retained or advanced on technical competence
+- **Loyalty advancement rate** (0–100): ordinal placement of how far advancement decisions are explained by loyalty-signaling rather than technical competence
+- **Dissent tolerance** (0–100): ordinal placement of how far internal dissent survives without retaliation
+
+*(v1.2 clarification: these sub-axes are **analyst judgment scales, not measured percentages** — no census of advancement decisions or dissent episodes exists. Treat sub-axis values as ordinal placements on which experienced analysts may differ by ±10 or more; the band, not the integer, is the unit of claim.)*
 
 **Signature score derivation:**
 
@@ -142,8 +145,8 @@ The signature score reflects the integrated three-axis pattern.
 |---------|------------|----------|
 | Technical retention >70, loyalty advancement <40, dissent tolerance >60 | 0–25 | Genuine functional architecture |
 | Mixed pattern | 25–60 | Some signature elements present; not concentrated |
-| Technical retention <40, loyalty advancement >70, dissent tolerance <30 | 60–85 | Engineered pattern signature |
-| Technical retention <20, loyalty advancement >85, dissent tolerance <15 | 85–100 | Extreme signature — competence-targeting is structural |
+| Technical retention <40, loyalty advancement >70, dissent tolerance <30 | 60–85 | High-Asymmetry signature |
+| Technical retention <20, loyalty advancement >85, dissent tolerance <15 | 85–100 | Extreme-Asymmetry — protection-status-selective reduction is structural |
 
 **Scoring guidance:**
 
@@ -202,8 +205,8 @@ Round to the nearest integer.
 |------|-------|----------------|
 | Genuine pattern | 0–30 | Consistent with genuine competence or genuine incompetence |
 | Mixed signature | 30–70 | Multiple signatures present; further analysis required |
-| Engineered pattern | 70–85 | Satisfies engineered-incompetence signature pattern |
-| Extreme signature | 85–100 | Signature concentration across all five dimensions |
+| High-Asymmetry | 70–85 | Satisfies the engineered-incompetence signature pattern |
+| Extreme-Asymmetry | 85–100 | Signature concentration across all five dimensions |
 
 ---
 
@@ -225,7 +228,7 @@ Cheap fixes resisted: Direct File restoration (effectively zero-cost) categorica
 
 **S4 — Recruitment Selection: 76**
 
-Technical retention: 22. Probationary employee terminations Feb 2025 (~6,000) targeted technical-competence early-career staff. Loyalty advancement: 82. Commissioner architecture replaced with political-pipeline appointment. Dissent tolerance: 12. Score: 76.
+Technical retention: 22. Probationary termination notices Feb 20 2025 (7,315) were reinstated by court order Mar 17 2025; durable reductions came via deferred resignation and attrition. TIGTA found the terminations were made without regard to performance (documented); the stronger reading that they "targeted the competent" is an inference beyond the record and is not asserted. Loyalty advancement: 82. Commissioner architecture replaced with political-pipeline appointment. Dissent tolerance: 12. Score: 76.
 
 **S5 — Information-Architecture Asymmetry: 92**
 
@@ -237,7 +240,7 @@ Internal coherence: 92. Project 2025 IRS-restructuring blueprint internally cohe
 > = 23.5 + 19.0 + 13.35 + 7.6 + 27.6
 > = 91.05 → 91
 
-Note: the instrument computes 89 due to different intermediate rounding; in production both 89 and 91 fall in the same band (extreme signature, 85–100) and the diagnostic conclusion is identical. This is the appropriate level of precision for an interpretive measurement framework: the band is the analytically authoritative unit, not the integer score.
+Note (corrected v1.2): the v0.1 instrument displayed 89 for this architecture because its per-dimension inputs predated the v1.2 evidence-anchor revisions — not, as an earlier edition of this note claimed, because of "different intermediate rounding" (identical inputs and weights cannot round two points apart). The live instrument's current inputs are the ones shown above and compute 91, matching this worked example. The band remains the analytically authoritative unit, not the integer score.
 
 ---
 
@@ -268,4 +271,6 @@ The rubric is a v1.0 scaffold. Refinement, contestation, and revision are expect
 
 ---
 
-*Document version: 1.1 · May 17, 2026 · companion to Obfuscratic Sabbotarchy — Deception Arcane v0.1 and Obfuscratic Sabbotarchy methodology paper v1.1*
+*Document version: 1.2 · July 10, 2026 · companion to Obfuscratic Sabbotarchy — Deception Arcane (live instrument v0.8 is canonical for current scores) and Obfuscratic Sabbotarchy methodology paper v1.3*
+
+**Changelog v1.1 → v1.2.** Evidence-anchor corrections propagated from the methodology paper's audit increment ($2.3T CBO/JCT sourced figure replacing the unanchored $1.3T; coverage losses restated as projected 9.9–15M; ~$911B CBO Medicaid figure; IG "unbounded ratio" withdrawn per the Sept 2025 judicial posture; IRS 7,315-reinstated-then-attrition account with the "targeted the competent" inference withdrawn per TIGTA). The false "intermediate rounding" reconciliation of the IRS worked example corrected. S2 derivation table gains the anti-signature quadrant. S4 sub-axes reclassified as analyst judgment scales. Bands renamed to measured-property names (High-Asymmetry / Extreme-Asymmetry).

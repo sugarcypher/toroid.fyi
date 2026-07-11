@@ -1,4 +1,6 @@
-# Obfuscratic Sabbotarchy v0.1 — Distribution Package
+# Obfuscratic Sabbotarchy — Distribution Package
+
+> **Version note (July 2026):** this README described the v0.1 package. The live instrument is at **v0.8** (seven architectures including the Regulatory Rollback candidate; temporal-dynamics layer; reform-lineage baselines; resource-operations candidates S6–S8), the methodology paper at **v1.3**, and the rubric at **v1.2**. Current composites: IRS 91 · DOGE 89 · Rollback 88 · ICE 85 · OBBBA 85 · NIH 80 · VA 76. Bands renamed to Genuine / Mixed / High-Asymmetry / Extreme-Asymmetry. Where this README and the live instrument disagree, the instrument is canonical. The v0.1 table below is retained as a historical record.
 
 **ThinkWell Labs Metrology · B. Greenway · obfuscratic_sabbotarchy_final.zip**
 
@@ -55,12 +57,12 @@ Four bands:
 
 - **0–30 Genuine pattern** — consistent with genuine competence or genuine incompetence
 - **30–70 Mixed signature** — multiple dimensions present but not concentrated; further analysis required
-- **70–85 Engineered pattern** — signature pattern satisfied
-- **85–100 Extreme signature** — signature concentration across all five dimensions
+- **70–85 High-Asymmetry** (formerly "Engineered pattern") — signature pattern satisfied
+- **85–100 Extreme-Asymmetry** (formerly "Extreme signature") — signature concentration across all five dimensions
 
 ## Initial findings
 
-The six seed architectures produce a distribution clustered in the engineered and extreme bands:
+The six v0.1 seed architectures produced a distribution clustered in the upper bands (historical v0.1 composites — superseded, see version note above):
 
 | Architecture | Composite Index | Band |
 |--------------|----------------|------|

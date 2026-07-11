@@ -108,12 +108,12 @@ The index produces four bands:
 
 | Band | Range | Interpretation |
 |------|-------|----------------|
-| Genuine pattern | 0–30 | Consistent with genuine competence or genuine incompetence (low obfuscratic signature) |
-| Mixed signature | 30–70 | Multiple signature dimensions present but not concentrated; further analysis required |
-| Engineered pattern | 70–85 | Satisfies the engineered-incompetence signature pattern |
-| Extreme signature | 85–100 | Engineered incompetence operating across all five dimensions; signature concentration is structural |
+| Genuine | 0–30 | Consistent with genuine competence or genuine incompetence (low obfuscratic signature) |
+| Mixed | 30–70 | Multiple signature dimensions present but not concentrated; further analysis required |
+| High-Asymmetry | 70–85 | Satisfies the engineered-incompetence signature pattern |
+| Extreme-Asymmetry | 85–100 | Signature concentration across all five dimensions; the measured pattern consistent with engineered incompetence operating obfuscratically |
 
-The band thresholds are not arbitrary. The 70 boundary corresponds to the score required when a single dimension is below the engineered-pattern range — i.e., to reach 70, an architecture must score in the engineered range on at least four of five dimensions. The 85 boundary corresponds to the score required when all five dimensions are in the engineered range simultaneously. These boundaries can be revised as the framework matures and more architectures are scored.
+The band thresholds are calibration conventions on the weighted mean. *(Correction, v1.2: earlier versions of this paper claimed the 70 boundary "corresponds to scoring in the engineered range on at least four of five dimensions" and the 85 boundary to all five. That correspondence does not survive arithmetic under unequal weights: four dimensions at exactly 70 with the fifth at 30 produce composites of 58–66 depending on which dimension is low, and a composite ≥85 is reachable without all five dimensions ≥70. The count-based justification is withdrawn.)* The thresholds are retained because the seed set's band membership is insensitive to ±0.05 weight perturbations — under all 20 single-pair shifts of the weight vector, each composite moves by at most ~1 point and no architecture changes band except OBBBA, which sits on the 85 boundary. These boundaries can be revised as the framework matures and more architectures are scored.
 
 ## 5. The hybrid scoring methodology
 
@@ -131,7 +131,7 @@ The scoring rubric document accompanying this paper specifies the per-dimension 
 
 The six seed architectures produce a striking distribution. All six score above 70, with four scoring above 85 (extreme signature) and two in the high-engineered range. This is not a methodological artifact; it reflects the analytical principle that motivated the framework. Government-services-redirection architectures were selected as the focused domain precisely because they were predicted to display the signature pattern most cleanly, and the dataset confirms the prediction.
 
-The differential distribution within the six architectures is itself diagnostic. The IRS dismantling (composite 89) and DOGE federal workforce reduction (composite 89) tie for the highest scores, both driven by extreme S5 information-architecture asymmetry combined with extreme S1 outcome-distribution asymmetry. The OBBBA / Medicaid administration (composite 86) and ICE/DHS detention apparatus (composite 86) follow closely, with ICE displaying slightly lower S5 and OBBBA displaying slightly lower S2. The NIH compression (composite 77) and VA restructuring (composite 74) operate in the lower engineered range, reflecting less stark asymmetries (NIH's S1 is high but its S2 is more mixed; VA's resistance pattern shows partial-architecture protection rather than uniform commitment).
+The differential distribution within the six architectures is itself diagnostic. *(Version note: the composites in this paragraph are the v0.1-era values this paper originally shipped with. After the v1.2 evidence-anchor corrections and the addition of a seventh architecture (Regulatory Rollback, instrument v0.8), the live instrument's per-dimension data — which is canonical — recomputes to IRS 91 · DOGE 89 · Rollback 88 · ICE 85 · OBBBA 85 · NIH 80 · VA 76. Gaps within ~5 points are inside the scoring error band and are not ordinal claims; see the instrument's Robustness notes.)* The IRS dismantling (composite 89) and DOGE federal workforce reduction (composite 89) tie for the highest scores, both driven by extreme S5 information-architecture asymmetry combined with extreme S1 outcome-distribution asymmetry. The OBBBA / Medicaid administration (composite 86) and ICE/DHS detention apparatus (composite 86) follow closely, with ICE displaying slightly lower S5 and OBBBA displaying slightly lower S2. The NIH compression (composite 77) and VA restructuring (composite 74) operate in the lower engineered range, reflecting less stark asymmetries (NIH's S1 is high but its S2 is more mixed; VA's resistance pattern shows partial-architecture protection rather than uniform commitment).
 
 The cross-architecture pattern matters. Genuine policy disagreement would produce architectures distributed across the full index range; coordinated engineered incompetence produces architectures clustered in the engineered and extreme bands. The clustering is the signature at the meta-level.
 
@@ -215,13 +215,15 @@ Composite = 0.25·S1 + 0.20·S2 + 0.15·S3 + 0.10·S4 + 0.30·S5
 
 | Band | Range | Interpretation |
 |------|-------|----------------|
-| Genuine pattern | 0–30 | Low signature; consistent with genuine competence or incompetence |
-| Mixed signature | 30–70 | Some dimensions present; requires further analysis |
-| Engineered pattern | 70–85 | Signature pattern satisfied |
-| Extreme signature | 85–100 | Signature concentration across all dimensions |
+| Genuine | 0–30 | Low signature; consistent with genuine competence or incompetence |
+| Mixed | 30–70 | Some dimensions present; requires further analysis |
+| High-Asymmetry | 70–85 | Signature pattern satisfied |
+| Extreme-Asymmetry | 85–100 | Signature concentration across all dimensions |
 
 ---
 
-*Document version: 1.2 · June 2026 · companion to Obfuscratic Sabbotarchy — Deception Arcane v0.1 and Polymorphic Catalysis Toroid v0.32*
+*Document version: 1.3 · July 10, 2026 · companion to Obfuscratic Sabbotarchy — Deception Arcane (v1.1 of this paper mapped to instrument v0.1; the live instrument is at v0.8, whose data is canonical for current scores) and Polymorphic Catalysis Toroid v0.32*
 
 **Changelog v1.1 → v1.2 (June 2026, evidence-anchor audit increment).** Four anchors in §3 were tightened to the contemporaneous record following the evidence-anchor audit (`sabbotarchy_evidence_audit.md`): (1) §3.1 OBBBA coverage-loss and mortality figures reclassified from realized to *projected* (CBO/CBPP, 2034 horizon), and the unanchored "$1.3T" magnitude replaced with the sourced ~$2.3T-to-top-decile CBO/JCT figure; (2) §3.3 IG-firings example qualified by the September 2025 judicial posture, softening the "unbounded cost-resistance ratio" claim; (3) §3.4 Schedule F split into Occurred-architecture vs Projected-scale, and the IRS probationary terminations re-stated along the documented reinstatement-then-attrition path with TIGTA's "ignored performance" finding substituted for the "targeted the competent" inference. This increment also introduces three companion documents: the velocity & synchrony extension (`sabbotarchy_velocity_synchrony_extension.md`, §11), the pre-registered negative-control set (`sabbotarchy_negative_controls.md`, §12), and the evidence-anchor audit (`sabbotarchy_evidence_audit.md`, §13). All edits move claims toward the record; none alter the framework's structure or the composite weighting.
+
+**Changelog v1.2 → v1.3 (July 2026, consolidation increment).** Two documents both labeled v1.2 were briefly deployed, each carrying a different half of the corrections: the June copy had the §3 evidence-anchor corrections, the July copy the §4 band-threshold withdrawal and §6 version note. v1.3 merges both halves into one canonical text, deployed identically at /papers/obfuscratic_sabbotarchy_methodology.md and /sabbot/sabbotarchy_methodology_paper.md. It also renames the index bands to the measured-property names used in the companion volume (Genuine / Mixed / High-Asymmetry / Extreme-Asymmetry — intent words removed from band labels). No changes to the framework's dimensions, weights, or scores.

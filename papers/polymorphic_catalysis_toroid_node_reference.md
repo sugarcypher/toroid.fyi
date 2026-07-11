@@ -405,7 +405,7 @@ The asymmetry is analytically diagnostic: targets cluster predominantly in the l
 
 | Ref | Target | Operational notes |
 |---|---|---|
-| T040 | Medicaid / SNAP / ACA enrollees | OBBBA-affected populations; ~10.9-15M projected coverage losses |
+| T040 | Medicaid / SNAP / ACA enrollees | OBBBA-affected populations; ~9.9-15M projected coverage losses |
 | T041 | Immigrant populations / due process | Immigration enforcement-affected populations; 65,000+ detentions documented |
 | T042 | Rural / agricultural populations | Rural populations under tariff sequence, healthcare access reduction, agricultural-subsidy realignment compound effects |
 | T043 | Climate-vulnerable populations | Populations facing acute climate-impact pressure; insurance withdrawal, disaster-response capacity reduction compound |
@@ -965,7 +965,7 @@ Each vortex now reads visually as multi-source convergence — consolidation as 
 - Civil-society pressure (ACLU/Brennan/SPLC targeting, university-research attack, NGO IRS-weaponization)
 - Trans-youth pressure (~25 states banning gender-affirming care for minors)
 - Federal-workforce attack (Schedule F revived 2025, DOGE 386,826 departures Jan 2025-Jan 2026)
-- Social-safety-net pressure (OBBBA ~$665B Medicaid cuts supported, SNAP work-requirement expansion)
+- Social-safety-net pressure (OBBBA ~$911B (net, CBO Jul 2025) Medicaid cuts supported, SNAP work-requirement expansion)
 - Press-architecture pressure ("enemy of the people," Sullivan-revisitation pressure)
 - Israel-Palestine alignment (Title-VI weaponization, ~$400M Columbia funding pause)
 - Bureaucratic-substrate capture (Project 2025 OPM architecture, ~20K loyalist-pipeline candidates)
@@ -1083,3 +1083,13 @@ No cells were added, removed, or relocated. All structural relationships preserv
 **Onboarding**: 12-step layered tour demonstrating model state directly. First-time users start at minimum (outer wireframe + catalyst only). Dismissal hands clean explorable state. Re-open via `?` restarts tour.
 
 The Polymorphic Catalysis Toroid v0.33 has matured (v0.33) as a multi-scale analytical instrument: relational architecture (toroid) + measurement methodology (the Obfuscratic Sabbotarchy — Deception Arcane (companion bundle obfuscratic_sabbotarchy_final.zip)) + documentation reference (this document) + structural narrative (companion methodology papers). The instrument documents an operating coalition's architecture across operational convergence, structural coordination, benefit-inferred backchannel, polarity tension, consolidation dynamics, and degree-of-separation network topology — all routing through the Intent-Action Catalyst as central structural attractor.
+
+---
+
+## Changelog v0.33 → v0.34 (July 2026, audit increment)
+
+- **B-cell tier inference corrected.** The renderer previously inferred evidence tier from benefit *direction* (`MUTUAL → D`), which rendered 40 of 50 benefit-inference cells as Documented — a category error, since B-cells are definitionally relationships asserted despite the absence of documented proof-of-connection. B-cells now render as **I (Inferable)** by default (UNK → S); an explicit per-cell `tier` field overrides.
+- **OBBBA figures updated to the CBO July 2025 scoring:** ~$911B net Medicaid reduction (~$1.06T incl. Marketplace) replacing ~$665B; coverage losses 9.9–15M (projected).
+- **Reference repairs:** dangling cites to the retired cell 7.34 removed; "cell 7.2"/"cell 7.3" cites pointed at the intended cells; B004 code-name corrected to *Nivation-Karst* in two descs that misnamed it *Hadal-Verglas* (B001's name); B032's cross-ref corrected from P007 to B007 (*Frost-Wedging-Adit*). B040's "PE-architecture-aligned" characterization of CoreCivic/GEO corrected — both are publicly traded companies, not private-equity portfolio holdings.
+- **Mode-tag rename applied in data:** `'Sabbotarcracy'` → `'Sabbotarchy'` across all cell mode arrays (the rename this document specified).
+- **Legend opacity values matched to the code** (85/65/42).

@@ -1,4 +1,4 @@
-# Named and Counted, Not Blamed nor Accounted v5
+# Named and Counted, Not Blamed nor Accounted v5.1
 
 #### A metrological instrument for measuring structural patterns — naming what had no name
 
@@ -8,6 +8,8 @@ ThinkWell Labs Metrology · 2026
 *Companion to the live instrument at toroid.fyi/sabbot and the Polymorphic Catalysis Toroid.*
 
 *Sometimes things are invisible until they are named.*
+
+*v5.1 errata (July 2026): a drafting-artifact inter-rater-reliability claim has been removed — no record of such a test exists and none was run; the band-threshold "dimension count" derivation is withdrawn; the IRS row is updated to the live instrument's corrected scores; distribution-package file names corrected. Changelog at the end.*
 
 ## Preface — Not an Accusation; an Observation
 
@@ -171,9 +173,9 @@ The index sorts into four bands.
 | High-Asymmetry | 70–85 | The directional signature pattern is satisfied. |
 | Extreme-Asymmetry | 85–100 | The asymmetry is concentrated across all five dimensions. |
 
-The thresholds are not arbitrary. Reaching 70 takes the high range on at least four of five dimensions; reaching 85 takes it on all five at once. They can be revised as more architectures are scored.
+The thresholds are calibration conventions on the weighted mean. (An earlier edition claimed they were derived from dimension counts — 70 as four-of-five in the high range, 85 as all five at once. That does not survive arithmetic under unequal weights: four dimensions at exactly 70 with the fifth at 30 produce composites of only 58–66. The claim is withdrawn. The thresholds are retained because the scored set's band membership survives every weight perturbation tested — including dropping the heaviest dimension entirely.) They can be revised as more architectures are scored.
 
-**Uncertainty.** These scores are not measurements drawn from a sampling distribution; they are one analyst's judgments, and a confidence interval computed over a sample of one would be fabricated precision — the exact failure Part III forbids. So no ± is attached to any single score. What *can* be reported honestly is the only real variance the project has: where the scoring has been repeated by additional raters, agreement runs to roughly twelve points on the hundred-point scale — enough to cross a band boundary. Read every number here as a *band-level* claim, never a point estimate. A score is shorthand for "this architecture sits in this band, pending a hostile rater"; it is never shorthand for a precise quantity.
+**Uncertainty.** These scores are not measurements drawn from a sampling distribution; they are one analyst's judgments, and a confidence interval computed over a sample of one would be fabricated precision — the exact failure Part III forbids. So no ± is attached to any single score. What *can* be reported honestly is computed, not sampled: under every ±0.05 shift of the weight vector each composite moves by at most about one point, and treating each dimension score as uncertain by ±5 puts roughly ±2.5 to ±5 points of soft error on any composite — enough to cross a band boundary near an edge. Cross-analyst replication has not yet been run; until it is there is no rater-to-rater variance to report, and that absence is itself a stated limitation. Read every number here as a *band-level* claim, never a point estimate. A score is shorthand for "this architecture sits in this band, pending a hostile rater"; it is never shorthand for a precise quantity.
 
 A point of language, carried from the front of the book and meant literally here. The signatures *measure.* The word *structured* is an *inference* drawn from what they measure, and it belongs at the top of the evidentiary ladder, away from the act of measuring. Where the text says an architecture *satisfies the high-asymmetry signature,* it reports a measured fact about asymmetry, selectivity, and incoherence. Whether to call the architecture *structured* or *sabotaged*, to attribute design, is the reader's step, and the book takes it only where avowed doctrine or full convergence earns it. Everywhere else the disciplined sentence is that the structure *exhibits directional asymmetry.*
 
@@ -183,7 +185,7 @@ The instrument runs on a hybrid model: seed architectures scored against anchore
 
 Each score on each dimension traces to specific evidence: a dated document, an agency report, a court filing, a budget score, a congressional record, an investigative account. The audit trail is preserved and meant to be replicable; an independent analyst can take the same evidence and confirm the score or revise it. That replicability is the point. It is also, candidly, the thing the instrument most needs and has least of so far. To date the scoring is largely one analyst's, and by the framework's own standard that places the cross-architecture findings at a strong candidate inference awaiting independent replication. The book says so wherever the claim is made.
 
-**Inter-rater reliability:** Preliminary testing with two additional analysts on three architectures showed convergence within ±12 points on average, with highest agreement on S5 (±6 points) and lowest on S4 (±15 points). This suggests the bands (30-point ranges) are appropriately sized, but individual point scores should not be over-interpreted.
+**Inter-rater reliability:** none yet. Cross-analyst replication is an open research program, and the framework's external validity rides on it. The rubric's pre-committed standard: two experienced analysts, same evidence, should land within about ten points; looser convergence means the dimension is measuring mood, not structure. (An earlier draft reported a preliminary two-analyst test here; no protocol, raters, or data for such a test exist in the project record, and the claim is withdrawn as a drafting artifact, not a result.)
 
 ## 6. What the first scores show
 
@@ -227,7 +229,7 @@ Everything before this has been the building of the instrument. This is the part
 
 > **A note on the numbers.** The scores, the correlation, and the projected ranges in this part are frozen as of June 2026 for print. The live instrument at toroid.fyi/sabbot continues to update against fresh evidence, so its current figures may differ from the ones fixed here. Where this part and the instrument disagree, the instrument is newer; this part is the dated record of where the readings stood when the book went to press.
 
-> **On the numbers' precision.** No composite or dimension score here carries a confidence interval, because none is entitled to one: these are single-analyst judgments, not estimates from a sample. The honest uncertainty statement is band-level. Where two raters have scored the same architecture, they have parted by as much as twelve points — enough to move a case across a band line. Treat every figure below as a claim about *which band*, not about a precise quantity, and treat any score within a few points of a boundary as genuinely ambiguous between the two adjacent bands.
+> **On the numbers' precision.** No composite or dimension score here carries a confidence interval, because none is entitled to one: these are single-analyst judgments, not estimates from a sample. The honest uncertainty statement is band-level. No second rater has yet scored these architectures — replication is the open program — and the computed sensitivity bands (roughly ±2.5 to ±5 points) are enough to move a case near a boundary across a band line. Treat every figure below as a claim about *which band*, not about a precise quantity, and treat any score within a few points of a boundary as genuinely ambiguous between the two adjacent bands.
 
 ## The seven architectures, scored
 
@@ -235,7 +237,7 @@ Each architecture is scored at three checkpoints — first quarter of 2025, thir
 
 | Architecture | S1 | S2 | S3 | S4 | S5 | Composite | Band |
 |---|---|---|---|---|---|---|---|
-| IRS dismantling | 92 | 94 | 88 | 75 | 90 | 89 | Extreme |
+| IRS dismantling | 94 | 95 | 89 | 76 | 92 | 91 | Extreme |
 | DOGE workforce reduction | 88 | 91 | 86 | 84 | 93 | 89 | Extreme |
 | Regulatory / civil-rights rollback | 88 | 85 | 86 | 84 | 92 | 88 | Extreme |
 | OBBBA / Medicaid | 92 | 79 | 82 | 73 | 89 | 85 | Extreme |
@@ -253,13 +255,13 @@ The static table hides the most telling fact, which is how fast these readings a
 |---|---|---|---|
 | OBBBA / Medicaid | 16 | 85 | +69 |
 | ICE / immigration | 65 | 85 | +20 |
-| IRS dismantling | 68 | 89 | +21 |
+| IRS dismantling | 68 | 91 | +23 |
 | Regulatory / rollback | 62 | 88 | +26 |
 | NIH / research | 56 | 80 | +24 |
 | VA / veterans | 56 | 76 | +20 |
 | DOGE workforce | 75 | 89 | +14 |
 
-The OBBBA row is the one to dwell on, because it is the cleanest evidence in the book that the instrument is not simply scoring my politics. At the first checkpoint, before enactment, OBBBA scored **16** — squarely in the genuine-pattern band, *below* the reform lineage's Grace Commission. The instrument looked at the thing in its latent state and declined to call it a signature. Only as the structure took form — the realized distribution diverging from the stated one, the information architecture going asymmetric — did the score climb, and it climbed seventy points. A measure that wanted to convict would have convicted at 16. This one waited for the evidence and moved when the evidence moved, and the record of it moving is the record of an instrument doing its job rather than confirming its operator.
+The OBBBA row is the one to dwell on, because it is the cleanest evidence in the book that the instrument is not simply scoring my politics. At the first checkpoint, before enactment, OBBBA scored **16** — squarely in the genuine-pattern band, below the reform lineage's NPR (≈19) and PMA (≈20) and two points above the Grace Commission (≈14). The instrument looked at the thing in its latent state and declined to call it a signature. Only as the structure took form — the realized distribution diverging from the stated one, the information architecture going asymmetric — did the score climb, and it climbed seventy points. A measure that wanted to convict would have convicted at 16. This one waited for the evidence and moved when the evidence moved, and the record of it moving is the record of an instrument doing its job rather than confirming its operator.
 
 Set against the reform lineage of Part VI, the separation is total. Grace Commission, 14. Reinventing Government, 19, on a *larger* workforce cut than DOGE. President's Management Agenda, 20. Three prior reforms clustered in the low genuine band; seven current architectures clustered from the high band into the extreme. The gap between those two clusters is the finding, and it is a gap the instrument was demonstrably able *not* to produce, since the lineage proves it can score a large hard reform at 19.
 
@@ -317,7 +319,7 @@ Both predictions are recorded as predictions — hypotheses, not findings — an
 
 # Obfuscratic Asymmetry v0.1 — Distribution Package
 
-**ThinkWell Labs Metrology · B. Greenway · obfuscratic_asymmetry_final.zip**
+**ThinkWell Labs Metrology · B. Greenway · obfuscratic_sabbotarchy_final.zip**
 
 This package contains the **Obfuscratic Asymmetry — Deception Arcane** signature instrument and its accompanying methodology documentation. The instrument is a measurement apparatus for directional dysfunction regimes, scoring government-services-redirection architectures on five empirically-grounded signature dimensions to produce a composite Obfuscratic Asymmetry Index.
 
@@ -339,19 +341,19 @@ The coinages were formed by the author through linguistic-autopsy procedure — 
 
 ### Primary artifact
 
-**`asymmetry_deception_arcane.html`** — the signature instrument itself. Self-contained HTML file with embedded SVG visualizations and complete dataset. Opens in any modern browser without external dependencies. Total: ~1,400 lines, ~75KB.
+**`sabbotarchy_deception_arcane.html`** — the signature instrument itself (deployed live at toroid.fyi/sabbot). Self-contained HTML file with embedded SVG visualizations and complete dataset. Opens in any modern browser without external dependencies. Total: ~2,000 lines, ~150KB.
 
 The instrument scores **seven** government-services-redirection architectures (DOGE federal workforce reduction, OBBBA / Medicaid administration, ICE/DHS detention apparatus, IRS dismantling, NIH research-funding compression, VA workforce restructuring, Regulatory/civil-rights rollback) on the five signature dimensions. Each score is anchored to documented evidence. The instrument computes the composite Obfuscratic Asymmetry Index per architecture and ranks all seven in a comparison table.
 
 ### Methodology documentation
 
-**`asymmetry_methodology_paper.md`** — formal methodology paper documenting the framework's analytical foundations, the bipartite naming structure, the five signature dimensions, the composite index, the hybrid scoring methodology, initial findings across the seven seed architectures, methodological limitations, integration with the Polymorphic Catalysis Toroid, and future directions. ~32KB.
+**`sabbotarchy_methodology_paper.md`** — formal methodology paper documenting the framework's analytical foundations, the bipartite naming structure, the five signature dimensions, the composite index, the hybrid scoring methodology, initial findings across the seven seed architectures, methodological limitations, integration with the Polymorphic Catalysis Toroid, and future directions. ~32KB.
 
-**`asymmetry_scoring_rubric.md`** — operational scoring rubric specifying the per-dimension scoring criteria, evidence requirements, scoring bands, and a worked example (IRS dismantling architecture). Provides the methodological precision required for analyst-extended scoring of additional architectures using the same framework. ~21KB.
+**`sabbotarchy_scoring_rubric.md`** — operational scoring rubric specifying the per-dimension scoring criteria, evidence requirements, scoring bands, and a worked example (IRS dismantling architecture). Provides the methodological precision required for analyst-extended scoring of additional architectures using the same framework. ~21KB.
 
-**`asymmetry_evidence_anchors.md`** — complete citation list for all evidence anchors referenced in the instrument, with URLs, access dates, and archival links where available. ~15KB.
+**`sabbotarchy_evidence_anchors.md`** — complete citation list for all evidence anchors referenced in the instrument, with URLs, access dates, and archival links where available. ~15KB.
 
-**`asymmetry_uncertainty_analysis.md`** — inter-rater reliability testing results, band-level reliability discussion, and sensitivity analysis of composite weights. ~12KB.
+**Uncertainty and sensitivity analyses** — the weight-sensitivity results, error bands, and epistemics inventory live in the instrument's footer; a standalone reliability document will exist when the replication study runs. (An earlier edition listed an `asymmetry_uncertainty_analysis.md` containing inter-rater results; no such file or test exists, and the entry is corrected.)
 
 ## The five signature dimensions
 
@@ -380,7 +382,7 @@ Four bands:
 - **70–85 High-Asymmetry pattern** — directional signature pattern satisfied
 - **85–100 Extreme-Asymmetry pattern** — asymmetry concentration across all five dimensions
 
-**Uncertainty:** No score carries a confidence interval; single-analyst judgments do not have a sampling distribution to compute one from. The only real variance data is inter-rater: agreement runs to ~12 points, enough to cross a band. Read all figures as band-level, not point-level.
+**Uncertainty:** No score carries a confidence interval; single-analyst judgments do not have a sampling distribution to compute one from. The available variance data is computed sensitivity, not sampled: weight perturbations move composites by ≤~1 point, and ±5-per-dimension judgment uncertainty gives ±2.5–5 on the composite. No inter-rater data exists yet. Read all figures as band-level, not point-level.
 
 ## Initial findings
 
@@ -389,7 +391,7 @@ The seven seed architectures produce a distribution clustered in the high and ex
 | Architecture | Composite Index | Band |
 |--------------|----------------|------|
 | DOGE / federal workforce reduction | 89 | Extreme-Asymmetry |
-| IRS dismantling | 89 | Extreme-Asymmetry |
+| IRS dismantling | 91 | Extreme-Asymmetry |
 | OBBBA / Medicaid administration | 85 | Extreme-Asymmetry |
 | ICE/DHS detention apparatus | 85 | Extreme-Asymmetry |
 | Regulatory/civil-rights rollback | 88 | Extreme-Asymmetry |
@@ -424,7 +426,7 @@ The instrument operates on a hybrid scoring model:
 
 The hybrid model is methodologically chosen. Pure author-scoring would limit external validity; pure methodology-scaffolding would limit demonstrative power. The hybrid produces both: a demonstrative initial dataset and infrastructure for the framework's continued development.
 
-**Inter-rater reliability:** Preliminary testing with two additional analysts on three architectures showed convergence within ±12 points on average, highest agreement on S5 (within ~6 points), lowest on S4 (within ~15 points). These are observed rater-to-rater ranges, not confidence intervals. They indicate band-level reliability is acceptable while point-score precision is not.
+**Inter-rater reliability:** not yet measured. Cross-analyst replication is an open research program; the pre-committed convergence standard is ±10 points per dimension. An earlier draft reported a preliminary rater test here; no record of such a test exists, and the claim is withdrawn.
 
 ## Operating philosophy
 
@@ -438,7 +440,7 @@ The framework occupies a specific analytical position:
 
 **It is meant to outlive any specific analyst's use of it.** The methodology is documented for replication; the scoring rubric is operational; the evidence-anchoring discipline is reproducible. Other analysts can adopt the framework, score additional architectures, and contest the seed-architecture scores. The framework gains validity through use, not through assertion.
 
-**It acknowledges uncertainty.** No score carries a fabricated confidence interval; uncertainty is stated honestly at band level, with the real inter-rater spread reported. Every projection is tagged. Every correlation is distinguished from causation. Every contested claim is marked. The framework's credibility rests on transparency about what it does not know as much as what it does.
+**It acknowledges uncertainty.** No score carries a fabricated confidence interval; uncertainty is stated honestly at band level, with the computed sensitivity bands reported and the absence of replication stated plainly. Every projection is tagged. Every correlation is distinguished from causation. Every contested claim is marked. The framework's credibility rests on transparency about what it does not know as much as what it does.
 
 ## Citation
 
@@ -463,3 +465,13 @@ The originating insight — the bipartite construction *Obfuscratic Asymmetry* a
 - [Irs Would Eliminate Direct File Under (Federalnewsnetwork)](https://federalnewsnetwork.com/congress/2025/05/irs-would-eliminate-direct-file-under-trump-backed-budget-reconciliation-bill/)
 - [Pushback Against Trump Plan To End (Tax)](https://tax.thomsonreuters.com/news/pushback-against-trump-plan-to-end-irs-direct-file/)
 - [Irs Ends Direct File Shifts Focus (Journalofaccountancy)](https://www.journalofaccountancy.com/news/2025/nov/irs-ends-direct-file-shifts-focus-to-free-file-upgrades-and-private-sector/)
+
+---
+
+## Changelog v5 → v5.1 (July 2026)
+
+1. **Inter-rater claim removed (four sites).** v4 introduced, in a "(v3.1)" revision block, a claim that "two additional analysts on three architectures showed convergence within ±12 points." v5 deleted that block's twin (a fabricated ±5–8 confidence interval) as "fabricated precision" but kept this one. No protocol, raters, scores, or data file for such a test exist anywhere in the project record — the cited `asymmetry_uncertainty_analysis.md` was never written — and the author has no means of having run it. The claim is withdrawn as a drafting artifact. The replacement is the truth: replication has not been run, and the computed sensitivity analyses are the only variance data.
+2. **Band-threshold derivation withdrawn** (§ the composite index): the "four-of-five / all-five" dimension-count justification fails arithmetic under unequal weights; thresholds are calibration conventions, retained on robustness grounds.
+3. **Grace Commission comparison corrected**: OBBBA's pre-enactment 16 is above Grace (≈14), below NPR (≈19) and PMA (≈20).
+4. **IRS rows updated** to the live instrument's corrected per-dimension scores (94·95·89·76·92 → 91).
+5. **Distribution-package description corrected** to the real file names and instrument size.

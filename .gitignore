@@ -37,6 +37,9 @@ play/BUILD_COMPARISON.html
 # stay on disk only until the book ships.
 /sabbot/book/
 
+# Internal audit working documents — not for deploy
+/audits/
+
 # OS noise
 .DS_Store
 Thumbs.db

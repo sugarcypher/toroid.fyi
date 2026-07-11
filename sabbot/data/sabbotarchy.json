@@ -1,82 +1,463 @@
 {
-  "version": "v0.4",
+  "version": "v0.8",
   "dims": [
-    ["S3","Anti-remediation","existing","block or refuse an available fix","the fix itself","preserve exploitable dysfunction","2024 bipartisan border bill killed"],
-    ["S6","Selective-allocation asymmetry","candidate · redefined","resource aligned needs, skip greater ones","money / relief","financial capture + political alignment","Argentina swap; $1.776B self-settlement fund"],
-    ["S7","Asset/standing dissipation","candidate","expend force, lives, and legality","military assets, personnel, rule-of-law","political leverage + spectacle","Caribbean/Pacific boat strikes; Maduro capture"],
-    ["S8","Induced-harm coercion","candidate","create or deepen a crisis in a target population","target-population welfare","geopolitical coercion","Cuba oil blockade; Venezuela pre-capture pressure"]
+    [
+      "S3",
+      "Anti-remediation",
+      "existing",
+      "block or refuse an available fix",
+      "the fix itself",
+      "preserve exploitable dysfunction",
+      "2024 bipartisan border bill killed"
+    ],
+    [
+      "S6",
+      "Selective-allocation asymmetry",
+      "candidate · redefined",
+      "resource aligned needs, skip greater ones",
+      "money / relief",
+      "financial capture + political alignment",
+      "Argentina swap; $1.776B self-settlement fund"
+    ],
+    [
+      "S7",
+      "Asset/standing dissipation",
+      "candidate",
+      "expend force, lives, and legality",
+      "military assets, personnel, rule-of-law",
+      "political leverage + spectacle",
+      "Caribbean/Pacific boat strikes; Maduro capture"
+    ],
+    [
+      "S8",
+      "Induced-harm coercion",
+      "candidate",
+      "create or deepen a crisis in a target population",
+      "target-population welfare",
+      "geopolitical coercion",
+      "Cuba oil blockade; Venezuela pre-capture pressure"
+    ]
   ],
   "anchors": [
-    ["$1.776B \"Anti-Weaponization Fund\" / IRS self-settlement","S6 · passing",["occurred: structure","contested: payouts"],"Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund.","$1.776B fund"],
-    ["Argentina $20B currency swap","S6 · signal",["occurred","repayment corroborated"],"A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction.","Argentina swap"],
-    ["Caribbean / Pacific boat strikes","S7",["occurred","intent contested"],"200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only.","Boat strikes"],
-    ["Venezuela","S8 → S7 → S6 chain",["occurred"],"Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed into U.S.-controlled accounts (S6). Not a bailout — the flow is extraction.","Venezuela"],
-    ["Cuba oil blockade","S8",["occurred","causal share contested"],"Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality up to 9.9/1000, UN warns children dying. Scored on major-proximate-cause contribution, not sole cause.","Cuba blockade"],
-    ["Immigration enforcement","S3 → S6 chain",["occurred: structure"],"2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). \"Entire system manufactured\" overreaches — migration itself is not US-made.","Immigration"]
+    [
+      "$1.776B \"Anti-Weaponization Fund\" / IRS self-settlement",
+      "S6 · passing",
+      [
+        "occurred: structure",
+        "contested: payouts"
+      ],
+      "Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund.",
+      "$1.776B fund"
+    ],
+    [
+      "Argentina $20B currency swap",
+      "S6 · signal",
+      [
+        "occurred",
+        "repayment corroborated"
+      ],
+      "A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction.",
+      "Argentina swap"
+    ],
+    [
+      "Caribbean / Pacific boat strikes",
+      "S7",
+      [
+        "occurred",
+        "intent contested"
+      ],
+      "200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only.",
+      "Boat strikes"
+    ],
+    [
+      "Venezuela",
+      "S8 → S7 → S6 chain",
+      [
+        "occurred"
+      ],
+      "Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed through U.S.-licensed private channels — control exercised via the licensing regime, not literal government accounts (S6). Not a bailout — the flow is extraction.",
+      "Venezuela"
+    ],
+    [
+      "Cuba oil blockade",
+      "S8",
+      [
+        "occurred",
+        "causal share contested"
+      ],
+      "Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality reported toward 9.9/1000 (UN monitors; projected/contested), UN warns children dying. Scored on major-proximate-cause contribution, not sole cause.",
+      "Cuba blockade"
+    ],
+    [
+      "Immigration enforcement",
+      "S3 → S6 chain",
+      [
+        "occurred: structure"
+      ],
+      "2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). \"Entire system manufactured\" overreaches — migration itself is not US-made.",
+      "Immigration"
+    ]
   ],
   "controls": [
-    ["S6","COVID-19 ACIP vaccine allocation (2020)","doses tracked mortality / exposure risk — genuine triage"],
-    ["S7","1991 Gulf War (Desert Storm)","real threat, UN + congressional authorization, defined aim"],
-    ["S8","UNSCR 2664 / OFAC humanitarian licenses (2022)","humanitarian carve-outs preserved; no instrumentalized harm"]
+    [
+      "S6",
+      "COVID-19 ACIP vaccine allocation (2020)",
+      "doses tracked mortality / exposure risk — genuine triage"
+    ],
+    [
+      "S7",
+      "1991 Gulf War (Desert Storm)",
+      "real threat, UN + congressional authorization, defined aim"
+    ],
+    [
+      "S8",
+      "UNSCR 2664 / OFAC humanitarian licenses (2022)",
+      "humanitarian carve-outs preserved; no instrumentalized harm"
+    ]
   ],
   "chains": [
-    ["Immigration", ["S3 · block the 2024 bipartisan fix","sustained crisis","S6 · +$170B detention capture (B040)"]],
-    ["Venezuela", ["S8 · pressure + oil blockade","S7 · strikes → Maduro capture","S6 · oil → U.S.-controlled accounts"]]
+    [
+      "Immigration",
+      [
+        "S3 · block the 2024 bipartisan fix",
+        "sustained crisis",
+        "S6 · +$170B detention capture (B040)"
+      ]
+    ],
+    [
+      "Venezuela",
+      [
+        "S8 · pressure + oil blockade",
+        "S7 · strikes → Maduro capture",
+        "S6 · oil → U.S.-licensed channels"
+      ]
+    ]
   ],
   "dimMeta": {
-    "S3": {"name":"Anti-remediation","measures":"How resistance to correction varies with the cost of the fix — the signature is resisting cheap or even negative-cost fixes.","test":["A fix is available?","Resistance disproportionate to its (low) cost?","Cheap / transparency fixes resisted as hard as expensive ones?","Resistance protects the dysfunction itself?"],"control":"a genuinely under-resourced agency → positive cost-resistance slope (LOW)"},
-    "S6": {"name":"Selective-Allocation Asymmetry","measures":"Whether resource deployment tracks NEED or PAYOFF across the whole portfolio of crises.","test":["Allocation decoupled / inverted vs need? (Spearman ρ)","Resourced set shares a capture or alignment payoff?","Comparable-or-greater needs systematically skipped?","Framed as fiscal prudence / necessity?"],"control":"COVID-19 ACIP vaccine allocation (2020) → LOW (tracked mortality risk)"},
-    "S7": {"name":"Asset / Standing Dissipation","measures":"Expenditure of force, lives, and legal legitimacy for a non-public, factional payoff under a manufactured pretext.","test":["Manufactured / pretextual justification?","Assets, lives, or legality expended?","Net public value low vs the stated aim?","Factional / spectacle payoff rather than public-strategic?"],"control":"1991 Gulf War → LOW (real threat, authorized, defined aim)"},
-    "S8": {"name":"Induced-Harm Coercion","measures":"Deliberate creation or deepening of a humanitarian crisis in a target population, used as a coercion lever.","test":["Harm caused or materially deepened by deliberate action?","Harm falls on a civilian / non-combatant population?","Instrumentalized — tied to a coercive demand?","Obfuscated as something other than what it is?"],"control":"UNSCR 2664 / OFAC humanitarian licenses (2022) → LOW (carve-outs preserved)"}
+    "S3": {
+      "name": "Anti-remediation",
+      "measures": "How resistance to correction varies with the cost of the fix — the signature is resisting cheap or even negative-cost fixes.",
+      "test": [
+        "A fix is available?",
+        "Resistance disproportionate to its (low) cost?",
+        "Cheap / transparency fixes resisted as hard as expensive ones?",
+        "Resistance protects the dysfunction itself?"
+      ],
+      "control": "a genuinely under-resourced agency → positive cost-resistance slope (LOW)"
+    },
+    "S6": {
+      "name": "Selective-Allocation Asymmetry",
+      "measures": "Whether resource deployment tracks NEED or PAYOFF across the whole portfolio of crises.",
+      "test": [
+        "Allocation decoupled / inverted vs need? (Spearman ρ)",
+        "Resourced set shares a capture or alignment payoff?",
+        "Comparable-or-greater needs systematically skipped?",
+        "Framed as fiscal prudence / necessity?"
+      ],
+      "control": "COVID-19 ACIP vaccine allocation (2020) → LOW (tracked mortality risk)"
+    },
+    "S7": {
+      "name": "Asset / Standing Dissipation",
+      "measures": "Expenditure of force, lives, and legal legitimacy for a non-public, factional payoff under a manufactured pretext.",
+      "test": [
+        "Manufactured / pretextual justification?",
+        "Assets, lives, or legality expended?",
+        "Net public value low vs the stated aim?",
+        "Factional / spectacle payoff rather than public-strategic?"
+      ],
+      "control": "1991 Gulf War → LOW (real threat, authorized, defined aim)"
+    },
+    "S8": {
+      "name": "Induced-Harm Coercion",
+      "measures": "Deliberate creation or deepening of a humanitarian crisis in a target population, used as a coercion lever.",
+      "test": [
+        "Harm caused or materially deepened by deliberate action?",
+        "Harm falls on a civilian / non-combatant population?",
+        "Instrumentalized — tied to a coercive demand?",
+        "Obfuscated as something other than what it is?"
+      ],
+      "control": "UNSCR 2664 / OFAC humanitarian licenses (2022) → LOW (carve-outs preserved)"
+    }
   },
   "s6": {
     "rho": "−0.57",
     "rhoFirst": "−0.89",
     "n": 9,
-    "needOrder": ["USAID","Overdose","Firearm","Medicaid","SNAP","Maternal","Disaster","Border","Argentina"],
-    "allocOrder": ["Border","Argentina","Maternal","Firearm","Overdose","Disaster","USAID","SNAP","Medicaid"]
+    "needOrder": [
+      "USAID",
+      "Overdose",
+      "Firearm",
+      "Medicaid",
+      "SNAP",
+      "Maternal",
+      "Disaster",
+      "Border",
+      "Argentina"
+    ],
+    "allocOrder": [
+      "Border",
+      "Argentina",
+      "Maternal",
+      "Firearm",
+      "Overdose",
+      "Disaster",
+      "USAID",
+      "SNAP",
+      "Medicaid"
+    ]
   },
-  "epochLabels": ["2025-Q1","2025-Q3","2026-Q1"],
+  "epochLabels": [
+    "2025-Q1",
+    "2025-Q3",
+    "2026-Q1"
+  ],
   "epochs": {
     "doge": [
-      {"t":0,"s":{"s1_outcome":70,"s2_domain":72,"s3_remediation":80,"s4_recruitment":80,"s5_information":78}},
-      {"t":1,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":85,"s4_recruitment":84,"s5_information":86}},
-      {"t":2,"s":{"s1_outcome":88,"s2_domain":91,"s3_remediation":86,"s4_recruitment":84,"s5_information":93}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 70,
+          "s2_domain": 72,
+          "s3_remediation": 80,
+          "s4_recruitment": 80,
+          "s5_information": 78
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 82,
+          "s2_domain": 84,
+          "s3_remediation": 85,
+          "s4_recruitment": 84,
+          "s5_information": 86
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 88,
+          "s2_domain": 91,
+          "s3_remediation": 86,
+          "s4_recruitment": 84,
+          "s5_information": 93
+        }
+      }
     ],
     "obbba": [
-      {"t":0,"s":{"s1_outcome":20,"s2_domain":5,"s3_remediation":5,"s4_recruitment":15,"s5_information":25}},
-      {"t":1,"s":{"s1_outcome":85,"s2_domain":70,"s3_remediation":70,"s4_recruitment":65,"s5_information":88}},
-      {"t":2,"s":{"s1_outcome":92,"s2_domain":79,"s3_remediation":82,"s4_recruitment":73,"s5_information":89}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 20,
+          "s2_domain": 5,
+          "s3_remediation": 5,
+          "s4_recruitment": 15,
+          "s5_information": 25
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 85,
+          "s2_domain": 70,
+          "s3_remediation": 70,
+          "s4_recruitment": 65,
+          "s5_information": 88
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 92,
+          "s2_domain": 79,
+          "s3_remediation": 82,
+          "s4_recruitment": 73,
+          "s5_information": 89
+        }
+      }
     ],
     "ice": [
-      {"t":0,"s":{"s1_outcome":62,"s2_domain":70,"s3_remediation":55,"s4_recruitment":55,"s5_information":72}},
-      {"t":1,"s":{"s1_outcome":85,"s2_domain":84,"s3_remediation":75,"s4_recruitment":76,"s5_information":82}},
-      {"t":2,"s":{"s1_outcome":87,"s2_domain":88,"s3_remediation":81,"s4_recruitment":79,"s5_information":86}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 62,
+          "s2_domain": 70,
+          "s3_remediation": 55,
+          "s4_recruitment": 55,
+          "s5_information": 72
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 85,
+          "s2_domain": 84,
+          "s3_remediation": 75,
+          "s4_recruitment": 76,
+          "s5_information": 82
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 87,
+          "s2_domain": 88,
+          "s3_remediation": 81,
+          "s4_recruitment": 79,
+          "s5_information": 86
+        }
+      }
     ],
     "irs": [
-      {"t":0,"s":{"s1_outcome":70,"s2_domain":68,"s3_remediation":60,"s4_recruitment":72,"s5_information":70}},
-      {"t":1,"s":{"s1_outcome":88,"s2_domain":88,"s3_remediation":80,"s4_recruitment":76,"s5_information":88}},
-      {"t":2,"s":{"s1_outcome":94,"s2_domain":95,"s3_remediation":89,"s4_recruitment":76,"s5_information":92}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 70,
+          "s2_domain": 68,
+          "s3_remediation": 60,
+          "s4_recruitment": 72,
+          "s5_information": 70
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 88,
+          "s2_domain": 88,
+          "s3_remediation": 80,
+          "s4_recruitment": 76,
+          "s5_information": 88
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 94,
+          "s2_domain": 95,
+          "s3_remediation": 89,
+          "s4_recruitment": 76,
+          "s5_information": 92
+        }
+      }
     ],
     "nih": [
-      {"t":0,"s":{"s1_outcome":55,"s2_domain":58,"s3_remediation":50,"s4_recruitment":60,"s5_information":58}},
-      {"t":1,"s":{"s1_outcome":78,"s2_domain":80,"s3_remediation":70,"s4_recruitment":66,"s5_information":78}},
-      {"t":2,"s":{"s1_outcome":82,"s2_domain":84,"s3_remediation":74,"s4_recruitment":68,"s5_information":81}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 55,
+          "s2_domain": 58,
+          "s3_remediation": 50,
+          "s4_recruitment": 60,
+          "s5_information": 58
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 78,
+          "s2_domain": 80,
+          "s3_remediation": 70,
+          "s4_recruitment": 66,
+          "s5_information": 78
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 82,
+          "s2_domain": 84,
+          "s3_remediation": 74,
+          "s4_recruitment": 68,
+          "s5_information": 81
+        }
+      }
     ],
     "va": [
-      {"t":0,"s":{"s1_outcome":50,"s2_domain":55,"s3_remediation":55,"s4_recruitment":58,"s5_information":62}},
-      {"t":1,"s":{"s1_outcome":72,"s2_domain":74,"s3_remediation":68,"s4_recruitment":62,"s5_information":74}},
-      {"t":2,"s":{"s1_outcome":80,"s2_domain":79,"s3_remediation":71,"s4_recruitment":64,"s5_information":76}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 50,
+          "s2_domain": 55,
+          "s3_remediation": 55,
+          "s4_recruitment": 58,
+          "s5_information": 62
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 72,
+          "s2_domain": 74,
+          "s3_remediation": 68,
+          "s4_recruitment": 62,
+          "s5_information": 74
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 80,
+          "s2_domain": 79,
+          "s3_remediation": 71,
+          "s4_recruitment": 64,
+          "s5_information": 76
+        }
+      }
     ],
     "rollback": [
-      {"t":0,"s":{"s1_outcome":55,"s2_domain":60,"s3_remediation":65,"s4_recruitment":50,"s5_information":70}},
-      {"t":1,"s":{"s1_outcome":80,"s2_domain":80,"s3_remediation":80,"s4_recruitment":80,"s5_information":82}},
-      {"t":2,"s":{"s1_outcome":88,"s2_domain":85,"s3_remediation":86,"s4_recruitment":84,"s5_information":92}}
+      {
+        "t": 0,
+        "s": {
+          "s1_outcome": 55,
+          "s2_domain": 60,
+          "s3_remediation": 65,
+          "s4_recruitment": 50,
+          "s5_information": 70
+        }
+      },
+      {
+        "t": 1,
+        "s": {
+          "s1_outcome": 80,
+          "s2_domain": 80,
+          "s3_remediation": 80,
+          "s4_recruitment": 80,
+          "s5_information": 82
+        }
+      },
+      {
+        "t": 2,
+        "s": {
+          "s1_outcome": 88,
+          "s2_domain": 85,
+          "s3_remediation": 86,
+          "s4_recruitment": 84,
+          "s5_information": 92
+        }
+      }
     ]
   },
   "baselines": [
-    {"name":"Grace Commission","admin":"Reagan","years":"1982–84","composite":14,"note":"Advisory survey; GAO/CBO discounted savings; mostly unenacted; no personnel action."},
-    {"name":"Reinventing Government","admin":"Clinton–Gore","years":"1993–2000","composite":19,"note":"~426k cut via legislated voluntary buyouts; savings to deficit (surplus 1998); GPRA + public GAO audits."},
-    {"name":"President's Management Agenda","admin":"GW Bush","years":"2001–08","composite":20,"note":"Public quarterly scorecards; in-house won ~87–91% of A-76 competitions; GAO-validated; recorded own slippage."}
+    {
+      "name": "Grace Commission",
+      "admin": "Reagan",
+      "years": "1982–84",
+      "composite": 14,
+      "note": "Advisory survey; GAO/CBO discounted savings; mostly unenacted; no personnel action."
+    },
+    {
+      "name": "Reinventing Government",
+      "admin": "Clinton–Gore",
+      "years": "1993–2000",
+      "composite": 19,
+      "note": "~426k cut via legislated voluntary buyouts; savings to deficit (surplus 1998); GPRA + public GAO audits."
+    },
+    {
+      "name": "President's Management Agenda",
+      "admin": "GW Bush",
+      "years": "2001–08",
+      "composite": 20,
+      "note": "Public quarterly scorecards; in-house won ~87–91% of A-76 competitions; GAO-validated; recorded own slippage."
+    }
   ]
 }
