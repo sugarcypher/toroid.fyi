@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TOROID — a system of forms</title>
 <meta name="description" content="Seven instruments for seeing how a system's load-bearing layer is attacked and its value extracted. © ThinkWell Labs." />
+<meta property="og:title" content="TOROID — a system of forms · toroid.fyi" />
+<meta property="og:description" content="Seven instruments for seeing one thing: how a system's load-bearing layer is attacked, and its value quietly extracted." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://toroid.fyi/" />
 <meta name="theme-color" content="#111214" />
 <meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
@@ -107,6 +111,9 @@
   #fallback a:hover { opacity:1; }
 
   @media (max-width:700px){ .gate{ width:150px; } .gate .gname{ font-size:12.5px; } .gate .gsub{ display:none; } .overlay .intro{ font-size:13px; } }
+
+  /* Static seven-instruments index — visually hidden while the WebGL ring is live; revealed by <noscript> */
+  .sr-nav { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -116,8 +123,34 @@
   <div class="title">TOROID</div>
   <div class="subtitle">A System of Forms</div>
   <p class="intro">Seven instruments for seeing one thing: how a system's <b>load-bearing layer</b> — the people and functions a society runs on — is attacked, and its value quietly extracted. Each form is a measurement you can enter. <b>Why it matters:</b> the damage is real, ongoing, and here it is documented, not alleged.</p>
-  <div class="hint" id="hint">click to enter</div>
+  <div class="hint" id="hint">click to enter the instrument ring</div>
 </div>
+
+<!-- The seven instruments — static index (crawlers, screen readers, no-JS; the WebGL ring renders the same seven gates) -->
+<nav id="instruments" class="sr-nav" aria-label="The seven instruments">
+  <h2>The seven instruments</h2>
+  <ol>
+    <li><a href="/poly/">Polymorphic Catalysis — the Catalysis Toroid</a> (evidence layer: actors, targets, back-channels)</li>
+    <li><a href="/sabbot/">Obfuscratic Sabbotarchy — the Deception Arcane</a> (measurement layer: the engineered-incompetence index)</li>
+    <li><a href="/removal/">The Removal Economy — Extraction Toroid</a></li>
+    <li><a href="/substrate-attack/">The Substrate Attack — the live condition</a></li>
+    <li><a href="/play/">Strata-Dom-3D — playable substrate</a></li>
+    <li><a href="/matrix/">Polymorphic Matrix — precursor · archive</a></li>
+    <li><a href="/system/">The System — papers · terminology · method · legal</a></li>
+  </ol>
+  <p>Also: <a href="/predicates/">start here — the coined predicates</a> · <a href="/research/">research</a> · <a href="/legal/">terms &amp; legal</a></p>
+</nav>
+<noscript>
+  <style>
+    #stage, .overlay .hint, #labels { display:none !important; }
+    .sr-nav { position:static !important; width:auto !important; height:auto !important; clip:auto !important; clip-path:none !important; overflow:visible !important;
+      margin:12vh auto 0; max-width:640px; padding:0 24px; color:#eef0f2; font-family:var(--ui); position:relative; z-index:40; }
+    .sr-nav h2 { font-weight:500; letter-spacing:0.2em; text-transform:uppercase; font-size:14px; }
+    .sr-nav ol { line-height:2; font-weight:300; } .sr-nav a { color:#9adfe0; text-decoration:none; } .sr-nav a:hover { text-decoration:underline; }
+    .sr-nav p { color:#9aa0a6; font-size:13px; }
+    html, body { overflow:auto !important; }
+  </style>
+</noscript>
 
 <div id="labels" aria-label="Gates"></div>
 

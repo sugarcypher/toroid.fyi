@@ -32,6 +32,11 @@ play/_hud_flush_bezel.html
 play/_frame_preview.png
 play/BUILD_COMPARISON.html
 
+# Unpublished book manuscript drafts (Named and Counted) — the published v5
+# companion text lives at papers/named_and_counted_v5.md; the working parts
+# stay on disk only until the book ships.
+/sabbot/book/
+
 # OS noise
 .DS_Store
 Thumbs.db

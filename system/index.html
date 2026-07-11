@@ -7,8 +7,10 @@
   <meta name="description" content="The system index — papers, terminology, method, archive, and legal. © ThinkWell Labs.">
   <meta name="theme-color" content="#040209">
   <meta name="copyright" content="© ThinkWell Labs. All rights reserved.">
-  <meta property="og:title" content="toroid.fyi — the system">
-  <meta property="og:description" content="The supporting corpus beneath the instruments.">
+  <meta property="og:title" content="The System · toroid.fyi">
+  <meta property="og:description" content="The supporting corpus beneath the instruments — research, papers, systems, archive, and legal.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://toroid.fyi/system/">
   <link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23b6a4ff' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23b6a4ff' stroke-width='1.5'/></svg>">
   <style>
@@ -225,7 +227,7 @@
   <!-- TOP BAR -->
   <header id="top-bar" role="banner">
     <a class="tsys-back" id="tsys-back" href="/" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · go&nbsp;back</a>
-    <a class="twl-link" href="https://twl.today" rel="noopener" aria-label="ThinkWell Labs — TWL.today">TWL.today ↗</a>
+    <a class="twl-link" href="https://twl.today" rel="noopener" aria-label="ThinkWell Labs — twl.today">twl.today ↗</a>
   </header>
 
   <!-- HUD CHROME — architectural reference marks -->
@@ -261,6 +263,31 @@
 
   <!-- Segment labels -->
   <div id="segment-labels" aria-label="Sections"></div>
+
+  <!-- Static section index (crawlers, screen readers, no-JS; the WebGL ring renders the same five sections) -->
+  <nav id="system-static" aria-label="The system — sections" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap;">
+    <h2>The System — index beneath the instruments</h2>
+    <ul>
+      <li><a href="/research/">Research — method, methodology, circulatory pressure</a></li>
+      <li><a href="/papers/">Papers — the methodology documents</a></li>
+      <li><a href="/systems/">Systems — executable substrates and operational rules</a></li>
+      <li><a href="/archive/">Archive — origin artifacts, superseded designs, the Multimalocracy PDFs</a></li>
+      <li><a href="/legal/">Legal — terms, copyright, citation, privacy, security</a></li>
+    </ul>
+    <p><a href="/">← surface</a> · <a href="/predicates/">start here — terminology</a></p>
+  </nav>
+  <noscript>
+    <style>
+      #stage, .rotate-bar, .hud, .hud-tick, #segment-labels { display:none !important; }
+      html, body { overflow:auto !important; }
+      #system-static { position:static !important; width:auto !important; height:auto !important; clip:auto !important; clip-path:none !important; overflow:visible !important; white-space:normal !important;
+        max-width:560px; margin:16vh auto 0; padding:0 24px; position:relative; z-index:40; color:var(--fg); }
+      #system-static h2 { font-weight:300; letter-spacing:0.08em; font-size:18px; }
+      #system-static ul { list-style:none; padding:0; line-height:2.2; font-weight:300; }
+      #system-static a { color:var(--accent); text-decoration:none; } #system-static a:hover { text-decoration:underline; }
+      #system-static p { color:var(--muted); font-size:13px; }
+    </style>
+  </noscript>
 
   <div class="footmark">© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></div>
 
