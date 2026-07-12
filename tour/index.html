@@ -45,7 +45,8 @@
     padding:10px 24px; display:flex; align-items:center; gap:18px;
     font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.08em;
   }
-  nav.toc .brand { color:var(--accent); font-weight:700; letter-spacing:0.16em; text-transform:uppercase; }
+  nav.toc .brand { color:var(--accent); font-weight:700; letter-spacing:0.16em; text-transform:uppercase; text-decoration:none; }
+  nav.toc .brand:hover { color:#fff; }
   nav.toc .links { display:flex; gap:14px; flex-wrap:wrap; flex:1; }
   nav.toc .links a { color:var(--muted); text-decoration:none; padding:4px 0; }
   nav.toc .links a:hover { color:var(--fg); }
@@ -295,7 +296,7 @@
 <body>
 
 <nav class="toc" id="toc">
-  <span class="brand">toroid.fyi</span>
+  <a class="brand" href="/" aria-label="toroid.fyi — enter the instrument ring">↩ toroid.fyi</a>
   <div class="links">
     <a href="#why">I · Why a torus</a>
     <a href="#lineage">II · Lineage</a>

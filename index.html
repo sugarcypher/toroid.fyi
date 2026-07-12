@@ -32,7 +32,7 @@
     color:#c4c8cd; letter-spacing:0.01em;
   }
   .overlay .intro b { color:var(--fg); font-weight:500; }
-  .overlay .hint { font-family:ui-monospace,Menlo,monospace; font-size:10px; margin-top:26px; letter-spacing:0.34em; opacity:0.4; text-transform:uppercase; animation:breathe 3s ease-in-out infinite; }
+  .overlay .hint { font-family:ui-monospace,Menlo,monospace; font-size:11px; margin-top:26px; letter-spacing:0.34em; opacity:0.4; text-transform:uppercase; animation:breathe 3s ease-in-out infinite; }
   @keyframes breathe { 0%,100%{opacity:0.2;} 50%{opacity:0.5;} }
 
   /* Gate labels (projected per frame), hidden until the ring settles */
@@ -63,7 +63,7 @@
   /* bottom-corner: persistent copyright + legal */
   .footmark {
     position:fixed; bottom:14px; right:16px; z-index:22;
-    font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:0.14em;
+    font-family:ui-monospace,Menlo,monospace; font-size:10.5px; letter-spacing:0.14em;
     color:var(--muted); text-transform:uppercase;
   }
   .footmark a { color:var(--muted); text-decoration:none; }
@@ -273,7 +273,9 @@ function makeClones(){
 function ringPos(i,radius){ const a=(-Math.PI/2)+(i/N)*Math.PI*2; return new THREE.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0); }
 const easeInOut=t=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 
-if (reduceMotion){
+// Returning visitors skip the emanation — the ring is already familiar; first visits keep the full sequence.
+const returning = (()=>{ try { return localStorage.getItem('twl-visited')==='1'; } catch(e){ return false; } })();
+if (reduceMotion || (returning && agreed)){
   overlay.style.display='none';
   camera.position.z=7.9; torusGroup.rotation.set(-0.28,0,0);
   makeClones();
@@ -285,6 +287,7 @@ if (reduceMotion){
 function descend(cfg){
   if (state!=='expanded'||leaving) return;
   leaving=true;
+  try { localStorage.setItem('twl-visited','1'); } catch(_){}
   const hex='#'+cfg.color.toString(16).padStart(6,'0');
   const wash=document.createElement('div'); wash.className='wash';
   wash.style.cssText='position:fixed;inset:0;z-index:50;pointer-events:none;opacity:0;'+
@@ -368,7 +371,7 @@ function animate(){
     toroids.forEach((m,i)=>m.position.copy(ringPos(i,RING_RADIUS*e)));
     mainTorus.scale.setScalar(1+(CENTER_SCALE-1)*e); camera.position.z=6.4+e*1.5;
     toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.06));
-    if (progress>=1){ state='expanded'; labelHost.classList.add('show'); }
+    if (progress>=1){ state='expanded'; labelHost.classList.add('show'); try { localStorage.setItem('twl-visited','1'); } catch(_){} }
   } else if (state==='expanded'){
     handleHover(delta);
     toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.05));
