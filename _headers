@@ -1,0 +1,18 @@
+# Cloudflare Pages static-asset headers.
+# The game is one HTML file that changes on every deploy. Served with no-store
+# so a returning browser can never run a stale copy — the exact failure that
+# made a fresh deploy look like "no auras, no mini-games": the old build was
+# cached with max-age=0/must-revalidate but NO etag, so browsers had nothing to
+# revalidate against and served their disk copy.
+/play/
+  Cache-Control: no-store
+/play/index.html
+  Cache-Control: no-store
+
+# The vendored Three.js bundle and audio/fonts are large and rarely change —
+# cache them, but not forever (they aren't content-hashed), so a swap is
+# picked up within a day.
+/play/vendor/*
+  Cache-Control: public, max-age=86400, must-revalidate
+/play/assets/*
+  Cache-Control: public, max-age=86400, must-revalidate
