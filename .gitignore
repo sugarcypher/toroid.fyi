@@ -2,6 +2,12 @@
 # The deploy serves the consolidated copies in poly/, sabbot/, play/, papers/, matrix/.
 # Anchored to repo root so they don't also match nested deployed pages
 # (e.g. predicates/sabbotarchy/, systems/opmanifold/).
+#
+# /Polymorphic Matrix/ stays ignored: 33 MB of working files, including 19 zip
+# archives and 36 near-duplicate toroid builds. /research/polymorphic-matrix/
+# used to link straight into it, so that link was dead on the deployed site.
+# Fixed by publishing the one file it needed as
+# papers/polymorphic_matrix_extension_paper.md instead.
 /Polymorphic Matrix/
 /Strat-Dom-3d/
 /sabbotarchy/
