@@ -58,7 +58,12 @@ body{
 .v.cy{color:var(--cyan); text-shadow:0 0 12px rgba(34,211,238,.55)}
 .v.am{color:var(--amber)}
 #hud .right{text-align:right}
-#sysbtns{display:flex; gap:8px; align-self:center}
+#sysbtns{display:flex; flex-direction:column; align-items:center; gap:6px; align-self:center}
+#lives{display:flex; gap:5px; height:13px}
+.pip{font-size:13px; line-height:1; color:var(--red); text-shadow:0 0 8px rgba(244,63,94,.6); transition:color .2s,text-shadow .2s,transform .2s}
+.pip.spent{color:#26263e; text-shadow:none; transform:scale(.8)}
+.pip.losing{animation:pop .32s ease-out}
+@keyframes pop{0%{transform:scale(1.9)}100%{transform:scale(.8)}}
 .sysbtn{
   background:transparent; border:1px solid var(--cyan-dk); color:var(--dim);
   font:inherit; font-size:11px; padding:5px 8px; border-radius:6px; cursor:pointer;
@@ -80,6 +85,10 @@ h1{
 }
 .btn:hover,.btn:focus-visible{background:var(--cyan); color:#04121a; outline:none}
 .btn.ghost{border-color:#2a2a44; color:var(--dim)}
+.btn .cap{display:block; font-size:9px; letter-spacing:.1em; color:var(--dim); margin-top:4px}
+.btn:hover .cap,.btn:focus-visible .cap{color:inherit; opacity:.75}
+.bests{display:flex; justify-content:center; gap:16px; margin-top:20px; font-size:10px; letter-spacing:.16em; color:var(--dim)}
+.bests b{display:block; color:var(--cyan); font-weight:400; letter-spacing:.1em; margin-top:3px}
 .btn.ghost:hover,.btn.ghost:focus-visible{background:#2a2a44; color:var(--ink)}
 .btn.danger{border-color:var(--red); color:var(--red)}
 .btn.danger:hover,.btn.danger:focus-visible{background:var(--red); color:#12040a}
@@ -88,13 +97,23 @@ h1{
 #barfill{height:100%; width:100%; background:var(--cyan); transform-origin:left center}
 #barfill.warn{background:var(--amber)} #barfill.crit{background:var(--red)}
 #card{
-  aspect-ratio:1/1; width:100%; display:flex; align-items:center; justify-content:center;
+  position:relative; aspect-ratio:1/1; width:100%; display:flex; align-items:center; justify-content:center;
   border:2px solid rgba(34,211,238,.3); border-radius:14px; background:rgba(0,0,0,.42);
   box-shadow:0 0 60px rgba(34,211,238,.08) inset, 0 0 40px rgba(34,211,238,.06);
   animation:breathe 2.4s ease-in-out infinite;
 }
 @keyframes breathe{0%,100%{border-color:rgba(34,211,238,.22)}50%{border-color:rgba(34,211,238,.7)}}
-#word{font-size:clamp(30px,11vw,52px); font-weight:700; letter-spacing:.12em}
+#word{font-size:clamp(30px,11vw,52px); font-weight:700; letter-spacing:.12em; transition:opacity .12s}
+#card.correcting #word{opacity:.12}
+#correct{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:10px; border-radius:12px; background:rgba(8,8,16,.82);
+  animation:fadein .14s ease-out;
+}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+#correct .rl{font-size:9px; letter-spacing:.24em; color:var(--red)}
+#correct .pair{font-size:17px}
+#correct .chip{width:26px; height:26px}
 #practice{font-size:10px; letter-spacing:.28em; color:var(--amber); height:14px; margin-bottom:6px}
 /* ── controls ───────────────────────────────────────────────────────── */
 #pad{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(6px,2vw,12px); margin-top:var(--pad); z-index:2}
@@ -122,7 +141,7 @@ h1{
 .rel .n{color:var(--ink); font-size:12px}
 .rel .n em{display:block; font-style:normal; color:var(--dim); font-size:10px; letter-spacing:.08em}
 .chips{display:flex; gap:3px}
-.chip{width:15px; height:15px; border-radius:50%; border:1px solid rgba(255,255,255,.16)}
+.chip{display:inline-block; flex:none; width:15px; height:15px; border-radius:50%; border:1px solid rgba(255,255,255,.16)}
 #wheel{display:block; margin:0 auto 16px}
 table.rt{width:100%; border-collapse:collapse; font-size:11px; margin-bottom:18px}
 table.rt td{padding:5px 0; border-bottom:1px solid #1b1b30; color:var(--dim)}
@@ -131,8 +150,8 @@ table.rt td:last-child{text-align:right; color:var(--ink)}
 .deadsub{font-size:11px; color:var(--dim); letter-spacing:.14em; margin:0 0 18px}
 .reveal{border:1px solid #26263e; border-radius:10px; padding:14px; margin-bottom:18px; background:rgba(0,0,0,.35)}
 .reveal .rl{font-size:10px; letter-spacing:.22em; color:var(--dim); margin-bottom:8px}
-.reveal .pair{display:flex; align-items:center; justify-content:center; gap:12px; font-size:15px}
-.reveal .arrow{color:var(--dim); font-size:12px}
+.pair{display:flex; align-items:center; justify-content:center; gap:12px; font-size:15px}
+.arrow{color:var(--dim); font-size:12px}
 footer{position:absolute; bottom:6px; transition:opacity .2s; left:0; width:100%; text-align:center; font-size:9px; letter-spacing:.2em; color:#242438; z-index:1}
 footer a{color:inherit; text-decoration:none}
 body.playing footer{opacity:0; pointer-events:none}
@@ -145,6 +164,7 @@ body.playing footer{opacity:0; pointer-events:none}
   <header id="hud">
     <div class="stat"><span class="k">SCORE</span><span class="v cy" id="score">000000</span></div>
     <div id="sysbtns">
+      <div id="lives" role="status" aria-label="Lives remaining"></div>
       <button class="sysbtn" id="audio" aria-pressed="false" title="Toggle audio">♪ OFF</button>
     </div>
     <div class="stat right"><span class="k">MULT</span><span class="v am" id="mult">×1.0</span></div>
@@ -189,11 +209,22 @@ const RELATIONS = [
 ];
 const REL_BY_KEY = Object.fromEntries(RELATIONS.map(r => [r.key, r]));
 
+/* Two stakes models. SURVIVAL is the original one-shot run: a single misread
+   ends it, so the multiplier can only ever climb and is really a round counter.
+   ENDURANCE spends a life per error and resets the multiplier, which is what
+   makes the multiplier an actual stake — and buys room to show the player the
+   relation they misread, mid-run, which a one-shot run has nowhere to put.   */
+const MODES = {
+  SURVIVAL : { key:"SURVIVAL",  label:"SURVIVAL",  cap:"one misread ends the run", lives:1 },
+  ENDURANCE: { key:"ENDURANCE", label:"ENDURANCE", cap:"three lives · multiplier resets on error", lives:3 }
+};
+
 const CFG = {
   baseMs:2400, decayMs:60, floorMs:900,   // t(n) = clamp(2400 − 60n, 900, 2400)
   basePoints:100, speedBonus:150,          // speed bonus scales with unused time
   multStep:0.1, multCap:10,
   practiceRounds:3,
+  correctionMs:1150,                   // how long the misread relation stays up
   noiseFromRound:8,                        // perceptual jitter, never hue jitter
   sat:82, light:62
 };
@@ -241,19 +272,24 @@ const audio = {
 };
 
 /* ══ STATE ══════════════════════════════════════════════════════════════ */
+const LEGACY_BEST = Number(store.get("hm.best", 0)) || 0;   // pre-mode single leaderboard
 const S = {
   phase:"IDLE",            // IDLE | BRIEF | PLAY | OVER
+  mode:MODES[store.get("hm.mode", "SURVIVAL")] ? store.get("hm.mode", "SURVIVAL") : "SURVIVAL",
   practice:false,
-  round:0, score:0, mult:1,
-  best:Number(store.get("hm.best", 0)) || 0,
+  round:0, cleared:0, score:0, mult:1, lives:1, errors:0,
+  best:{
+    SURVIVAL : Number(store.get("hm.best.SURVIVAL",  LEGACY_BEST)) || 0,
+    ENDURANCE: Number(store.get("hm.best.ENDURANCE", 0)) || 0
+  },
   stimulus:null,
-  remaining:0, duration:0, paused:false,
+  remaining:0, duration:0, paused:false, correcting:false,
   shownAt:0, rts:[], locked:false
 };
 
 const $ = id => document.getElementById(id);
 const shell = $("shell"), stage = $("stage"), pad = $("pad");
-const elScore = $("score"), elMult = $("mult"), elAudio = $("audio");
+const elScore = $("score"), elMult = $("mult"), elAudio = $("audio"), elLives = $("lives");
 
 /* ══ HELPERS ════════════════════════════════════════════════════════════ */
 const mod360 = d => ((d % 360) + 360) % 360;
@@ -295,6 +331,11 @@ function makeStimulus(round){
 function hud(){
   elScore.textContent = String(S.score).padStart(6, "0");
   elMult.textContent  = "×" + S.mult.toFixed(1);
+  const total = (S.phase === "PLAY" && !S.practice) ? MODES[S.mode].lives : 0;
+  elLives.innerHTML = total > 1
+    ? Array.from({ length:total }, (_, i) =>
+        `<span class="pip${i < S.lives ? "" : " spent"}">♥</span>`).join("")
+    : "";
 }
 
 function wheelSVG(size){
@@ -316,6 +357,17 @@ function wheelSVG(size){
   </svg>`;
 }
 
+function relationPair(st){
+  const truth = REL_BY_KEY[st.rel];
+  const name  = truth.label === "ANLG" ? "ANALOGOUS" : truth.label === "OPP" ? "OPPOSITE" : truth.label;
+  return `<div class="pair">
+    <span class="chip" style="width:20px;height:20px;background:${hsl(st.baseHue, CFG.sat, CFG.light)}"></span>
+    <span class="arrow">${Math.round(mod360(st.hue - st.baseHue))}°</span>
+    <span class="chip" style="width:20px;height:20px;background:${st.color}"></span>
+    <span style="color:var(--cyan)">${truth.sym} ${name}</span>
+  </div>`;
+}
+
 function relationRows(){
   const demo = COLORS[0].h; // RED as the reference for the swatch pairs
   return RELATIONS.map(r => {
@@ -332,25 +384,37 @@ function relationRows(){
 function renderIdle(){
   pad.hidden = true;
   document.body.classList.remove("playing");
+  S.phase = "IDLE"; S.score = 0; S.mult = 1; hud();
   const first = store.get("hm.seen", "0") !== "1";
+  const modeBtn = (m, primary) => `
+    <button class="btn${primary ? "" : " ghost"}" id="m-${m.key}">${m.label}<span class="cap">${m.cap}</span></button>`;
   stage.innerHTML = `
     <div class="panel">
       <h1>HUEMAIN</h1>
       <p class="sub">COLOR RELATION INTERFACE</p>
       <div class="brief" style="margin-bottom:18px">
-        <p style="margin:0 0 14px;color:#9a9ac0">Read the <strong style="color:var(--ink)">word</strong>.
+        <p style="margin:0;color:#9a9ac0">Read the <strong style="color:var(--ink)">word</strong>.
         Read the <strong style="color:var(--ink)">ink</strong>. Name the angular relation between them
         on the hue circle, before the bar empties.</p>
       </div>
-      <button class="btn" id="go">${first ? "CALIBRATE FIRST" : "INITIALIZE"}</button>
-      <button class="btn ghost" id="alt">${first ? "SKIP TO RUN" : "CALIBRATION RUN"}</button>
+      ${first
+        ? `<button class="btn" id="calib">CALIBRATE FIRST<span class="cap">three untimed rounds · nothing at stake</span></button>
+           ${modeBtn(MODES.ENDURANCE, false)}${modeBtn(MODES.SURVIVAL, false)}`
+        : `${modeBtn(MODES[S.mode], true)}
+           ${modeBtn(MODES[S.mode === "SURVIVAL" ? "ENDURANCE" : "SURVIVAL"], false)}
+           <button class="btn ghost" id="calib">CALIBRATION RUN</button>`}
       <button class="btn ghost" id="brf">BRIEFING</button>
-      ${S.best ? `<p class="sub" style="margin:18px 0 0">BEST ${String(S.best).padStart(6, "0")}</p>` : ""}
+      ${(S.best.SURVIVAL || S.best.ENDURANCE) ? `<div class="bests">
+        <span>SURVIVAL<b>${String(S.best.SURVIVAL).padStart(6, "0")}</b></span>
+        <span>ENDURANCE<b>${String(S.best.ENDURANCE).padStart(6, "0")}</b></span>
+      </div>` : ""}
     </div>`;
-  const startPractice = () => start(true), startReal = () => start(false);
-  $("go").onclick  = first ? startPractice : startReal;
-  $("alt").onclick = first ? startReal     : startPractice;
-  $("brf").onclick = renderBrief;
+  for (const m of Object.values(MODES)) {
+    const b = $("m-" + m.key);
+    if (b) b.onclick = () => start(m.key, false);
+  }
+  $("calib").onclick = () => start(S.mode, true);
+  $("brf").onclick   = renderBrief;
 }
 
 function renderBrief(){
@@ -381,7 +445,10 @@ function renderPlay(){
       <div id="practice">${S.practice ? "CALIBRATION · UNTIMED" : ""}</div>
       <div id="bar"${S.practice ? ' style="visibility:hidden"' : ""}><div id="barfill"></div></div>
       <div id="card"><span id="word"></span></div>
+      <div id="modetag" class="sub" style="margin:14px 0 0;font-size:9px"></div>
     </div>`;
+  const tag = $("modetag");
+  if (tag) tag.textContent = S.practice ? "" : MODES[S.mode].label;
   paintStimulus();
 }
 
@@ -408,7 +475,6 @@ function renderOver(reason){
   pad.hidden = true;
   document.body.classList.remove("playing");
   const st = S.stimulus;
-  const truth = REL_BY_KEY[st.rel];
   const rows = RELATIONS.map(r => {
     const xs = S.rts.filter(x => x.rel === r.key).map(x => x.ms);
     return `<tr><td>${r.sym} ${r.label}</td><td>${xs.length ? Math.round(median(xs)) + " ms" : "—"}</td></tr>`;
@@ -419,25 +485,22 @@ function renderOver(reason){
       <p class="deadsub">${reason === "timeout" ? "NO RESPONSE IN WINDOW" : "RELATION MISCLASSIFIED"}</p>
       <div class="reveal">
         <div class="rl">CORRECT RELATION</div>
-        <div class="pair">
-          <span class="chip" style="width:20px;height:20px;background:${hsl(st.baseHue, CFG.sat, CFG.light)}"></span>
-          <span class="arrow">${Math.round(mod360(st.hue - st.baseHue))}°</span>
-          <span class="chip" style="width:20px;height:20px;background:${st.color}"></span>
-          <span style="color:var(--cyan)">${truth.sym} ${truth.label === "ANLG" ? "ANALOGOUS" : truth.label === "OPP" ? "OPPOSITE" : truth.label}</span>
-        </div>
+        ${relationPair(st)}
       </div>
       <table class="rt">
-        <tr><td>ROUNDS CLEARED</td><td>${S.round}</td></tr>
+        <tr><td>MODE</td><td>${MODES[S.mode].label}</td></tr>
+        <tr><td>ROUNDS CLEARED</td><td>${S.cleared}</td></tr>
+        ${MODES[S.mode].lives > 1 ? `<tr><td>ERRORS</td><td>${S.errors} / ${MODES[S.mode].lives}</td></tr>` : ""}
         <tr><td>FINAL SCORE</td><td style="color:var(--cyan)">${S.score}</td></tr>
-        <tr><td>BEST</td><td>${S.best}</td></tr>
+        <tr><td>BEST · ${MODES[S.mode].label}</td><td>${S.best[S.mode]}</td></tr>
         <tr><td colspan="2" style="color:#33334f;letter-spacing:.2em;padding-top:12px">MEDIAN LATENCY</td></tr>
         ${rows}
       </table>
       <button class="btn danger" id="again">REBOOT</button>
       <button class="btn ghost" id="menu">MENU</button>
     </div>`;
-  $("again").onclick = () => start(false);
-  $("menu").onclick = renderIdle;
+  $("again").onclick = () => start(S.mode, false);
+  $("menu").onclick  = renderIdle;
 }
 
 /* ══ LOOP ═══════════════════════════════════════════════════════════════
@@ -451,7 +514,7 @@ function frame(t){
   const dt = lastT ? t - lastT : 0;
   lastT = t;
 
-  if (!S.paused && !S.practice) {
+  if (!S.paused && !S.practice && !S.correcting) {
     S.remaining -= dt;
     const frac = Math.max(0, S.remaining / S.duration);
     const fill = $("barfill");
@@ -460,7 +523,7 @@ function frame(t){
       fill.className = frac < 0.25 ? "crit" : frac < 0.5 ? "warn" : "";
     }
     if (frac < 0.25 && t - audio.tickAt > 320) { audio.tickAt = t; audio.pulse(); }
-    if (S.remaining <= 0) return gameOver("timeout");
+    if (S.remaining <= 0) return loseLife("timeout");
   }
   rafId = requestAnimationFrame(frame);
 }
@@ -476,10 +539,13 @@ function nextRound(){
   paintStimulus();
 }
 
-function start(practice){
+function start(mode, practice){
   cancelAnimationFrame(rafId);
   S.phase = "PLAY"; S.practice = !!practice;
-  S.round = 0; S.score = 0; S.mult = 1; S.rts = []; S.paused = false;
+  if (MODES[mode]) { S.mode = mode; store.set("hm.mode", mode); }
+  S.lives = MODES[S.mode].lives;
+  S.round = 0; S.cleared = 0; S.score = 0; S.mult = 1; S.errors = 0;
+  S.rts = []; S.paused = false; S.correcting = false;
   hud();
   renderPad();
   renderPlay();
@@ -501,13 +567,7 @@ function answer(key){
   const correct = key === S.stimulus.rel;
   flash(key, correct);
 
-  if (!correct) {
-    audio.miss();
-    if (S.practice) { S.locked = true; setTimeout(() => { S.locked = false; nextRound(); }, 260); return; }
-    shell.classList.add("shake");
-    setTimeout(() => shell.classList.remove("shake"), 240);
-    return gameOver("wrong");
-  }
+  if (!correct) return loseLife("wrong");
 
   audio.hit();
   S.rts.push({ rel:S.stimulus.rel, ms:performance.now() - S.shownAt });
@@ -518,15 +578,59 @@ function answer(key){
     S.mult = Math.min(CFG.multCap, +(S.mult + CFG.multStep).toFixed(2));
     hud();
   }
-  S.round++;
+  S.cleared++;
+  advance();
+}
 
+/* An error spends a life rather than ending the run outright — which is what
+   turns the multiplier into a stake (it resets) and, more usefully, opens a
+   window to show the player the relation they just misread. A one-shot run
+   has nowhere to put that feedback except the death screen, by which point
+   the run is over. SURVIVAL keeps one life, so it behaves as before. */
+function loseLife(reason){
+  audio.miss();
+  shell.classList.add("shake");
+  setTimeout(() => shell.classList.remove("shake"), 240);
+
+  if (S.practice) return showCorrection();   // calibration never kills
+
+  S.errors++;
+  S.mult = 1;
+  S.lives--;
+  hud();
+  const lost = elLives.querySelectorAll(".pip")[S.lives];   // the pip just spent
+  if (lost) { lost.classList.add("losing"); setTimeout(() => lost.classList.remove("losing"), 340); }
+
+  if (S.lives <= 0) return gameOver(reason);
+  showCorrection();
+}
+
+/* Freeze the clock, name the relation that was missed, then resume. */
+function showCorrection(){
+  const card = $("card"), el = document.createElement("div");
+  if (!card) return advance();
+  S.correcting = true; S.locked = true;
+  el.id = "correct";
+  el.innerHTML = `<div class="rl">CORRECT RELATION</div>${relationPair(S.stimulus)}`;
+  card.appendChild(el);
+  card.classList.add("correcting");
+  setTimeout(() => {
+    el.remove();
+    card.classList.remove("correcting");
+    S.correcting = false; S.locked = false;
+    advance();
+  }, CFG.correctionMs);
+}
+
+function advance(){
+  S.round++;
   if (S.practice && S.round >= CFG.practiceRounds) {
     store.set("hm.seen", 1);
     S.practice = false;
-    S.round = 0;
+    S.round = 0; S.cleared = 0; S.errors = 0;
+    S.lives = MODES[S.mode].lives;
+    hud();
     renderPlay();
-    nextRound();
-    return;
   }
   nextRound();
 }
@@ -535,7 +639,7 @@ function gameOver(reason){
   cancelAnimationFrame(rafId);
   S.phase = "OVER";
   store.set("hm.seen", 1);
-  if (S.score > S.best) { S.best = S.score; store.set("hm.best", S.best); }
+  if (S.score > S.best[S.mode]) { S.best[S.mode] = S.score; store.set("hm.best." + S.mode, S.score); }
   renderOver(reason);
 }
 
@@ -552,7 +656,7 @@ addEventListener("keydown", e => {
   }
   if ((k === " " || k === "enter") && S.phase !== "PLAY") {
     e.preventDefault();
-    start(S.phase === "IDLE" && store.get("hm.seen", "0") !== "1");
+    start(S.mode, S.phase === "IDLE" && store.get("hm.seen", "0") !== "1");
   }
 });
 
