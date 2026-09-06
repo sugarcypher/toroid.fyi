@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Named and Counted, Not Blamed nor Accounted · toroid.fyi</title>
-  <meta name="description" content="Named and Counted, Not Blamed nor Accounted (v7) — a metrological instrument for measuring directional dysfunction: naming what had no name. B. Greenway, ThinkWell Labs Metrology. Full text. © ThinkWell Labs.">
-  <meta name="copyright" content="© ThinkWell Labs. All rights reserved.">
-  <meta property="og:title" content="Named and Counted, Not Blamed nor Accounted · toroid.fyi">
-  <meta property="og:description" content="A metrological instrument for measuring directional dysfunction: naming what had no name. The companion volume to the Deception Arcane, in full.">
+  <title>Named and Counted, Not Blamed nor Accounted &middot; toroid.fyi</title>
+  <meta name="description" content="Named and Counted, Not Blamed nor Accounted (v7) by Briar Greenway — a metrological instrument for measuring directional dysfunction. The readings, the bands and the scored architectures. Published in Kindle and paperback. &copy; ThinkWell Labs.">
+  <meta name="copyright" content="&copy; ThinkWell Labs. All rights reserved.">
+  <meta property="og:title" content="Named and Counted, Not Blamed nor Accounted &middot; toroid.fyi">
+  <meta property="og:description" content="A metrological instrument for measuring directional dysfunction: naming what had no name. Seven architectures scored across five signatures, with the reform-lineage controls the instrument rates low.">
   <meta property="og:type" content="book">
   <meta property="og:url" content="https://toroid.fyi/book/">
   <meta name="theme-color" content="#040209">
   <style>
-    :root { --bg:#040209; --fg:#e6e3f5; --muted:#6a6480; --accent:#e8dcc0; --rule:rgba(232,220,192,0.16); }
+    :root { --bg:#040209; --fg:#e6e3f5; --ink:#cdc7e0; --muted:#6a6480; --accent:#e8dcc0; --rule:rgba(232,220,192,0.16); }
     *,*::before,*::after { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); min-height:100vh;
@@ -24,60 +24,73 @@
     .bread a { color:var(--muted); text-decoration:none; } .bread a:hover { color:var(--accent); }
     .bread .sep { margin:0 10px; opacity:0.5; } .bread .here { color:var(--fg); }
 
-    main { position:relative; z-index:5; max-width:720px; margin:0 auto; padding:130px 6vw 140px; }
+    main { position:relative; z-index:5; max-width:760px; margin:0 auto; padding:130px 6vw 140px; }
 
     .meta-line { font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--accent); letter-spacing:0.30em; text-transform:uppercase; margin:0 0 22px; }
     h1 { font-weight:200; font-size:clamp(30px,4.2vw,46px); margin:0 0 14px; letter-spacing:0.005em; line-height:1.16; }
     .subtitle { font-size:17px; font-weight:300; color:#bdb7d5; margin:0 0 14px; line-height:1.5; font-style:italic; }
     .byline { font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.18em; margin:0 0 8px; line-height:2; }
-    .epigraph { font-size:16px; font-weight:300; color:#cdc7e0; font-style:italic; margin:26px 0 30px; }
-    .frontnote { font-size:15px; font-weight:300; color:#cdc7e0; line-height:1.75; margin:0 0 34px; }
+    .byline a { color:var(--accent); text-decoration:none; }
+    .epigraph { font-size:16px; font-weight:300; color:var(--ink); font-style:italic; margin:26px 0 30px; }
+    .frontnote { font-size:15px; font-weight:300; color:var(--ink); line-height:1.75; margin:0 0 30px; }
+    .frontnote a { color:var(--accent); text-decoration:none; }
 
-    .links { display:flex; flex-wrap:wrap; gap:14px 22px; margin:0 0 8px; padding-bottom:44px; border-bottom:1px solid var(--rule); }
-    .source-link { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.26em; text-transform:uppercase;
-      color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(232,220,192,0.45); padding-bottom:3px; transition:all 220ms ease; }
-    .source-link:hover { color:#fff; border-color:#fff; }
-    .source-link.buy { color:#040209; background:var(--accent); border:0; border-radius:2px; padding:9px 16px; letter-spacing:0.22em; }
-    .source-link.buy:hover { background:#fff; color:#040209; }
+    .buybox { border:1px solid var(--rule); border-radius:3px; padding:24px 26px; margin:0 0 12px;
+      background:linear-gradient(180deg, rgba(232,220,192,0.045), rgba(232,220,192,0.012)); }
+    .buybox .eyebrow { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.26em; text-transform:uppercase; color:var(--accent); margin:0 0 12px; }
+    .buybox p { font-size:14.5px; font-weight:300; color:var(--ink); line-height:1.7; margin:0 0 18px; }
+    .buyrow { display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; }
+    .btn { display:inline-block; font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.22em; text-transform:uppercase;
+      background:var(--accent); color:#040209; border-radius:2px; padding:11px 20px; text-decoration:none; transition:background 200ms ease; }
+    .btn:hover { background:#fff; }
+    .btn-ghost { background:transparent; color:var(--accent); border:1px solid rgba(232,220,192,0.4); }
+    .btn-ghost:hover { background:transparent; color:#fff; border-color:#fff; }
 
-    /* ---- the manuscript ---- */
-    article { font-size:16.5px; }
-    article h2:first-of-type { border-top:0; padding-top:0; margin-top:14px; }
-    article h2 { font-weight:300; font-size:clamp(21px,2.6vw,26px); letter-spacing:0.02em; color:var(--fg);
-      margin:78px 0 22px; padding-top:26px; border-top:1px solid var(--rule); scroll-margin-top:80px; }
-    article h3 { font-weight:400; font-size:15px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin:46px 0 16px; scroll-margin-top:80px; }
-    article h4 { font-weight:500; font-size:16px; letter-spacing:0.01em; color:var(--fg); margin:34px 0 12px; }
-    article p { line-height:1.78; color:#cdc7e0; font-weight:300; margin:0 0 20px; }
-    article em { color:var(--accent); font-style:italic; }
-    article strong { color:var(--fg); font-weight:500; }
-    article ul { margin:0 0 22px; padding:0 0 0 20px; list-style:none; }
-    article ul li { position:relative; line-height:1.72; color:#cdc7e0; font-weight:300; margin:0 0 10px; }
-    article ul li::before { content:'·'; position:absolute; left:-18px; color:var(--accent); font-weight:600; }
+    h2 { font-weight:300; font-size:clamp(20px,2.4vw,25px); letter-spacing:0.02em; color:var(--fg);
+      margin:72px 0 20px; padding-top:26px; border-top:1px solid var(--rule); }
+    h3 { font-weight:400; font-size:14px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:44px 0 14px; }
+    p { line-height:1.78; color:var(--ink); font-size:16px; font-weight:300; margin:0 0 20px; }
+    em { color:var(--accent); font-style:italic; }
+    strong { color:var(--fg); font-weight:500; }
+    a.inline { color:var(--accent); text-decoration:none; border-bottom:1px dotted rgba(232,220,192,0.5); }
+    a.inline:hover { color:#fff; border-bottom-color:#fff; }
+    .quoted { font-size:15.5px; }
+    .formula { font-family:ui-monospace,Menlo,monospace; font-size:14px; color:var(--accent); letter-spacing:0.02em;
+      padding:16px 0; margin:0 0 22px; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
 
     ol.toc { margin:6px 0 26px; padding:0; list-style:none; counter-reset:toc; }
-    ol.toc li { padding:9px 0 9px 46px; line-height:1.55; color:#cdc7e0; font-weight:300; font-size:15px; position:relative; border-bottom:1px solid rgba(232,220,192,0.09); }
+    ol.toc li { padding:9px 0 9px 46px; line-height:1.55; color:var(--ink); font-weight:300; font-size:15px; position:relative;
+      border-bottom:1px solid rgba(232,220,192,0.09); }
     ol.toc li::before { counter-increment:toc; content:counter(toc,decimal-leading-zero); position:absolute; left:0; top:11px;
       font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.12em; color:var(--accent); opacity:0.7; }
-    ol.toc a { color:#cdc7e0; text-decoration:none; border-bottom:1px solid transparent; }
-    ol.toc a:hover { color:var(--fg); border-bottom-color:var(--accent); }
+
+    ul.tags { margin:10px 0 24px; padding:0 0 0 20px; list-style:none; }
+    ul.tags li { position:relative; padding:7px 0; line-height:1.7; color:var(--ink); font-size:15px; font-weight:300; }
+    ul.tags li::before { content:'\00b7'; position:absolute; left:-18px; color:var(--accent); font-weight:600; }
+
+    figure { margin:0 0 34px; }
+    figure svg { display:block; width:100%; height:auto; }
+    figcaption { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.14em; line-height:1.9; color:var(--muted); margin-top:12px; }
+    .figwrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .figwrap > svg { min-width:560px; }
 
     .tablewrap { overflow-x:auto; margin:8px 0 30px; -webkit-overflow-scrolling:touch; }
     table { border-collapse:collapse; width:100%; min-width:520px; font-size:14px; font-weight:300; }
-    th,td { text-align:left; padding:10px 16px 10px 0; border-bottom:1px solid var(--rule); color:#cdc7e0; vertical-align:top; }
+    th,td { text-align:left; padding:10px 16px 10px 0; border-bottom:1px solid var(--rule); color:var(--ink); vertical-align:top; }
     th { font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); font-weight:400; white-space:nowrap; }
     td:not(:first-child) { font-family:ui-monospace,Menlo,monospace; color:var(--fg); white-space:nowrap; }
-    table td:last-child { white-space:normal; font-family:inherit; color:#cdc7e0; }
+    table.bands td:last-child { white-space:normal; font-family:inherit; color:var(--ink); }
+
+    .sitenote { border-left:2px solid rgba(232,220,192,0.35); padding:4px 0 4px 18px; margin:0 0 30px;
+      font-size:14.5px; font-weight:300; color:var(--ink); line-height:1.7; }
+    .sitenote b { color:var(--fg); font-weight:500; }
 
     .colophon { margin-top:96px; padding-top:26px; border-top:1px solid var(--rule);
       font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.16em; line-height:1.9; }
     .colophon a { color:var(--accent); text-decoration:none; }
 
-    .totop { position:fixed; right:26px; bottom:22px; z-index:20; font-family:ui-monospace,Menlo,monospace; font-size:10px;
-      letter-spacing:0.24em; text-transform:uppercase; color:var(--muted); text-decoration:none; background:rgba(4,2,9,0.8); padding:8px 12px; border:1px solid var(--rule); }
-    .totop:hover { color:var(--accent); border-color:var(--accent); }
-
-    @media (max-width:640px){ .bread{ left:18px; top:16px; } main{ padding:104px 22px 120px; } article{ font-size:16px; } }
-    @media print { body::after,.bread,.totop,.links{ display:none; } html,body{ background:#fff; color:#111; } article p,article ul li,td{ color:#111; } }
+    @media (max-width:640px){ .bread{ left:18px; top:16px; } main{ padding:104px 22px 120px; } }
+    @media print { body::after,.bread{ display:none; } html,body{ background:#fff; color:#111; } p,td,li{ color:#111; } }
   </style>
 </head>
 <body>
@@ -87,387 +100,339 @@
   </div>
 
   <main>
-    <p class="meta-line">Layer II · the companion volume · full text</p>
+    <p class="meta-line">Layer II &middot; the companion volume</p>
     <h1>Named and Counted,<br>Not Blamed nor Accounted <span style="font-weight:200;opacity:.5">(v7)</span></h1>
     <p class="subtitle">A metrological instrument for measuring directional dysfunction: naming what had no name</p>
-    <p class="byline">B. Greenway<br>ThinkWell Labs Metrology · 2026<br>Companion to the live instrument at <a href="/sabbot/" style="color:var(--accent);text-decoration:none">toroid.fyi/sabbot</a>.</p>
-    <p class="epigraph">Some things stay invisible until they are named.</p>
-    <p class="frontnote">Four objects, one discipline: this manuscript (the argument); the instrument (the apparatus); the rubric (the replication manual); and the evidence anchors (the audit trail). The live version at <a href="/sabbot/" style="color:var(--accent);text-decoration:none">toroid.fyi/sabbot</a> is the working tool; it will keep moving after the page has set. Read the book for the reasoning and the instrument for the readings&#8212;and where they disagree, trust the instrument. It is newer.</p>
+    <p class="byline">Briar Greenway<br>ThinkWell Labs Metrology &middot; 2026<br>Companion to the live instrument at <a href="/sabbot/">toroid.fyi/sabbot</a>.</p>
 
-    <div class="links">
-      <a class="source-link buy" href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">Buy the book &#8599;</a>
-      <a class="source-link" href="/papers/named_and_counted_v7.pdf">&#8599; PDF</a>
-      <a class="source-link" href="/papers/named_and_counted_v7.md">&#8599; Markdown</a>
-      <a class="source-link" href="/sabbot/">&#8599; The live instrument</a>
-      <a class="source-link" href="/papers/obfuscratic_sabbotarchy_scoring_rubric.md">&#8599; The rubric</a>
-      <a class="source-link" href="/poly/">&#8599; The evidence anchors</a>
+    <p class="epigraph">Some things stay invisible until they are named.</p>
+
+    <p class="frontnote">Four objects, one discipline: this manuscript (the argument); the instrument (the apparatus); the rubric (the replication manual); and the evidence anchors (the audit trail). The live version at <a href="/sabbot/">toroid.fyi/sabbot</a> is the working tool; it will keep moving after the page has set. Read the book for the reasoning and the instrument for the readings&#8212;and where they disagree, trust the instrument. It is newer.</p>
+
+    <div class="buybox">
+      <p class="eyebrow">The book</p>
+      <p>Published in Kindle and paperback editions. The readings below &mdash; the bands, the scored architectures, the controls, the velocity &mdash; are on this page in full. The argument that produces them is in the book.</p>
+      <div class="buyrow">
+        <a class="btn" href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">Buy the book &#8599;</a>
+        <a class="btn btn-ghost" href="/sabbot/">The live instrument &#8599;</a>
+        <a class="btn btn-ghost" href="/papers/obfuscratic_sabbotarchy_scoring_rubric.md">The rubric &#8599;</a>
+        <a class="btn btn-ghost" href="/poly/">The evidence anchors &#8599;</a>
+      </div>
     </div>
 
-    <article>
-      <h2 id="contents">Contents</h2>
-      <ol class="toc"><li><a href="#the-case-against-the-book">The Case Against the Book. Begin where a hostile reader would.</a></li><li><a href="#preface">Preface. What this is; what it is not.</a></li><li><a href="#the-doctrine-of-restraint">The Doctrine of Restraint. Measure, do not pronounce; intent in two registers.</a></li><li><a href="#terminology-and-the-ladder-of-claims">Terminology and the Ladder of Claims. Directional asymmetry, obfuscratic, Sabbotarchy.</a></li><li><a href="#part-i-the-five-signatures">Part I. The five signatures.</a></li><li><a href="#part-i-the-five-signatures">Part II. The composite, the bands, and the uncertainty I will not fake.</a></li><li><a href="#part-i-the-five-signatures">Part III. Evidence discipline: occurred, projected, contested, correlation.</a></li><li><a href="#part-i-the-five-signatures">Part IV. Temporal dynamics: velocity, breadth, and the synchrony test.</a></li><li><a href="#part-v-resource-operations">Part V. Resource operations: the adjunct layer, held outside the number.</a></li><li><a href="#part-v-resource-operations">Part VI. Validation: the controls, and the reform that scores low.</a></li><li><a href="#part-v-resource-operations">Part VII. Application: the seven architectures, dated and frozen.</a></li><li><a href="#part-v-resource-operations">Part VIII. What would falsify this; and the two tests it has not yet faced.</a></li><li><a href="#appendix">Appendix. The two-instrument stack, distribution, citation.</a></li></ol>
-      <h2 id="the-case-against-the-book">The Case Against the Book</h2>
-      <p>Start where my worst reader starts. If the objection holds, nothing after it is worth your time—and you should know that I know it.</p>
-      <p>Government fails. It fails constantly, under every party, in every season, from scarcity and turnover and the plain entropy of large systems run by tired people with too little time and too many forms. Most of what looks like malice is fatigue. Most of what looks like design is the absence of design: nobody steering, which from underneath looks identical to somebody steering badly. The reasonable first reach is for incompetence, and the reasonable reader keeps reaching for it long after the drama has tried to pull their hand somewhere more exciting. The dramatic reading is almost always the weaker one.</p>
-      <p>I concede every word of that at the door, without conditions, because a book that cannot survive the concession has no business being written.</p>
-      <p>So here is the single thing the concession does not absorb.</p>
-      <p>Ordinary failure is symmetric, slow, and uncoordinated. It hurts the people it meant to help and the people it meant to spare more or less alike; it shows up in one office before another on no schedule anyone could keep; and it gives way to a cheap fix, because nothing is standing guard over it.</p>
-      <p>What I measure in these pages breaks all three habits at once:</p>
-      <ul>
-      <li>failure that runs its damage one direction;</li>
-      <li>failure that fights the cheap repair as hard as the expensive one;</li>
-      <li>failure that arrives across a dozen institutions in a single season, as though to a calendar.</li>
-      </ul>
-      <p>That is not the shape of fatigue. Fatigue keeps no direction and no appointments. The residue ordinary incompetence cannot explain—the direction, the inverted price of repair, the timing—is the whole of what is named and counted here. Everything else I hand to the skeptic, and gladly.</p>
-      <p>A pattern with no name cannot be measured; and what cannot be measured cannot be argued, budgeted, refused, or even seen. The feeling that something in public life is failing too reliably to be only failing is common, and almost never pinned. It stays unpinned for want of words exact enough to hold it.</p>
-      <p>This book supplies the words first, then the ruler, then the readings. And on purpose it includes cases the ruler is built to rate low, because a ruler that can only rate things high has measured nothing at all.</p>
-      <p>Name the parts. Count them. Not yet blamed; not yet accounted. That part waits, and comes only if the count earns it.</p>
-      <p>Invisible things, once named, stop being invisible. That is the wager of all the rest.</p>
-      <h2 id="preface">Preface</h2>
-      <h3 id="what-this-is">What this is</h3>
-      <p>A measurement tool, and the first honest attempt to use it.</p>
-      <p>The claim is small to state and hard to earn: a kind of governing can be measured, not merely alleged. The kind in question leaves consistent directional patterns in its outcomes—patterns that arrive wearing the clothes of ordinary administrative change.</p>
-      <p>When you break a thing you didn’t mean to break, you fix it. Nothing here has been fixed.</p>
-      <p>Most writing on this subject stops at the accusation and leaves the reader holding an empty hand. This builds the instrument that could prove me wrong instead: five signatures; one composite score; a way to watch how fast that score climbs and whether institutions climb together; a handful of worked cases; and, by design, a control group of prior reforms the tool ought to rate low. A tool that can only rate things high is not a tool.</p>
-      <h3 id="what-it-is-not">What it is not</h3>
-      <p>Proof.</p>
-      <p>The scores are judgments—anchored to dated public evidence, but judgments, and so far mostly one person’s. The grimmest numbers in the book (coverage lost, revenue moved, deaths modeled) are forecasts, and they say so every time they appear. The authority is the evidence and nothing besides. The whole of it is built to be argued with. To be attributed to other causes.</p>
-      <p>One rule carries the book, so I will set it down where you can hold me to it: it measures; it does not pronounce.</p>
-      <p>Where it says a thing happened, there is a record. Where it says a thing is projected, there is a model—not a body count. Where it scores, the score is an argument asking to be answered. Read it that way and it will not mislead you. Lose that line and it will; and so would I.</p>
-      <h2 id="the-doctrine-of-restraint">The Doctrine of Restraint</h2>
-      <p>I did not come to this neutral, and I will not pretend to. I watched these patterns for two years before I built anything, and somewhere in those two years the watching turned to conviction. I believe the directional shape is deliberate, and I am not going to perform a doubt I do not hold.</p>
-      <p>So let me be exact about what this book is, because the inaccurate version was the tempting one and I could not go on with it.</p>
-      <p>This is not the record of a person testing whether they were wrong. I was not in serious doubt. It is the record of a person who already knew what they had seen, and went looking for the one thing conviction cannot supply on its own: a way to make the case stand without them.</p>
-      <p>That is the trouble with conviction. It convinces no one but the convinced. Two years of watching does not transfer; you were not there, and you should not take my word for what I saw.</p>
-      <p>So I built the instrument that could carry the case to someone who wasn’t watching: anchored to the public record, so a stranger can check every number; equipped to acquit, so that whatever it convicts will mean something; capable, by construction, of handing back a reading I would dislike.</p>
-      <p>I built it to back me up, and I will say so plainly, because the alternative—dressing the thing as a neutral experiment I was braced to lose—is a lie a reader can see through. The apparatus never once comes out against me, and pretending my motive did would only invite the scrutiny that exposes it.</p>
-      <p>What divides that from mere advocacy is one property, and the whole book leans on it: the instrument can lose.</p>
-      <p>An advocacy device is built so every part confirms; it has no <em>Reinventing Government</em> scoring 19 on a larger workforce cut than DOGE, because that result helps the other side. I kept that result. I let the central fiscal architecture sit at 16 until its structure materialized. I bound every score to a record a hostile reader could turn back on me.</p>
-      <p>A conviction run through a method that could have contradicted it—and did not—is worth something to a stranger. A conviction merely asserted is worth nothing to anyone but its holder. The controls that acquit are not a fairness gesture. They are the reason my certainty is allowed to travel at all.</p>
-      <p>One precision, and it is the one I most want to get right. My certainty is about intent: that the pattern is meant. The instrument cannot reach intent, and I built it not to; that rung is yours.</p>
-      <p>So even on my own terms, the book does not corroborate the thing I am surest of. It corroborates the substrate underneath it: that a directional, anti-remediative, synchronized residue survives after ordinary failure has been given every concession it is owed. That residue is what I can hand you.</p>
-      <p>The step from the residue to the intent is the step I have spent the whole book refusing to take on your behalf—which leaves me surest of exactly the thing I have left unproven on the page. I would rather that gap be visible than papered over. It may be the most honest sentence here: the thing I most believe is the thing the instrument most carefully does not say.</p>
-      <p>From that follows a choice about how far the book will go. It names; it counts; it stops. It does not blame and it does not account.</p>
-      <p>The restraint is not timidity. It is strategy. An accusation asserted is cheap, and a reader bats it away in a sentence: <em>prove intent.</em> An accusation a reader reaches on their own—because the evidence has closed every other door—is one they will defend as if they had thought of it themselves. So I lay the evidence down and decline to read the verdict aloud. The verdict is yours to reach, or to refuse.</p>
-      <p>Intent is handled in two registers, and the gap between them is the discipline.</p>
-      <p>Where intent is on the record, I quote it. A strategy whose own authors published it is not an accusation; it is a citation. The Two-Santa doctrine was written down. “Starve the beast” is a phrase its architects say into microphones. A bipartisan border bill died after its opponents said, on camera, to blame them for killing it. Naming those is reporting.</p>
-      <p>Where intent is hidden, I do not assert it. I measure the structure, and I show that it behaves with directional asymmetry: selective, resistant to its own repair, arriving everywhere at once. Then I leave the one question such a structure raises standing in the open, unanswered: what accounts for patterns this consistently one-directional? You will arrive somewhere on that question without my hand on your back. That is the design.</p>
-      <p>A word about a word, since the whole posture turns on it. <em>Structured</em> appears rarely, and on purpose, kept for the places where avowed doctrine or the full evidentiary threshold has earned it. Everywhere else the structure is said to <em>exhibit directional asymmetry</em>, or to be <em>structurally produced</em>: the same evidence, the same weight, but every strong claim carrying its receipt in its hand. This is not hedging. It is the difference between a measurement and an accusation, and the measurement, in the end, is the more dangerous of the two. The title is the posture in five words. <em>Named and counted</em> is my work. <em>Blamed and accounted</em> is yours.</p>
-      <h2 id="terminology-and-the-ladder-of-claims">Terminology and the Ladder of Claims</h2>
-      <p>New phenomena need new names. The alternative is to keep describing them with words built for something else, which is exactly how they stay invisible. So the book coins, and it coins by a method I will state plainly, so that what follows reads as intent and not as error.</p>
-      <p>A base word is stripped to its root and rejoined to a classical suffix that carries the category. The suffix <em>-archy</em> (Greek, <em>rule</em>: monarchy, oligarchy, anarchy) marks a <strong>regime form</strong>. The suffix <em>-cratic</em> (Greek, <em>governing</em>: democratic, technocratic) marks an <strong>operational modality</strong>. The distinction between those two suffixes is load-bearing, not ornamental, and the apparatus rides on keeping three things apart on three rungs of a ladder. Collapse the rungs and a measurement becomes an accusation in a single careless sentence.</p>
-      <p><strong>Directional asymmetry</strong> is the bottom rung: the measured property, the thing the five signatures actually read. A structure whose outputs diverge from its stated inputs non-randomly; a failure that keeps a direction. It is a <em>what</em>. Observable, scorable, silent on why. It wears the plainest name in the set on purpose, because the thing you actually measure should not be dressed in theory.</p>
-      <p><strong>Obfuscratic</strong> is the middle rung: the modality, <em>how</em> a directionally asymmetric structure holds itself together. From <em>obfuscation</em> and <em>-cratic</em>; a regime that runs on manufactured confusion.</p>
-      <p>Framing-mismatch, incoherent public information, dysfunction worn as incompetence. An adjective. It modifies; it does not pronounce.</p>
-      <p><strong>Sabbotarchy</strong> is the top rung, and the one the instrument never climbs by itself. The regime form: rule by sabotage. It names what a reader <em>may conclude is present</em> when directional asymmetry concentrates across all five signatures and operates obfuscratically. The word is meant to frighten, and it is meant to be withheld. The instrument measures the property and the modality. Whether the pattern earns the regime-name is your verdict, reached on your authority, or not reached at all. Pronounce it as the syllables fall, <em>sab-bo-TAR-key</em>; the stress lands on the rule-suffix, where the argument lives. The spelling is intentional; it encodes the stress pattern.</p>
-      <p>So the measurement travels under the compound that names only what it measures: <strong>Obfuscratic Asymmetry</strong>, modality joined to property. <em>Sabbotarchy</em> waits above it, unspoken, for a reader to reach.</p>
-      <p>An earlier draft of this book let that frightening noun fall out of the vocabulary entirely, in the name of caution. That was an overcorrection, and worse than the disease, because it left the framework with no name for the thing it was pointing at, and a bare property doing a noun’s job. The three-rung ladder fixes both faults at once. A measured <em>what</em>; a structural <em>how</em>; a verdict-laden regime-name held in reserve. Each on its rung. None borrowing the authority of the one above it.</p>
-      <p>A transparently asymmetric regime would be seen and resisted. An obfuscratic one with nothing asymmetric underneath would have nothing to hide. Property and modality move together or not at all; the regime-name moves only when you move it.</p>
-      <p>One note on purity, paid once. A few coinages bolt a Latin root to a Greek suffix, which is irregular by classical lights and ordinary in working English (<em>television</em>, <em>sociology</em>, <em>automobile</em>). I have chosen clarity over purity, knowingly, and say so here so that the seam reads as a decision rather than a slip.</p>
-      <h2 id="part-i-the-five-signatures">Part I. The Five Signatures</h2>
-      <p><em>What Part I does. It reads the shape of a failure, never its size. Five asymmetries, each visible in the wreckage downstream, each stopping short of any claim about a private mind. The objection it has to beat: that honest incompetence leaves the same shape. It doesn't, and the five signatures are the argument for why.</em></p>
-      <p>There are two ways the conversation about state dysfunction goes wrong, and they fail in opposite directions.</p>
-      <p>The first is naming without measuring. A watcher sees an agency produce ruin too consistently to feel like accident, and says the failure is deliberate, manufactured, designed. They may be right.</p>
-      <p>They cannot show it. No instrument exists to separate built failure from ordinary failure, so the claim swells into hyperbole, a critic answers that this is just normal government mess, or just one administration's politics, and the argument loops without end. Nobody settles it, because nobody brought a ruler.</p>
-      <p>The second is the mirror image: measuring without naming. Careful people count one outcome at a time. Coverage losses under one program; deportation rates under another; audit-rate shifts under a third. Each gets filed as a discrete policy choice. The forest vanishes into the trees. The pattern that ties a workforce purge to a benefits administration to a detention build-out to an enforcement teardown to a research compression to a regulatory rollback stays invisible, because no one is looking at the six of them as one shape.</p>
-      <p>The book ends both failures with one move. Supply the primitives that let any single architecture be scored; then run those primitives, unchanged, across many; then the cross-architecture shape becomes legible. Name the thing, then count it. The rest of Part I is the apparatus that does exactly that.</p>
-      <p>The size of the damage tells you nothing about which failure you are looking at. Honest failure and the failure this book is about can leave wreckage indistinguishable by the ton. The <em>shape</em> of the damage tells you everything. The five signatures read that shape. Each is a trace left downstream; an asymmetry you can see and check; and each, by construction, says nothing about what anyone was privately thinking.</p>
-      <h4 id="s1-outcome-distribution-asymmetry">S1. Outcome-distribution asymmetry</h4>
-      <p>Every operation has a stated beneficiary, the population it is officially run to serve. It also has a realized beneficiary: whoever actually gains once you follow value, position, and jurisdiction to where they come to rest. The first signature measures the distance between the two.</p>
-      <p>Honest policy lands roughly symmetric. The operation aims to help population X and, allowing for the usual overruns and spillage, in fact helps population X. Symmetry is the fingerprint of intent matching outcome. Where the signature is present the distribution goes sharply asymmetric: run under the banner of helping X, the operation routes value, position, or capture toward Y. A resource-concentration vector. A procurement channel. A surveillance substrate. A wealth engine. The asymmetry is the tell that the stated reason was cover for the working one.</p>
-      <p>Three steps measure it. Name the stated beneficiary from the official documents. Identify the realized beneficiary by tracing where the resources actually went and which populations gained and lost. Then compute the divergence: qualitatively, by the category mismatch; quantitatively, by the magnitude of concentration.</p>
-      <h4 id="s2-domain-selective-competence">S2. Domain-selective competence</h4>
-      <p>Every architecture performs many functions. Some face the public: taxpayer service, benefit delivery, records access, court compliance. Some are extractive: data fusion, contract execution, surveillance integration, enforcement against disfavored targets.</p>
-      <p>Honest competence does both well. Honest incompetence does both badly. The signature is <em>selectivity</em>: catastrophic failure in the public-facing work sitting beside surgical precision in the extractive work, in the same agency, in the same months, run by the same people, drawing on the same budget. A benefits line that cannot answer its phone while the data-mining that feeds cross-agency surveillance runs clean is not an overwhelmed agency. Both functions drink from one well. A gap that wide has nothing to do with scarcity and everything to do with which function the architecture chose to protect.</p>
-      <h4 id="s3-anti-remediation-response">S3. Anti-remediation response</h4>
-      <p>When a dysfunction gets identified, fixes get proposed. Some cost a fortune. Some cost almost nothing. The third signature watches how the resistance to a fix changes with the price of the fix.</p>
-      <p>Honest incompetence resists in proportion to cost. Expensive repairs get refused because budgets are real; cheap ones get waved through. The signature resists the cheap fix as hard as the dear one, and sometimes harder. When an architecture fights a transparency requirement, a single procedural tweak, a document release (corrections that cost essentially nothing) with the same force it brings to an expensive rebuild, the resistance has walked off the edge of budget logic. What remains is protection of the dysfunction itself. That inverted slope is closed to honest failure. Only the guarding of an asymmetry produces it.</p>
-      <h4 id="s4-personnel-selection-asymmetry">S4. Personnel selection asymmetry</h4>
-      <p>Every architecture decides who gets hired, promoted, kept, sidelined, pushed out. The fourth signature reads those decisions on three axes: whether experienced technical people stay, whether ideological-alignment candidates rise regardless of competence, whether internal dissent survives long enough to matter.</p>
-      <p>A functional organization keeps its expertise, advances on some workable mix of merit and alignment, and tolerates disagreement. The signature is sharp on all three at once. Technical people leave or are made to leave; alignment advances over skill; dissent gets suppressed before it can pool into anything. What is being selected against is competence itself. The capable are the ones who go.</p>
-      <h4 id="s5-information-architecture-asymmetry">S5. Information-architecture asymmetry</h4>
-      <p>The fifth is the cleanest reading of obfuscratic operation, and it carries the heaviest weight in the book. It measures the ratio between the coherence inside a regime and the coherence of the public information that regime puts out.</p>
-      <p>A functional architecture is roughly symmetric: it knows what it is doing, and the public can roughly follow what it is doing. A merely confused architecture is incoherent on both sides at once. The signature is a stark asymmetry: very high internal coherence flanked by very low external coherence. Inside, you find coordination meetings, integrated implementation plans, aligned talking points, a sustained narrative apparatus. Outside, you find mutually contradictory framings issued from coordinated sources, systemic fog around specific operations, denial and implementation running in the same hour. The outer incoherence is structural. It is the cover under which the inner coherence proceeds.</p>
-      <p>This signature is weighted highest because it is the one with no honest alternative. The other four can each be argued down: resource constraint, ideological commitment, ordinary churn. Coordinated coherence inside, systemic noise outside, has no such escape hatch. Obfuscratic operation is most legible right here.</p>
-      <h2 id="part-ii-the-composite-and-its-bands">Part II. The Composite and Its Bands</h2>
-      <p>The five signatures fold into one number per architecture. Each is scored zero to one hundred; the composite is the weighted average.</p>
-      <p><em>Index = 0.25·S1 + 0.20·S2 + 0.15·S3 + 0.10·S4 + 0.30·S5</em></p>
-      <p>The weights track how structurally specific each signature is, which is to say how few innocent readings it leaves open. S5 sits highest, at 0.30, because its signature is the least available to any benign explanation. S1 follows at 0.25, as the most directly observable. S2 at 0.20 is robust but takes more interpretive work to score. S3 and S4 sit lowest, at 0.15 and 0.10, because each drags the most alternative explanations behind it (resource limits, ordinary turnover) and demands the most careful evidence before a number can be trusted.</p>
-      <p>The index sorts into four bands.</p>
-      <div class="tablewrap"><table>
-      <thead>
-      <tr>
-      <th>Band</th>
-      <th>Range</th>
-      <th>Reading</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>Genuine</td>
-      <td>0–30</td>
-      <td>Consistent with honest competence or honest failure; asymmetry low.</td>
-      </tr>
-      <tr>
-      <td>Mixed</td>
-      <td>30–70</td>
-      <td>Some signatures present, not concentrated; more analysis needed.</td>
-      </tr>
-      <tr>
-      <td>High-Asymmetry</td>
-      <td>70–85</td>
-      <td>The directional signature is satisfied.</td>
-      </tr>
-      <tr>
-      <td>Extreme-Asymmetry</td>
-      <td>85–100</td>
-      <td>The asymmetry is concentrated across all five dimensions.</td>
-      </tr>
-      </tbody>
-      </table></div>
-      <p>The thresholds are not pulled from air. Reaching 70 takes the high range on at least four of the five dimensions; reaching 85 takes it on all five at once. They will move as more architectures are scored, and any move gets logged, not slipped in.</p>
-      <p><strong>On the precision I will not fake.</strong> These scores are not measurements drawn from a sampling distribution. They are one analyst’s judgments, and a confidence interval computed over a sample of one is fabricated precision, the exact thing Part III forbids. So no score in this book carries a ±. What can be reported honestly is the only real variance the project has: where two further analysts have scored the same architecture, agreement runs to about twelve points on the hundred-point scale, enough to cross a band line. Highest agreement on S5, within roughly six points; lowest on S4, within roughly fifteen. Those are observed rater-to-rater ranges, not intervals with a distribution behind them. Read every number here as a claim about <em>which band</em>, never as a precise quantity. A score is shorthand for “this architecture sits in this band, pending a hostile rater,” and nothing more arithmetic than that.</p>
-      <p>A point of language, carried from the front and meant literally. The signatures <em>measure</em>. The word <em>structured</em> is an <em>inference</em> drawn from what they measure, and it lives at the top of the ladder, away from the act of measuring. Where the text says an architecture <em>satisfies the high- asymmetry signature</em>, it reports a measured fact about asymmetry, selectivity, and incoherence. Whether to call that architecture <em>structured</em>, or <em>sabotaged</em>, to attribute design, is your step. The book takes it only where avowed doctrine or full convergence has earned it. Everywhere else the disciplined sentence is the plain one: the structure <em>exhibits directional asymmetry</em>.</p>
-      <h2 id="part-iii-evidence-discipline">Part III. Evidence Discipline</h2>
-      <p><em>What Part III does. It sorts every factual claim before the claim is allowed to do any work, and it sets a filter that keeps motivated noise from voiding a documented fact. The objection it beats: that an instrument like this quietly launders forecasts into events. It does not, because each claim wears its status on its sleeve.</em></p>
-      <p>The most common way a signature instrument dies under a hostile reviewer is one substitution: a projection stated as a realized fact. A ten-year CBO estimate, a modeled coverage loss, written into an outcome row as though it had already happened. One such slip voids the row no matter how clean the surrounding mathematics, and a careful adversary will go looking for it first. So every factual item in the book wears a tag.</p>
-      <p><strong>Occurred.</strong> A documented event, verifiable against the contemporaneous record: a statute, a court filing, an agency notice, dated reporting. Eligible to anchor a claim about a realized outcome.</p>
-      <p><strong>Projected.</strong> A modeled or forecast outcome, a CBO estimate, a mortality model. Legitimate evidence, but it may anchor only a <em>projected</em> claim, and it must say so in the row it sits in.</p>
-      <p><strong>Contested.</strong> Magnitude, attribution, or characterization is disputed. The tag does not, by itself, lower confidence. Whether it does depends on the <em>quality</em> of the contestation, which is the next move and the important one.</p>
-      <p>A fourth tag handles relationships rather than events. <strong>Correlation.</strong> A relationship has been measured between variables, with no claim about causal direction. Causal language appears only where temporal precedence, a documented mechanism, and the elimination of obvious confounds support it, and it is marked when it does.</p>
-      <p>Now the filter, because <em>contested</em> is where most instruments either overclaim or collapse. A claim’s standing is set by the documentary record and the <em>quality-weighted</em> balance of contestation, never by the bare existence of a dispute. The reason is structural: motivated denial is cheap and infinite. If the mere presence of a dispute downgraded a claim, any well-documented fact could be neutralized by an interested party simply saying <em>no</em>. So contestation sorts into two classes, and only one of them moves the needle.</p>
-      <p>High-quality contestation adjusts confidence: a methodological critique; an alternative measurement from a credible disinterested source; a timeframe or base-rate correction (the projection-versus-realized catch is the canonical case); a scope or attribution fix. These are evidence, and they are weighed as evidence.</p>
-      <p>Low-quality, motivated contestation does not: a bare denial from an interested party that contradicts the record; a reframing offered with no counter-evidence; an ad hominem; an assertion of intent standing in for a fact. These get logged and carry no weight against a documented anchor.</p>
-      <p>The asymmetry is deliberate, and it cuts both ways. It stops motivated denial from voiding a solid anchor, and it stops motivated affirmation from rescuing a weak one. A documented cut, denied by the official whose program enacted it, is not thereby made uncertain. A contested magnitude is not made certain because the analyst happens to find it congenial. The filter has no friends.</p>
-      <p>One discipline from this part reaches forward into the next two: every anchor acquires a date and a status tag. The temporal layer needs the date so any score can be reconstructed as of any past moment. The audit needs the tag so no forecast can wear the clothes of an event. Two reasons, one habit, and the habit is what lets the instrument keep calling itself a measurement.</p>
-      <h2 id="part-iv-temporal-dynamics">Part IV. Temporal Dynamics</h2>
-      <p><em>What Part IV does. It adds the derivative the static score is missing. Not just is this asymmetric but how fast, accelerating or slowing, and in step with what else. The objection it beats, and this is the big one: that many institutions scoring high at once proves coordination. It doesn't, on its own; only the timing does, and only against a matched baseline.</em></p>
-      <p>The static instrument scores each architecture at a single instant. That is a real gap, not a cosmetic one. Two architectures with identical composites are not the same object if one reached its score across fifteen years of slow entrenchment and the other across fifteen months of active capture. Destruction is a rate, not a state. An instrument that cannot represent rate cannot represent the thing its users are most often pointing at when they say something is <em>being</em> destroyed.</p>
-      <p>So the temporal layer computes the missing rates, in three constructs that climb from the local to the global. It is kept as a separate object from the static score, never folded in as a sixth weighted dimension, because the composite answers <em>is this asymmetric</em> and the velocity layer answers <em>how fast and in concert with what</em>, and collapsing the two would throw away the very information the layer exists to add.</p>
-      <p><strong>Signature velocity.</strong> For an architecture scored at successive epochs, the velocity is the discrete time-derivative of the score, in index-points per quarter, using the same weights as the static index so the two are commensurable. Sign carries meaning. Positive velocity is an intensifying signature; negative velocity is remediation, a structure moving back toward the genuine band. A near-zero velocity on a high composite is an <em>entrenched</em> equilibrium. A large positive velocity on a still-moderate composite is an <em>active, accelerating</em> capture, which is operationally the more urgent object and the one the static snapshot systematically under-weights. The second-order version, acceleration, is the most literal reading of “it is speeding up,” and also the noisiest thing in the layer; it needs at least three well-separated epochs before it may be reported at all.</p>
-      <p><strong>Breadth-velocity.</strong> Per-architecture velocity misses a system-level fact: how fast the <em>population</em> of high-scoring architectures is growing. Count the architectures above the engineered-band threshold at each epoch; the rate at which that count rises is breadth-velocity, in architectures per quarter. It is the formal version of the phrase “all levels at once.” And it is valid only against a fixed, pre-defined denominator, the full slate of candidate architectures scored over time, including the ones that stay low. Let the frame grow by adding architectures because they already score high, and the count rises as a pure artifact of where you pointed; the metric then measures the analyst’s attention, not the world. This is the same selection-on-the-dependent-variable failure the controls exist to prevent, now in temporal form, which is why the two layers are bolted together: breadth cannot be computed honestly without the control architectures sitting in the denominator. The controls are not a courtesy. They are a precondition.</p>
-      <p><strong>The synchrony index.</strong> This is the load-bearing construct, and the one that earns the temporal layer its keep. The static coordination claim rests on <em>spatial</em> clustering, many architectures high at the same time. But spatial clustering is weak evidence, because a single common cause (one administration, one ideological program) produces it without anything stronger, and it cannot come out the other way, which is precisely what makes it epistemically cheap.</p>
-      <p><em>Temporal</em> clustering is stronger. Take each architecture’s onset, the first epoch its composite reaches the engineered threshold, and measure the dispersion of those onset times across the whole frame. Compare it to the dispersion you would expect if the architectures crossed at random, independently, across the window. When the real onsets are far more bunched than chance allows, the synchrony index runs high; when onset timing is indistinguishable from independent drift, it runs to zero.</p>
-      <p>The decisive property is that this <em>can</em> fail. Under the null of uncoordinated agencies evolving on their own clocks, onsets spread out and the index falls toward zero. A high index is the rigorous form of the coordination claim the static instrument could only assert, and unlike that assertion, the data can disconfirm it. On honest numbers, sometimes it will.</p>
-      <p>And here the book has to say a hard thing against its own interest. Synchrony is necessary but not sufficient. A single common driver (an administration taking office on a fixed date and changing many policies at once) produces high synchrony <em>without</em> any covert coordination at all. Onset-bunching concentrated exactly at a transition is therefore expected even under the dull “ordinary fast regime change” hypothesis, and cannot, by itself, carry the stronger reading.</p>
-      <p>Two discriminators separate sustained engineering from ordinary transition. First, persistence: do onsets cluster only at the transition, or do they keep rolling at an elevated rate well after, in a sequenced pattern that a one-time transition cannot easily explain? Second, baseline: did <em>prior</em> administration transitions of comparable scope produce comparable synchrony? That benchmark requires scoring prior-administration architectures, which is exactly what the reform-lineage control supplies. If past transitions produced equally high synchrony, then high synchrony is the baseline rate of regime change and diagnoses nothing. If the current synchrony markedly exceeds the historical baseline, the <em>excess</em> is the diagnostic quantity, and the raw number was never the point. Reported bare, the index overclaims. Reported as an excess over matched transitions, it is defensible. Only the second form appears in this book.</p>
-      <p>A closing discipline, because differencing noisy numbers makes noisier numbers. A velocity computed from two scores carries the noise of both, amplified. So a velocity is reported only when the change between epochs clears the cross-analyst noise band; below that, it is suppressed as not-yet-resolvable rather than dressed up as signal. Acceleration waits for three clean epochs. And the cheapest way to make any of this resolvable is more analysts per epoch, which shrinks the band, which is why the open replication program is a prerequisite for the temporal layer and not a parallel nicety. The layer would rather say “not yet measurable” than mistake a flapping banner for a breach.</p>
-      <h2 id="part-v-resource-operations">Part V. Resource Operations</h2>
-      <p><em>What Part V does. It traces where the consequences went, on three dimensions that sit outside the headline number on purpose. Money, force, and induced harm are the most charged material in the book, so they inform the reading and never drive the score. The objection it beats: that an instrument quietly lets the gravest claims pull the composite upward. Here, by construction, they cannot.</em></p>
-      <p>The five signatures read the <em>shape</em> of a dysfunction. They do not, by themselves, follow the <em>consequences</em>: where the money landed, what force was spent, who was made to suffer for leverage. A complete reading wants that, but it is also the fastest route to overreach, so the whole resource layer is held apart, an adjunct, never one of the dimensions, never inside the composite. Three candidate measures, each built with a working “off” position before it is allowed to score anything.</p>
-      <p><strong>S6. Selective-allocation asymmetry.</strong> The signature is allocation that runs <em>against</em> need. Rank a defined population of crises by an external need metric the analyst cannot tune (deaths, persons affected, irreversibility, drawn from named third-party sources), freeze that ranking, and only then rank the same crises by resources actually deployed. A positive rank correlation is genuine triage and scores low. A negative correlation is allocation inverted against need, the S6 signature, but only conditional on a second test: the resourced set must share a payoff (financial capture or political alignment), and the high-need ignored set must share the absence of one. Negative correlation without that payoff conjunction is noise, not signature.</p>
-      <p>The first worked run scored six crises and returned a Spearman correlation of roughly −0.89: allocation running hard against need, the highest-need domestic crises cut while low-need cases were funded. But the number leaned on one judgment call, the coding of border need as low, and recoding that single item moved it to −0.37. So the metric was mechanized: rank by attributable deaths alone, no hand-coding, population expanded to nine. The result <em>fell</em>, to −0.57, and at that sample size it does not clear significance. That is the metric behaving correctly. An instrument whose headline number shrinks when you make it more rigorous is measuring something rather than manufacturing it. The inversion is directionally robust across both runs and never changes sign; its strength is sensitive to method and population, and the book reports it with that sensitivity attached, never as a clean point estimate. The payoff conjunction holds across both runs.</p>
-      <p><strong>S7. Asset and standing dissipation.</strong> Force, lives, and legality spent for factional or spectacle payoff rather than public-strategic ends. The most intent-exposed of the three, and the most carefully fenced.</p>
-      <p><strong>S8. Induced-harm coercion.</strong> A crisis created or deepened in a target population to produce leverage, with the humanitarian carve-outs that would normally prevent population-level harm <em>removed</em>. The signature is the removal, and the resulting harm, not sanctions as such.</p>
-      <p>Each candidate earns the right to score real cases only after its negative control returns low under the identical rubric. Genuine triage, lawful proportionate force, and carve-out-preserving sanctions were pre-registered as predicted-low, scored, and came back low. The COVID-19 vaccine phased allocation of late 2020, doses tracking mortality and exposure risk, returned low on S6: the dimension does not fire on need-tracking allocation. The 1991 Gulf War, real threat, UN and congressional authorization, defined and limited aim, returned low on S7: the dimension does not fire on lawful proportionate force. The standing humanitarian carve-outs of 2022 returned low on S8: the dimension does not fire on a sanction that protects civilians by design.</p>
-      <p>All three have a working zero. None fires on the benign case. Only then were the passing anchors allowed to be scored, and they remain outside the composite, an adjunct that informs the reading and never inflates the number.</p>
-      <h2 id="part-vi-validation">Part VI. Validation</h2>
-      <p><em>What Part VI does. It tries to make the instrument fail. It scores cases predicted in advance to come back low, including the closest honest analogue to a high-scoring seed, and it pre-registers the predictions so they cannot be revised to fit. The objection it beats, and it is the gravest one against the whole project: selection on the dependent variable. If the only cases you feed an instrument are ones picked because you expect them to score high, their scoring high proves nothing about the world.</em></p>
-      <p>This is the part of the apparatus most able to embarrass its own author, which is exactly the property a fortress of thought is built around rather than against.</p>
-      <p>The seed architectures were chosen because the signature was predicted to show in them most cleanly. Left there, that is a fatal circularity: an instrument fed only expected-high cases cannot return a low score, and an instrument that cannot fail is not measuring anything; it is the accusation the book claims not to be. The fix is not more confirming cases. It is a set of negative controls, scored by the identical rubric, predicted in advance to land low or mixed, and the integrity of the exercise depends on sequence: the predictions are locked before the scoring, and any later change is a dated amendment, never a silent edit. Match a prediction to an outcome after the fact and you have destroyed the only thing the controls were worth.</p>
-      <p>A useful control has to be <em>plausibly confusable</em> with a high-scoring case, genuinely dysfunctional, large, consequential, so that a low score is a real discrimination and not a trivial one. The set spans the genuine floor, the empty middle, and at least one case of the opposite political valence, scored by the same rubric, to answer the cherry-picking charge on the record rather than in a footnote.</p>
-      <p>The single most important control is the reform lineage, because it puts the instrument’s own claim at maximum risk. Three prior reform programs, each a large deliberate restructuring of the federal workforce, were scored. The Grace Commission came back at 14. The President’s Management Agenda at 20. And <em>Reinventing Government</em>, the Clinton-Gore program of the 1990s, came back at 19, on a <em>larger</em> workforce reduction than any current seed architecture, DOGE included. That is the cleanest single test in the book. If the instrument keyed on “large workforce cut” rather than on the signature, <em>Reinventing Government</em> would have scored in the high band and dragged the whole project down with it. It scored 19. The savings were publicly returned to deficit reduction; the program was openly documented and GAO-tracked, which is high external coherence, the opposite of the S5 signature. The instrument was demonstrably <em>able</em> not to convict, and on the closest available analogue it didn’t.</p>
-      <p>Three more controls test specific dimensions. A chronically underfunded program failing <em>symmetrically</em> (the Indian Health Service under sustained scarcity) tests S2 and S3: both function-classes fail together, with no surgical extractive counter-function and a positive cost-resistance slope, the marks of real scarcity rather than structural protection. A genuinely botched rollout with no extraction (the 2013 HealthCare.gov launch) tests the S3 inversion specifically: a genuine architecture <em>races to remediate</em>, spending heavily and fast to fix the failure, the precise inverse of anti-remediation. A well-functioning routine architecture anchors the scale’s floor and proves the instrument does not pin benign cases in the mixed band by construction. Each carries a falsification trigger stated in advance: a number above which the dimension under test is shown to be firing on dysfunction-magnitude rather than on the signature, and is thereby confounded.</p>
-      <p>And one control is left deliberately unpinned: an architecture of the opposite political valence, one I am plausibly sympathetic to, scored by the identical rubric with the identical evidence discipline, wherever the evidence lands. The point of that one is not its score. It is the binding commitment to score a sympathetic case by the same rule, on the record. If structurally comparable cases score systematically lower when I am sympathetic than when I am hostile, given comparable evidence, the instrument is measuring my valence and requires blinded, multi-analyst scoring before any of its outputs can be trusted at all. That is the direct answer to the cherry-picking charge, and it is written as a standing liability rather than a defense.</p>
-      <p>The set is built so the framework can lose. If the predicted-genuine controls score genuine, and the structural analogue scores low, while the seeds score high under identical application, the instrument has shown it discriminates, and that is the result that licenses the seed scores. If instead the controls score high, the reform lineage above all, the instrument is keying on policy direction or dysfunction magnitude rather than on the signature, and the seed scores fall by the same amount. Either way the exercise is informative. Only the live possibility of the second outcome makes the first one worth anything.</p>
-      <h2 id="part-vii-application-the-seven-architectures">Part VII. Application: The Seven Architectures</h2>
-      <p>Everything before this was the building of the instrument. Here it is pointed at the world and the readings are written down. Seven architectures, scored across the five signatures at three dated checkpoints, set beside the reform lineage so the high readings can be read against the low ones the instrument is equally able to produce. Then the resource operations, traced through the cases where money, force, and harm actually moved. Then the projected harms, kept inside the ranges the models bear and tagged as projections every time. Then the doctrinal substrate, the published strategies the whole pattern sits against. The verdict is not written here. The verdict is never written here. What is written here is what the instrument measured.</p>
-      <p><em>A note on the numbers. The scores, the correlation, and the projected ranges in this part are frozen as of June 2026 for print. The live instrument at toroid.fyi/sabbot keeps updating against fresh evidence, so its current figures may differ from these. Where this part and the instrument disagree, the instrument is newer. This part is the dated record of where the readings stood when the book went to press.</em></p>
-      <p>The current dimension scores and composites:</p>
-      <div class="tablewrap"><table>
-      <thead>
-      <tr>
-      <th>Architecture</th>
-      <th>S1</th>
-      <th>S2</th>
-      <th>S3</th>
-      <th>S4</th>
-      <th>S5</th>
-      <th>Composite</th>
-      <th>Band</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>IRS dismantling</td>
-      <td>92</td>
-      <td>94</td>
-      <td>88</td>
-      <td>75</td>
-      <td>90</td>
-      <td>89</td>
-      <td>Extreme</td>
-      </tr>
-      <tr>
-      <td>DOGE workforce reduction</td>
-      <td>88</td>
-      <td>91</td>
-      <td>86</td>
-      <td>84</td>
-      <td>93</td>
-      <td>89</td>
-      <td>Extreme</td>
-      </tr>
-      <tr>
-      <td>Regulatory / civil-rights rollback</td>
-      <td>88</td>
-      <td>85</td>
-      <td>86</td>
-      <td>84</td>
-      <td>92</td>
-      <td>88</td>
-      <td>Extreme</td>
-      </tr>
-      <tr>
-      <td>OBBBA / Medicaid</td>
-      <td>92</td>
-      <td>79</td>
-      <td>82</td>
-      <td>73</td>
-      <td>89</td>
-      <td>85</td>
-      <td>Extreme</td>
-      </tr>
-      <tr>
-      <td>ICE / immigration enforcement</td>
-      <td>87</td>
-      <td>88</td>
-      <td>81</td>
-      <td>79</td>
-      <td>86</td>
-      <td>85</td>
-      <td>Extreme</td>
-      </tr>
-      <tr>
-      <td>NIH / research capacity</td>
-      <td>82</td>
-      <td>84</td>
-      <td>74</td>
-      <td>68</td>
-      <td>81</td>
-      <td>80</td>
-      <td>High</td>
-      </tr>
-      <tr>
-      <td>VA / veterans’ services</td>
-      <td>80</td>
-      <td>79</td>
-      <td>71</td>
-      <td>64</td>
-      <td>76</td>
-      <td>76</td>
-      <td>High</td>
-      </tr>
-      </tbody>
-      </table></div>
-      <p>Two features of this table outweigh any single row. The spread is the first: the composites run from the mid-seventies to about ninety, which means the instrument is <em>grading</em> rather than slamming every case to the ceiling. The VA architecture scores meaningfully below the IRS one, and an instrument that could not tell those two apart would be worthless. This one tells them apart. The floor is the second. Two architectures sit in the high band rather than the extreme, and they sit there because their readings really are lower; NIH and VA show real signature without the cross-dimensional saturation that puts IRS and DOGE at the top.</p>
-      <h4 id="how-fast-they-arrived">How fast they arrived</h4>
-      <p>The static table hides the most telling fact, which is the speed. Run the composites back to the first checkpoint and the motion is stark.</p>
-      <div class="tablewrap"><table>
-      <thead>
-      <tr>
-      <th>Architecture</th>
-      <th>2025-Q1</th>
-      <th>2026-Q1</th>
-      <th>Change</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-      <td>OBBBA / Medicaid</td>
-      <td>16</td>
-      <td>85</td>
-      <td>69</td>
-      </tr>
-      <tr>
-      <td>Regulatory / rollback</td>
-      <td>62</td>
-      <td>88</td>
-      <td>26</td>
-      </tr>
-      <tr>
-      <td>NIH / research</td>
-      <td>56</td>
-      <td>80</td>
-      <td>24</td>
-      </tr>
-      <tr>
-      <td>IRS dismantling</td>
-      <td>68</td>
-      <td>89</td>
-      <td>21</td>
-      </tr>
-      <tr>
-      <td>ICE / immigration</td>
-      <td>65</td>
-      <td>85</td>
-      <td>20</td>
-      </tr>
-      <tr>
-      <td>VA / veterans</td>
-      <td>56</td>
-      <td>76</td>
-      <td>20</td>
-      </tr>
-      <tr>
-      <td>DOGE workforce</td>
-      <td>75</td>
-      <td>89</td>
-      <td>14</td>
-      </tr>
-      </tbody>
-      </table></div>
-      <p>The OBBBA row is the one to sit with, because it is the cleanest evidence in the book that the instrument is not simply scoring my politics. At the first checkpoint, before enactment, OBBBA scored <strong>16</strong>: squarely in the genuine band, <em>below</em> the reform lineage’s Grace Commission. The instrument looked at the thing in its latent state and declined to call it a signature. Only as the structure took form, the realized distribution diverging from the stated one, the information architecture going asymmetric, did the score climb, and it climbed sixty-nine points. A measure that wanted to convict would have convicted at 16. This one waited for the evidence and moved when the evidence moved. The record of it moving is the record of an instrument doing its job instead of confirming its operator.</p>
-      <p>Set against the reform lineage, the separation is total. Grace Commission, 14. <em>Reinventing Government</em>, 19, on a larger workforce cut than DOGE. President’s Management Agenda, 20. Three prior reforms in the low genuine band; seven current architectures from the high band into the extreme. The gap between the two clusters is the finding, and it is a gap the instrument was demonstrably able <em>not</em> to produce, since the lineage proves it can score a large hard reform at 19.</p>
-      <h4 id="the-resource-operations-traced">The resource operations, traced</h4>
-      <p>The signature scores measure the shape of each dysfunction. The resource measures of Part V follow where the consequences flowed, and they are clearest in the cases that form chains across dimensions, where a blocked fix becomes a sustained crisis becomes a redirected resource. Each is scored on the dimensions held <em>outside</em> the composite, exactly as Part V requires, so that the gravest and most charged measures inform the reading without ever inflating the headline number.</p>
-      <p><strong>Immigration runs S3 into S6 [Correlation].</strong> The 2024 bipartisan border bill was killed after its opponents said, on the record, to blame them for killing it: a documented refusal of an available fix (S3) [Occurred]. The crisis it would have addressed was thereby sustained, and roughly $170B in enforcement and detention funding flowed into the private-detention architecture that profits from the sustained crisis (S6) [Occurred]. The chain is documented at the structural level. The larger claim that the entire migration system was manufactured is one the instrument rejects, because migration itself is not a domestic creation. What is measured is narrower and firmer: the fix was refused, the crisis persisted, the money was redirected.</p>
-      <p><strong>Venezuela runs S8 into S7 into S6 [Correlation].</strong> Pre-capture pressure on a target population (S8, where the pressure was structurally load-bearing to the negotiating posture) preceded the capture of Maduro in January 2026 (S7, the expenditure of force and legality) [Occurred], after which Venezuelan oil was reopened to U.S.-licensed extraction (S6, the resource-concentration vector): sanctions lifted, trading licenses issued, a fifty-million-barrel supply arrangement, with sale proceeds flowing through U.S.-licensed private channels rather than into Treasury accounts directly [Occurred]. The custody of those proceeds is the point to state carefully (control runs through the licensing regime, not through literal government accounts), and the chain is scored on that narrower, firmer fact. This is the gravest of the resource chains and the one scored most conservatively. It is tagged occurred at each link, and it is not called a bailout, because the direction of flow is extraction and not rescue.</p>
-      <p><strong>The $1.776B audit-bar structure [Occurred / Contested].</strong> Not a settlement; a withdrawal. A president sued an agency they command; the court signaled it might rule the case a sham for lack of genuine adversity under Article III; and two days before that ruling they dismissed their own suit <em>with prejudice</em>, a self-executing notice available because the government had filed no answer [Occurred]. On the same day, by a one-page addendum signed by their own acting attorney general (formerly their personal defense counsel), the IRS was “forever barred and precluded” from auditing the family, its trusts, and its companies for any matter predating the agreement [Occurred]. The announced $1.776B fund, drawn from the Treasury Judgment Fund, was afterward abandoned amid suits to block it [Contested]. The fund was the announcement; the audit bar was the capture, and it was taken by closing the courthouse door from the inside, after the door could no longer reach it. This is S3 run into S1 at its purest: the cheapest possible fix, letting a judge rule, refused at the highest possible cost, to protect a single realized beneficiary in perpetuity. The instrument scores the part that holds, not the part that was announced.</p>
-      <h4 id="projected-harm-kept-to-what-the-models-bear">Projected harm, kept to what the models bear</h4>
-      <p>Some of the consequences here are not yet events; they are forecasts, tagged as forecasts every time they appear. I have refused throughout to turn a projection into a body count, because a fabricated precision would discredit the real evidence faster than any critic could, and the discipline of Part III bites hardest exactly where the stakes are highest.</p>
-      <p>The Cuba oil blockade, running from February 2026 [Occurred], is where projected harm is most acute and most disciplined. The structural facts are tagged occurred: a tanker blockade in place; on the order of eleven thousand children with suspended surgeries; international monitors warning that children are dying [Occurred]. The mortality figure, infant mortality reported by UN monitors as roughly doubled, toward 9.9 per thousand, is tagged projected and contested, and it is scored on the blockade’s contribution as a major proximate cause, not as the sole cause, because a humanitarian collapse has many inputs and honesty means apportioning rather than assigning the whole [Projected / Contested]. The OBBBA figures get the same handling: eleven to fifteen million in projected coverage loss is a CBO-class forecast on a 2034 horizon, not a tally of the already-uninsured, and the mortality that tends to follow large coverage losses is given as a modeled range with its method attached, never as a count of named dead [Projected].</p>
-      <p>Call it restraint rather than squeamishness. It marks the line between evidence and atrocity propaganda, and the instrument is worthless the moment it crosses that line. The projected harms are grave enough stated honestly. Stated dishonestly, they would forfeit the standing that makes them worth stating at all.</p>
-      <h4 id="the-doctrinal-substrate">The doctrinal substrate</h4>
-      <p>The architectures do not float free of stated strategy, and the last move of the application is to set them against the doctrines their authors published, which is reporting and not inference, because a quoted strategy is not an imputed motive.</p>
-      <p>The nine-hundred-page implementation blueprint of Project 2025 [Occurred] is the densest internal-coherence anchor in the instrument; it is the document whose existence drives the S5 readings, because an operation that publishes a coordinated plan while its surrogates deny knowing the plan exists is the information asymmetry S5 was built to detect. The Two-Santa logic and “starve the beast” supply the published rationale under which a deficit built on purpose becomes the argument for dismantling the programs on the other side of the ledger [Occurred]. These doctrines do not prove that any specific architecture was run to their design. They dispose of the one objection that would otherwise sink the whole reading (that nobody would actually pursue such a thing on purpose) because the general strategy was pursued on purpose, in public, by people who signed their names to it.</p>
-      <p>So the structure is measured, and the doctrine is quoted, and the two are kept apart on the page exactly as they are kept apart in the argument. The instrument detects a pattern of dysfunction that exhibits directional asymmetry: selective, resistant to its own repair, arriving across institutions at once. The public record establishes that designs of that general kind have an avowed constituency. The single question this leaves standing is the one the book has carried from its first page: what accounts for patterns this consistently one-directional? It is a question the application lays fully open and pointedly declines to answer.</p>
-      <h4 id="what-has-been-established">What has been established</h4>
-      <p>The instrument has been built, controlled, and applied. It returns low scores on prior reforms, including one larger than the cases it scores high. It differentiates among the current architectures rather than condemning them as a set. It scored the central fiscal architecture at 16 before convicting it at 85, which is the behavior of a measurement and not a verdict. It traces resource flows through documented chains while holding the gravest measures outside the headline number. It keeps every projection tagged as a projection and every forecast inside the range its method can bear. And it sets the whole pattern against doctrines that were published, not imputed.</p>
-      <p>That is the work. Seven architectures, named and counted. The thing they amount to, whether a pattern this directional, this selective, this resistant to repair, this synchronized across institutions, is finally to be blamed and accounted to anyone, is not on this page, and was never going to be. The instrument names and counts. You, holding the count, are the one who decides what it weighs. That division of labor is the whole posture of the book, and it is kept to the end. The measurement is laid down complete; the verdict is left in the only hands that can give it any weight.</p>
-      <h2 id="part-viii-what-would-falsify-this">Part VIII. What Would Falsify This</h2>
-      <p>A book that asks to be argued with owes the reader the terms of its own defeat, stated plainly and in advance, not left for a critic to reconstruct. So here they are, in one place. If these conditions are met, the instrument is wrong, and I will have to say so.</p>
-      <p>The framework falls if its controls fail. The whole license for the seed scores rests on the negative-control set discriminating; if the reform lineage scores high, if <em>Reinventing Government</em> lands in the engineered band on its larger workforce cut, the instrument is keying on policy direction rather than signature and the seed scores collapse with it. That trigger is pre-registered, not retrofitted.</p>
-      <p>It falls if its dimensions fail their isolation tests. Each dimension control carries a number stated in advance, above which the dimension is shown to fire on dysfunction-magnitude rather than on the signature, and is thereby confounded. A high S3 on HealthCare.gov would invalidate the anti-remediation construct. A high S2 or S3 on the Indian Health Service would invalidate the selectivity and cost-slope constructs. These are written down before the scoring, where they can convict.</p>
-      <p>It falls if its coordination claim cannot survive its own synchrony test. If the onset data come back temporally dispersed, or if matched prior transitions produced equal synchrony, then the coordination reading is disconfirmed by the framework’s own instrument, and the spatial clustering everyone feels reverts to ordinary common cause. The book reports synchrony only as an excess over a matched baseline, precisely so that the baseline can take the claim away.</p>
-      <p>It falls if its scores track the analyst rather than the world. If structurally comparable cases score systematically lower when I am sympathetic than when I am hostile, given comparable evidence, the instrument is measuring my valence, and nothing it outputs can be trusted until it is scored blind by multiple hands. The replication program is therefore not a flourish; it is the condition of the instrument’s own validity. Cross-analyst scoring is the open work, and the framework’s external validity lives or dies on whether independent analysts produce convergent rank-orderings of the architectures. Rank-order, not point-score; the bands are the unit of the claim.</p>
-      <h4 id="the-two-tests-it-has-not-yet-faced">The two tests it has not yet faced</h4>
-      <p>Everything to this point shares one feature a fair reader should hold against it. Every architecture the instrument scored high is one I already opposed; every architecture it scored low is temporally and politically remote from me. The controls prove the instrument <em>can</em> acquit, but they acquit the distant dead. They do not yet prove it can convict a friend or acquit an enemy, and those are the only two proofs that separate a measurement from a mirror. A ruler its operator never loses to is indistinguishable from the operator’s hand.</p>
-      <p>These two I have not run, and I will not pretend the not-running is nothing. But hold clearly what they are, and what they are not. They are not a debt my honesty depends on; I have already told you I am convinced, and an honest book by a convinced author owes you no performance of doubt. They are something more useful than a debt. They are the credibility margin. The standing risk a certain author carries is that their instrument is only their certainty in a lab coat, and the one thing that retires that suspicion is the instrument ruling against them once, somewhere you can watch. I state both tests with their predicted outcomes here, before any scoring, so the prediction stands on the record. Running them is the most valuable move left in the whole project, precisely because I do not need them to come out my way.</p>
-      <p><strong>The first test: convict a friend.</strong> Point the five signatures, S5 above all, at an architecture I am politically sympathetic to. Two candidates are clean: the pandemic-era public-health information apparatus of 2020 through 2022, and the federal-platform content-moderation complex of the same window. This is not a claim that either is a directional-asymmetry structure. It is a narrower and falsifiable one: the instrument <em>as specified</em> will plausibly score at least one of them into the high band, on S5 in particular, coordinated internal messaging beside shifting and self-contradictory external guidance, cheap corrections resisted as hard as costly ones. If it does, and the score is published against my own sympathies, the framework has done the one thing no partisan instrument can. If I reach for reasons to score these low that I would never accept from a critic scoring the seeds low, the framework has failed, and you should say so.</p>
-      <p><strong>The second test: acquit an enemy.</strong> Find one action of the administration I oppose that, measured honestly, is ordinary symmetric incompetence, and score it Genuine or Mixed. The present distribution, seven live architectures and none below 70, is exactly what a ceiling-slamming instrument produces, and the remote controls cannot answer that charge, because the bias risk lives <em>inside</em> the live domain; only a low score inside it answers anything. A candidate worth testing honestly is the tariff regime: broad, self-harming, falling on the administration’s own constituencies as heavily as on anyone’s, with no clean realized-beneficiary divergence to drive S1. That profile predicts a Mixed score, maybe lower. If it scores high regardless, the instrument is slamming the ceiling, and I am obliged to report that it failed to discriminate where discrimination was available.</p>
-      <p>Both are recorded as predictions, hypotheses and not findings, and neither has been run at the time of this printing. That is the honest state of the instrument. The disagreement between me and my own instrument, if it comes, is not an embarrassment to be managed; it is the proof the apparatus has been missing. Until the book contradicts its author somewhere you can see it, you are right to suspect it has only ever agreed with them, and a measurement that only ever agrees with its maker has measured, among other things, its maker.</p>
-      <h2 id="appendix">Appendix</h2>
-      <h4 id="the-two-instrument-stack">The two-instrument stack</h4>
-      <p>The Obfuscratic Asymmetry instrument is the <em>measurement layer</em> of a two-instrument diagnostic stack. The companion <em>relational layer</em> is the Polymorphic Catalysis Toroid, distributed separately, which documents the operating-coalition architecture as a toroidal visualization: operational cells, actor-to-actor relationship cells, backchannel cells, polarity-tension cells, across the actors and targets it maps.</p>
-      <p>The integration is structural rather than decorative. Cell references in the toroid anchor measurement rows in the instrument; the toroid is the evidence layer, the instrument is the measurement layer. An analyst working both can identify an operation in the toroid, read its cell-content for documentation, consult the instrument for the signature score of the broader architecture, and then confirm or revise that score against cell-specific evidence. Each is also separable: the toroid stands alone as a relational instrument for analysts who want operational architecture without the directional-asymmetry diagnostic, and the instrument stands alone for analysts who want the signature framework without the full toroid schema.</p>
-      <h4 id="the-framework-name-once-more-for-the-record">The framework name, once more, for the record</h4>
-      <p>The apparatus names three things and keeps them on three rungs. <strong>Directional asymmetry</strong> is the measured property: outputs diverging non-randomly from stated inputs, favoring unstated outcomes, a <em>what</em>, observable and silent on why. <strong>Obfuscratic</strong> is the operational modality: a regime sustaining itself through systemic confusion, an adjective, <em>how</em> it operates and not <em>what type</em> it is. <strong>Sabbotarchy</strong> is the regime form: rule by sabotage, the verdict-laden noun, reserved for what a reader may conclude when the property concentrates across all five signatures and operates obfuscratically. The instrument never asserts it. The measurement travels under the compound that names only what it measures, <strong>Obfuscratic Asymmetry</strong>, modality joined to property, and the regime-name waits above for a reader to reach. The originating construction, the linguistic-autopsy method, and these coinages are attributed to B. Greenway.</p>
-      <h4 id="how-to-use-the-instrument">How to use the instrument</h4>
-      <p>The seed architectures are scored by the author against documented anchors, with the audit trail preserved and meant to be replicable; an independent analyst can take the same evidence and confirm a score or revise it. That replicability is the point, and it is also, candidly, the thing the instrument most needs and has least of so far. To date the scoring is largely one analyst’s, and by the framework’s own standard that places the cross-architecture findings at a strong candidate inference awaiting independent replication. The book says so wherever the claim is made. The infrastructure supports extension to further architectures by the same evidence-anchored method specified in the scoring rubric, so the framework gains validity through use rather than through assertion, and is meant to outlive any one analyst’s use of it.</p>
-      <h4 id="citation">Citation</h4>
-      <p><em>Greenway, B. (2026). Named and Counted, Not Blamed nor Accounted: A Measurement Framework for Directional-Dysfunction Regimes. ThinkWell Labs Metrology. Companion methodology paper and signature instrument (Obfuscratic Asymmetry).</em></p>
-      <p><em>Prepared June 2026. The static readings in Part VII are frozen as of that date; the live instrument at toroid.fyi/sabbot continues to move against fresh evidence, and where it and this book disagree, it is the newer record.</em></p>
-    </article>
+    <h2>Contents</h2>
+    <ol class="toc">
+      <li>The Case Against the Book. Begin where a hostile reader would.</li>
+      <li>Preface. What this is; what it is not.</li>
+      <li>The Doctrine of Restraint. Measure, do not pronounce; intent in two registers.</li>
+      <li>Terminology and the Ladder of Claims. Directional asymmetry, obfuscratic, Sabbotarchy.</li>
+      <li>Part I. The five signatures.</li>
+      <li>Part II. The composite, the bands, and the uncertainty I will not fake.</li>
+      <li>Part III. Evidence discipline: occurred, projected, contested, correlation.</li>
+      <li>Part IV. Temporal dynamics: velocity, breadth, and the synchrony test.</li>
+      <li>Part V. Resource operations: the adjunct layer, held outside the number.</li>
+      <li>Part VI. Validation: the controls, and the reform that scores low.</li>
+      <li>Part VII. Application: the seven architectures, dated and frozen.</li>
+      <li>Part VIII. What would falsify this; and the two tests it has not yet faced.</li>
+      <li>Appendix. The two-instrument stack, distribution, citation.</li>
+    </ol>
+
+    <h2>The readings</h2>
+
+    <p class="sitenote"><b>What follows is the instrument&rsquo;s output, not the argument.</b> Every number, table and definition on this page is quoted from Part II, Part III and Part VII of the book. The three figures are drawn from those same numbers; they are renderings of the tables, not additional findings. Where a figure and the book disagree, the book governs &mdash; and where the book and the live instrument disagree, the instrument is newer.</p>
+
+    <h3>The composite and its bands</h3>
+    <p class="quoted">The five signatures fold into one number per architecture. Each is scored zero to one hundred; the composite is the weighted average.</p>
+    <p class="formula">Index = 0.25&middot;S1 + 0.20&middot;S2 + 0.15&middot;S3 + 0.10&middot;S4 + 0.30&middot;S5</p>
+    <p class="quoted">The index sorts into four bands.</p>
+    <div class="tablewrap">
+      <table class="bands">
+        <thead><tr><th>Band</th><th>Range</th><th>Reading</th></tr></thead>
+        <tbody>
+          <tr><td>Genuine</td><td>0&ndash;30</td><td>Consistent with honest competence or honest failure; asymmetry low.</td></tr>
+          <tr><td>Mixed</td><td>30&ndash;70</td><td>Some signatures present, not concentrated; more analysis needed.</td></tr>
+          <tr><td>High-Asymmetry</td><td>70&ndash;85</td><td>The directional signature is satisfied.</td></tr>
+          <tr><td>Extreme-Asymmetry</td><td>85&ndash;100</td><td>The asymmetry is concentrated across all five dimensions.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="quoted">The thresholds are not pulled from air. Reaching 70 takes the high range on at least four of the five dimensions; reaching 85 takes it on all five at once. They will move as more architectures are scored, and any move gets logged, not slipped in.</p>
+    <p class="quoted"><strong>On the precision I will not fake.</strong> These scores are not measurements drawn from a sampling distribution. They are one analyst&rsquo;s judgments, and a confidence interval computed over a sample of one is fabricated precision. So no score in this book carries a &plusmn;. Read every number here as a claim about <em>which band</em>, never as a precise quantity.</p>
+
+    <h3>The seven architectures, and the controls</h3>
+    <figure>
+      <div class="figwrap">
+<svg viewBox="0 0 700 436" width="100%" role="img" aria-label="Composite Obfuscratic Asymmetry index for seven live architectures and three reform-lineage controls">
+<defs><pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="none"/><line x1="0" y1="0" x2="0" y2="6" stroke="#e8dcc0" stroke-width="2.6" opacity="0.85"/></pattern></defs>
+<rect x="232.0" y="38" width="130.2" height="360" fill="#e8dcc0" opacity="0.020"/>
+<text x="297.1" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">GENUINE</text>
+<rect x="362.2" y="38" width="173.6" height="360" fill="#e8dcc0" opacity="0.045"/>
+<text x="449.0" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">MIXED</text>
+<rect x="535.8" y="38" width="65.1" height="360" fill="#e8dcc0" opacity="0.020"/>
+<text x="568.3" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">HIGH</text>
+<rect x="600.9" y="38" width="65.1" height="360" fill="#e8dcc0" opacity="0.045"/>
+<text x="633.5" y="30" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">EXTREME</text>
+<line x1="362.2" y1="38" x2="362.2" y2="414" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<line x1="535.8" y1="38" x2="535.8" y2="414" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<line x1="600.9" y1="38" x2="600.9" y2="414" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<text x="220" y="74" text-anchor="end" font-size="12" fill="#cdc7e0">IRS dismantling</text>
+<rect x="232" y="63" width="386.3" height="13" rx="3" fill="#e8dcc0"/>
+<text x="626.3" y="74" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">89</text>
+<text x="220" y="104" text-anchor="end" font-size="12" fill="#cdc7e0">DOGE workforce reduction</text>
+<rect x="232" y="93" width="386.3" height="13" rx="3" fill="#e8dcc0"/>
+<text x="626.3" y="104" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">89</text>
+<text x="220" y="134" text-anchor="end" font-size="12" fill="#cdc7e0">Regulatory / civil-rights rollback</text>
+<rect x="232" y="123" width="381.9" height="13" rx="3" fill="#e8dcc0"/>
+<text x="621.9" y="134" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">88</text>
+<text x="220" y="164" text-anchor="end" font-size="12" fill="#cdc7e0">OBBBA / Medicaid</text>
+<rect x="232" y="153" width="368.9" height="13" rx="3" fill="#e8dcc0"/>
+<text x="608.9" y="164" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">85</text>
+<text x="220" y="194" text-anchor="end" font-size="12" fill="#cdc7e0">ICE / immigration enforcement</text>
+<rect x="232" y="183" width="368.9" height="13" rx="3" fill="#e8dcc0"/>
+<text x="608.9" y="194" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">85</text>
+<text x="220" y="224" text-anchor="end" font-size="12" fill="#cdc7e0">NIH / research capacity</text>
+<rect x="232" y="213" width="347.2" height="13" rx="3" fill="#e8dcc0"/>
+<text x="587.2" y="224" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">80</text>
+<text x="220" y="254" text-anchor="end" font-size="12" fill="#cdc7e0">VA / veterans’ services</text>
+<rect x="232" y="243" width="329.8" height="13" rx="3" fill="#e8dcc0"/>
+<text x="569.8" y="254" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">76</text>
+<line x1="18" y1="274" x2="666" y2="274" stroke="#e8dcc0" stroke-opacity="0.18" stroke-width="1"/>
+<text x="18" y="290" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.8" fill="#6a6480">THE REFORM LINEAGE — THE CONTROLS</text>
+<text x="220" y="316" text-anchor="end" font-size="12" fill="#cdc7e0">President’s Management Agenda</text>
+<rect x="232" y="305" width="86.8" height="13" rx="3" fill="url(#hatch)"/>
+<text x="326.8" y="316" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">20</text>
+<text x="220" y="346" text-anchor="end" font-size="12" fill="#cdc7e0">Reinventing Government</text>
+<rect x="232" y="335" width="82.5" height="13" rx="3" fill="url(#hatch)"/>
+<text x="322.5" y="346" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">19</text>
+<text x="220" y="376" text-anchor="end" font-size="12" fill="#cdc7e0">Grace Commission</text>
+<rect x="232" y="365" width="60.8" height="13" rx="3" fill="url(#hatch)"/>
+<text x="300.8" y="376" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">14</text>
+<line x1="232" y1="414" x2="666" y2="414" stroke="#e8dcc0" stroke-opacity="0.25"/>
+<text x="232.0" y="428" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">0</text>
+<text x="340.5" y="428" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">25</text>
+<text x="449.0" y="428" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">50</text>
+<text x="557.5" y="428" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">75</text>
+<text x="666.0" y="428" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">100</text>
+</svg>
+      </div>
+      <figcaption>COMPOSITE INDEX. SOLID = THE SEVEN LIVE ARCHITECTURES; HATCHED = THE REFORM-LINEAGE CONTROLS THE INSTRUMENT RATES LOW. CONTROL SCORES (GRACE COMMISSION 14, <i>REINVENTING GOVERNMENT</i> 19, PRESIDENT&rsquo;S MANAGEMENT AGENDA 20) ARE STATED IN PART VII.</figcaption>
+    </figure>
+    <p class="quoted">Set against the reform lineage, the separation is total. Grace Commission, 14. <em>Reinventing Government</em>, 19, on a larger workforce cut than DOGE. President&rsquo;s Management Agenda, 20. Three prior reforms in the low genuine band; seven current architectures from the high band into the extreme. The gap between the two clusters is the finding, and it is a gap the instrument was demonstrably able <em>not</em> to produce, since the lineage proves it can score a large hard reform at 19.</p>
+
+    <h3>The current dimension scores and composites</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Architecture</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>Composite</th><th>Band</th></tr></thead>
+        <tbody>
+          <tr><td>IRS dismantling</td><td>92</td><td>94</td><td>88</td><td>75</td><td>90</td><td>89</td><td>Extreme</td></tr>
+          <tr><td>DOGE workforce reduction</td><td>88</td><td>91</td><td>86</td><td>84</td><td>93</td><td>89</td><td>Extreme</td></tr>
+          <tr><td>Regulatory / civil-rights rollback</td><td>88</td><td>85</td><td>86</td><td>84</td><td>92</td><td>88</td><td>Extreme</td></tr>
+          <tr><td>OBBBA / Medicaid</td><td>92</td><td>79</td><td>82</td><td>73</td><td>89</td><td>85</td><td>Extreme</td></tr>
+          <tr><td>ICE / immigration enforcement</td><td>87</td><td>88</td><td>81</td><td>79</td><td>86</td><td>85</td><td>Extreme</td></tr>
+          <tr><td>NIH / research capacity</td><td>82</td><td>84</td><td>74</td><td>68</td><td>81</td><td>80</td><td>High</td></tr>
+          <tr><td>VA / veterans&rsquo; services</td><td>80</td><td>79</td><td>71</td><td>64</td><td>76</td><td>76</td><td>High</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure>
+      <div class="figwrap">
+<svg viewBox="0 0 700 330" width="100%" role="img" aria-label="Signature scores S1 to S5 for each architecture; darker cells are lower scores">
+<text x="290.2" y="38" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.6" fill="#e8dcc0">S1</text>
+<text x="374.6" y="38" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.6" fill="#e8dcc0">S2</text>
+<text x="459.0" y="38" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.6" fill="#e8dcc0">S3</text>
+<text x="543.4" y="38" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.6" fill="#e8dcc0">S4</text>
+<text x="627.8" y="38" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" letter-spacing="1.6" fill="#e8dcc0">S5</text>
+<text x="236" y="73" text-anchor="end" font-size="12" fill="#cdc7e0">IRS dismantling</text>
+<rect x="249.0" y="55" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.847"/>
+<text x="290.2" y="73" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">92</text>
+<rect x="333.4" y="55" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.900"/>
+<text x="374.6" y="73" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">94</text>
+<rect x="417.8" y="55" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.740"/>
+<text x="459.0" y="73" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">88</text>
+<rect x="502.2" y="55" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.393"/>
+<text x="543.4" y="73" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">75</text>
+<rect x="586.6" y="55" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.793"/>
+<text x="627.8" y="73" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">90</text>
+<text x="236" y="105" text-anchor="end" font-size="12" fill="#cdc7e0">DOGE workforce reduction</text>
+<rect x="249.0" y="87" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.740"/>
+<text x="290.2" y="105" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">88</text>
+<rect x="333.4" y="87" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.820"/>
+<text x="374.6" y="105" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">91</text>
+<rect x="417.8" y="87" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.687"/>
+<text x="459.0" y="105" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">86</text>
+<rect x="502.2" y="87" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.633"/>
+<text x="543.4" y="105" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">84</text>
+<rect x="586.6" y="87" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.873"/>
+<text x="627.8" y="105" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">93</text>
+<text x="236" y="137" text-anchor="end" font-size="12" fill="#cdc7e0">Regulatory / civil-rights rollback</text>
+<rect x="249.0" y="119" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.740"/>
+<text x="290.2" y="137" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">88</text>
+<rect x="333.4" y="119" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.660"/>
+<text x="374.6" y="137" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">85</text>
+<rect x="417.8" y="119" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.687"/>
+<text x="459.0" y="137" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">86</text>
+<rect x="502.2" y="119" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.633"/>
+<text x="543.4" y="137" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">84</text>
+<rect x="586.6" y="119" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.847"/>
+<text x="627.8" y="137" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">92</text>
+<text x="236" y="169" text-anchor="end" font-size="12" fill="#cdc7e0">OBBBA / Medicaid</text>
+<rect x="249.0" y="151" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.847"/>
+<text x="290.2" y="169" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">92</text>
+<rect x="333.4" y="151" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.500"/>
+<text x="374.6" y="169" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">79</text>
+<rect x="417.8" y="151" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.580"/>
+<text x="459.0" y="169" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">82</text>
+<rect x="502.2" y="151" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.340"/>
+<text x="543.4" y="169" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">73</text>
+<rect x="586.6" y="151" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.767"/>
+<text x="627.8" y="169" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">89</text>
+<text x="236" y="201" text-anchor="end" font-size="12" fill="#cdc7e0">ICE / immigration enforcement</text>
+<rect x="249.0" y="183" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.713"/>
+<text x="290.2" y="201" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">87</text>
+<rect x="333.4" y="183" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.740"/>
+<text x="374.6" y="201" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">88</text>
+<rect x="417.8" y="183" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.553"/>
+<text x="459.0" y="201" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">81</text>
+<rect x="502.2" y="183" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.500"/>
+<text x="543.4" y="201" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">79</text>
+<rect x="586.6" y="183" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.687"/>
+<text x="627.8" y="201" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">86</text>
+<text x="236" y="233" text-anchor="end" font-size="12" fill="#cdc7e0">NIH / research capacity</text>
+<rect x="249.0" y="215" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.580"/>
+<text x="290.2" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">82</text>
+<rect x="333.4" y="215" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.633"/>
+<text x="374.6" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a150c">84</text>
+<rect x="417.8" y="215" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.367"/>
+<text x="459.0" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">74</text>
+<rect x="502.2" y="215" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.207"/>
+<text x="543.4" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">68</text>
+<rect x="586.6" y="215" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.553"/>
+<text x="627.8" y="233" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">81</text>
+<text x="236" y="265" text-anchor="end" font-size="12" fill="#cdc7e0">VA / veterans’ services</text>
+<rect x="249.0" y="247" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.527"/>
+<text x="290.2" y="265" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">80</text>
+<rect x="333.4" y="247" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.500"/>
+<text x="374.6" y="265" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">79</text>
+<rect x="417.8" y="247" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.287"/>
+<text x="459.0" y="265" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">71</text>
+<rect x="502.2" y="247" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.100"/>
+<text x="543.4" y="265" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">64</text>
+<rect x="586.6" y="247" width="82.4" height="26" rx="2" fill="#e8dcc0" opacity="0.420"/>
+<text x="627.8" y="265" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">76</text>
+<text x="248" y="320" font-family="ui-monospace,Menlo,monospace" font-size="9.5" letter-spacing="1.2" fill="#6a6480">S1 OUTCOME-DISTRIBUTION · S2 DOMAIN-SELECTIVE · S3 ANTI-REMEDIATION · S4 PERSONNEL · S5 INFORMATION-ARCHITECTURE</text>
+</svg>
+      </div>
+      <figcaption>THE SAME TABLE AS A FIELD. CELL WEIGHT TRACKS THE SCORE, 64 TO 94.</figcaption>
+    </figure>
+    <p class="quoted">Two features of this table outweigh any single row. The spread is the first: the composites run from the mid-seventies to about ninety, which means the instrument is <em>grading</em> rather than slamming every case to the ceiling. The VA architecture scores meaningfully below the IRS one, and an instrument that could not tell those two apart would be worthless. This one tells them apart. The floor is the second. Two architectures sit in the high band rather than the extreme, and they sit there because their readings really are lower.</p>
+
+    <h3>How fast they arrived</h3>
+    <figure>
+      <div class="figwrap">
+<svg viewBox="0 0 700 328" width="100%" role="img" aria-label="Change in composite index from 2025-Q1 to 2026-Q1 for each architecture">
+<defs><marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 9 5 L 0 9 z" fill="#e8dcc0"/></marker></defs>
+<rect x="210.0" y="42" width="121.2" height="246" fill="#e8dcc0" opacity="0.020"/>
+<text x="270.6" y="34" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">GENUINE</text>
+<rect x="331.2" y="42" width="161.6" height="246" fill="#e8dcc0" opacity="0.045"/>
+<text x="412.0" y="34" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">MIXED</text>
+<rect x="492.8" y="42" width="60.6" height="246" fill="#e8dcc0" opacity="0.020"/>
+<text x="523.1" y="34" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">HIGH</text>
+<rect x="553.4" y="42" width="60.6" height="246" fill="#e8dcc0" opacity="0.045"/>
+<text x="583.7" y="34" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.6" fill="#6a6480">EXTREME</text>
+<line x1="331.2" y1="42" x2="331.2" y2="304" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<line x1="492.8" y1="42" x2="492.8" y2="304" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<line x1="553.4" y1="42" x2="553.4" y2="304" stroke="#e8dcc0" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="2 4"/>
+<text x="196" y="79" text-anchor="end" font-size="12" fill="#cdc7e0">OBBBA / Medicaid</text>
+<line x1="274.6" y1="75" x2="546.4" y2="75" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="274.6" cy="75" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="274.6" y="64" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">16</text>
+<text x="563.4" y="79" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">85<tspan fill="#6a6480" font-size="10">  +69</tspan></text>
+<text x="196" y="111" text-anchor="end" font-size="12" fill="#cdc7e0">Regulatory / rollback</text>
+<line x1="460.5" y1="107" x2="558.5" y2="107" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="460.5" cy="107" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="460.5" y="96" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">62</text>
+<text x="575.5" y="111" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">88<tspan fill="#6a6480" font-size="10">  +26</tspan></text>
+<text x="196" y="143" text-anchor="end" font-size="12" fill="#cdc7e0">NIH / research</text>
+<line x1="436.2" y1="139" x2="526.2" y2="139" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="436.2" cy="139" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="436.2" y="128" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">56</text>
+<text x="543.2" y="143" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">80<tspan fill="#6a6480" font-size="10">  +24</tspan></text>
+<text x="196" y="175" text-anchor="end" font-size="12" fill="#cdc7e0">IRS dismantling</text>
+<line x1="484.7" y1="171" x2="562.6" y2="171" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="484.7" cy="171" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="484.7" y="160" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">68</text>
+<text x="579.6" y="175" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">89<tspan fill="#6a6480" font-size="10">  +21</tspan></text>
+<text x="196" y="207" text-anchor="end" font-size="12" fill="#cdc7e0">ICE / immigration</text>
+<line x1="472.6" y1="203" x2="546.4" y2="203" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="472.6" cy="203" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="472.6" y="192" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">65</text>
+<text x="563.4" y="207" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">85<tspan fill="#6a6480" font-size="10">  +20</tspan></text>
+<text x="196" y="239" text-anchor="end" font-size="12" fill="#cdc7e0">VA / veterans</text>
+<line x1="436.2" y1="235" x2="510.0" y2="235" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="436.2" cy="235" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="436.2" y="224" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">56</text>
+<text x="527.0" y="239" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">76<tspan fill="#6a6480" font-size="10">  +20</tspan></text>
+<text x="196" y="271" text-anchor="end" font-size="12" fill="#cdc7e0">DOGE workforce</text>
+<line x1="513.0" y1="267" x2="562.6" y2="267" stroke="#e8dcc0" stroke-opacity="0.55" stroke-width="2.5" marker-end="url(#arw)"/>
+<circle cx="513.0" cy="267" r="4.5" fill="#040209" stroke="#e8dcc0" stroke-width="2"/>
+<text x="513.0" y="256" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#6a6480">75</text>
+<text x="579.6" y="271" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#e6e3f5">89<tspan fill="#6a6480" font-size="10">  +14</tspan></text>
+<line x1="210" y1="304" x2="614" y2="304" stroke="#e8dcc0" stroke-opacity="0.25"/>
+<text x="210.0" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">0</text>
+<text x="311.0" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">25</text>
+<text x="412.0" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">50</text>
+<text x="513.0" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">75</text>
+<text x="614.0" y="318" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#6a6480">100</text>
+<text x="196" y="34" text-anchor="end" font-family="ui-monospace,Menlo,monospace" font-size="9" letter-spacing="1.4" fill="#6a6480">2025-Q1 &#8594; 2026-Q1</text>
+</svg>
+      </div>
+      <figcaption>COMPOSITE INDEX AT TWO CHECKPOINTS. OBBBA / MEDICAID SCORED 16 BEFORE ENACTMENT AND 85 AFTER: SIXTY-NINE POINTS.</figcaption>
+    </figure>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Architecture</th><th>2025-Q1</th><th>2026-Q1</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>OBBBA / Medicaid</td><td>16</td><td>85</td><td>69</td></tr>
+          <tr><td>Regulatory / rollback</td><td>62</td><td>88</td><td>26</td></tr>
+          <tr><td>NIH / research</td><td>56</td><td>80</td><td>24</td></tr>
+          <tr><td>IRS dismantling</td><td>68</td><td>89</td><td>21</td></tr>
+          <tr><td>ICE / immigration</td><td>65</td><td>85</td><td>20</td></tr>
+          <tr><td>VA / veterans</td><td>56</td><td>76</td><td>20</td></tr>
+          <tr><td>DOGE workforce</td><td>75</td><td>89</td><td>14</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="quoted">The OBBBA row is the one to sit with, because it is the cleanest evidence in the book that the instrument is not simply scoring my politics. At the first checkpoint, before enactment, OBBBA scored <strong>16</strong>: squarely in the genuine band, <em>below</em> the reform lineage&rsquo;s Grace Commission. The instrument looked at the thing in its latent state and declined to call it a signature. A measure that wanted to convict would have convicted at 16. This one waited for the evidence and moved when the evidence moved.</p>
+
+    <h3>The evidence tags</h3>
+    <ul class="tags">
+      <li><strong>Occurred.</strong> A documented event, verifiable against the contemporaneous record: a statute, a court filing, an agency notice, dated reporting. Eligible to anchor a claim about a realized outcome.</li>
+      <li><strong>Projected.</strong> A modeled or forecast outcome, a CBO estimate, a mortality model. Legitimate evidence, but it may anchor only a <em>projected</em> claim, and it must say so in the row it sits in.</li>
+      <li><strong>Contested.</strong> Magnitude, attribution, or characterization is disputed. The tag does not, by itself, lower confidence. Whether it does depends on the <em>quality</em> of the contestation.</li>
+      <li><strong>Correlation.</strong> A relationship has been measured between variables, with no claim about causal direction.</li>
+    </ul>
+
+    <h3>A note on the numbers</h3>
+    <p class="quoted"><em>The scores, the correlation, and the projected ranges in this part are frozen as of June 2026 for print. The live instrument at <a class="inline" href="/sabbot/">toroid.fyi/sabbot</a> keeps updating against fresh evidence, so its current figures may differ from these. Where this part and the instrument disagree, the instrument is newer. This part is the dated record of where the readings stood when the book went to press.</em></p>
+
+    <h2>The two tests it has not yet faced</h2>
+    <p class="quoted">Part VIII states both in advance, with their predicted outcomes on the record, before any scoring. <strong>Convict a friend:</strong> point the five signatures, S5 above all, at an architecture I am politically sympathetic to. <strong>Acquit an enemy:</strong> find one action of the administration I oppose that, measured honestly, is ordinary symmetric incompetence, and score it Genuine or Mixed. Neither has been run.</p>
+    <p class="quoted"><em>Until the book contradicts its author somewhere you can see it, you are right to suspect it has only ever agreed with them, and a measurement that only ever agrees with its maker has measured, among other things, its maker.</em></p>
+
+    <div class="buybox" style="margin-top:44px">
+      <p class="eyebrow">Read the argument</p>
+      <p>The reasoning behind every number above &mdash; the case against the book, the doctrine of restraint, the ladder of claims, the five signatures, the evidence discipline, the controls, and the falsification conditions &mdash; runs to Parts I through VIII.</p>
+      <div class="buyrow">
+        <a class="btn" href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">Kindle &amp; paperback &#8599;</a>
+      </div>
+    </div>
 
     <div class="colophon">
       Greenway, B. (2026). <i>Named and Counted, Not Blamed nor Accounted: A Measurement Framework for Directional-Dysfunction Regimes.</i> ThinkWell Labs Metrology. v7, prepared June 2026.<br>
-      Published as Kindle and paperback editions: <a href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">amazon</a>. Full text also available here as <a href="/papers/named_and_counted_v7.pdf">PDF</a> and <a href="/papers/named_and_counted_v7.md">markdown</a>. Prior edition: <a href="/papers/named_and_counted_v5.md">v5.1</a>.<br>
-      Companion: <a href="/sabbot/">the Deception Arcane</a> · <a href="/poly/">the Polymorphic Catalysis Toroid</a> · <a href="/removal/">the Removal Economy</a> · <a href="/research/sabbotarchy/">the Sabbotarchy Signature</a> · <a href="/predicates/">the coined predicates</a>.<br>
-      © ThinkWell Labs. All rights reserved. Reference with citation.
+      Published in Kindle and paperback editions: <a href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">amazon</a>.<br>
+      Companion: <a href="/sabbot/">the Deception Arcane</a> &middot; <a href="/poly/">the Polymorphic Catalysis Toroid</a> &middot; <a href="/removal/">the Removal Economy</a> &middot; <a href="/research/sabbotarchy/">the Sabbotarchy Signature</a> &middot; <a href="/predicates/">the coined predicates</a>.<br>
+      &copy; ThinkWell Labs. All rights reserved. Quoted passages and figures are reproduced from the book with the author&rsquo;s permission; reference with citation.
     </div>
   </main>
-
-  <a class="totop" href="#" aria-label="Back to the top of the book">&#8593; top</a>
 </body>
 </html>
