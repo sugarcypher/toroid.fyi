@@ -17,6 +17,7 @@ toroid-fyi/
 ├── play/         ← Strata-Dom-3D research game (ludic substrate)
 ├── matrix/       ← Polymorphic Matrix v1 (precursor, March 2026)
 │                  └ + circulatory_pressure_architectures.{docx,summary.pdf}
+├── huemain/      ← HueMain (hue-relation discrimination task)
 ├── papers/       ← consolidated methodology documents
 └── (originals)   ← original source folders preserved unchanged:
                     Strat-Dom-3d/, Polymorphic Matrix/, sabbotarchy/,
@@ -120,6 +121,9 @@ toroid-fyi/
 - `poly/` — **live**, v0.33, instrument complete, methodology shipped.
 - `sabbot/` — **live**, v0.1, instrument + methodology + scoring rubric shipped.
 - `play/` — **live research preview**, single-file prototype, play tokens only.
+- `huemain/` — **live**, v1.0, single file, zero external requests; a timed
+  hue-relation discrimination task (SAME / ANALOGOUS / TRIADIC / OPPOSITE)
+  that reports per-relation median latency at the end of each run.
 - `matrix/` — **archive**, v1 (March 2026), precursor to the Catalysis Toroid;
   Circulatory Pressure Architectures paper (docx + summary PDF) lives here.
 - `index.html` / `landing/` — v0.1, awaiting Cloudflare deploy.
