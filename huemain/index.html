@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HueMain · Color Relation Interface · toroid.fyi</title>
+<meta name="description" content="HueMain — a timed hue-relation discrimination task. Name the angular relationship between the word and the ink.">
+<meta name="theme-color" content="#080810">
+<link rel="canonical" href="https://toroid.fyi/huemain/">
+<style>
+/* ── tokens ─────────────────────────────────────────────────────────── */
+:root{
+  --bg:#080810; --grid:#15152a; --ink:#e0e0ff; --dim:#6a6a8a;
+  --cyan:#22d3ee; --cyan-dk:#0e3a44; --amber:#f59e0b; --red:#f43f5e;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,"DejaVu Sans Mono",Consolas,monospace;
+  --pad:clamp(14px,4vw,28px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink); font-family:var(--mono);
+  overflow:hidden; touch-action:manipulation; -webkit-user-select:none; user-select:none;
+  -webkit-tap-highlight-color:transparent; font-variant-numeric:tabular-nums;
+}
+/* ── shell ──────────────────────────────────────────────────────────── */
+#shell{
+  position:relative; height:100dvh; width:100%; display:flex; flex-direction:column;
+  padding:calc(var(--pad) + env(safe-area-inset-top)) var(--pad)
+          calc(var(--pad) + env(safe-area-inset-bottom));
+  background-image:
+    radial-gradient(ellipse at 50% 40%, #14142c 0%, var(--bg) 70%),
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size:100% 100%, 44px 44px, 44px 44px;
+  overflow:hidden;
+}
+#scanline{
+  position:absolute; left:0; width:100%; height:2px; pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(34,211,238,.18),transparent);
+  animation:scan 5.5s linear infinite;
+}
+@keyframes scan{from{top:-2px}to{top:100%}}
+.shake{animation:shake .22s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes shake{
+  10%,90%{transform:translate3d(-1px,0,0)} 20%,80%{transform:translate3d(3px,0,0)}
+  30%,50%,70%{transform:translate3d(-5px,0,0)} 40%,60%{transform:translate3d(5px,0,0)}
+}
+@media (prefers-reduced-motion:reduce){
+  #scanline{display:none}
+  .shake{animation:none}
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+/* ── hud ────────────────────────────────────────────────────────────── */
+#hud{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; z-index:2}
+.stat{display:flex; flex-direction:column; gap:2px}
+.stat .k{font-size:10px; letter-spacing:.22em; color:var(--dim)}
+.stat .v{font-size:clamp(20px,5vw,28px); line-height:1}
+.v.cy{color:var(--cyan); text-shadow:0 0 12px rgba(34,211,238,.55)}
+.v.am{color:var(--amber)}
+#hud .right{text-align:right}
+#sysbtns{display:flex; flex-direction:column; align-items:center; gap:6px; align-self:center}
+#lives{display:flex; gap:5px; height:13px}
+.pip{font-size:13px; line-height:1; color:var(--red); text-shadow:0 0 8px rgba(244,63,94,.6); transition:color .2s,text-shadow .2s,transform .2s}
+.pip.spent{color:#26263e; text-shadow:none; transform:scale(.8)}
+.pip.losing{animation:pop .32s ease-out}
+@keyframes pop{0%{transform:scale(1.9)}100%{transform:scale(.8)}}
+.sysbtn{
+  background:transparent; border:1px solid var(--cyan-dk); color:var(--dim);
+  font:inherit; font-size:11px; padding:5px 8px; border-radius:6px; cursor:pointer;
+}
+.sysbtn[aria-pressed="true"]{color:var(--cyan); border-color:var(--cyan)}
+/* ── stage ──────────────────────────────────────────────────────────── */
+#stage{flex:1; display:flex; align-items:center; justify-content:center; z-index:2; min-height:0}
+.panel{width:100%; max-width:22rem; text-align:center}
+h1{
+  margin:0 0 6px; font-size:clamp(38px,12vw,60px); font-weight:700; letter-spacing:-.03em;
+  color:var(--cyan); text-shadow:0 0 26px rgba(34,211,238,.45);
+}
+.sub{font-size:10px; letter-spacing:.34em; color:#3f6b76; margin:0 0 22px}
+.btn{
+  display:block; width:100%; padding:13px 16px; margin-top:10px; cursor:pointer;
+  background:transparent; border:1px solid var(--cyan); color:var(--cyan);
+  font:inherit; font-size:13px; letter-spacing:.16em; border-radius:8px;
+  transition:background .18s,color .18s;
+}
+.btn:hover,.btn:focus-visible{background:var(--cyan); color:#04121a; outline:none}
+.btn.ghost{border-color:#2a2a44; color:var(--dim)}
+.btn .cap{display:block; font-size:9px; letter-spacing:.1em; color:var(--dim); margin-top:4px}
+.btn:hover .cap,.btn:focus-visible .cap{color:inherit; opacity:.75}
+.bests{display:flex; justify-content:center; gap:16px; margin-top:20px; font-size:10px; letter-spacing:.16em; color:var(--dim)}
+.bests b{display:block; color:var(--cyan); font-weight:400; letter-spacing:.1em; margin-top:3px}
+.btn.ghost:hover,.btn.ghost:focus-visible{background:#2a2a44; color:var(--ink)}
+.btn.danger{border-color:var(--red); color:var(--red)}
+.btn.danger:hover,.btn.danger:focus-visible{background:var(--red); color:#12040a}
+/* ── play ───────────────────────────────────────────────────────────── */
+#bar{height:3px; width:100%; background:#131324; border-radius:2px; overflow:hidden; margin-bottom:clamp(18px,5vh,44px)}
+#barfill{height:100%; width:100%; background:var(--cyan); transform-origin:left center}
+#barfill.warn{background:var(--amber)} #barfill.crit{background:var(--red)}
+#card{
+  position:relative; aspect-ratio:1/1; width:100%; display:flex; align-items:center; justify-content:center;
+  border:2px solid rgba(34,211,238,.3); border-radius:14px; background:rgba(0,0,0,.42);
+  box-shadow:0 0 60px rgba(34,211,238,.08) inset, 0 0 40px rgba(34,211,238,.06);
+  animation:breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{border-color:rgba(34,211,238,.22)}50%{border-color:rgba(34,211,238,.7)}}
+#word{font-size:clamp(30px,11vw,52px); font-weight:700; letter-spacing:.12em; transition:opacity .12s}
+#card.correcting #word{opacity:.12}
+#correct{
+  position:absolute; inset:0; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:10px; border-radius:12px; background:rgba(8,8,16,.82);
+  animation:fadein .14s ease-out;
+}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+#correct .rl{font-size:9px; letter-spacing:.24em; color:var(--red)}
+#correct .pair{font-size:17px}
+#correct .chip{width:26px; height:26px}
+#practice{font-size:10px; letter-spacing:.28em; color:var(--amber); height:14px; margin-bottom:6px}
+/* ── controls ───────────────────────────────────────────────────────── */
+#pad{display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(6px,2vw,12px); margin-top:var(--pad); z-index:2}
+.key{
+  aspect-ratio:1/1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  border:1px solid var(--cyan-dk); background:rgba(0,0,0,.6); border-radius:10px;
+  color:var(--ink); font:inherit; cursor:pointer; padding:2px;
+  transition:background .1s,color .1s,border-color .1s;
+}
+.key:hover,.key:focus-visible{border-color:var(--cyan); outline:none}
+.key.hit{background:var(--cyan); color:#04121a; border-color:var(--cyan)}
+.key.miss{background:var(--red); color:#12040a; border-color:var(--red)}
+.key .sym{font-size:clamp(20px,7vw,30px); line-height:1}
+.key .lbl{font-size:8px; letter-spacing:.1em; color:var(--dim)}
+.key.hit .lbl,.key.miss .lbl{color:inherit; opacity:.75}
+.key .idx{font-size:8px; color:#33334f}
+.key.hit .idx,.key.miss .idx{color:inherit; opacity:.6}
+[hidden]{display:none!important}
+/* ── briefing / results ─────────────────────────────────────────────── */
+.brief{text-align:left; font-size:12px; line-height:1.55; color:#9a9ac0}
+.brief h2{font-size:11px; letter-spacing:.24em; color:var(--cyan); margin:0 0 10px; font-weight:400}
+.rel{display:grid; grid-template-columns:26px 1fr auto; gap:10px; align-items:center; padding:7px 0; border-bottom:1px solid #1b1b30}
+.rel:last-child{border-bottom:0}
+.rel .s{font-size:19px; color:var(--ink); text-align:center}
+.rel .n{color:var(--ink); font-size:12px}
+.rel .n em{display:block; font-style:normal; color:var(--dim); font-size:10px; letter-spacing:.08em}
+.chips{display:flex; gap:3px}
+.chip{display:inline-block; flex:none; width:15px; height:15px; border-radius:50%; border:1px solid rgba(255,255,255,.16)}
+#wheel{display:block; margin:0 auto 16px}
+table.rt{width:100%; border-collapse:collapse; font-size:11px; margin-bottom:18px}
+table.rt td{padding:5px 0; border-bottom:1px solid #1b1b30; color:var(--dim)}
+table.rt td:last-child{text-align:right; color:var(--ink)}
+.dead{font-size:clamp(22px,7vw,30px); color:var(--red); margin:0 0 4px; letter-spacing:.04em}
+.deadsub{font-size:11px; color:var(--dim); letter-spacing:.14em; margin:0 0 18px}
+.reveal{border:1px solid #26263e; border-radius:10px; padding:14px; margin-bottom:18px; background:rgba(0,0,0,.35)}
+.reveal .rl{font-size:10px; letter-spacing:.22em; color:var(--dim); margin-bottom:8px}
+.pair{display:flex; align-items:center; justify-content:center; gap:12px; font-size:15px}
+.arrow{color:var(--dim); font-size:12px}
+footer{position:absolute; bottom:6px; transition:opacity .2s; left:0; width:100%; text-align:center; font-size:9px; letter-spacing:.2em; color:#242438; z-index:1}
+footer a{color:inherit; text-decoration:none}
+body.playing footer{opacity:0; pointer-events:none}
+</style>
+</head>
+<body>
+<div id="shell">
+  <div id="scanline"></div>
+
+  <header id="hud">
+    <div class="stat"><span class="k">SCORE</span><span class="v cy" id="score">000000</span></div>
+    <div id="sysbtns">
+      <div id="lives" role="status" aria-label="Lives remaining"></div>
+      <button class="sysbtn" id="audio" aria-pressed="false" title="Toggle audio">♪ OFF</button>
+    </div>
+    <div class="stat right"><span class="k">MULT</span><span class="v am" id="mult">×1.0</span></div>
+  </header>
+
+  <main id="stage"></main>
+
+  <div id="pad" hidden></div>
+
+  <footer><a href="/">TOROID.FYI</a> · THINKWELL LABS METROLOGY</footer>
+</div>
+
+<script>
+"use strict";
+(function () {
+
+/* ══ MODEL ═══════════════════════════════════════════════════════════════
+   Eight named anchors on the HSL hue circle. Names track sRGB hue angles:
+   270° is violet, 300° magenta — the source draft placed VIOLET at 330°
+   (a rose), crowding the warm end and mislabelling the anchor.            */
+const COLORS = [
+  { name:"RED",     h:0   },
+  { name:"ORANGE",  h:30  },
+  { name:"YELLOW",  h:60  },
+  { name:"GREEN",   h:120 },
+  { name:"CYAN",    h:180 },
+  { name:"BLUE",    h:240 },
+  { name:"VIOLET",  h:270 },
+  { name:"MAGENTA", h:300 }
+];
+
+/* Relations use standard color-theory vocabulary. A ±30° separation is
+   ANALOGOUS; ±120° is TRIADIC; 180° is COMPLEMENTARY. Offsets carry a random
+   sign so the player cannot shortcut on rotation direction — the six
+   residues {0, ±30, ±120, 180} stay distinct mod 360, so each rendered hue
+   still maps to exactly one relation. */
+const RELATIONS = [
+  { key:"SAME",   sym:"≡", label:"SAME",  gloss:"identical hue",     offsets:[0]         },
+  { key:"ANALOG", sym:"∿", label:"ANLG",  gloss:"neighbour · ±30°",  offsets:[30,-30]    },
+  { key:"TRIAD",  sym:"▲", label:"TRIAD", gloss:"triadic · ±120°",   offsets:[120,-120]  },
+  { key:"OPP",    sym:"⇄", label:"OPP",   gloss:"complement · 180°", offsets:[180]       }
+];
+const REL_BY_KEY = Object.fromEntries(RELATIONS.map(r => [r.key, r]));
+
+/* Two stakes models. SURVIVAL is the original one-shot run: a single misread
+   ends it, so the multiplier can only ever climb and is really a round counter.
+   ENDURANCE spends a life per error and resets the multiplier, which is what
+   makes the multiplier an actual stake — and buys room to show the player the
+   relation they misread, mid-run, which a one-shot run has nowhere to put.   */
+const MODES = {
+  SURVIVAL : { key:"SURVIVAL",  label:"SURVIVAL",  cap:"one misread ends the run", lives:1 },
+  ENDURANCE: { key:"ENDURANCE", label:"ENDURANCE", cap:"three lives · multiplier resets on error", lives:3 }
+};
+
+const CFG = {
+  baseMs:2400, decayMs:60, floorMs:900,   // t(n) = clamp(2400 − 60n, 900, 2400)
+  basePoints:100, speedBonus:150,          // speed bonus scales with unused time
+  multStep:0.1, multCap:10,
+  practiceRounds:3,
+  correctionMs:1150,                   // how long the misread relation stays up
+  noiseFromRound:8,                        // perceptual jitter, never hue jitter
+  sat:82, light:62
+};
+
+/* ══ STORAGE (guarded — Safari private mode throws on setItem) ═══════════ */
+const store = {
+  get(k, d){ try { const v = localStorage.getItem(k); return v === null ? d : v; } catch (_) { return d; } },
+  set(k, v){ try { localStorage.setItem(k, String(v)); } catch (_) {} }
+};
+
+/* ══ AUDIO (lazy — an AudioContext created before a gesture starts suspended) */
+const audio = {
+  on: store.get("hm.audio","0") === "1", ctx:null, tickAt:0,
+  ready(){
+    if (!this.on) return null;
+    if (!this.ctx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { this.on = false; return null; }
+      this.ctx = new AC();
+    }
+    if (this.ctx.state === "suspended") this.ctx.resume();
+    return this.ctx;
+  },
+  tone(f0, f1, dur, type, gain){
+    const c = this.ready(); if (!c) return;
+    const t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f0, t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1, f1), t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t + dur + 0.02);
+  },
+  hit(){ this.tone(760, 1240, 0.07, "sine", 0.13); },
+  miss(){
+    const c = this.ready(); if (!c) return;
+    this.tone(150, 48, 0.32, "sawtooth", 0.16);
+    const n = c.createBufferSource(), b = c.createBuffer(1, c.sampleRate * 0.22, c.sampleRate);
+    const d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) * 0.4;
+    const g = c.createGain(); g.gain.value = 0.1;
+    n.buffer = b; n.connect(g).connect(c.destination); n.start();
+  },
+  pulse(){ this.tone(190, 130, 0.06, "triangle", 0.09); }
+};
+
+/* ══ STATE ══════════════════════════════════════════════════════════════ */
+const LEGACY_BEST = Number(store.get("hm.best", 0)) || 0;   // pre-mode single leaderboard
+const S = {
+  phase:"IDLE",            // IDLE | BRIEF | PLAY | OVER
+  mode:MODES[store.get("hm.mode", "SURVIVAL")] ? store.get("hm.mode", "SURVIVAL") : "SURVIVAL",
+  practice:false,
+  round:0, cleared:0, score:0, mult:1, lives:1, errors:0,
+  best:{
+    SURVIVAL : Number(store.get("hm.best.SURVIVAL",  LEGACY_BEST)) || 0,
+    ENDURANCE: Number(store.get("hm.best.ENDURANCE", 0)) || 0
+  },
+  stimulus:null,
+  remaining:0, duration:0, paused:false, correcting:false,
+  shownAt:0, rts:[], locked:false
+};
+
+const $ = id => document.getElementById(id);
+const shell = $("shell"), stage = $("stage"), pad = $("pad");
+const elScore = $("score"), elMult = $("mult"), elAudio = $("audio"), elLives = $("lives");
+
+/* ══ HELPERS ════════════════════════════════════════════════════════════ */
+const mod360 = d => ((d % 360) + 360) % 360;
+const hsl = (h, s, l) => `hsl(${h.toFixed(2)} ${s.toFixed(1)}% ${l.toFixed(1)}%)`;
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const median = a => {
+  if (!a.length) return 0;
+  const s = [...a].sort((x, y) => x - y), m = s.length >> 1;
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+};
+
+function durationFor(round){
+  return Math.max(CFG.floorMs, CFG.baseMs - CFG.decayMs * round);
+}
+
+/* Perceptual noise raises cognitive load WITHOUT adding an answer dimension:
+   saturation and lightness drift, hue never does — so the relation the
+   player must name is unchanged. (The source draft's "saturation shift"
+   proposal was underspecified: a colour *word* has no saturation to
+   compare a rendered saturation against.) */
+function renderStyle(round){
+  if (round < CFG.noiseFromRound) return { s:CFG.sat, l:CFG.light };
+  const k = Math.min(1, (round - CFG.noiseFromRound) / 14);
+  return {
+    s: CFG.sat  + (Math.random() * 2 - 1) * 26 * k,
+    l: CFG.light + (Math.random() * 2 - 1) * 12 * k
+  };
+}
+
+function makeStimulus(round){
+  const base = pick(COLORS);
+  const rel  = pick(RELATIONS);
+  const hue  = mod360(base.h + pick(rel.offsets));
+  const { s, l } = renderStyle(round);
+  return { word:base.name, baseHue:base.h, hue, color:hsl(hue, s, l), rel:rel.key };
+}
+
+/* ══ RENDER ═════════════════════════════════════════════════════════════ */
+function hud(){
+  elScore.textContent = String(S.score).padStart(6, "0");
+  elMult.textContent  = "×" + S.mult.toFixed(1);
+  const total = (S.phase === "PLAY" && !S.practice) ? MODES[S.mode].lives : 0;
+  elLives.innerHTML = total > 1
+    ? Array.from({ length:total }, (_, i) =>
+        `<span class="pip${i < S.lives ? "" : " spent"}">♥</span>`).join("")
+    : "";
+}
+
+function wheelSVG(size){
+  const r = size / 2 - 14, cx = size / 2, cy = size / 2, step = 5;
+  let ring = "", ticks = "";
+  for (let a = 0; a < 360; a += step) {            // continuous hue ring
+    const p0 = (a - 90) * Math.PI / 180, p1 = (a + step + 0.6 - 90) * Math.PI / 180;
+    ring += `<path d="M ${(cx + Math.cos(p0) * r).toFixed(2)} ${(cy + Math.sin(p0) * r).toFixed(2)}
+             A ${r} ${r} 0 0 1 ${(cx + Math.cos(p1) * r).toFixed(2)} ${(cy + Math.sin(p1) * r).toFixed(2)}"
+             fill="none" stroke="${hsl(a, CFG.sat, CFG.light)}" stroke-width="4" opacity=".55"/>`;
+  }
+  for (const c of COLORS) {                        // the eight named anchors
+    const a = (c.h - 90) * Math.PI / 180;
+    ticks += `<circle cx="${(cx + Math.cos(a) * r).toFixed(1)}" cy="${(cy + Math.sin(a) * r).toFixed(1)}" r="7"
+              fill="${hsl(c.h, CFG.sat, CFG.light)}" stroke="#080810" stroke-width="2"/>`;
+  }
+  return `<svg id="wheel" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">
+    ${ring}${ticks}
+  </svg>`;
+}
+
+function relationPair(st){
+  const truth = REL_BY_KEY[st.rel];
+  const name  = truth.label === "ANLG" ? "ANALOGOUS" : truth.label === "OPP" ? "OPPOSITE" : truth.label;
+  return `<div class="pair">
+    <span class="chip" style="width:20px;height:20px;background:${hsl(st.baseHue, CFG.sat, CFG.light)}"></span>
+    <span class="arrow">${Math.round(mod360(st.hue - st.baseHue))}°</span>
+    <span class="chip" style="width:20px;height:20px;background:${st.color}"></span>
+    <span style="color:var(--cyan)">${truth.sym} ${name}</span>
+  </div>`;
+}
+
+function relationRows(){
+  const demo = COLORS[0].h; // RED as the reference for the swatch pairs
+  return RELATIONS.map(r => {
+    const chips = [demo, mod360(demo + r.offsets[0])]
+      .map(h => `<span class="chip" style="background:${hsl(h, CFG.sat, CFG.light)}"></span>`).join("");
+    return `<div class="rel">
+      <span class="s">${r.sym}</span>
+      <span class="n">${r.label === "ANLG" ? "ANALOGOUS" : r.label === "OPP" ? "OPPOSITE" : r.label}<em>${r.gloss}</em></span>
+      <span class="chips">${chips}</span>
+    </div>`;
+  }).join("");
+}
+
+function renderIdle(){
+  pad.hidden = true;
+  document.body.classList.remove("playing");
+  S.phase = "IDLE"; S.score = 0; S.mult = 1; hud();
+  const first = store.get("hm.seen", "0") !== "1";
+  const modeBtn = (m, primary) => `
+    <button class="btn${primary ? "" : " ghost"}" id="m-${m.key}">${m.label}<span class="cap">${m.cap}</span></button>`;
+  stage.innerHTML = `
+    <div class="panel">
+      <h1>HUEMAIN</h1>
+      <p class="sub">COLOR RELATION INTERFACE</p>
+      <div class="brief" style="margin-bottom:18px">
+        <p style="margin:0;color:#9a9ac0">Read the <strong style="color:var(--ink)">word</strong>.
+        Read the <strong style="color:var(--ink)">ink</strong>. Name the angular relation between them
+        on the hue circle, before the bar empties.</p>
+      </div>
+      ${first
+        ? `<button class="btn" id="calib">CALIBRATE FIRST<span class="cap">three untimed rounds · nothing at stake</span></button>
+           ${modeBtn(MODES.ENDURANCE, false)}${modeBtn(MODES.SURVIVAL, false)}`
+        : `${modeBtn(MODES[S.mode], true)}
+           ${modeBtn(MODES[S.mode === "SURVIVAL" ? "ENDURANCE" : "SURVIVAL"], false)}
+           <button class="btn ghost" id="calib">CALIBRATION RUN</button>`}
+      <button class="btn ghost" id="brf">BRIEFING</button>
+      ${(S.best.SURVIVAL || S.best.ENDURANCE) ? `<div class="bests">
+        <span>SURVIVAL<b>${String(S.best.SURVIVAL).padStart(6, "0")}</b></span>
+        <span>ENDURANCE<b>${String(S.best.ENDURANCE).padStart(6, "0")}</b></span>
+      </div>` : ""}
+    </div>`;
+  for (const m of Object.values(MODES)) {
+    const b = $("m-" + m.key);
+    if (b) b.onclick = () => start(m.key, false);
+  }
+  $("calib").onclick = () => start(S.mode, true);
+  $("brf").onclick   = renderBrief;
+}
+
+function renderBrief(){
+  pad.hidden = true;
+  document.body.classList.remove("playing");
+  stage.innerHTML = `
+    <div class="panel">
+      ${wheelSVG(148)}
+      <div class="brief">
+        <h2>RELATION SET</h2>
+        ${relationRows()}
+        <p style="margin:14px 0 0;font-size:11px;line-height:1.5">
+          Offsets carry a random sign, so ±30° and ±120° may rotate either way;
+          the four residue classes remain unambiguous. Keys <strong style="color:var(--ink)">1–4</strong>
+          or <strong style="color:var(--ink)">A S D F</strong> also work.
+          One wrong call, or one timeout, ends the run.</p>
+      </div>
+      <button class="btn" id="back">RETURN</button>
+    </div>`;
+  $("back").onclick = renderIdle;
+}
+
+function renderPlay(){
+  pad.hidden = false;
+  document.body.classList.add("playing");
+  stage.innerHTML = `
+    <div class="panel">
+      <div id="practice">${S.practice ? "CALIBRATION · UNTIMED" : ""}</div>
+      <div id="bar"${S.practice ? ' style="visibility:hidden"' : ""}><div id="barfill"></div></div>
+      <div id="card"><span id="word"></span></div>
+      <div id="modetag" class="sub" style="margin:14px 0 0;font-size:9px"></div>
+    </div>`;
+  const tag = $("modetag");
+  if (tag) tag.textContent = S.practice ? "" : MODES[S.mode].label;
+  paintStimulus();
+}
+
+function paintStimulus(){
+  const w = $("word");
+  if (!w || !S.stimulus) return;
+  w.textContent = S.stimulus.word;
+  w.style.color = S.stimulus.color;
+}
+
+function renderPad(){
+  pad.innerHTML = RELATIONS.map((r, i) => `
+    <button class="key" data-key="${r.key}" aria-label="${r.label}">
+      <span class="sym">${r.sym}</span>
+      <span class="lbl">${r.label}</span>
+      <span class="idx">${i + 1}</span>
+    </button>`).join("");
+  pad.querySelectorAll(".key").forEach(b => {
+    b.addEventListener("pointerdown", e => { e.preventDefault(); answer(b.dataset.key); });
+  });
+}
+
+function renderOver(reason){
+  pad.hidden = true;
+  document.body.classList.remove("playing");
+  const st = S.stimulus;
+  const rows = RELATIONS.map(r => {
+    const xs = S.rts.filter(x => x.rel === r.key).map(x => x.ms);
+    return `<tr><td>${r.sym} ${r.label}</td><td>${xs.length ? Math.round(median(xs)) + " ms" : "—"}</td></tr>`;
+  }).join("");
+  stage.innerHTML = `
+    <div class="panel">
+      <h2 class="dead">${reason === "timeout" ? "SIGNAL LOST" : "MISREAD"}</h2>
+      <p class="deadsub">${reason === "timeout" ? "NO RESPONSE IN WINDOW" : "RELATION MISCLASSIFIED"}</p>
+      <div class="reveal">
+        <div class="rl">CORRECT RELATION</div>
+        ${relationPair(st)}
+      </div>
+      <table class="rt">
+        <tr><td>MODE</td><td>${MODES[S.mode].label}</td></tr>
+        <tr><td>ROUNDS CLEARED</td><td>${S.cleared}</td></tr>
+        ${MODES[S.mode].lives > 1 ? `<tr><td>ERRORS</td><td>${S.errors} / ${MODES[S.mode].lives}</td></tr>` : ""}
+        <tr><td>FINAL SCORE</td><td style="color:var(--cyan)">${S.score}</td></tr>
+        <tr><td>BEST · ${MODES[S.mode].label}</td><td>${S.best[S.mode]}</td></tr>
+        <tr><td colspan="2" style="color:#33334f;letter-spacing:.2em;padding-top:12px">MEDIAN LATENCY</td></tr>
+        ${rows}
+      </table>
+      <button class="btn danger" id="again">REBOOT</button>
+      <button class="btn ghost" id="menu">MENU</button>
+    </div>`;
+  $("again").onclick = () => start(S.mode, false);
+  $("menu").onclick  = renderIdle;
+}
+
+/* ══ LOOP ═══════════════════════════════════════════════════════════════
+   rAF with an explicit delta, and a hard pause on tab hide. setInterval kept
+   draining the clock while the tab was hidden in the source draft, so a
+   three-second app switch was an unavoidable loss.                        */
+let rafId = 0, lastT = 0;
+
+function frame(t){
+  if (S.phase !== "PLAY") return;
+  const dt = lastT ? t - lastT : 0;
+  lastT = t;
+
+  if (!S.paused && !S.practice && !S.correcting) {
+    S.remaining -= dt;
+    const frac = Math.max(0, S.remaining / S.duration);
+    const fill = $("barfill");
+    if (fill) {
+      fill.style.transform = "scaleX(" + frac + ")";
+      fill.className = frac < 0.25 ? "crit" : frac < 0.5 ? "warn" : "";
+    }
+    if (frac < 0.25 && t - audio.tickAt > 320) { audio.tickAt = t; audio.pulse(); }
+    if (S.remaining <= 0) return loseLife("timeout");
+  }
+  rafId = requestAnimationFrame(frame);
+}
+
+function nextRound(){
+  S.stimulus = makeStimulus(S.round);
+  S.duration = durationFor(S.round);
+  S.remaining = S.duration;
+  S.shownAt = performance.now();
+  S.locked = false;
+  const fill = $("barfill");
+  if (fill) { fill.style.transform = "scaleX(1)"; fill.className = ""; }
+  paintStimulus();
+}
+
+function start(mode, practice){
+  cancelAnimationFrame(rafId);
+  S.phase = "PLAY"; S.practice = !!practice;
+  if (MODES[mode]) { S.mode = mode; store.set("hm.mode", mode); }
+  S.lives = MODES[S.mode].lives;
+  S.round = 0; S.cleared = 0; S.score = 0; S.mult = 1; S.errors = 0;
+  S.rts = []; S.paused = false; S.correcting = false;
+  hud();
+  renderPad();
+  renderPlay();
+  nextRound();
+  lastT = 0;
+  rafId = requestAnimationFrame(frame);
+  audio.ready();
+}
+
+function flash(key, ok){
+  const b = pad.querySelector(`.key[data-key="${key}"]`);
+  if (!b) return;
+  b.classList.add(ok ? "hit" : "miss");
+  setTimeout(() => b.classList.remove("hit", "miss"), 140);
+}
+
+function answer(key){
+  if (S.phase !== "PLAY" || S.locked) return;
+  const correct = key === S.stimulus.rel;
+  flash(key, correct);
+
+  if (!correct) return loseLife("wrong");
+
+  audio.hit();
+  S.rts.push({ rel:S.stimulus.rel, ms:performance.now() - S.shownAt });
+
+  if (!S.practice) {
+    const frac = Math.max(0, S.remaining / S.duration);
+    S.score += Math.round((CFG.basePoints + CFG.speedBonus * frac) * S.mult);
+    S.mult = Math.min(CFG.multCap, +(S.mult + CFG.multStep).toFixed(2));
+    hud();
+  }
+  S.cleared++;
+  advance();
+}
+
+/* An error spends a life rather than ending the run outright — which is what
+   turns the multiplier into a stake (it resets) and, more usefully, opens a
+   window to show the player the relation they just misread. A one-shot run
+   has nowhere to put that feedback except the death screen, by which point
+   the run is over. SURVIVAL keeps one life, so it behaves as before. */
+function loseLife(reason){
+  audio.miss();
+  shell.classList.add("shake");
+  setTimeout(() => shell.classList.remove("shake"), 240);
+
+  if (S.practice) return showCorrection();   // calibration never kills
+
+  S.errors++;
+  S.mult = 1;
+  S.lives--;
+  hud();
+  const lost = elLives.querySelectorAll(".pip")[S.lives];   // the pip just spent
+  if (lost) { lost.classList.add("losing"); setTimeout(() => lost.classList.remove("losing"), 340); }
+
+  if (S.lives <= 0) return gameOver(reason);
+  showCorrection();
+}
+
+/* Freeze the clock, name the relation that was missed, then resume. */
+function showCorrection(){
+  const card = $("card"), el = document.createElement("div");
+  if (!card) return advance();
+  S.correcting = true; S.locked = true;
+  el.id = "correct";
+  el.innerHTML = `<div class="rl">CORRECT RELATION</div>${relationPair(S.stimulus)}`;
+  card.appendChild(el);
+  card.classList.add("correcting");
+  setTimeout(() => {
+    el.remove();
+    card.classList.remove("correcting");
+    S.correcting = false; S.locked = false;
+    advance();
+  }, CFG.correctionMs);
+}
+
+function advance(){
+  S.round++;
+  if (S.practice && S.round >= CFG.practiceRounds) {
+    store.set("hm.seen", 1);
+    S.practice = false;
+    S.round = 0; S.cleared = 0; S.errors = 0;
+    S.lives = MODES[S.mode].lives;
+    hud();
+    renderPlay();
+  }
+  nextRound();
+}
+
+function gameOver(reason){
+  cancelAnimationFrame(rafId);
+  S.phase = "OVER";
+  store.set("hm.seen", 1);
+  if (S.score > S.best[S.mode]) { S.best[S.mode] = S.score; store.set("hm.best." + S.mode, S.score); }
+  renderOver(reason);
+}
+
+/* ══ INPUT ══════════════════════════════════════════════════════════════ */
+const KEYMAP = { "1":0, "2":1, "3":2, "4":3, a:0, s:1, d:2, f:3 };
+
+addEventListener("keydown", e => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (S.phase === "PLAY" && k in KEYMAP) {
+    e.preventDefault();
+    answer(RELATIONS[KEYMAP[k]].key);
+    return;
+  }
+  if ((k === " " || k === "enter") && S.phase !== "PLAY") {
+    e.preventDefault();
+    start(S.mode, S.phase === "IDLE" && store.get("hm.seen", "0") !== "1");
+  }
+});
+
+/* Hidden tab must not drain the clock. rAF stops firing when hidden, so the
+   delta on return would be enormous — reset the timebase on resume. */
+function setPaused(p){
+  S.paused = p;
+  if (!p) { lastT = 0; if (S.phase === "PLAY") { cancelAnimationFrame(rafId); rafId = requestAnimationFrame(frame); } }
+}
+document.addEventListener("visibilitychange", () => setPaused(document.hidden));
+addEventListener("blur", () => setPaused(true));
+addEventListener("focus", () => setPaused(false));
+
+elAudio.textContent = audio.on ? "♪ ON" : "♪ OFF";
+elAudio.setAttribute("aria-pressed", String(audio.on));
+elAudio.onclick = () => {
+  audio.on = !audio.on;
+  store.set("hm.audio", audio.on ? 1 : 0);
+  elAudio.textContent = audio.on ? "♪ ON" : "♪ OFF";
+  elAudio.setAttribute("aria-pressed", String(audio.on));
+  if (audio.on) audio.hit();
+};
+
+/* ══ BOOT ═══════════════════════════════════════════════════════════════ */
+hud();
+renderIdle();
+
+})();
+</script>
+</body>
+</html>
