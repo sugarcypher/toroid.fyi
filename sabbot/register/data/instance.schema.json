@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toroid.fyi/schema/instance.schema.json",
+  "title": "Obfuscratic Instance Register - instance record",
+  "description": "One dated event drawn from a pre-registered source-exhaustive frame. An instance is NOT an architecture. It carries no five-signature score and no composite. It carries a direction sign, a cluster assignment, an evidence tag, and its provenance.",
+  "type": "object",
+  "required": [
+    "instance_id", "frame_id", "source_ref", "event_date", "locus_id",
+    "stated_beneficiary_class", "realized_incidence_class", "direction",
+    "evidence_tag", "coded_by", "coded_on", "provenance"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "pattern": "^OIR-[0-9]{4}-[0-9]{6}$",
+      "description": "OIR-<frame year>-<six digit serial>. Assigned at ingest, never reused, never reassigned."
+    },
+    "frame_id": {
+      "type": "string",
+      "description": "The pre-registered frame this instance was drawn from. An instance with no frame_id may not enter any statistical test."
+    },
+    "frame_position": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Ordinal position of this item in the frame's enumeration, before any coding. Present so a reader can verify the frame was walked exhaustively rather than sampled by salience."
+    },
+    "source_ref": {
+      "type": "object",
+      "required": ["citation", "url", "retrieved_on"],
+      "additionalProperties": false,
+      "properties": {
+        "citation": {"type": "string", "description": "Document-level citation sufficient to locate the primary record without the URL."},
+        "url": {"type": "string", "format": "uri"},
+        "doc_identifier": {"type": "string", "description": "Federal Register document number, GAO report number, OIG report number, docket number, or equivalent."},
+        "retrieved_on": {"type": "string", "format": "date"},
+        "archive_url": {"type": "string", "format": "uri", "description": "Web archive snapshot. Required for any source that is not a permanent government document identifier."}
+      }
+    },
+    "event_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date on the primary record. Not the date of reporting about it."
+    },
+    "epoch": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-Q[1-4]$",
+      "description": "Derived from event_date. Used by the temporal layer."
+    },
+    "locus_id": {
+      "type": "string",
+      "description": "Independent decision locus. THE UNIT OF STATISTICAL INDEPENDENCE. Two instances sharing a locus_id contribute jointly, not separately. See codebook section 3 for the locus rule."
+    },
+    "locus_rationale": {
+      "type": "string",
+      "description": "Why this locus and not a broader or narrower one. Required because locus assignment sets effective sample size and is therefore the most attackable coding decision in the register."
+    },
+    "stated_beneficiary_class": {
+      "$ref": "#/$defs/beneficiary_class",
+      "description": "Read off the authorizing document's own statement of purpose. Not inferred."
+    },
+    "stated_beneficiary_quote": {
+      "type": "string",
+      "description": "Verbatim purpose language from the primary document. Paraphrase is not permitted here."
+    },
+    "realized_incidence_class": {
+      "$ref": "#/$defs/beneficiary_class",
+      "description": "Where first-order incidence actually fell, per the evidence anchored in incidence_basis."
+    },
+    "incidence_basis": {
+      "type": "string",
+      "enum": ["agency_own_figures", "gao_or_oig_finding", "court_record", "third_party_measurement", "contemporaneous_reporting", "not_yet_established"],
+      "description": "What establishes realized incidence. 'not_yet_established' forces direction to 0 and excludes the instance from the test while retaining it in the register."
+    },
+    "direction": {
+      "type": "integer",
+      "enum": [-2, -1, 0, 1, 2],
+      "description": "Signed divergence of realized incidence from stated beneficiary. NEGATIVE VALUES MUST BE REACHABLE OR THE TEST IS VOID. -2 strongly counter-directional, -1 counter-directional, 0 symmetric or indeterminate, +1 directional, +2 strongly directional. See codebook section 4."
+    },
+    "direction_rationale": {"type": "string"},
+    "payoff_conjunction": {
+      "type": "boolean",
+      "description": "Whether the realized incidence class carries an identifiable financial-capture or political-alignment payoff. Per Part V, directional coding without payoff conjunction is noise rather than signature; recorded separately so the test can be run both ways."
+    },
+    "evidence_tag": {
+      "type": "string",
+      "enum": ["occurred", "projected", "contested", "correlation"],
+      "description": "Part III discipline. Only 'occurred' instances may anchor a realized-outcome claim. 'projected' instances are registered and excluded from the directional test."
+    },
+    "contestation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["class", "summary", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "class": {"type": "string", "enum": ["high_quality", "low_quality_motivated"], "description": "Per Part III: methodological critique, disinterested alternative measurement, timeframe or base-rate correction, scope or attribution fix = high_quality and adjusts confidence. Bare denial by an interested party, reframing without counter-evidence, ad hominem, asserted intent = low_quality_motivated, logged and carrying no weight."},
+          "summary": {"type": "string"},
+          "source": {"type": "string"},
+          "effect_on_direction": {"type": "integer", "enum": [-2, -1, 0, 1, 2], "description": "Revised direction if this contestation is accepted. Populated so the whole register can be re-run under the hostile reading."}
+        }
+      }
+    },
+    "architecture_ref": {
+      "type": ["string", "null"],
+      "description": "Optional link to a scored architecture in the register. An instance need not belong to any architecture, and belonging to one confers no score on the instance."
+    },
+    "coded_by": {"type": "string", "description": "Human coder identifier. A machine may not appear here."},
+    "coded_on": {"type": "string", "format": "date"},
+    "second_coder": {"type": "string", "description": "Second independent human coder, where the item was double-coded."},
+    "second_coder_direction": {"type": "integer", "enum": [-2, -1, 0, 1, 2]},
+    "provenance": {
+      "type": "object",
+      "required": ["proposed_by", "ratified"],
+      "additionalProperties": false,
+      "properties": {
+        "proposed_by": {
+          "type": "string",
+          "enum": ["human", "machine_extraction"],
+          "description": "How the candidate record entered the queue."
+        },
+        "proposing_agent": {"type": "string", "description": "Model or tool identifier where proposed_by is machine_extraction. Carried for the life of the record."},
+        "ratified": {
+          "type": "boolean",
+          "description": "False until a human has read the primary source and confirmed every field. UNRATIFIED RECORDS ARE EXCLUDED FROM EVERY STATISTICAL TEST AND FROM EVERY RENDERED FIGURE."
+        },
+        "ratified_by": {"type": "string"},
+        "ratified_on": {"type": "string", "format": "date"},
+        "machine_fields_altered_at_ratification": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Which machine-proposed field values the human changed. The running rate of alteration is the register's measured machine-extraction error rate and is published."
+        }
+      }
+    },
+    "notes": {"type": "string"}
+  },
+  "$defs": {
+    "beneficiary_class": {
+      "type": "string",
+      "description": "Closed vocabulary. Coders may not invent classes; a class that does not fit is a codebook amendment request, dated and logged.",
+      "enum": [
+        "general_public",
+        "program_enrolled_population",
+        "low_income_households",
+        "medically_dependent_population",
+        "veterans",
+        "federal_workforce",
+        "state_or_local_government",
+        "small_business",
+        "large_incumbent_firms",
+        "specific_contractor_or_vendor",
+        "financial_asset_holders",
+        "high_income_households",
+        "detention_or_enforcement_contractors",
+        "extractive_resource_licensees",
+        "named_individual_or_family",
+        "political_alignment_network",
+        "foreign_state_or_entity",
+        "no_identifiable_beneficiary",
+        "indeterminate"
+      ]
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toroid.fyi/schema/frame.schema.json",
+  "title": "Obfuscratic Instance Register - sampling frame pre-registration",
+  "description": "A frame is a rule for enumerating events, fixed and published BEFORE any item in it is coded. The frame is the load-bearing artifact of the register: the directional test is only as defensible as the rule that decided which events could enter it. A frame whose rule could not return counter-directional events is void.",
+  "type": "object",
+  "required": [
+    "frame_id", "title", "source", "enumeration_rule", "window",
+    "counter_directional_reachability", "locked_on", "locked_by", "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "frame_id": {"type": "string", "pattern": "^FRM-[A-Z0-9-]+$"},
+    "title": {"type": "string"},
+    "source": {
+      "type": "object",
+      "required": ["name", "access_url", "enumerable"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "access_url": {"type": "string", "format": "uri"},
+        "enumerable": {
+          "type": "boolean",
+          "description": "Whether the full population of items in the window can be listed independently of their content. If false the frame may not be used; salience-selected sources are not frames."
+        },
+        "api_or_bulk": {"type": "string", "description": "How the enumeration is obtained reproducibly."}
+      }
+    },
+    "enumeration_rule": {
+      "type": "string",
+      "description": "The exact query or filter that defines the population. Must be mechanically re-runnable by a third party to reproduce the same item list."
+    },
+    "window": {
+      "type": "object",
+      "required": ["start", "end"],
+      "additionalProperties": false,
+      "properties": {
+        "start": {"type": "string", "format": "date"},
+        "end": {"type": "string", "format": "date"}
+      }
+    },
+    "population_size": {"type": "integer", "description": "Count returned by the enumeration rule. Recorded before coding begins."},
+    "coding_target": {
+      "type": "string",
+      "enum": ["exhaustive", "systematic_every_nth", "stratified_random"],
+      "description": "Exhaustive is preferred. Any sampling scheme must be specified here before coding, with its seed."
+    },
+    "sampling_seed": {"type": ["integer", "null"]},
+    "counter_directional_reachability": {
+      "type": "object",
+      "required": ["argument", "worked_examples"],
+      "additionalProperties": false,
+      "properties": {
+        "argument": {
+          "type": "string",
+          "description": "Why this frame's rule can return direction <= -1 items. This is the frame's answer to the selection-on-the-dependent-variable charge and is published with it."
+        },
+        "worked_examples": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "string"},
+          "description": "At least two concrete item types within this frame that, if they appear, would code negative. Named before coding starts."
+        }
+      }
+    },
+    "expected_direction_share": {
+      "type": "object",
+      "description": "Locked prediction. Stating it before coding is what makes the result capable of embarrassing the analyst.",
+      "additionalProperties": false,
+      "properties": {
+        "predicted_positive_share": {"type": "number", "minimum": 0, "maximum": 1},
+        "predicted_zero_share": {"type": "number", "minimum": 0, "maximum": 1},
+        "predicted_negative_share": {"type": "number", "minimum": 0, "maximum": 1},
+        "falsification_trigger": {
+          "type": "string",
+          "description": "The observed result at or beyond which the directional claim for this frame is treated as disconfirmed. Stated as a number, before coding."
+        }
+      }
+    },
+    "locked_on": {"type": "string", "format": "date"},
+    "locked_by": {"type": "string"},
+    "status": {
+      "type": "string",
+      "enum": ["draft", "locked", "coding_in_progress", "closed", "amended", "void"],
+      "description": "Only 'closed' frames may carry a published statistic. Amendments are dated additions, never silent edits."
+    },
+    "amendments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "change", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "date": {"type": "string", "format": "date"},
+          "change": {"type": "string"},
+          "reason": {"type": "string"},
+          "affects_locked_prediction": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

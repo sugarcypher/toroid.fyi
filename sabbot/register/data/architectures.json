@@ -1,0 +1,399 @@
+[
+  {
+    "architecture_id": "IRS",
+    "name": "IRS dismantling",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "extreme_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 70,
+        "S2": 68,
+        "S3": 60,
+        "S4": 72,
+        "S5": 70,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 88,
+        "S2": 88,
+        "S3": 80,
+        "S4": 76,
+        "S5": 88,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 94,
+        "S2": 95,
+        "S3": 89,
+        "S4": 76,
+        "S5": 92,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "DOGE",
+    "name": "DOGE workforce reduction",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "extreme_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 70,
+        "S2": 72,
+        "S3": 80,
+        "S4": 80,
+        "S5": 78,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 82,
+        "S2": 84,
+        "S3": 85,
+        "S4": 84,
+        "S5": 86,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 88,
+        "S2": 91,
+        "S3": 86,
+        "S4": 84,
+        "S5": 93,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "REGROLL",
+    "name": "Regulatory / civil-rights rollback",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "extreme_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 55,
+        "S2": 60,
+        "S3": 65,
+        "S4": 50,
+        "S5": 70,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 80,
+        "S2": 80,
+        "S3": 80,
+        "S4": 80,
+        "S5": 82,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 88,
+        "S2": 85,
+        "S3": 86,
+        "S4": 84,
+        "S5": 92,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "OBBBA",
+    "name": "OBBBA / Medicaid",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "extreme_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 20,
+        "S2": 5,
+        "S3": 5,
+        "S4": 15,
+        "S5": 25,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 85,
+        "S2": 70,
+        "S3": 70,
+        "S4": 65,
+        "S5": 88,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 92,
+        "S2": 79,
+        "S3": 82,
+        "S4": 73,
+        "S5": 89,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "ICE",
+    "name": "ICE / immigration enforcement",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "extreme_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 62,
+        "S2": 70,
+        "S3": 55,
+        "S4": 55,
+        "S5": 72,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 85,
+        "S2": 84,
+        "S3": 75,
+        "S4": 76,
+        "S5": 82,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 87,
+        "S2": 88,
+        "S3": 81,
+        "S4": 79,
+        "S5": 86,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "NIH",
+    "name": "NIH / research capacity",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "high_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 55,
+        "S2": 58,
+        "S3": 50,
+        "S4": 60,
+        "S5": 58,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 78,
+        "S2": 80,
+        "S3": 70,
+        "S4": 66,
+        "S5": 78,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 82,
+        "S2": 84,
+        "S3": 74,
+        "S4": 68,
+        "S5": 81,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "VA",
+    "name": "VA / veterans' services",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "high_asymmetry",
+      "prediction_locked_on": "2026-06-01",
+      "role": "seed"
+    },
+    "epochs": [
+      {
+        "epoch": "2025-Q1",
+        "S1": 50,
+        "S2": 55,
+        "S3": 55,
+        "S4": 58,
+        "S5": 62,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2025-Q3",
+        "S1": 72,
+        "S2": 74,
+        "S3": 68,
+        "S4": 62,
+        "S5": 74,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      },
+      {
+        "epoch": "2026-Q1",
+        "S1": 80,
+        "S2": 79,
+        "S3": 71,
+        "S4": 64,
+        "S5": 76,
+        "scored_by": "B. Greenway",
+        "anchors": [
+          "transcribed from toroid.fyi sabbot/data/sabbotarchy.json v0.8 (canonical; newer than the book per the book's own rule)"
+        ]
+      }
+    ]
+  },
+  {
+    "architecture_id": "GRACE",
+    "name": "Grace Commission",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "genuine",
+      "prediction_locked_on": "2026-06-01",
+      "role": "reform_lineage"
+    },
+    "epochs": [
+      {
+        "epoch": "2026-Q1",
+        "composite_only": 14,
+        "composite_only_source": "v8 Part VII, reform lineage"
+      }
+    ]
+  },
+  {
+    "architecture_id": "REINVGOV",
+    "name": "Reinventing Government (Clinton-Gore)",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "genuine",
+      "prediction_locked_on": "2026-06-01",
+      "role": "reform_lineage"
+    },
+    "epochs": [
+      {
+        "epoch": "2026-Q1",
+        "composite_only": 19,
+        "composite_only_source": "v8 Part VII, reform lineage"
+      }
+    ]
+  },
+  {
+    "architecture_id": "PMA",
+    "name": "President's Management Agenda",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-06-01",
+      "predicted_band": "genuine",
+      "prediction_locked_on": "2026-06-01",
+      "role": "reform_lineage"
+    },
+    "epochs": [
+      {
+        "epoch": "2026-Q1",
+        "composite_only": 20,
+        "composite_only_source": "v8 Part VII, reform lineage"
+      }
+    ]
+  }
+]

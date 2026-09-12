@@ -1,0 +1,55 @@
+{
+  "frame_id": "FRM-GAO-2025",
+  "title": "All GAO reports issued 2025-01-01 to 2025-12-31",
+  "source": {
+    "name": "U.S. Government Accountability Office",
+    "access_url": "https://www.gao.gov/reports-testimonies",
+    "enumerable": true,
+    "api_or_bulk": "Enumerate the reports-and-testimonies index for the window; freeze the GAO report-number list before coding.",
+    "enumeration_verified": {
+      "verified_on": "2026-09-12",
+      "status": "BLOCKED FROM THIS SESSION. gao.gov disallows automated fetching of the reports-and-testimonies index by robots.txt, so the population could not be enumerated here and no count is recorded.",
+      "population_size_recorded": null,
+      "alternative_route": "GAO reports are published in the GovInfo GAOREPORTS collection, which has a documented collections API at api.govinfo.gov/collections/GAOREPORTS/{startDate} returning a count. It requires a free api.data.gov key. That route would make this frame mechanically reproducible by a third party, which is the property the frame needs.",
+      "what_closes_it": "Obtain a free GovInfo API key, run the collections endpoint for the window, record the count, and replace the enumeration rule with the GovInfo query rather than the gao.gov index."
+    }
+  },
+  "enumeration_rule": "Every GAO report and testimony issued in the window. No topic filter, no agency filter, no filter on whether the report found a problem.",
+  "window": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "population_size": null,
+  "coding_target": "exhaustive",
+  "counter_directional_reachability": {
+    "argument": "GAO issues on its own schedule and mandate, across the whole federal estate, including reports that find programs working and reports whose findings run against the directional reading. Its issuance is not conditioned on the outcome direction of what it examines.",
+    "worked_examples": [
+      "A GAO finding that an agency remediated promptly and at cost, which is the direct inverse of the S3 anti-remediation signature and codes negative.",
+      "A GAO finding of symmetric failure across both public-facing and extractive functions, which codes 0 and defeats the S2 selectivity reading for that locus.",
+      "A GAO finding that a program's realized incidence matched its stated beneficiary: codes 0 or negative."
+    ]
+  },
+  "expected_direction_share": {
+    "predicted_positive_share": null,
+    "predicted_zero_share": null,
+    "predicted_negative_share": null,
+    "falsification_trigger": "TO BE LOCKED BY THE ANALYST BEFORE CODING."
+  },
+  "locked_on": null,
+  "locked_by": null,
+  "status": "blocked_pending_alternative_route",
+  "amendments": [
+    {
+      "date": "2026-09-12",
+      "change": "Frame drafted.",
+      "reason": "GAO is the strongest available frame for the anti-remediation signature specifically, because its reports document both the identified dysfunction and the agency response, which is what S3 reads.",
+      "affects_locked_prediction": false
+    },
+    {
+      "date": "2026-09-12",
+      "change": "Enumeration attempted and failed. No population size recorded. Alternative route via GovInfo GAOREPORTS identified but not executed.",
+      "reason": "Recording the failure rather than leaving a plausible but unverified enumeration rule standing.",
+      "affects_locked_prediction": false
+    }
+  ]
+}

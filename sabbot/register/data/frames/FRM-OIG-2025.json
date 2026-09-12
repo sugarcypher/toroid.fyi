@@ -1,0 +1,56 @@
+{
+  "frame_id": "FRM-OIG-2025",
+  "title": "All federal Inspector General reports posted to oversight.gov, 2025",
+  "source": {
+    "name": "Council of the Inspectors General on Integrity and Efficiency (oversight.gov)",
+    "access_url": "https://www.oversight.gov/reports/federal",
+    "enumerable": true,
+    "api_or_bulk": "Enumerate the consolidated reports index for the window across all member IG offices; freeze the report-identifier list before coding.",
+    "enumeration_verified": {
+      "verified_on": "2026-09-12",
+      "status": "PARTIALLY VERIFIED. The index is reachable and enumerable at /reports/federal, which reports 'Displaying 1 - 10 of 35963' for the unfiltered corpus and offers Date Issued minimum and maximum, Report Location, Agency Wide, Report Type, Agency Reviewed, Submitting OIG and Special Projects filters, with 10/25/50/100 items per page.",
+      "unfiltered_corpus_size": 35963,
+      "blocker": "The date-filter query-string parameter names were not captured. Guessed parameters (date_issued_min / date_issued_max) did not apply the filter; the page returned the unfiltered count. The earlier /reports path 404s.",
+      "what_closes_it": "One pass in a browser: apply the Date Issued minimum and maximum for 2025, set 100 per page, and copy the resulting URL. That URL becomes the enumeration rule verbatim.",
+      "report_type_note": "Report Type is a filter here, so the frame should state whether Semiannual Reports, Peer Reviews and CIGIE Annual Reports are in or out of the population. They are not findings about programs and arguably belong out. Decide before coding, not after."
+    }
+  },
+  "enumeration_rule": "Every report in the oversight.gov federal index with Date Issued inside the window, across all submitting Inspector General offices, no agency filter and no filter on finding severity. Report Type inclusion or exclusion to be fixed at lock. The frozen list is the population; frame_position is the index in the site's default order at 100 items per page.",
+  "window": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "population_size": null,
+  "coding_target": "exhaustive",
+  "counter_directional_reachability": {
+    "argument": "IG offices are statutorily independent of the programs they examine and publish on their own cycles. The consolidated index is not curated by outcome. It contains findings of adequacy as well as findings of failure, and findings whose incidence runs against the directional reading.",
+    "worked_examples": [
+      "An IG finding that an agency's extractive or enforcement function failed as badly as its public-facing function: codes 0 and defeats S2 selectivity for that locus.",
+      "An IG finding whose realized incidence fell on a contractor or licensee rather than on the enrolled population: codes negative.",
+      "An IG report finding no material deficiency: codes 0."
+    ]
+  },
+  "expected_direction_share": {
+    "predicted_positive_share": null,
+    "predicted_zero_share": null,
+    "predicted_negative_share": null,
+    "falsification_trigger": "TO BE LOCKED BY THE ANALYST BEFORE CODING."
+  },
+  "locked_on": null,
+  "locked_by": null,
+  "status": "reachable_params_pending",
+  "amendments": [
+    {
+      "date": "2026-09-12",
+      "change": "Frame drafted.",
+      "reason": "Widest locus span per item coded of the four frames: IG offices are distributed across agencies, so items tend to fall in distinct decision loci rather than clustering in one.",
+      "affects_locked_prediction": false
+    },
+    {
+      "date": "2026-09-12",
+      "change": "Access URL corrected from /reports to /reports/federal. Unfiltered corpus size recorded as 35,963. Filter controls enumerated. Date parameter names still to be captured.",
+      "reason": "The originally drafted URL was wrong and 404s. Recording the correction rather than silently fixing it.",
+      "affects_locked_prediction": false
+    }
+  ]
+}

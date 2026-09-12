@@ -1,0 +1,366 @@
+{
+  "annex_id": "ANNEX-2026-09",
+  "compiled_on": "2026-09-12",
+  "standing": "ILLUSTRATIVE AND ANCHOR-ONLY. Items here were selected by salience, not drawn by a content-blind frame. They may serve as evidence anchors for architecture-level signature scores, and they may be rendered as illustration. They MAY NOT enter the directional test, because a set assembled by noticing cannot answer the selection-on-the-dependent-variable charge. That is what the frames are for.",
+  "provenance": "Every item was verified against published reporting in this session. Dates, case names, votes and figures are as reported by the cited sources. No item was supplied from Claude's prior knowledge without a source, and no figure was estimated.",
+  "items": [
+    {
+      "annex_id": "AX-001",
+      "title": "Trump v. IRS suit, voluntary dismissal, and the $1.776 billion Anti-Weaponization Fund",
+      "event_dates": {
+        "suit_filed": "2026-01-29",
+        "voluntary_dismissal": "2026-05-18",
+        "fund_order": "2026-05-18"
+      },
+      "what_is_established": "Trump, Donald Jr., Eric and the Trump Organization sued the IRS and Treasury on 2026-01-29 under IRC section 7431 over the Littlejohn disclosure of tax data, claiming at least $10 billion on the theory that each view of a news article containing the leaked data was a separate $1,000 statutory violation. A voluntary dismissal was filed 2026-05-18, two days before a court deadline, the notice stating the dismissal was available as of right. An order by Acting Attorney General Todd Blanche established an Anti-Weaponization Fund and directed Treasury to transfer $1.776 billion from the Judgment Fund to an account for its sole use.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-DOJ-AWF",
+      "anchors": [
+        "S1",
+        "S3"
+      ],
+      "sources": [
+        "https://tax.thomsonreuters.com/news/trump-ends-10b-legal-battle-with-irs-as-doj-orders-settlement-fund/"
+      ],
+      "matches_book": "Part VII, the $1.776B audit-bar structure. The figure and the self-executing dismissal are corroborated."
+    },
+    {
+      "annex_id": "AX-002",
+      "title": "DOJ addendum barring IRS audit of Trump and family",
+      "event_dates": {
+        "addendum": "2026-05",
+        "rescission_order_narrowing_bar": "2026-08-03"
+      },
+      "what_is_established": "A DOJ addendum to the settlement barred the IRS from auditing Trump and his family, reported by ABC News and Newsweek in May 2026. On 2026-08-03 the Acting Attorney General's rescission order restricted the audit-immunity provision to apply only retroactively, to claims that existed when the settlement occurred, so that it no longer shelters future tax filings.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "PolitiFact treated the durability of a 'forever' bar as an open question in May; the August order then narrowed it in writing. The surviving capture is the retroactive bar on pre-settlement matters, which is narrower than the book's Part VII describes.",
+          "source": "https://politifact.com/article/2026/may/21/trump-taxes-irs-audits-weaponization/"
+        }
+      ],
+      "locus_id": "LOCUS-DOJ-AWF",
+      "anchors": [
+        "S1",
+        "S3"
+      ],
+      "sources": [
+        "https://abcnews.com/US/doj-addendum-trump-settlement-bars-irs-auditing-family/story?id=133124367",
+        "https://www.newsweek.com/doj-order-blocks-irs-trump-tax-audits-settlement-expansion-11969515",
+        "https://www.cbsnews.com/news/todd-blanche-anti-weaponization-fund-order/"
+      ],
+      "matches_book": "PARTIAL. Part VII describes the family as 'forever barred' for any matter predating the agreement. As of 2026-08-03 the bar is retroactive-only in writing. The structure the book scores, a self-executing dismissal used to obtain an audit bar, still holds; its scope is now narrower and the /sabbot anchor text needs the August narrowing added."
+    },
+    {
+      "annex_id": "AX-003",
+      "title": "January 6 participants not excluded from fund eligibility",
+      "event_dates": {
+        "statement": "2026-05-19"
+      },
+      "what_is_established": "Acting Attorney General Blanche declined to rule out January 6 rioters receiving payouts from the fund. Senate Republicans objected. Senate Judiciary Democrats pressed Blanche on the point.",
+      "evidence_tag": "occurred",
+      "explicit_non_claim": "This is a refusal to exclude, NOT a decision to pay January 6 participants. No payment to a January 6 participant from this fund is established, and the fund was later rescinded. Coding this as a directed payment would be exactly the projection-stated-as-event failure Part III forbids.",
+      "locus_id": "LOCUS-DOJ-AWF",
+      "anchors": [
+        "S1"
+      ],
+      "sources": [
+        "https://www.huffpost.com/entry/anti-weaponization-fund-todd-blanche-jan-6_n_6a0c6ce0e4b00b2edf7d81de",
+        "https://www.padilla.senate.gov/newsroom/press-releases/padilla-schiff-senate-judiciary-democrats-press-todd-blanche-on-continued-abuse-of-taxpayer-funds-to-reward-trump-allies-january-6-insurrectionists/"
+      ]
+    },
+    {
+      "annex_id": "AX-004",
+      "title": "Judicial halt and compelled disclosure, then rescission of the fund",
+      "event_dates": {
+        "halt_order": "2026-05-29",
+        "doj_filings_fund_not_proceeding": "2026-06",
+        "rescission_order": "2026-08-03"
+      },
+      "what_is_established": "U.S. District Judge Leonie Brinkema, Eastern District of Virginia, halted work on the fund on 2026-05-29 and ordered Trump officials to disclose who set it up. Plaintiffs were Democracy Forward and Common Cause, filing for a former January 6 prosecutor terminated by DOJ and a professor previously acquitted of assaulting federal agents; grounds included a collusive agreement circumventing the Appropriations Clause, with separate suits raising the Domestic Emoluments Clause. Two Capitol Police officers also sued on 2026-05-20. DOJ argued in June filings that the fund was not proceeding. On the evening of 2026-08-03 Acting Attorney General Blanche issued an order stating that the 2026-05-18 order establishing the fund 'is rescinded and shall have no force or effect', and that no members were appointed, no funds were transferred, no claims process was established and no claims were paid. The order followed negotiations with Senators Tillis and Cornyn, who conditioned his confirmation on eliminating the fund in writing.",
+      "evidence_tag": "occurred",
+      "explicit_non_claim": "This is civil litigation with compelled discovery, NOT a criminal or judicial investigation into illegality. The distinction matters: a court ordering disclosure in a civil case is a different object from an investigation, and overstating it is the kind of error a hostile reader uses to void a row.",
+      "locus_id": "LOCUS-DOJ-AWF",
+      "anchors": [
+        "S3",
+        "S5"
+      ],
+      "sources": [
+        "https://www.newsweek.com/trump-anti-weaponization-fund-blocked-judge-hearing-next-steps-12008960",
+        "https://www.nbcnews.com/politics/trump-administration/judge-orders-trump-officials-disclose-names-anti-weaponization-fund-rcna596183",
+        "https://www.cbsnews.com/news/todd-blanche-anti-weaponization-fund-order/",
+        "https://www.nbcnews.com/politics/congress/acting-ag-todd-blanche-reaches-deal-holdout-senators-end-18b-anti-weap-rcna590525",
+        "https://www.cbsnews.com/news/todd-blanche-anti-weaponization-fund-order/"
+      ],
+      "sequence_note": "Order of events: fund ordered 05-18; suits 05-20 to 05-22; judicial halt and disclosure order 05-29; DOJ 'not proceeding' filings in June; written rescission 08-03. An earlier draft of this annex implied the rescission preceded the halt; it did not."
+    },
+    {
+      "annex_id": "AX-005",
+      "title": "Trump v. Boyle: removal of Consumer Product Safety Commission members permitted",
+      "event_dates": {
+        "district_order_stayed": "2025-06-13",
+        "stay_granted": "2025-07-23"
+      },
+      "what_is_established": "On 2025-07-23 the Supreme Court granted a stay in Trump v. Boyle, docket 25A11, 6-3, of the District of Maryland's 2025-06-13 order, permitting removal of CPSC members Mary Boyle, Alexander Hoehn-Saric and Richard Trumka Jr. Kagan dissented, joined by Sotomayor and Jackson; Kavanaugh concurred. Emergency docket, not a merits decision.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-SCOTUS-REMOVAL",
+      "anchors": [
+        "S4"
+      ],
+      "sources": [
+        "https://www.scotusblog.com/cases/case-files/trump-v-boyle"
+      ],
+      "correction": "This is the CONSUMER PRODUCT SAFETY Commission, not food safety. Federal food-safety capacity was reduced through FDA and USDA staffing actions, which are administrative and belong in a separate row with their own anchors. Conflating the two puts a checkable error into the register."
+    },
+    {
+      "annex_id": "AX-006",
+      "title": "Trump v. Slaughter: Humphrey's Executor overruled",
+      "event_dates": {
+        "decision": "2026-06-29"
+      },
+      "what_is_established": "On 2026-06-29 the Supreme Court held 6-3 that for-cause removal protections for heads of agencies exercising executive power violate separation of powers, overruling Humphrey's Executor. Affected bodies include the FTC, Consumer Product Safety Commission, Nuclear Regulatory Commission, FERC, Federal Labor Relations Authority, FEC and Surface Transportation Board. Carve-outs: bodies exercising no part of the executive power such as GAO, investigative-only oversight boards, non-Article III courts, and the Federal Reserve Board of Governors as a special arrangement sanctioned by history. The dissent records that the government conceded the majority's logic extends to inferior officers and perhaps to career civil servants, and the majority did not disavow that concession. Arnold & Porter's July 2026 advisory states the decision reaches heads of multi-member independent agencies exercising rulemaking, adjudication and civil enforcement power, naming the FTC, SEC and CFTC, with the Federal Reserve carved out on grounds of unique historical status rather than function.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-SCOTUS-REMOVAL",
+      "anchors": [
+        "S4"
+      ],
+      "sources": [
+        "https://www.sidley.com/en/insights/newsupdates/2026/06/the-end-of-the-independent-agency-supreme-court-overrules-humphreys-executor",
+        "https://www.npr.org/2026/06/29/nx-s1-5816232/supreme-court-ftc-independent-agencies-humphreys-executor",
+        "https://www.arnoldporter.com/en/perspectives/advisories/2026/07/the-end-of-for-cause-removal-supreme-court-reshapes-removal-protections"
+      ],
+      "scope_note": "The holding covers multi-member independent agencies. It does not by its terms reach food-safety or food-and-agriculture bodies, whose senior officials are presidential appointees already removable at will, nor does it expressly reach Inspectors General or administrative law judges. The load-bearing expansion for the register is the uncontested concession about inferior officers and career civil servants, which is on the record from the government's own submission and is a firmer anchor than any inferred extension."
+    },
+    {
+      "annex_id": "AX-007",
+      "title": "Learning Resources v. Trump: IEEPA tariffs held unauthorized",
+      "event_dates": {
+        "decision": "2026-02-20"
+      },
+      "what_is_established": "On 2026-02-20 the Supreme Court held 6-3 in Learning Resources, Inc. v. Trump, docket 24-1287, that IEEPA does not authorize the President to impose tariffs; authority to regulate importation does not reach tariff-setting, a core Article I taxing function. Roberts wrote the majority, joined in relevant parts by Sotomayor, Kagan, Gorsuch, Barrett and Jackson. Thomas and Kavanaugh dissented, Alito joining Kavanaugh. The opinion did not address refunds of tariffs already collected.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-SCOTUS-TARIFF",
+      "anchors": [
+        "S5",
+        "control"
+      ],
+      "sources": [
+        "https://supreme.justia.com/cases/federal/us/607/24-1287/",
+        "https://www.supremecourt.gov/opinions/25pdf/24-1287_4gcj.pdf",
+        "https://www.congress.gov/crs-product/LSB11398"
+      ],
+      "why_this_item_matters_most": "This is a Supreme Court decision AGAINST the administration's largest economic action, from the same Court that expanded removal power. It is the single most useful item in this annex, because it is a discriminating datum: it shows the judicial locus is not uniformly directional. An instrument that cannot represent this cannot claim to be measuring rather than asserting."
+    },
+    {
+      "annex_id": "AX-008",
+      "title": "Canada tariffs re-imposed under Section 338 after the IEEPA ruling",
+      "event_dates": {
+        "proclamations_signed": "2026-07-20",
+        "us_tariffs_effective": "2026-08-22",
+        "us_effective_date_delayed_from": "2026-08-19",
+        "canada_counter_tariffs_announced": "2026-08",
+        "canada_counter_tariffs_effective": "2026-09-08"
+      },
+      "what_is_established": "Following the IEEPA ruling, three presidential proclamations signed 2026-07-20 imposed 50 percent tariffs on a broad range of Canadian products, effective 2026-08-22 after a delay from 2026-08-19, invoking Section 338 of the Tariff Act of 1930. Canada announced counter-tariffs in August 2026, effective 2026-09-08: tiered at 15, 25 and 50 percent across approximately C$27.6 billion of U.S. imports spanning 629 HS codes, including steel, dairy, appliances, agricultural equipment, pulp, paper and electronics, with certain existing 25 percent tariffs raised to 50 percent to match the U.S. rates. Trump set out further moves after the Canadian measures took effect, and separately stated he was raising the new global tariff rate to 15 percent after the Supreme Court loss.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether Section 338 supplies lawful authority for these tariffs is unresolved and in litigation commentary.",
+          "source": "https://www.lawcommentary.com/articles/trump-section-338-canada-tariffs-supreme-court"
+        }
+      ],
+      "locus_id": "LOCUS-TARIFF-CANADA",
+      "anchors": [
+        "T2-TARIFF"
+      ],
+      "sources": [
+        "https://www.blakes.com/insights/us-canada-tariffs-timeline-of-key-dates-and-documents/",
+        "https://abcnews.com/Business/trumps-proposed-tariffs-canada-hurtle-deadline-amid-trade/story?id=135833861",
+        "https://www.canada.ca/en/department-finance/news/2026/08/list-of-products-from-the-united-states-subject-to-counter-tariffs-effective-september-8-2026.html",
+        "https://edition.cnn.com/2026/09/07/economy/trump-carney-canada-us-trade-war",
+        "https://www.whitehouse.gov/fact-sheets/2026/07/fact-sheet-president-donald-j-trump-imposes-additional-tariffs-on-canada/",
+        "https://www.fasken.com/en/knowledge/2026/02/us-supreme-court-rejects-ieepa-tariffs"
+      ],
+      "note_for_T2": "The re-imposition under a second statute after the first was struck is a candidate S3 anti-remediation anchor: the cheapest available fix was to accept the ruling. It cuts against the predicted low S1, so T2's prediction should be locked with this item already in view.",
+      "amended": "2026-09-12: dates corrected. The first draft recorded the action as July 2026 from a White House fact sheet date; the proclamations were signed 2026-07-20 and the tariffs took effect 2026-08-22. The escalation is an August and September event, not a July one."
+    },
+    {
+      "annex_id": "AX-009",
+      "title": "Strikes on Iran without congressional authorization",
+      "event_dates": {
+        "joint_strikes": "2026-02-28",
+        "further_strikes": "2026-06-28"
+      },
+      "what_is_established": "Joint U.S.-Israel airstrikes on 2026-02-28 resulted in the death of Iranian Supreme Leader Ali Khamenei. Further U.S. strikes were reported 2026-06-28. Trump asserted Commander in Chief authority; Rubio stated congressional leadership was notified and that no law required it. Congress did not authorize the strikes; H.J.Res.176, a 2026 AUMF against Iran, was introduced. Oona Hathaway called the strikes blatantly illegal under U.S. and international law; Peter Shane noted the constitutional question is disputed.",
+      "evidence_tag": "occurred",
+      "explicit_non_claim": "That strikes occurred without authorization is established. Calling it a war is a contested legal characterization, not a documented fact, and should be tagged contested if it appears in a row.",
+      "locus_id": "LOCUS-IRAN",
+      "anchors": [
+        "S7"
+      ],
+      "sources": [
+        "https://www.factcheck.org/2026/03/legality-of-latest-iran-attack-in-question/",
+        "https://www.congress.gov/bill/119th-congress/house-joint-resolution/176/text",
+        "https://www.aljazeera.com/news/2026/6/28/us-strikes-iran-for-second-day-is-it-a-violation-of-war-powers-resolution"
+      ]
+    },
+    {
+      "annex_id": "AX-010",
+      "title": "Maritime strike campaign on alleged drug vessels",
+      "event_dates": {
+        "first_strike": "2025-09-02",
+        "count_as_of": "2026-08-26"
+      },
+      "what_is_established": "68 strikes and 227 deaths including 23 missing and presumed dead, with 3 known survivors, as of 2026-08-26. Two War Powers resolutions failed in December 2025; a Senate joint resolution on Venezuela advanced 52-47 on 2026-01-08 and failed 50-50 on 2026-01-14 with the Vice President breaking the tie. The UN Security Council held an emergency meeting 2025-12-23; four UN experts condemned the naval blockade on 2025-12-24 as illegal armed aggression. Families of men killed have brought wrongful-death claims; the ACLU filed on behalf of families of Trinidadian men killed in a strike; a family of dead fishermen has alleged murder.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether specific victims were fishermen rather than traffickers is disputed per strike and is the subject of active litigation. The aggregate death figure is not disputed; the characterization of individual victims is.",
+          "source": "https://www.courthousenews.com/family-of-dead-fishermen-claim-murder-in-venezuela-missile-strike/"
+        }
+      ],
+      "could_not_verify": "The claim that the munitions used cost roughly one million dollars each was not established by any source located. Munition type and unit cost should be dropped from any row unless a procurement or DoD source is produced. An unsourced cost figure in a row about deaths is the fastest way to lose the row.",
+      "locus_id": "LOCUS-MARITIME-STRIKES",
+      "anchors": [
+        "S7",
+        "S8"
+      ],
+      "sources": [
+        "https://www.justsecurity.org/124002/timeline-vessel-strikes-related-actions/",
+        "https://www.cbsnews.com/news/death-toll-us-strikes-alleged-drug-boats-climbs-above-200-eastern-pacific-caribbean/",
+        "https://www.aclu.org/press-releases/families-of-trinidadian-men-killed-in-illegal-boat-strike-sue-trump-administration",
+        "https://www.aljazeera.com/news/2026/3/17/us-confirms-157-killed-in-maritime-strikes-experts-call-extrajudicial",
+        "https://politifact.com/article/2026/jun/02/us-boat-drugs-strikes-venezuela/"
+      ]
+    },
+    {
+      "annex_id": "AX-011",
+      "title": "Mail-voting executive order and its litigation",
+      "event_dates": {
+        "multistate_suit": "2025-04-03",
+        "scotus_partial_stay": "2026-08-24"
+      },
+      "what_is_established": "Nineteen states sued over the elections executive order on 2025-04-03, arguing it is unconstitutional. A federal court blocked the U.S. Postal Service from implementing the order's mail-voting restrictions. On 2026-08-24 the Supreme Court lifted one of two injunctions, allowing the order to move forward in part pending challenges; the administration subsequently asked the Court to clear the way for full implementation.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-ELECTIONS-EO",
+      "anchors": [
+        "S1",
+        "S3"
+      ],
+      "sources": [
+        "https://www.votebeat.org/national/2026/08/24/supreme-court-lifts-stay-trump-executive-order-on-elections-mail-ballot-restrictions/",
+        "https://www.aclu.org/press-releases/federal-court-blocks-u-s-postal-service-from-implementing-executive-order-restricting-mail-voting",
+        "https://www.scotusblog.com/2026/08/supreme-court-allows-trump-administration-to-move-forward-with-order-imposing-restrictions-on-ma/",
+        "https://www.npr.org/2025/04/03/nx-s1-5351751/voting-executive-order-lawsuit."
+      ]
+    },
+    {
+      "annex_id": "AX-012",
+      "title": "The $2,000 tariff dividend promised and not delivered",
+      "event_dates": {
+        "promise": "2025-11-17",
+        "non_delivery_reported": "2026"
+      },
+      "what_is_established": "Trump promised $2,000 tariff dividend checks by mid-2026, announced 2025-11-17. ABC News reported ten months later that they had not materialized. CNBC reported on 2026-02-23 that experts put the odds at effectively zero.",
+      "evidence_tag": "occurred",
+      "locus_id": "LOCUS-DIVIDEND",
+      "anchors": [
+        "S5"
+      ],
+      "sources": [
+        "https://abcnews.com/Politics/trump-promised-2000-tariff-dividends-materialized-10-months/story?id=136329468",
+        "https://www.axios.com/2025/11/17/2000-tariff-dividend-trump-check-2026",
+        "https://www.cnbc.com/2026/02/23/trumps-2000-tariff-dividend-checks-are-less-likely-experts-say.html"
+      ],
+      "why_stronger_than_the_5k_item": "Non-delivery against a dated public commitment is a documented event. A promise not yet due is not."
+    },
+    {
+      "annex_id": "AX-013",
+      "title": "The $5,000 payment promise conditioned on a Republican congressional win",
+      "event_dates": {
+        "statement": "2026-09-10"
+      },
+      "what_is_established": "On 2026-09-10 Trump promised $5,000 payments conditioned on Republicans keeping control of Congress. The proposal drew bipartisan criticism, including Republican figures calling it vote-buying. Legal scholars publicly analysed how federal anti-bribery law applies. NBC News and CNBC reported the plan as impractical and over $1 trillion in cost.",
+      "evidence_tag": "occurred",
+      "explicit_non_claim": "That the promise was made is established. That it is illegal is an argued legal question raised by commentators, not an adjudicated fact, and must be tagged contested. No enforcement action is established.",
+      "locus_id": "LOCUS-DIVIDEND",
+      "anchors": [
+        "S5"
+      ],
+      "sources": [
+        "https://theconversation.com/how-anti-bribery-laws-apply-to-trumps-promise-of-5-000-payments-if-republicans-keep-control-of-congress-291722",
+        "https://www.cnn.com/2026/09/10/politics/trump-check-dividends-5000",
+        "https://www.nbcnews.com/politics/2026-election/5000-dividend-republicans-win-fall-unrealistic-rcna597097",
+        "https://www.cnbc.com/2026/09/10/trump-dividend-midterms-gop.html"
+      ]
+    },
+    {
+      "annex_id": "AX-014",
+      "title": "Hospital closures and coverage loss",
+      "event_dates": {
+        "closures_reported": "2026",
+        "analyses": "2026-04 to 2026-07"
+      },
+      "what_is_established": "Becker's reported four hospital closures in 2026. Urban Institute and Robert Wood Johnson Foundation published analysis of hospital financial and workforce strain under OBBBA in July 2026. Michigan reporting describes rural hospitals closing or reducing service after Medicaid cuts.",
+      "evidence_tag": "occurred",
+      "projected_component": "Figures in the hundreds are AT RISK counts, not closures: a Forbes analysis puts 446 hospitals at risk; a separate analysis put 55 additional rural hospitals at risk. CBO-class coverage figures, including 2.2 million losing insurance in 2026 if enhanced ACA subsidies expire, are projections on stated horizons.",
+      "tagging_rule": "The four closures are occurred. Everything in the hundreds or millions is projected and must carry that tag every time it appears. This is the row where a single slip voids the section, because it is the row a hostile reviewer checks first.",
+      "locus_id": "LOCUS-HEALTH-COVERAGE",
+      "anchors": [
+        "OBBBA"
+      ],
+      "sources": [
+        "https://www.beckershospitalreview.com/finance/4-hospital-closures-in-2026/",
+        "https://www.urban.org/sites/default/files/2026-07/How_Will_the_Changing_Federal_Policy_Landscape_Affect_Hospitals.pdf",
+        "https://hitconsultant.net/2026/07/30/urban-institute-rwjf-report-obbba-hospital-financial-impact/",
+        "https://www.forbes.com/sites/jessepines/2026/04/30/trumps-beautiful-bill-puts-400-hospitals-at-risk-of-closing-heres-the-full-list/",
+        "https://www.aha.org/news/headline/2024-12-06-cbo-22-million-consumers-will-lose-insurance-2026-if-aca-enhanced-premium-subsidies-expire"
+      ]
+    },
+    {
+      "annex_id": "AX-015",
+      "title": "Federal food-safety capacity reduced by administrative action",
+      "event_dates": {
+        "advisory_committees_terminated": "2025-03-07",
+        "staff_cut_window": "2025-01 to 2025-06",
+        "complaint_figures_reported": "2026-05-13",
+        "risk_analysis": "2026-02-16"
+      },
+      "what_is_established": "The National Advisory Committee on Microbiological Criteria for Foods, established 1988, and the National Advisory Committee on Meat and Poultry Inspection, established 1971, were terminated as of 2025-03-07, with no statement issued by the administration or any federal public health agency at the time. NACMCF had been reviewing regulatory approaches to Listeria monocytogenes after the Boar's Head outbreak and Cronobacter in infant formula. USDA reduced its workforce by 18 percent between January and June; the Food Safety and Inspection Service lost about 9 percent of its staff and did not recover the 775 employees it lost. Consumer complaints on meat, poultry and egg products rose nearly 40 percent, from 1,443 to 2,016. FDA fired and then moved to rehire some human-foods staff.",
+      "evidence_tag": "occurred",
+      "correlation_not_causation": "The complaint increase alongside the staffing reduction is a measured co-occurrence. The reporting does not establish a causal relationship and neither does this record. Any row using both figures carries the correlation tag, and causal language is available only with temporal precedence, a documented mechanism, and confounds eliminated.",
+      "why_this_is_the_right_row": "This is what the food-safety claim actually rests on, and it is a separate decision locus from the judicial one. It is also a cleaner S2 anchor than any removal ruling: an advisory committee terminated with no public statement, while the enforcement and inspection apparatus continues operating, is precisely the selectivity S2 reads. Attaching it to the judicial locus would both misstate the holding and lose an independent locus, which is the one quantity the register cannot spare.",
+      "locus_id": "LOCUS-FOOD-SAFETY",
+      "anchors": [
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "sources": [
+        "https://www.food-safety.com/articles/10196-key-federal-food-safety-advisory-committees-nacmcf-and-nacmpi-have-been-terminated",
+        "https://investigatemidwest.org/2026/05/13/after-usda-cuts-complaints-over-food-safety-spike/",
+        "https://www.foodnavigator.com/Article/2026/02/16/fda-and-usda-staff-cuts-under-trump-raise-food-safety-risks/",
+        "https://www.food-safety.com/articles/10158-fda-moves-to-rehire-some-human-foods-staffers-who-were-previously-fired",
+        "https://www.food-safety.com/articles/11004-a-2025-timeline-of-us-federal-food-safety-changes-under-the-trump-admin"
+      ]
+    }
+  ],
+  "locus_summary": {
+    "LOCUS-DOJ-AWF": "One locus. Four annex items, one decision chain.",
+    "LOCUS-SCOTUS-REMOVAL": "One locus. Boyle and Slaughter are the same Court on the same question.",
+    "LOCUS-SCOTUS-TARIFF": "One locus, opposite direction from the removal locus.",
+    "LOCUS-TARIFF-CANADA": "One locus.",
+    "LOCUS-IRAN": "One locus.",
+    "LOCUS-MARITIME-STRIKES": "One locus for the campaign; individual strikes are not independent decisions.",
+    "LOCUS-ELECTIONS-EO": "One locus.",
+    "LOCUS-DIVIDEND": "One locus.",
+    "LOCUS-HEALTH-COVERAGE": "One locus.",
+    "effective_n_if_treated_as_a_sample": 10,
+    "reading": "Fifteen verified items collapse to ten independent loci, and one of the ten runs counter-directional. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. Note that separating the food-safety chain from the judicial line ADDED a locus, which is the only way the annex gains power: by finding genuinely independent decision points, never by adding items to loci already represented.",
+    "LOCUS-FOOD-SAFETY": "One locus. Administrative, not judicial. Independent of the removal line."
+  },
+  "revision": "1.2 \u2014 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order: no money was ever transferred, and the audit bar was narrowed to retroactive-only. AX-006 scope clarified, AX-008 dates corrected, AX-015 added."
+}

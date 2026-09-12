@@ -1,0 +1,29 @@
+{
+  "_note": "Onset = first epoch at which the composite reaches 70, computed from the canonical three-epoch per-dimension scores in toroid.fyi sabbot/data/sabbotarchy.json v0.8 (2025-Q1, 2025-Q3, 2026-Q1). Reform-lineage controls have no epoch series and no onset.",
+  "observed": {
+    "transition_epoch": "2025-Q1",
+    "onsets": {
+      "IRS": "2025-Q3",
+      "DOGE": "2025-Q1",
+      "REGROLL": "2025-Q3",
+      "OBBBA": "2025-Q3",
+      "ICE": "2025-Q3",
+      "NIH": "2025-Q3",
+      "VA": "2025-Q3"
+    }
+  },
+  "baselines": [],
+  "baselines_required": {
+    "minimum_for_any_p": 6,
+    "rationale": "A rank-based p against B matched baselines cannot fall below 1/(B+1). With three baselines the floor is 0.25. The synchrony layer therefore reports nothing at all until at least six matched prior transitions of comparable scope have been scored on the same rubric.",
+    "candidate_transitions_to_score": [
+      "1981-Q1 transition",
+      "1993-Q1 transition",
+      "2001-Q1 transition",
+      "2009-Q1 transition",
+      "2017-Q1 transition",
+      "2021-Q1 transition"
+    ],
+    "note": "Scoring six historical transitions is the whole cost of making the synchrony claim reportable. It is also, per Part IV, the only thing that makes the coordination reading capable of being disconfirmed, since the baseline is what can take the claim away."
+  }
+}

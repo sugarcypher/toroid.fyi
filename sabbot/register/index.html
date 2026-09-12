@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obfuscratic Instance Register v1.3 · toroid.fyi</title>
+<meta name="description" content="The instance layer beneath the Obfuscratic Asymmetry architecture scores: content-blind frames, the locus rule, the cluster-robust directional test, a sourced evidence annex, and the layers that refuse to report. © ThinkWell Labs.">
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved.">
+<meta property="og:title" content="Obfuscratic Instance Register · toroid.fyi">
+<meta property="og:description" content="An event layer beneath the architecture scores: dated instances drawn from content-blind frames, carrying no composite, testing whether ordinary administrative failure keeps a direction across independent decision loci.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://toroid.fyi/sabbot/register/">
+<style>
+:root{
+  --ground:#f5f3ec; --surface:#fefdf7; --surface-sunk:#f9f7f0;
+  --ink:#1c1c1c; --ink-soft:#333; --muted:#555; --faint:#888;
+  --rule:rgba(0,0,0,0.18); --rule-soft:rgba(0,0,0,0.10);
+  --accent:#1e40af; --accent-soft:#e8edf8;
+  --refuse:#b45309; --refuse-soft:#fbf1e6;
+  --valid:#0d9488; --valid-soft:#e3f3f1;
+  --invalid:#b91c1c; --invalid-soft:#f9e8e8;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--ground);color:var(--ink);
+  font-family:'Inter',-apple-system,system-ui,sans-serif;
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:20px;padding-block:32px 80px;
+  display:flex;flex-direction:column;gap:52px;}
+.col{max-width:66ch;}
+h1,h2,h3{text-wrap:balance;margin:0;font-weight:600;letter-spacing:-0.01em;}
+h1{font-size:clamp(1.9rem,4.6vw,2.6rem);line-height:1.12;}
+h1 .version{font-family:'SF Mono',Menlo,monospace;font-size:.7rem;font-weight:500;color:var(--faint);margin-left:10px;letter-spacing:.08em;vertical-align:middle;}
+h2{font-size:1.35rem;line-height:1.25;}
+h3{font-size:1.02rem;}
+p{margin:0;}
+.lede{font-size:1.1rem;line-height:1.55;color:var(--ink-soft);}
+.mono,.k,th,td.n,.chip,.meta,.bread{font-family:'SF Mono',Menlo,ui-monospace,monospace;}
+.k{font-size:.68rem;text-transform:uppercase;letter-spacing:.14em;color:var(--faint);font-weight:500;}
+.bread{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
+.bread a{color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--rule);}
+.bread a:hover{color:var(--ink);border-bottom-style:solid;}
+.bread .sep{margin:0 8px;}
+.stack{display:flex;flex-direction:column;gap:16px;}
+.stack-s{display:flex;flex-direction:column;gap:9px;}
+header.top{display:flex;flex-direction:column;gap:20px;}
+.meta{font-size:.74rem;color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 20px;border-top:1px solid var(--rule-soft);padding-top:14px;}
+.meta b{color:var(--muted);font-weight:500;}
+.notice{background:var(--refuse-soft);border-left:3px solid var(--refuse);padding:16px 20px;display:flex;flex-direction:column;gap:8px;}
+.notice .k{color:var(--refuse);}
+.notice p{font-size:.92rem;color:var(--ink-soft);max-width:74ch;}
+section{display:flex;flex-direction:column;gap:22px;}
+.sechead{display:flex;flex-direction:column;gap:8px;border-top:2px solid var(--ink);padding-top:14px;}
+.readout{background:var(--surface);border:1px solid var(--rule-soft);display:flex;flex-direction:column;}
+.readout.refused{border-left:3px solid var(--refuse);}
+.readout.reportable{border-left:3px solid var(--valid);}
+.readout.demo{border-left:3px solid var(--accent);}
+.rhead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 18px;padding:16px 20px;border-bottom:1px solid var(--rule-soft);}
+.rbody{padding:18px 20px;display:flex;flex-direction:column;gap:16px;}
+.rbody p{font-size:.94rem;color:var(--ink-soft);max-width:76ch;}
+.chip{font-size:.64rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600;padding:3px 9px;white-space:nowrap;border-radius:2px;}
+.chip.r{background:var(--refuse-soft);color:var(--refuse);}
+.chip.v{background:var(--valid-soft);color:var(--valid);}
+.chip.d{background:var(--accent-soft);color:var(--accent);}
+.chip.x{background:var(--invalid-soft);color:var(--invalid);}
+.scroll{overflow-x:auto;max-width:100%;}
+table{border-collapse:collapse;width:100%;font-size:.86rem;}
+th{text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;font-weight:600;color:var(--faint);padding:7px 14px 7px 0;border-bottom:1px solid var(--rule);white-space:nowrap;vertical-align:bottom;}
+td{padding:9px 14px 9px 0;border-bottom:1px solid var(--rule-soft);vertical-align:top;}
+td.n,th.n{font-variant-numeric:tabular-nums;text-align:right;padding-right:0;}
+tr:last-child td{border-bottom:none;}
+td.name{color:var(--ink);font-weight:500;}
+td small{display:block;color:var(--muted);font-size:.78rem;line-height:1.45;font-family:'Inter',-apple-system,system-ui,sans-serif;}
+.flag{color:var(--refuse);font-weight:600;}
+.good{color:var(--valid);font-weight:600;}
+.bad{color:var(--invalid);font-weight:600;}
+.pairs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2px;background:var(--rule-soft);}
+.pair{background:var(--surface-sunk);padding:12px 14px;display:flex;flex-direction:column;gap:3px;}
+.pair .v{font-family:'SF Mono',Menlo,monospace;font-size:1.1rem;font-variant-numeric:tabular-nums;color:var(--ink);}
+.pair .v.sm{font-size:.9rem;line-height:1.4;}
+.quote{border-left:2px solid var(--rule);padding-left:16px;font-style:italic;color:var(--ink-soft);font-size:1rem;max-width:68ch;}
+ol.lock{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:10px;font-size:.94rem;color:var(--ink-soft);max-width:76ch;}
+ol.lock strong{color:var(--ink);font-weight:600;}
+footer.reg{border-top:1px solid var(--rule-soft);padding-top:20px;font-size:.84rem;color:var(--muted);display:flex;flex-direction:column;gap:10px;max-width:78ch;}
+footer.reg .legal{font-family:'SF Mono',Menlo,monospace;font-size:.7rem;color:var(--faint);letter-spacing:.04em;}
+a{color:var(--accent);}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.dl{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.84rem;}
+.dl a{text-decoration:none;border-bottom:1px dotted var(--accent);}
+@media (max-width:560px){.wrap{padding-block:24px 56px;gap:40px;}.rhead,.rbody{padding:14px 15px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="bread" aria-label="Breadcrumb"><a href="/">surface</a><span class="sep">/</span><a href="/system/">the system</a><span class="sep">/</span><a href="/sabbot/">sabbot</a><span class="sep">/</span>register</nav>
+
+<header class="top">
+  <div class="stack-s">
+    <span class="k">ThinkWell Labs Metrology · instance layer · nothing locked · companion to <a href="/sabbot/" style="color:var(--muted)">the deception arcane</a> and <a href="/book/" style="color:var(--muted)">Named and Counted</a></span>
+    <h1>Obfuscratic Instance Register<span class="version">v1.3</span></h1>
+  </div>
+  <p class="lede col">An event layer beneath the architecture scores. Dated instances drawn from content-blind frames, carrying no composite, testing one thing: whether the residue of ordinary administrative failure keeps a direction across independent decision loci.</p>
+  <div class="meta">
+    <span><b>Compiled</b> 2026-09-12</span>
+    <span><b>Instrument</b> Obfuscratic Asymmetry, five signatures</span>
+    <span><b>Weights</b> 0.25 · 0.20 · 0.15 · 0.10 · 0.30</span>
+    <span><b>Threshold</b> 70 index points</span>
+    <span><b>Instances coded</b> 0</span>
+    <span><b>Verified annex items</b> 15</span>
+  </div>
+</header>
+
+<div class="notice">
+  <span class="k">What is on this page</span>
+  <p>No synthetic figures. The annex items below were verified against published reporting and each carries its sources, its evidence tag, and where relevant the part of the claim that is <i>not</i> established. The architecture figures are computed from the canonical three-checkpoint per-dimension scores in the live instrument's own data file (<span class="mono">sabbot/data/sabbotarchy.json</span>, v0.8), which the book says to trust over itself where they differ; nothing was reconstructed to fit a published composite. The instance corpus is empty, because no frame has been locked and coding has not begun. Two layers report nothing at all, and say why.</p>
+</div>
+
+<section>
+  <div class="sechead col">
+    <span class="k">The structural change</span>
+    <h2>Thousands of instances are not thousands of architectures</h2>
+  </div>
+  <div class="stack col">
+    <p>The architecture register answers <i>is this asymmetric</i>. It grows slowly, from a pre-registered slate, and every member carries a band prediction locked before scoring. Adding architectures because they already score high does not strengthen the breadth finding; Part IV states it converts breadth into a measure of the analyst's attention.</p>
+    <p>The instance layer answers a different question and can carry volume, because nothing in it requires a five-dimension judgment per item. An instance needs a date, a decision locus, a stated beneficiary class, a realized incidence class, a direction sign, an evidence tag, and a source. The null is the concession the book makes at the door:</p>
+    <p class="quote">Ordinary failure is symmetric, slow, and uncoordinated. Fatigue keeps no direction and no appointments.</p>
+    <p>Which puts the test on the null's own ground. A corpus of ordinary administrative output is where symmetry should hold, so departure from symmetry there is the residue the book names, and no departure is a disconfirmation worth publishing.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">The constraint that decides whether volume is worth anything</span>
+    <h2>Power lives in loci, not items</h2>
+  </div>
+  <div class="stack col">
+    <p>Instances inside one decision locus are dependent by construction. Three hundred stories about one reconciliation bill are one locus and one instance; forty final rules implementing one statute are one locus, because the statute decided them. Forty rules from forty agencies under separate authorities are forty loci.</p>
+    <p><b>A register of 3,000 items spanning 40 loci has the statistical power of 40.</b> Coding effort belongs in widening the locus span, never in deepening coverage of loci already represented. Where a locus boundary is arguable the rule is to collapse to the coarser unit, which can only weaken the claim.</p>
+    <p>The verified annex on this page is the illustration. Fifteen items, ten independent loci, and one of the ten running counter-directional. It gained a locus this revision by <i>separating</i> the food-safety chain from the judicial line, which is the only way an annex gains power.</p>
+  </div>
+  <div class="pairs">
+    <div class="pair"><span class="k">Unit of independence</span><span class="v sm">decision locus</span></div>
+    <div class="pair"><span class="k">Valid test</span><span class="v sm">cluster sign-flip permutation</span></div>
+    <div class="pair"><span class="k">Refused as a finding</span><span class="v sm">per-instance binomial p</span></div>
+    <div class="pair"><span class="k">Annex effective n</span><span class="v sm">10 loci, 1 counter</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">Frame enumeration, executed 2026-09-12</span>
+    <h2>What the sources actually return</h2>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Frame</th><th>Status</th><th class="n">Population</th><th>What remains</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="name mono">FRM-FR-FINALRULES<small>Federal Register final rules. Open API, no key, count returned directly.</small></td>
+        <td><span class="chip v">Enumerated</span></td>
+        <td class="n">1,272<small>2025 H2 · 2,441 for calendar 2025</small></td>
+        <td>Fix the sampling <i>n</i>, then lock a direction-share prediction.</td>
+      </tr>
+      <tr>
+        <td class="name mono">FRM-OIG-2025<small>oversight.gov. Drafted path was wrong and 404s; the index lives at /reports/federal.</small></td>
+        <td><span class="chip d">Reachable</span></td>
+        <td class="n">35,963<small>unfiltered corpus</small></td>
+        <td>The date-filter parameter names were not captured; a guessed query returned the unfiltered count. One browser pass with Date Issued set and 100 per page yields the URL that becomes the rule verbatim.</td>
+      </tr>
+      <tr>
+        <td class="name mono">FRM-GAO-2025<small>gao.gov disallows automated fetching of the index by robots.txt.</small></td>
+        <td><span class="chip r">Blocked</span></td>
+        <td class="n">—</td>
+        <td>Route through the GovInfo GAOREPORTS collection API instead, which is mechanically reproducible by a third party. Needs a free api.data.gov key.</td>
+      </tr>
+      <tr>
+        <td class="name mono">FRM-USASPENDING-TERM<small>Search endpoints require an HTTP POST with a JSON filter body.</small></td>
+        <td><span class="chip r">Not executed</span></td>
+        <td class="n">—</td>
+        <td>One POST to the transaction-search endpoint, or the bulk download API. The exact request body is recorded in the frame file. Termination action-type codes must be fixed at lock, not chosen after seeing the data.</td>
+      </tr>
+      <tr>
+        <td class="name mono">FRM-SCOTUS-EMERGENCY<small>New. Every order on an emergency application filed by the federal government since 2025-01-20.</small></td>
+        <td><span class="chip d">Drafted</span></td>
+        <td class="n">—</td>
+        <td>Settle the locus question first: if every order from one Court is one locus, effective <i>n</i> is 1 and the frame is not worth coding. The defensible reading is that the locus is the agency action under review.</td>
+      </tr>
+    </tbody>
+  </table></div>
+  <p class="col" style="font-size:.94rem;color:var(--ink-soft);">The fifth frame was drafted because the verified material clusters on the judicial locus, and that locus is both enumerable and content-blind. It is also the only frame that <b>demonstrably contains a counter-directional item before coding begins</b>, which is the strongest answer to the cherry-picking charge the project can make.</p>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">Verified evidence annex · anchor-only</span>
+    <h2>Fifteen items, sourced and tagged</h2>
+  </div>
+  <p class="col" style="font-size:.94rem;color:var(--ink-soft);">These were selected by salience, not drawn by a frame, so they may anchor architecture-level signature scores and may be rendered as illustration, but they <b>cannot enter the directional test</b>. A set assembled by noticing cannot answer the selection charge. That is what the frames are for.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Locus</th><th>Item</th><th>Date</th><th>Tag</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">DOJ-AWF</td><td class="name">Trump v. IRS suit dismissed; $1.776B Anti-Weaponization Fund ordered<small>$10B claimed under §7431 on a per-view theory; voluntary dismissal as of right two days before a deadline; Judgment Fund transfer directed by the Acting Attorney General.</small></td><td class="mono">2026-01-29 → 05-18</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">DOJ-AWF</td><td class="name">DOJ addendum bars IRS audit of Trump and family; narrowed in August<small>Reported in May as a "forever" bar. The 3 Aug rescission order restricts it to claims that existed at settlement, so it no longer shelters future filings. The surviving capture is retroactive-only, narrower than Part VII describes.</small></td><td class="mono">2026-05 → 08-03</td><td><span class="chip v">Occurred</span> <span class="chip d">Contested</span></td></tr>
+      <tr><td class="mono">DOJ-AWF</td><td class="name">January 6 participants not excluded from eligibility<small>A refusal to exclude, <b>not</b> a decision to pay. No payment to anyone is established: the 3 Aug rescission order states no funds were ever transferred and no claims were paid.</small></td><td class="mono">2026-05-19</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">DOJ-AWF</td><td class="name">Fund halted; officials ordered to disclose who set it up; fund rescinded in writing<small>Judge Brinkema, E.D. Va., 29 May: civil litigation with compelled discovery, <b>not</b> an investigation. 3 Aug: Blanche's order rescinds the 18 May order "with no force or effect" — no members appointed, no funds transferred, no claims paid — after Senators Tillis and Cornyn conditioned his confirmation on it.</small></td><td class="mono">2026-05-29 → 08-03</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">SCOTUS-REMOVAL</td><td class="name">Trump v. Boyle: removal of Consumer Product Safety commissioners permitted<small>6-3 emergency stay, docket 25A11. Kagan dissenting with Sotomayor and Jackson. <b>Product safety, not food safety.</b></small></td><td class="mono">2025-07-23</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">SCOTUS-REMOVAL</td><td class="name">Trump v. Slaughter: Humphrey's Executor overruled<small>6-3. Reaches heads of multi-member independent agencies exercising rulemaking, adjudication and civil enforcement power. Federal Reserve carved out on historical grounds. <b>The dissent records that the government conceded the logic extends to inferior officers and perhaps career civil servants, and the majority did not disavow it.</b></small></td><td class="mono">2026-06-29</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">SCOTUS-TARIFF</td><td class="name">Learning Resources v. Trump: IEEPA does not authorize tariffs<small>6-3 against the administration. Roberts, joined in relevant parts by Sotomayor, Kagan, Gorsuch, Barrett and Jackson. <b>Codes counter-directional.</b></small></td><td class="mono">2026-02-20</td><td><span class="chip x">Counter</span></td></tr>
+      <tr><td class="mono">TARIFF-CANADA</td><td class="name">Canada tariffs re-imposed at 50%; Canadian counter-tariffs follow<small>Three proclamations signed 20 Jul; tariffs effective 22 Aug after a delay from 19 Aug. Canada retaliated 8 Sept at 15/25/50% across ~C$27.6B and 629 HS codes, raising some existing 25% lines to 50% to match. §338 authority itself unresolved.</small></td><td class="mono">2026-08-22 → 09-08</td><td><span class="chip v">Occurred</span> <span class="chip d">Contested</span></td></tr>
+      <tr><td class="mono">IRAN</td><td class="name">Strikes on Iran without congressional authorization<small>Joint strikes killed Khamenei; further strikes in late June. "War" is a contested legal characterization, not a documented fact.</small></td><td class="mono">2026-02-28</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">MARITIME</td><td class="name">Maritime strike campaign: 68 strikes, 227 deaths<small>As of 2026-08-26. Wrongful-death suits filed; a family of dead fishermen alleges murder. Per-victim characterization is disputed per strike; the aggregate is not. <b>Munition unit cost could not be verified and should be dropped.</b></small></td><td class="mono">2025-09-02 →</td><td><span class="chip v">Occurred</span> <span class="chip d">Contested</span></td></tr>
+      <tr><td class="mono">FOOD-SAFETY</td><td class="name">Food-safety capacity reduced by administrative action<small>NACMCF (est. 1988) and NACMPI (est. 1971) terminated 7 Mar 2025 with no public statement. USDA workforce down 18% Jan–Jun; FSIS down ~9%, 775 employees not recovered. Complaints on meat, poultry and eggs up ~40%, 1,443 → 2,016. <b>Co-occurrence, not causation</b> — the complaint rise carries the correlation tag.</small></td><td class="mono">2025-03-07 →</td><td><span class="chip v">Occurred</span> <span class="chip d">Correlation</span></td></tr>
+      <tr><td class="mono">ELECTIONS-EO</td><td class="name">Mail-voting executive order: 19-state suit, USPS blocked, one injunction lifted<small>The Court lifted one of two injunctions, allowing the order to proceed in part.</small></td><td class="mono">2025-04-03 → 2026-08-24</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">DIVIDEND</td><td class="name">$2,000 tariff dividend promised for mid-2026, not delivered<small>Non-delivery against a dated public commitment. The stronger of the two dividend items, because non-payment is documented.</small></td><td class="mono">2025-11-17</td><td><span class="chip v">Occurred</span></td></tr>
+      <tr><td class="mono">DIVIDEND</td><td class="name">$5,000 payments promised conditional on a Republican congressional win<small>That the promise was made is established. That it is illegal is an argued question raised by commentators, not adjudicated. No enforcement action established.</small></td><td class="mono">2026-09-10</td><td><span class="chip v">Occurred</span> <span class="chip d">Contested</span></td></tr>
+      <tr><td class="mono">HEALTH</td><td class="name">Four hospital closures in 2026; hundreds at risk<small>The four closures are occurred. The 446-at-risk and 55-at-risk figures, and all coverage-loss figures in the millions, are <b>projections</b> and carry that tag every time they appear.</small></td><td class="mono">2026</td><td><span class="chip v">Occurred</span> <span class="chip r">Projected</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">Four corrections the verification produced</span>
+    <h2>Where the received version is wrong</h2>
+  </div>
+  <ol class="lock">
+    <li><strong>The 2026 expansion is real; the food part is a different locus.</strong> <i>Trump v. Slaughter</i>, 29 June 2026, did expand removal power far beyond the 2025 stays, and the expansion that matters most is not in the list of agencies: the government conceded the logic reaches inferior officers and perhaps career civil servants, and the majority left that standing. That concession is a firmer anchor than any inferred extension, because it is on the record from the government's own submission. But the holding covers multi-member independent agencies, and food-agency leadership was already removable at will, so it is not the instrument that reached food. What reached food was administrative: two standing advisory committees terminated in March 2025 with no public statement, an 18% USDA workforce reduction, FSIS down about 9%, and complaints up roughly 40%. That is its own row, its own locus, and a cleaner S2 anchor than a removal ruling — an advisory committee dissolved in silence while inspection and enforcement continue running is exactly the selectivity S2 reads.</li>
+    <li><strong>The fund was rescinded in writing, and the audit bar survived narrowed.</strong> The Acting Attorney General declined to exclude January 6 participants from eligibility, which is a refusal to exclude rather than a decision to pay, and on 3 August 2026 he rescinded the fund outright, recording that no money was ever transferred and no claim was ever paid. The same order restricted the audit-immunity provision to claims that existed at settlement. So the capture Part VII scores — a self-executing dismissal used to obtain an audit bar — still holds as a structure, but its scope is retroactive-only rather than "forever," and the live instrument's anchor text needs the August narrowing added. The instrument scores the part that holds; the part that holds is now smaller.</li>
+    <li><strong>A court ordered discovery; it did not open an investigation.</strong> Judge Brinkema halted work on the fund and compelled disclosure of who designed it, in civil litigation brought by advocacy organisations. Describing that as a judicial investigation into illegality overstates it, and overstatement is what a hostile reader uses to void a row.</li>
+    <li><strong>The Court ruled against the tariffs.</strong> On 2026-02-20 it held 6-3 that IEEPA does not authorize tariffs at all. The tariff war continued because the administration moved to a different statute: three proclamations signed 20 July, 50% effective 22 August, Canadian retaliation 8 September at up to 50% across C$27.6 billion. <b>This is the most useful item in the annex</b>, not the least: it shows the judicial locus is not uniformly directional, which is what separates a measurement from a mirror. An instrument that cannot represent this cannot claim to be measuring.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">Layers that report nothing, and why</span>
+    <h2>Refusals</h2>
+  </div>
+
+  <div class="readout refused">
+    <div class="rhead"><h3>Direction layer</h3><span class="chip r">Refused · corpus empty</span></div>
+    <div class="rbody">
+      <p>Zero coded instances. No frame is locked, so coding has not begun, and the pipeline returns <span class="mono">No eligible instances. Nothing is reportable.</span> This is the honest state of the layer on the day it was built.</p>
+    </div>
+  </div>
+
+  <div class="readout refused">
+    <div class="rhead"><h3>Synchrony layer</h3><span class="chip r">Refused · 0 usable baselines</span></div>
+    <div class="rbody">
+      <p>Seven onsets from the canonical three-checkpoint data: DOGE already above 70 at 2025-Q1, the other six crossing at 2025-Q3. Observed dispersion 0.70 quarters. No number is returned. A rank-based p against <i>B</i> matched baselines cannot fall below 1/(<i>B</i>+1); at zero baselines the floor is 1.000, and at the three reform-lineage cases it would be 0.250. <b>The synchrony claim cannot reach conventional significance below six matched transitions, however bunched the onsets are.</b> Scoring the 1981, 1993, 2001, 2009, 2017 and 2021 transitions on the same rubric is the entire cost of making the coordination reading capable of disconfirmation.</p>
+      <p>With the 2025-Q3 checkpoint in, the persistence discriminator is no longer an artifact of resolution: six of seven onsets fall in one epoch inside the transition window, and none fall after it. That is exactly the case Part IV says a one-time transition accounts for without anything stronger. The live instrument already discloses the same thing in its dual-window Σ caveat. Only a matched administration-onset baseline can move this from reported to diagnostic.</p>
+    </div>
+  </div>
+
+  <div class="readout reportable">
+    <div class="rhead"><h3>Breadth layer</h3><span class="chip v">Reportable · fixed denominator held</span></div>
+    <div class="rbody">
+      <div class="scroll"><table>
+        <thead><tr><th>Epoch</th><th class="n">Slate denominator</th><th class="n">Scored</th><th class="n">Above threshold</th><th class="n">Proportion of slate</th><th class="n">Un-auditable</th></tr></thead>
+        <tbody>
+          <tr><td class="name">2025-Q1</td><td class="n">16</td><td class="n">7</td><td class="n">1</td><td class="n">0.063</td><td class="n">0</td></tr>
+          <tr><td class="name">2025-Q3</td><td class="n">16</td><td class="n">7</td><td class="n">7</td><td class="n">0.438</td><td class="n">0</td></tr>
+          <tr><td class="name">2026-Q1</td><td class="n">16</td><td class="n">10</td><td class="n">7</td><td class="n">0.438</td><td class="n">3</td></tr>
+        </tbody>
+      </table></div>
+      <p>Breadth-velocity is <b>+3.0 architectures per quarter</b> from 2025-Q1 to 2025-Q3, then <b>0.0</b> from 2025-Q3 to 2026-Q1. The live instrument reports the same interval as "+6," which is the raw count change over two quarters against a seven-member frame; against the fixed sixteen-member slate it is a proportion moving from 0.063 to 0.438 and then holding. The zero in the second interval is the scored set saturating: every scored seed had crossed by Q3, and breadth cannot move again until slate members predicted to stay low are actually scored. That is what the denominator is for.</p>
+      <p>Six of sixteen slate members are unscored and remain in the denominator; removing them would inflate breadth. The three reform-lineage controls carry a single published composite each and are marked un-auditable rather than back-fitted.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">The two tests the book says it has not faced</span>
+    <h2>Adversarial layer</h2>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Test</th><th>Case</th><th>Predicted</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td class="name mono">T2-TARIFF<small>Acquit an enemy. Run first: cheaper evidence base, and it addresses the table's most attackable feature, that nothing live scores below 70.</small></td><td>Tariff regime, 2025-Q1 onward</td><td class="mono">Mixed or lower</td><td><span class="chip r">Draft · not locked</span></td></tr>
+      <tr><td class="name mono">T1-PUBHEALTH-INFO<small>Convict a friend. Scores the information architecture only: guidance issuance, internal coordination, external coherence.</small></td><td>Public-health information apparatus, 2020–2022</td><td class="mono">High on S5</td><td><span class="chip r">Draft · not locked</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="stack col">
+    <p>The annex now bears directly on T2. The re-imposition of Canada tariffs under a second statute after the first was struck is a candidate S3 anti-remediation anchor, since the cheapest available fix was to accept the ruling. It cuts against the predicted low S1, so <b>T2's prediction has to be locked with that item already in view</b>, not after it surfaces.</p>
+    <p>The predicted ranges in both packets are proposals, not the analyst's predictions. A prediction whose failure costs the analyst nothing is not a prediction, and running either test against one forfeits the exercise.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead col">
+    <span class="k">Before the first instance is coded</span>
+    <h2>What has to be locked</h2>
+  </div>
+  <ol class="lock">
+    <li><strong>The Federal Register frame</strong> is enumerated at 1,272 items. Fix the sampling <i>n</i> and write a direction-share prediction with a falsification trigger.</li>
+    <li><strong>Three frames need one mechanical step each:</strong> capture the oversight.gov date parameters in a browser, obtain a GovInfo API key for GAO, and issue one POST to USAspending. None is difficult; all three must be done before a count can be claimed.</li>
+    <li><strong>The judicial frame's locus question.</strong> If every order from one Court is one locus, effective <i>n</i> is 1 and the frame is not worth coding. Decide and write the reasoning in.</li>
+    <li><strong>Four slate members carry no band prediction:</strong> the two dimension controls, the scale-floor case, and the opposite-valence slot.</li>
+    <li><strong>Six matched baseline transitions</strong>, or the synchrony layer keeps returning nothing.</li>
+    <li><strong>The beneficiary vocabulary.</strong> A closed list and a first draft; the annex already suggests amendments will be needed for judicial and military loci.</li>
+  </ol>
+</section>
+
+<section>
+  <div class="sechead col"><span class="k">Working files</span><h2>Download the register</h2></div>
+  <div class="dl">
+    <a href="data/evidence-annex.json">evidence-annex.json</a>
+    <a href="data/PRE-REGISTRATION.md">PRE-REGISTRATION.md</a>
+    <a href="data/codebook.md">codebook.md</a>
+    <a href="data/instance.schema.json">instance.schema.json</a>
+    <a href="data/frame.schema.json">frame.schema.json</a>
+    <a href="data/frames/">frames/</a>
+    <a href="data/adversarial/T2-acquit-an-enemy.md">T2 packet</a>
+    <a href="data/adversarial/T1-convict-a-friend.md">T1 packet</a>
+    <a href="obfuscratic-instance-register-v1.3.zip">full bundle (zip)</a>
+  </div>
+  <p class="col" style="font-size:.9rem;color:var(--muted);">The bundle includes the statistics pipeline. It runs on the standard library; a self-test of the estimator generates its own corpora in memory and is a unit test of the arithmetic, never a finding.</p>
+</section>
+
+<footer class="reg">
+  <p><b>Provenance.</b> Revision 1.3, 2026-09-12: the architecture register replaced with the live instrument's canonical three-checkpoint scores; the Anti-Weaponization Fund items corrected with the 3 August rescission order; the <i>Slaughter</i> scope clarified; the Canada dates corrected to the 22 August effective date; the food-safety chain added as a separate locus. Annex items were verified against published reporting on 2026-09-12; each item in the bundle carries its sources, its evidence tag, and where relevant an explicit statement of what is <i>not</i> established. Architecture scores, weights, bands, thresholds, the five signature definitions and the evidence tags are transcribed from <i>Named and Counted</i> v8 and are the analyst's. The schemas, the coding manual, the frames, the statistics and the adversarial packet drafts were drafted with Claude and carry no evidentiary weight.</p>
+  <p>One figure in the received account could not be verified and has been dropped rather than softened: the claim that the maritime-strike munitions cost roughly one million dollars each. No procurement or defence source for it was located. An unsourced cost figure in a row about deaths is the fastest available way to lose the row.</p>
+  <p class="mono" style="font-size:.74rem;">Companion to the live instrument at toroid.fyi/sabbot · ThinkWell Labs Metrology</p>
+  <p class="legal">© ThinkWell Labs. All rights reserved. Instrument, register, and coinages by Briar Greenway. The instance layer, its schemas, frames, statistics and adversarial packet drafts were drafted with Claude and are marked as such in PROVENANCE.md; the evidence annex was verified against the cited sources on 2026-09-12.</p>
+</footer>
+
+</div>
+
+</body>
+</html>

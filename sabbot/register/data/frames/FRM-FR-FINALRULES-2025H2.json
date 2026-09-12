@@ -1,0 +1,58 @@
+{
+  "frame_id": "FRM-FR-FINALRULES-2025H2",
+  "title": "All Federal Register final rules, all agencies, 2025-07-01 to 2025-12-31",
+  "source": {
+    "name": "Federal Register",
+    "access_url": "https://www.federalregister.gov/developers/api/v1",
+    "enumerable": true,
+    "api_or_bulk": "GET /api/v1/documents.json with conditions[type]=RULE and conditions[publication_date][gte|lte]; paginate to exhaustion; persist the returned document_number list as the frozen item list BEFORE coding begins.",
+    "enumeration_verified": {
+      "verified_on": "2026-09-12",
+      "method": "GET https://www.federalregister.gov/api/v1/documents.json with conditions[type][]=RULE and conditions[publication_date][gte]/[lte]; the response 'count' field is the population.",
+      "returned_count_2025H2": 1272,
+      "returned_count_CY2025": 2441,
+      "total_pages_at_per_page_1": 50,
+      "first_document_number": "2025-24127",
+      "status": "WORKS. Open API, no key, no POST required, count returned directly."
+    }
+  },
+  "enumeration_rule": "Every document of type RULE (final rule) published in the window, all agencies, no subject filter, no significance filter, no agency filter. The frozen list is the population; frame_position is the index in publication-date order with document_number as tiebreak.",
+  "window": {
+    "start": "2025-07-01",
+    "end": "2025-12-31"
+  },
+  "population_size": 1272,
+  "coding_target": "systematic_every_nth",
+  "sampling_seed": null,
+  "counter_directional_reachability": {
+    "argument": "Final rules are enumerated by document type and date alone. The population necessarily includes routine technical corrections, rules whose incidence falls on the class the directional reading would predict is protected, and rules whose incidence is symmetric. A frame drawn this way cannot be pointed; it can only be walked.",
+    "worked_examples": [
+      "A deregulatory final rule whose realized first-order incidence falls on large_incumbent_firms rather than on the enrolled or general population: codes negative.",
+      "An enforcement or compliance rule whose incidence falls on detention_or_enforcement_contractors or on a specific_contractor_or_vendor with an established channel: codes negative.",
+      "A routine technical or conforming amendment with no differential incidence: codes 0, and a large share of this frame is expected to code 0."
+    ]
+  },
+  "expected_direction_share": {
+    "predicted_positive_share": null,
+    "predicted_zero_share": null,
+    "predicted_negative_share": null,
+    "falsification_trigger": "TO BE LOCKED BY THE ANALYST BEFORE CODING. The prediction must be the analyst's own and must be recorded with a date. A prediction supplied by anyone else, machine included, is not a prediction the result can embarrass."
+  },
+  "locked_on": null,
+  "locked_by": null,
+  "status": "enumerated_awaiting_prediction_lock",
+  "amendments": [
+    {
+      "date": "2026-09-12",
+      "change": "Frame drafted. coding_target set to systematic_every_nth rather than exhaustive because the population is large; n must be fixed before the first item is coded.",
+      "reason": "Exhaustive coding of a full half-year of final rules is not feasible for one analyst, and choosing which to code after seeing them would void the frame.",
+      "affects_locked_prediction": false
+    },
+    {
+      "date": "2026-09-12",
+      "change": "Enumeration executed. Population size recorded as 1,272 final rules for 2025 H2; 2,441 for calendar 2025.",
+      "reason": "A frame cannot be locked without its population size, and the sampling n cannot be fixed without it.",
+      "affects_locked_prediction": false
+    }
+  ]
+}

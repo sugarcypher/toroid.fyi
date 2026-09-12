@@ -1,0 +1,87 @@
+{
+  "frame_id": "FRM-USASPENDING-TERM-2025",
+  "title": "Federal contract and grant terminations above a fixed obligation threshold, 2025",
+  "source": {
+    "name": "USAspending.gov",
+    "access_url": "https://api.usaspending.gov/",
+    "enumerable": true,
+    "api_or_bulk": "Enumerate award modifications in the window whose action type indicates termination and whose base obligation is at or above the threshold fixed in this record; freeze the award-identifier list before coding.",
+    "enumeration_verified": {
+      "verified_on": "2026-09-12",
+      "status": "NOT EXECUTED. The USAspending search endpoints require an HTTP POST with a JSON filter body; the fetcher available in this session issues GET only, so the population could not be enumerated here.",
+      "population_size_recorded": null,
+      "request_shape_needed": {
+        "method": "POST",
+        "endpoint": "https://api.usaspending.gov/api/v2/search/spending_by_transaction/",
+        "body_sketch": {
+          "filters": {
+            "time_period": [
+              {
+                "start_date": "2025-01-01",
+                "end_date": "2025-12-31"
+              }
+            ],
+            "award_type_codes": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ]
+          },
+          "fields": [
+            "Award ID",
+            "Recipient Name",
+            "Action Date",
+            "Transaction Amount",
+            "awarding_agency_name"
+          ],
+          "page": 1,
+          "limit": 100,
+          "sort": "Action Date",
+          "order": "asc"
+        },
+        "note": "Termination is identified by the transaction's action type rather than by a top-level filter, so the returned set must be filtered on action type after retrieval and the obligation threshold applied there. Fix the exact action-type codes at lock, because choosing them after seeing the data would void the frame."
+      },
+      "what_closes_it": "One script with POST capability, or the USAspending bulk download API, run once to record the population size."
+    }
+  },
+  "enumeration_rule": "Every termination modification in the window at or above the obligation threshold, all agencies, all award types. The threshold is fixed here and may not be adjusted after any item is coded.",
+  "window": {
+    "start": "2025-01-01",
+    "end": "2025-12-31"
+  },
+  "obligation_threshold_usd": 1000000,
+  "population_size": null,
+  "coding_target": "exhaustive",
+  "counter_directional_reachability": {
+    "argument": "Terminations are enumerated by transaction type and dollar threshold, with no reference to who bore the loss. The population necessarily includes terminations whose incidence fell on incumbent firms, on specific vendors with established channels, and on politically aligned recipients, all of which code negative.",
+    "worked_examples": [
+      "A termination whose incidence fell on large_incumbent_firms or a specific_contractor_or_vendor: codes negative.",
+      "A termination of an award to a political_alignment_network recipient: codes negative.",
+      "A routine termination for convenience with no differential incidence: codes 0."
+    ]
+  },
+  "expected_direction_share": {
+    "predicted_positive_share": null,
+    "predicted_zero_share": null,
+    "predicted_negative_share": null,
+    "falsification_trigger": "TO BE LOCKED BY THE ANALYST BEFORE CODING."
+  },
+  "locked_on": null,
+  "locked_by": null,
+  "status": "not_executed_requires_post",
+  "amendments": [
+    {
+      "date": "2026-09-12",
+      "change": "Frame drafted.",
+      "reason": "The only one of the four frames where realized incidence is directly observable in the source record rather than requiring a separate incidence basis, which makes it the cheapest per item to code.",
+      "affects_locked_prediction": false
+    },
+    {
+      "date": "2026-09-12",
+      "change": "Enumeration not executed; GET-only fetcher cannot reach a POST search endpoint. Exact request shape recorded instead.",
+      "reason": "Recording what the frame needs rather than asserting a count.",
+      "affects_locked_prediction": false
+    }
+  ]
+}

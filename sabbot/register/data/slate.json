@@ -1,0 +1,26 @@
+{
+  "slate_id": "SLATE-2026-09",
+  "locked_on": null,
+  "locked_by": null,
+  "status": "draft_awaiting_lock",
+  "note": "The pre-registered candidate slate is the DENOMINATOR of the breadth layer. Every member needs a locked prior band prediction before any member is scored. Members below are transcribed from Named and Counted v8: the seven seeds and the reform lineage from Part VII; the dimension controls, the opposite-valence slot and the two adversarial tests from Parts VI and VIII. The four members with predicted_band set to null are the ones the book names without publishing a band prediction; those four must be predicted and locked before this slate can carry a breadth number.",
+  "threshold": 70,
+  "members": [
+    "IRS", "DOGE", "REGROLL", "OBBBA", "ICE", "NIH", "VA",
+    "GRACE", "REINVGOV", "PMA",
+    "IHS", "HEALTHCAREGOV", "ROUTINE-FLOOR",
+    "OPPOSITE-VALENCE",
+    "T1-PUBHEALTH-INFO", "T2-TARIFF"
+  ],
+  "member_roles": {
+    "IRS": "seed", "DOGE": "seed", "REGROLL": "seed", "OBBBA": "seed",
+    "ICE": "seed", "NIH": "seed", "VA": "seed",
+    "GRACE": "reform_lineage", "REINVGOV": "reform_lineage", "PMA": "reform_lineage",
+    "IHS": "dimension_control", "HEALTHCAREGOV": "dimension_control",
+    "ROUTINE-FLOOR": "negative_control",
+    "OPPOSITE-VALENCE": "opposite_valence",
+    "T1-PUBHEALTH-INFO": "adversarial_test", "T2-TARIFF": "adversarial_test"
+  },
+  "unscored_members_remain_in_denominator": true,
+  "denominator_rule": "Removing an unscored member from the denominator inflates breadth. Members leave the slate only by dated amendment with a stated reason, never because they are inconvenient."
+}

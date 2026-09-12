@@ -1,0 +1,40 @@
+{
+  "frame_id": "FRM-SCOTUS-EMERGENCY-2025-2026",
+  "title": "Every Supreme Court order on an emergency application filed by the federal government, 2025-01-20 to present",
+  "drafted_because": "The verified annex items cluster on the judicial locus, and that locus is genuinely enumerable and content-blind. It is also the one frame whose population demonstrably contains counter-directional items, because the same Court that granted the removal stays ruled against the administration's largest economic action.",
+  "source": {
+    "name": "Supreme Court of the United States, orders and opinions relating to orders",
+    "access_url": "https://www.supremecourt.gov/orders/ordersofthecourt/",
+    "enumerable": true,
+    "api_or_bulk": "The Court publishes order lists and opinions relating to orders as dated PDFs. SCOTUSblog and CourtListener both maintain enumerable dockets of emergency applications. Freeze the application-number list before coding.",
+    "enumeration_verified": {
+      "verified_on": "2026-09-12",
+      "status": "NOT YET EXECUTED. Drafted this session from verified items that fall inside it. Population size not recorded."
+    }
+  },
+  "enumeration_rule": "Every order disposing of an emergency application in which the federal government was the applicant, from 2025-01-20 to the window end. No subject filter. Applications are identified by their 25A/26A-series docket numbers. Grants, denials and partial dispositions all enter.",
+  "window": {"start": "2025-01-20", "end": "2026-09-12"},
+  "population_size": null,
+  "coding_target": "exhaustive",
+  "counter_directional_reachability": {
+    "argument": "The population is defined by who filed and when, never by how the Court ruled. Denials and partial denials are in the population by construction, and at least one merits decision in the same period went against the administration on its largest economic action. A frame that contains a known counter-directional item before coding begins is the strongest answer to the cherry-picking charge the project can make.",
+    "worked_examples": [
+      "Learning Resources, Inc. v. Trump, 2026-02-20: IEEPA tariff authority rejected 6-3. Codes negative.",
+      "Any denial of an emergency application, or any partial stay that leaves an injunction in force, such as the 2026-08-24 order lifting one of two injunctions on the elections executive order. Codes negative or 0.",
+      "An order granted on grounds that leave the underlying policy enjoined: codes 0."
+    ]
+  },
+  "expected_direction_share": {
+    "predicted_positive_share": null,
+    "predicted_zero_share": null,
+    "predicted_negative_share": null,
+    "falsification_trigger": "TO BE LOCKED BY THE ANALYST BEFORE CODING."
+  },
+  "locus_note": "CAUTION. Every order from one Court may be one decision locus, which would make this frame's effective n equal to 1 and its statistic worthless. The defensible reading is that each application arises from a distinct authorizing action by a distinct agency, so the locus is the agency action under review rather than the Court. Decide this at lock and write the reasoning into the frame, because it determines whether the frame is worth coding at all.",
+  "locked_on": null,
+  "locked_by": null,
+  "status": "draft",
+  "amendments": [
+    {"date": "2026-09-12", "change": "Frame drafted.", "reason": "Arose from the verified annex: the judicial locus is enumerable, content-blind, and demonstrably contains counter-directional items.", "affects_locked_prediction": false}
+  ]
+}

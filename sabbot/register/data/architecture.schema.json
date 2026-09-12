@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toroid.fyi/schema/architecture.schema.json",
+  "title": "Obfuscratic Asymmetry - architecture record",
+  "description": "A scored architecture. The architecture register grows slowly and only from the pre-registered candidate slate. Adding an architecture because it already scores high is a frame violation and voids the breadth-velocity layer.",
+  "type": "object",
+  "required": [
+    "architecture_id",
+    "name",
+    "slate_membership",
+    "epochs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "architecture_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "slate_membership": {
+      "type": "object",
+      "required": [
+        "slate_id",
+        "added_on",
+        "predicted_band",
+        "prediction_locked_on"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "slate_id": {
+          "type": "string"
+        },
+        "added_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "predicted_band": {
+          "type": "string",
+          "enum": [
+            "genuine",
+            "mixed",
+            "high_asymmetry",
+            "extreme_asymmetry"
+          ],
+          "description": "Locked before scoring. An architecture added to the slate without a prior locked prediction cannot enter the breadth denominator."
+        },
+        "prediction_locked_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "seed",
+            "negative_control",
+            "dimension_control",
+            "reform_lineage",
+            "opposite_valence",
+            "adversarial_test"
+          ],
+          "description": "adversarial_test marks the Part VIII cases: convict-a-friend and acquit-an-enemy."
+        }
+      }
+    },
+    "epochs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "epoch": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-Q[1-4]$"
+          },
+          "S1": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "S2": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "S3": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "S4": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "S5": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "anchors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scored_by": {
+            "type": "string"
+          },
+          "second_rater_composite": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "composite_only": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Use ONLY where the per-dimension scores were not published for this epoch. A composite transcribed without its dimensions cannot be recomputed or audited, so it is marked as such and the source is required."
+          },
+          "composite_only_source": {
+            "type": "string",
+            "description": "Where the composite was transcribed from. Required whenever composite_only is set. Reconstructing dimensions to fit a published composite is fabrication and is forbidden."
+          }
+        },
+        "oneOf": [
+          {
+            "required": [
+              "epoch",
+              "S1",
+              "S2",
+              "S3",
+              "S4",
+              "S5"
+            ]
+          },
+          {
+            "required": [
+              "epoch",
+              "composite_only",
+              "composite_only_source"
+            ]
+          }
+        ]
+      }
+    },
+    "resource_layer": {
+      "type": "object",
+      "description": "Held outside the composite per Part V. Never folded in.",
+      "additionalProperties": false,
+      "properties": {
+        "S6": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "S7": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "S8": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

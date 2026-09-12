@@ -1,6 +1,6 @@
 # Resource-Operations Data (generated)
 
-> Auto-generated from `data/sabbotarchy.json` by `build/sync.mjs`. Do not hand-edit. Instrument version: **v0.8**.
+> Auto-generated from `data/sabbotarchy.json` by `build/sync.mjs`. Do not hand-edit. Instrument version: **v0.9**.
 
 ## Dimensions
 
@@ -15,9 +15,9 @@
 
 | Case | Dimension | Tags | Finding |
 |--|--|--|--|
-| $1.776B "Anti-Weaponization Fund" / IRS self-settlement | S6 · passing | occurred: structure; contested: payouts | Sued his own IRS for $10B, settled with his own DOJ: apology + no damages + IRS forever barred from auditing Trump, his family, or their companies. The fund itself — DOJ testified it will not proceed. The realized capture is the audit-bar, which holds regardless of the fund. |
+| $1.776B "Anti-Weaponization Fund" / IRS self-settlement | S6 · passing (structure); scope narrowed 2026-08 | occurred: structure; occurred: rescission 2026-08-03; contested: audit-bar durability | Sued his own IRS for $10B, dismissed as of right two days before a court deadline, and the Acting AG ordered $1.776B from the Judgment Fund into an 'Anti-Weaponization Fund' with an addendum barring IRS audit of Trump, his family, and their companies. Judge Brinkema (E.D. Va.) halted the fund 2026-05-29 and ordered disclosure of who designed it. On 2026-08-03 the fund was rescinded in writing (no members appointed, no funds transferred, no claims paid) and the audit bar was restricted to matters predating the settlement. The realized capture is the retroactive audit bar — narrower than 'forever', still obtained by closing the courthouse door from the inside. |
 | Argentina $20B currency swap | S6 · signal | occurred; repayment corroborated | A real crisis, but selected because the beneficiary is aligned (Milei); ~$2.5B drawn, repaid Dec 2025. Fails the fabrication test; scores on selective-allocation, not extraction. |
-| Caribbean / Pacific boat strikes | S7 | occurred; intent contested | 200+ killed, 60+ boats; targets cocaine routes while fentanyl enters overland; no congressional authorization; war-crime suits. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only. |
+| Caribbean / Pacific boat strikes | S7 | occurred; intent contested; victims contested per strike | 68 strikes, 227 killed (23 missing/presumed) and 3 known survivors as of 2026-08-26; first strike 2025-09-02. Targets cocaine routes while fentanyl enters overland; no congressional authorization (two War Powers resolutions failed Dec 2025; Venezuela resolution failed 50-50 on the VP's vote 2026-01-14); UN experts called the naval blockade illegal armed aggression; wrongful-death suits filed for Trinidadian victims and by a family of dead fishermen. No financial capture — so S7 (assets/lives/legality), not S6. Gravest case; scored on documented effectiveness/legality gaps only. |
 | Venezuela | S8 → S7 → S6 chain | occurred | Pre-capture pressure (S8) → Maduro capture Jan 3 2026 (S7) → Venezuelan oil routed through U.S.-licensed private channels — control exercised via the licensing regime, not literal government accounts (S6). Not a bailout — the flow is extraction. |
 | Cuba oil blockade | S8 | occurred; causal share contested | Tanker blockade from Feb 2026; ~11,000 children awaiting suspended surgery, infant mortality reported toward 9.9/1000 (UN monitors; projected/contested), UN warns children dying. Scored on major-proximate-cause contribution, not sole cause. |
 | Immigration enforcement | S3 → S6 chain | occurred: structure | 2024 bipartisan fix killed (S3) → sustained crisis → +~$170B enforcement/detention captured by the private-detention architecture (S6, cell B040). "Entire system manufactured" overreaches — migration itself is not US-made. |
