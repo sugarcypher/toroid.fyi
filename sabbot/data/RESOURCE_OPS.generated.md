@@ -1,6 +1,6 @@
 # Resource-Operations Data (generated)
 
-> Auto-generated from `data/sabbotarchy.json` by `build/sync.mjs`. Do not hand-edit. Instrument version: **v0.9**.
+> Auto-generated from `data/sabbotarchy.json` by `build/sync.mjs`. Do not hand-edit. Instrument version: **v0.9.1**.
 
 ## Dimensions
 

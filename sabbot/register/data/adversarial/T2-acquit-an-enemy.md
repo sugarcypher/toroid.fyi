@@ -2,8 +2,8 @@
 
 **Architecture ID:** `T2-TARIFF`
 **Slate:** SLATE-2026-09 · role `adversarial_test`
-**Status:** prediction drafted, NOT LOCKED, NOT SCORED
-**Required before scoring:** the analyst locks the prediction below with a date and signature.
+**Status:** PREDICTION LOCKED 2026-09-13 15:39 PDT by Briar Greenway (reply "lock" to the drafted text, recorded verbatim in `register/slate.json` → `locked_predictions.T2-TARIFF`). NOT YET SCORED.
+**Locked prediction:** Mixed or lower. S1 low; S5 mid, firing only on coordinated-plan-behind-incoherent-messaging; S3 the open dimension, with the §338 re-imposition after the IEEPA ruling and the August escalation in view as a candidate anti-remediation anchor that pulls the composite up.
 
 ---
 
@@ -19,7 +19,7 @@ The tariff regime, 2025-Q1 through the current epoch.
 
 Why this case and not another: the profile is structurally unlike the seeds. The measure is broad rather than targeted; it is self-harming; and its incidence falls on the administration's own constituencies as heavily as on anyone's. There is no clean realized-beneficiary divergence available to drive S1, which is the highest-weighted directly observable dimension.
 
-## The locked prediction (DRAFT — analyst to confirm or revise, then lock)
+## The prediction as drafted (superseded by the locked text above where they differ)
 
 | Dimension | Predicted range | Reasoning stated in advance |
 |---|---|---|

@@ -6,21 +6,52 @@
   "note": "The pre-registered candidate slate is the DENOMINATOR of the breadth layer. Every member needs a locked prior band prediction before any member is scored. Members below are transcribed from Named and Counted v8: the seven seeds and the reform lineage from Part VII; the dimension controls, the opposite-valence slot and the two adversarial tests from Parts VI and VIII. The four members with predicted_band set to null are the ones the book names without publishing a band prediction; those four must be predicted and locked before this slate can carry a breadth number.",
   "threshold": 70,
   "members": [
-    "IRS", "DOGE", "REGROLL", "OBBBA", "ICE", "NIH", "VA",
-    "GRACE", "REINVGOV", "PMA",
-    "IHS", "HEALTHCAREGOV", "ROUTINE-FLOOR",
+    "IRS",
+    "DOGE",
+    "REGROLL",
+    "OBBBA",
+    "ICE",
+    "NIH",
+    "VA",
+    "GRACE",
+    "REINVGOV",
+    "PMA",
+    "IHS",
+    "HEALTHCAREGOV",
+    "ROUTINE-FLOOR",
     "OPPOSITE-VALENCE",
-    "T1-PUBHEALTH-INFO", "T2-TARIFF"
+    "T1-PUBHEALTH-INFO",
+    "T2-TARIFF"
   ],
   "member_roles": {
-    "IRS": "seed", "DOGE": "seed", "REGROLL": "seed", "OBBBA": "seed",
-    "ICE": "seed", "NIH": "seed", "VA": "seed",
-    "GRACE": "reform_lineage", "REINVGOV": "reform_lineage", "PMA": "reform_lineage",
-    "IHS": "dimension_control", "HEALTHCAREGOV": "dimension_control",
+    "IRS": "seed",
+    "DOGE": "seed",
+    "REGROLL": "seed",
+    "OBBBA": "seed",
+    "ICE": "seed",
+    "NIH": "seed",
+    "VA": "seed",
+    "GRACE": "reform_lineage",
+    "REINVGOV": "reform_lineage",
+    "PMA": "reform_lineage",
+    "IHS": "dimension_control",
+    "HEALTHCAREGOV": "dimension_control",
     "ROUTINE-FLOOR": "negative_control",
     "OPPOSITE-VALENCE": "opposite_valence",
-    "T1-PUBHEALTH-INFO": "adversarial_test", "T2-TARIFF": "adversarial_test"
+    "T1-PUBHEALTH-INFO": "adversarial_test",
+    "T2-TARIFF": "adversarial_test"
   },
   "unscored_members_remain_in_denominator": true,
-  "denominator_rule": "Removing an unscored member from the denominator inflates breadth. Members leave the slate only by dated amendment with a stated reason, never because they are inconvenient."
+  "denominator_rule": "Removing an unscored member from the denominator inflates breadth. Members leave the slate only by dated amendment with a stated reason, never because they are inconvenient.",
+  "locked_predictions": {
+    "T2-TARIFF": {
+      "predicted_band": "mixed_or_lower",
+      "locked_on": "2026-09-13T22:39:47Z",
+      "locked_on_local": "2026-09-13 15:39 PDT",
+      "locked_by": "Briar Greenway",
+      "how": "Reply 'lock' to the drafted prediction text, in session; the text below is what was locked",
+      "prediction_text": "T2 \u2014 tariff regime, 2025-Q1 to present. Predicted band: Mixed or lower. S1 low (no clean realized-beneficiary divergence; incidence falls on the administration's own constituencies). S5 mid (announcement volatility fires only if a coordinated internal plan sits behind incoherent external messaging; genuine internal reversal scores low). S3 is the open one: the re-imposition under \u00a7338 after the IEEPA ruling, then the August escalation, is a candidate anti-remediation anchor \u2014 the cheapest fix was accepting the ruling, refused twice \u2014 and it pulls the composite up. Locked with that in view.",
+      "falsification": "A composite in the high band (\u226570) means the instrument failed to discriminate where discrimination was available; per Part VIII the analyst reports that failure. A composite below 70 reached only by scoring a dimension below what its anchors support is a manufactured acquittal and is worth less than an honest high score."
+    }
+  }
 }

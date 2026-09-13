@@ -395,5 +395,55 @@
         "composite_only_source": "v8 Part VII, reform lineage"
       }
     ]
+  },
+  {
+    "architecture_id": "T2-TARIFF",
+    "name": "Tariff regime (adversarial test T2: acquit an enemy)",
+    "slate_membership": {
+      "slate_id": "SLATE-2026-09",
+      "added_on": "2026-09-12",
+      "predicted_band": "mixed",
+      "prediction_locked_on": "2026-09-13",
+      "role": "adversarial_test"
+    },
+    "epochs": [
+      {
+        "epoch": "2026-Q3",
+        "S1": 45,
+        "S2": 58,
+        "S3": 72,
+        "S4": 20,
+        "S5": 40,
+        "scored_by": "Claude (Fable 5.1); ratification delegated by B. Greenway 2026-09-13 to Claude's review \u2014 not independently scored by the analyst",
+        "second_rater_composite": null,
+        "anchors": [
+          "S1: NY Fed 2026-02-12 ~90% domestic incidence https://libertystreeteconomics.newyorkfed.org/2026/02/who-is-paying-for-the-2025-u-s-tariffs/",
+          "S1: Yale Budget Lab one-year 2026-04-02 https://budgetlab.yale.edu/research/one-year-tariff-analysis-what-we-got-right-what-changed-and-what-we-learned",
+          "S1: electronics exemptions 2025-04-12 https://www.npr.org/2025/04/12/nx-s1-5363025/apple-iphone-tariff-exemption-china (headline-corroborated: Fortune, Supply Chain Dive, CNBC)",
+          "S1: $12B Farmer Bridge Assistance 2025-12-08 https://www.usda.gov/about-usda/news/press-releases/2025/12/08/trump-administration-announces-12-billion-farmer-bridge-payments-american-farmers-impacted-unfair",
+          "S2/S3: refund status and government appeal https://www.hklaw.com/en/insights/publications/2026/06/ieepa-tariff-refund-update-government-appeals ; https://www.cato.org/blog/ieepa-refunds-update-good-progress-still-ways-go",
+          "S3: S.J.Res.37 51-48 2025-04-02 and House calendar-day block https://www.epi.org/policywatch/senate-votes-to-block-trump-administrations-tariffs-on-canada-s-j-res-37/",
+          "S3: House 219-211 2026-02-11 https://www.cfr.org/articles/the-house-votes-to-rein-in-trumps-canada-tariffs",
+          "S3: Learning Resources v. Trump 2026-02-20 https://supreme.justia.com/cases/federal/us/607/24-1287/ ; \u00a7338 re-imposition https://www.blakes.com/insights/us-canada-tariffs-timeline-of-key-dates-and-documents/",
+          "S4/S5: reshuffle https://www.yahoo.com/news/trade-shake-bessent-leads-trade-183851884.html",
+          "S5: mixed messages https://www.npr.org/2025/04/08/nx-s1-5350917/trump-tariffs-aides",
+          "S5: Mandate for Leadership dual trade essays https://econbrowser.com/archives/2024/08/mandate-for-leadership-aka-project-2025-on-trade-policy-the-case-for-fair-trade"
+        ]
+      }
+    ],
+    "resource_layer": {
+      "S6": null,
+      "S7": null,
+      "S8": null,
+      "notes": "Candidate S6 material held outside the composite: $12B CCC farm payments; tariff revenue as political vehicle ($2,000 dividend promised 2025-11-17, undelivered; $5,000 promise 2026-09-10). Not scored."
+    },
+    "ratification": {
+      "status": "ratified_by_delegation",
+      "delegated_by": "Briar Greenway",
+      "delegated_on": "2026-09-13",
+      "instruction": "ratify if your review says it's needed",
+      "review": "adversarial/T2-scoring-worksheet-2026-09-13.md \u00a7 Review pass",
+      "caveat": "Claude-scored and Claude-reviewed. Weakest provenance in the register; stated, not smoothed. Cross-analyst replication outstanding."
+    }
   }
 ]
