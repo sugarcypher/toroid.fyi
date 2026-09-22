@@ -98,4 +98,24 @@ register has no check that would catch it there.
 | §1 S5 disguise barred from lowering | **in force** |
 | §2 T2 S2 → 70, composite → 50 | **applied**, `sabbotarchy.json` v0.9.3, build verifies the recompute |
 | §3 faction / downstream-battle rule | **ruled, not yet bounded** — §4 bound awaiting the analyst |
-| §4 seed symmetry test | **owed** before §3 scores anything |
+| §4 seed symmetry test | **RUN 2026-09-21** — `SYMMETRY-TEST-2026-09-21-faction-rule.md`, reproducible via `build/verify-symmetry.mjs` |
+
+## §6 — Symmetry test result (added 2026-09-21, after the rulings above)
+
+The test §4 demanded has been run. **The faction rule cannot materially inflate the seeds: maximum
+inflation is +2 composite points, on VA, and no seed changes band** (76–91 becomes 78–92 under the
+most aggressive reading). All seven composites were verified against their canonical published values
+before any counterfactual was run.
+
+The reason is structural, and it converts §4's objection from a worry into a bounded one: the
+moderations §3 reaches sit almost entirely on **S4 (weight 0.10)** and **S3 (0.15)**, the two
+lowest-weighted dimensions. The seeds are driven by S1, S2 and S5 (0.75 combined), where the
+moderations are *epistemic restraint* — a claim withdrawn for want of evidence, a figure ranged, an
+inference declined — which §3 does not reach and must never be read to reverse.
+
+**The rule is therefore safe because of where it operates, not because of what it says.** On S5
+(weight 0.30) the same argument — "the external incoherence was the remainder fighting back" — would
+move a composite by up to 30 points and cross band lines freely. **T1's live S5 question has exactly
+that shape.** The bound in §4 is accordingly sharpened: **the faction rule applies to S3 and S4 only;
+extending it to S1, S2 or S5 requires its own ruling**, because only there is it capable of moving a
+band. Full reasoning and the per-seed table are in the symmetry-test file.
