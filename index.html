@@ -69,40 +69,7 @@
   .footmark a { color:var(--muted); text-decoration:none; }
   .footmark a:hover { color:var(--fg); }
 
-  /* START HERE — Predicates promoted to the surface: a small, rapidly spinning ring, upper-left */
-  .start-here { position:fixed; top:20px; left:22px; z-index:25; display:flex; align-items:center; gap:11px; text-decoration:none; cursor:pointer; perspective:240px; }
-  .start-here .sh-ring { width:30px; height:30px; flex:none; border:3px solid #9adfe0; border-radius:50%; box-shadow:0 0 10px rgba(154,223,224,0.5); animation:shspin 1.05s linear infinite; transform-style:preserve-3d; }
-  @keyframes shspin { from { transform:rotateY(0deg); } to { transform:rotateY(360deg); } }
-  .start-here .sh-txt { display:flex; flex-direction:column; line-height:1.05; }
-  .start-here .sh-txt b { font-family:var(--ui); font-size:12px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:#9adfe0; }
-  .start-here .sh-txt span { font-family:ui-monospace,Menlo,monospace; font-size:8.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
-  .start-here:hover .sh-ring { box-shadow:0 0 18px rgba(154,223,224,0.85); }
-  .start-here:hover .sh-txt b { color:#fff; }
-  @media (prefers-reduced-motion:reduce){ .start-here .sh-ring { animation:none; } }
-  @media (max-width:700px){ .start-here .sh-txt span { display:none; } }
-
-  /* Terms-of-use agreement (first visit) */
-  .tos-veil {
-    position:fixed; inset:0; z-index:60; display:none; place-items:center;
-    background:rgba(6,7,10,0.78); -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px); padding:24px;
-  }
-  .tos-veil.show { display:grid; }
-  .tos-card {
-    max-width:560px; background:#15171b; border:1px solid rgba(207,211,215,0.18);
-    border-radius:6px; padding:30px 32px; color:var(--fg); box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  }
-  .tos-card h2 { font-family:var(--ui); font-weight:500; font-size:18px; letter-spacing:0.06em; margin:0 0 14px; }
-  .tos-card p { font-weight:300; font-size:13.5px; line-height:1.62; color:#c4c8cd; margin:0 0 12px; }
-  .tos-card p b { color:var(--fg); font-weight:500; }
-  .tos-card .row { display:flex; align-items:center; gap:16px; margin-top:20px; flex-wrap:wrap; }
-  .tos-card a.terms { font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:0.1em; color:#9adfe0; text-decoration:none; }
-  .tos-card a.terms:hover { text-decoration:underline; }
-  .tos-card button {
-    font-family:var(--ui); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; font-weight:500;
-    background:#eef0f2; color:#111214; border:0; border-radius:999px; padding:11px 22px; cursor:pointer;
-    transition:transform .15s, background .15s;
-  }
-  .tos-card button:hover { transform:translateY(-1px); background:#fff; }
+  /* Terms-of-use agreement (first visit) is the site-wide dialog from /assets/tos.js */
 
   #fallback { position:fixed; inset:0; z-index:30; display:none; place-items:center; background:#111214; }
   #fallback nav { display:flex; flex-direction:column; gap:13px; text-align:center; font-family:var(--ui); color:var(--fg); }
@@ -139,7 +106,7 @@
     <li><a href="/matrix/">Polymorphic Matrix — precursor · archive</a></li>
     <li><a href="/system/">The System — papers · terminology · method · legal</a></li>
   </ol>
-  <p>Also: <a href="/predicates/">start here — the coined predicates</a> · <a href="/research/">research</a> · <a href="/legal/">terms &amp; legal</a></p>
+  <p>Also: <a href="/predicates/">terminology — the coined predicates</a> · <a href="/research/">research</a> · <a href="/legal/">terms &amp; legal</a></p>
 </nav>
 <noscript>
   <style>
@@ -155,28 +122,12 @@
 
 <div id="labels" aria-label="Gates"></div>
 
-<a class="start-here" href="/predicates/" aria-label="Start here — the terminology and coined predicates">
-  <span class="sh-ring" aria-hidden="true"></span>
-  <span class="sh-txt"><b>Start here</b><span>terminology</span></span>
-</a>
-
 <div class="footmark">© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></div>
-
-<!-- First-visit terms agreement -->
-<div class="tos-veil" id="tos" role="dialog" aria-modal="true" aria-labelledby="tos-h">
-  <div class="tos-card">
-    <h2 id="tos-h">Before you enter</h2>
-    <p>This site is a set of analytical instruments — measurements and commentary on how public value is moved from where it does good into private extraction. It documents; it does not allege crimes.</p>
-    <p>All material on <b>toroid.fyi</b> is <b>© ThinkWell Labs</b>, all rights reserved. You may reference it <b>only with proper citation</b>. By entering you agree to these terms.</p>
-    <div class="row">
-      <a class="terms" href="/legal/">Read the full terms &amp; legal →</a>
-      <button id="tos-agree">Agree &amp; enter</button>
-    </div>
-  </div>
-</div>
 
 <div id="fallback" role="navigation" aria-label="Site gates"><nav><h1>TOROID</h1></nav></div>
 
+<!-- First-visit terms agreement — the site-wide dialog; must load before the ring script reads TWL_TOS -->
+<script src="/assets/tos.js"></script>
 <script src="/assets/vendor/three-r128.min.js"></script>
 <script>
 (() => {
@@ -248,19 +199,12 @@ ALL.forEach((cfg) => {
 });
 
 // ---- terms gate (first visit) --------------------------------------------
-const tos=document.getElementById('tos');
-let autoTimer=null;
-function scheduleBegin(ms){ clearTimeout(autoTimer); autoTimer=setTimeout(begin, ms); }
-const agreed = (()=>{ try { return localStorage.getItem('twl-tos-agreed')==='1'; } catch(e){ return false; } })();
-if (!agreed){
-  tosOpen=true; tos.classList.add('show');   // every first-time visitor sees the terms
-}
+// The dialog itself lives in /assets/tos.js (site-wide, versioned). Here we only
+// hold the ring in 'idle' until the visitor has agreed.
+const agreed = !!(window.TWL_TOS && window.TWL_TOS.agreed);
+if (!agreed) tosOpen=true;                       // every first-time visitor agrees before the ring will begin
 // NOTE: no auto-advance — the emanation waits for a user click so the intro is readable.
-document.getElementById('tos-agree').addEventListener('click',(e)=>{
-  e.stopPropagation();
-  try { localStorage.setItem('twl-tos-agreed','1'); } catch(_){}
-  tos.classList.remove('show'); tosOpen=false;   // now the intro shows; click anywhere to begin
-});
+addEventListener('twl-tos-agreed',()=>{ tosOpen=false; });   // now the intro shows; click anywhere to begin
 
 function begin(){ if (state!=='idle'||tosOpen) return; state='slowing'; overlay.style.opacity=0; }
 
@@ -395,7 +339,7 @@ function renderFallback(){
   const fb=document.getElementById('fallback'); const nav=fb.querySelector('nav');
   ALL.forEach(cfg=>{ const a=document.createElement('a'); a.href=cfg.href; a.textContent=cfg.name; nav.appendChild(a); });
   document.getElementById('overlay').style.display='none'; document.getElementById('stage').style.display='none';
-  document.getElementById('tos').classList.remove('show'); fb.style.display='grid';
+  fb.style.display='grid';   // the terms dialog (tos.js) stays up over the fallback until agreed
 }
 })();
 </script>
