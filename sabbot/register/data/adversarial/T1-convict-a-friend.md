@@ -4,6 +4,7 @@
 **Slate:** SLATE-2026-09 · role `adversarial_test`
 **Status:** prediction drafted, NOT LOCKED, NOT SCORED
 **Required before scoring:** the analyst locks the prediction below with a date and signature. A prediction the analyst did not author is not one the result can embarrass.
+**Lock it here:** `T1-prediction-elicitation.md` — added 2026-09-21 after the T2 validation pass. It replaces the band statement below with a probability distribution plus per-dimension point estimates (T2's locked band spanned 70% of the scale and carried ~0.5 bits), and adds a blind-scoring condition (T2's scorer read the prediction before scoring). The drafted table below stands until you lock over it.
 
 ---
 
