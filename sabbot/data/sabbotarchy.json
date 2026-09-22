@@ -1,5 +1,5 @@
 {
-  "version": "v0.9.2",
+  "version": "v0.9.3",
   "dims": [
     [
       "S3",
@@ -476,20 +476,21 @@
       "epoch": "2026-Q3",
       "s": {
         "s1_outcome": 45,
-        "s2_domain": 58,
+        "s2_domain": 70,
         "s3_remediation": 72,
         "s4_recruitment": 20,
         "s5_information": 40
       },
-      "composite": 48,
+      "composite": 50,
       "band": "Mixed",
       "match": true,
+      "rescored": "S2 58 → 70 on 2026-09-21 by the analyst's ruling that abolishing the Section 232 exclusion process is an existing-function degradation and must influence the score. 70 is the worksheet's own pre-computed figure for refusing the new-function disanalogy, not a new number. Composite 48 → 50; band unchanged, prediction still matched. Execution delegated to Claude; the ruling is the analyst's.",
       "scored_by": "Claude (Fable 5.1); ratification delegated by the analyst 2026-09-13 to Claude's review; not independently scored by the analyst",
       "worksheet": "/sabbot/register/data/adversarial/T2-scoring-worksheet-2026-09-13.md",
       "note": "First live-domain architecture the instrument declined to convict. One data point; T1 unrun; cross-analyst replication outstanding.",
       "subname": "acquit-an-enemy test · 2025-Q1 → present",
       "worksheetHref": "/sabbot/register/#t2",
-      "summary": "First live-domain case the instrument declined to convict; S3 came in high (the cheap fixes — a House vote, the Court's ruling, refunds — resisted like expensive ones) and S5 low (external incoherence traced to documented internal disagreement, not a plan behind fog). Band robustness is arithmetic, not inter-rater: no single dimension, even moved to 100, reaches the High band (largest single-dimension headroom is S5 at 18.0 weighted points against the 22.35 needed), and none moved to 0 reaches Genuine. Provenance stated plainly: scores Claude-proposed and Claude-reviewed, ratification delegated by the analyst rather than performed by him. One data point. T1 unrun. Cross-analyst replication outstanding — no replication study has been run, so no inter-rater range is claimed.",
+      "summary": "First live-domain case the instrument declined to convict; S3 came in high (the cheap fixes — a House vote, the Court's ruling, refunds — resisted like expensive ones) and S5 low (external incoherence traced to documented internal disagreement, not a plan behind fog). S2 was raised 58 → 70 on 2026-09-21 after a second evidence pass found the existing-function comparator the worksheet said it lacked: Commerce abolished the Section 232 exclusion process effective 2025-02-10, revoked all General Approved Exclusions 2025-03-12, and replaced it with an inclusions process that only adds products to tariff coverage. Band robustness is arithmetic, not inter-rater: no single dimension, even moved to 100, reaches the High band (largest single-dimension headroom is S5 at 18.0 weighted points against the 22.35 needed), and none moved to 0 reaches Genuine. Provenance stated plainly: scores Claude-proposed and Claude-reviewed, ratification delegated by the analyst rather than performed by him. One data point. T1 unrun. Cross-analyst replication outstanding — no replication study has been run, so no inter-rater range is claimed.",
       "epochNote": "Scored at 2026-Q3; the seven seeds were last scored at 2026-Q1. Not a slate-wide checkpoint."
     }
   ]

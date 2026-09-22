@@ -101,14 +101,27 @@ present too, and that is the finding.**
 | R4 | Agency-wide structural and scientific failure | Full agency review and reorganization | **high** | **Fix self-initiated and adopted.** CDC leadership began an agency-wide review 2022-04; ~120 interviews; 10 strike teams; "CDC Moving Forward" launched 2022-08 | `occurred` |
 | R5 | Hospital data reporting pathway | Return collection to CDC/NHSN | **high** | **Fix adopted**, ~29 months later — reporting transitioned back to CDC NHSN mid-December 2022 | `occurred` |
 
-**This table points substantially against the anti-remediation signature, and that is stated plainly
-rather than buried.** S3 reads the *slope* of resistance against the cost of the fix. Here the two
-highest-cost fixes (R4, R5) were adopted — one of them self-initiated, with the director stating
-publicly, *"For 75 years, CDC and public health have been preparing for COVID-19, and in our big
-moment, our performance did not reliably meet expectations."* A near-zero-cost fix (R1) was also
-adopted, under pressure, in under a month. **A positive cost-resistance slope is the rubric's own
-control condition for a genuinely struggling agency, not the signature.** R2 and R3 are the rows that
-could cut the other way, and R3 is unanchored.
+**Amended 2026-09-21 by the analyst's faction ruling** (`AMENDMENT-2026-09-21-locus-and-s5.md` §3):
+resistance and reversal-under-pressure are downstream battle — the apparatus fighting the faction — and
+are not by themselves evidence against the signature. **R1 no longer counts against S3.** A fix
+extracted by external professional-society pressure is not a fix the operator granted, and the record
+states the August 2020 guidance was *"not written by scientists and posted despite their serious
+objections"* — the faction acting through the apparatus, with the 25-day reversal the remainder winning
+one.
+
+**R4 and R5 still point against the signature, and the ruling as given does not reach them.** S3 reads
+the *slope* of resistance against the cost of the fix. The two highest-cost fixes were adopted; R4 was
+**self-initiated** by the agency's own leadership, who then said publicly, *"For 75 years, CDC and
+public health have been preparing for COVID-19, and in our big moment, our performance did not reliably
+meet expectations."* There is no documented internal opponent to attribute that to. Calling a
+self-initiated, self-critical, high-cost reform "the remainder winning" would make the remainder include
+the agency head acting in their own name, which empties the distinction. **A positive cost-resistance
+slope is the rubric's own control condition for a genuinely struggling agency, not the signature**, and
+R4/R5 supply one.
+
+This is the bound §4 of the amendment asks the analyst to set: faction attribution available only where
+the record names *who* acted and *against whose objection*. R1 meets that test. R4 and R5 do not.
+R2 and R3 remain the rows that could cut the other way, and R3 is unanchored.
 
 Whoever scores this should note that the seeds were scored on records where cheap fixes were refused
 outright. The disanalogy here is large and runs toward a low score — which is exactly the direction a

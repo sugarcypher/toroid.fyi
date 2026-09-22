@@ -38,6 +38,41 @@ const block = [
 ].join('\n');
 
 let html = readFileSync(htmlPath, 'utf8');
+
+// ---- 1a. verify every adversarial composite recomputes from its dimensions ----
+// A score and its composite drifting apart is silent and would be published as
+// fact. Weights are read from index.html's WEIGHTS rather than duplicated here,
+// so this cannot pass by agreeing with a stale copy of the rubric.
+const wm = html.match(/const WEIGHTS = \{([\s\S]*?)\};/);
+if (!wm) {
+  console.error('ERROR: WEIGHTS not found in index.html. Aborting.');
+  process.exit(1);
+}
+const WEIGHTS = Object.fromEntries(
+  [...wm[1].matchAll(/(\w+)\s*:\s*([\d.]+)/g)].map(([, k, v]) => [k, parseFloat(v)])
+);
+const wsum = Object.values(WEIGHTS).reduce((a, b) => a + b, 0);
+if (Math.abs(wsum - 1) > 1e-9) {
+  console.error(`ERROR: WEIGHTS sum to ${wsum}, not 1. Aborting.`);
+  process.exit(1);
+}
+for (const a of d.adversarial || []) {
+  const raw = Object.entries(WEIGHTS).reduce((t, [k, w]) => t + w * a.s[k], 0);
+  const expected = Math.round(raw);
+  if (expected !== a.composite) {
+    console.error(`ERROR: ${a.id} composite is ${a.composite} but its dimensions ` +
+                  `recompute to ${raw.toFixed(2)} → ${expected}. Fix the data, not this check.`);
+    process.exit(1);
+  }
+  const band = raw >= 85 ? 'Extreme-Asymmetry' : raw >= 70 ? 'High-Asymmetry'
+             : raw >= 30 ? 'Mixed' : 'Genuine';
+  if (band !== a.band) {
+    console.error(`ERROR: ${a.id} band is "${a.band}" but ${expected} falls in "${band}". Aborting.`);
+    process.exit(1);
+  }
+  console.log(`  ✓ ${a.id}: ${raw.toFixed(2)} → ${expected}, ${band}`);
+}
+
 const blockRe = /\/\* SSOT-GEN:START[\s\S]*?SSOT-GEN:END \*\//;
 if (!blockRe.test(html)) {
   console.error('ERROR: SSOT-GEN markers not found in index.html. Aborting.');
