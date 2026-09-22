@@ -71,7 +71,7 @@ Index = 0.25·45 + 0.20·58 + 0.15·72 + 0.10·20 + 0.30·40 = 11.25 + 11.60 + 1
 
 Per Part VIII: the live domain now contains an architecture the instrument declined to convict. Seven seeds above 70 and one live case at 48. The instrument discriminated where discrimination was available.
 
-What the lock said would happen, happened: S3 came in high (72), S5 came in low (40) on the discriminator, S1 came in low-mid (45). The composite sits in the middle of the Mixed band, not at its edge, so a rater-to-rater swing of twelve points (the observed cross-analyst range) does not cross a band line in either direction. That is the property that makes this reading reportable rather than fragile.
+What the lock said would happen, happened: S3 came in high (72), S5 came in low (40) on the discriminator, S1 came in low-mid (45). The composite sits in the middle of the Mixed band, not at its edge. The robustness claim available here is arithmetic rather than inter-rater, since no cross-analyst study has been run and no observed rater range exists to cite: reaching the High band from 47.65 requires +22.35 weighted points, and the largest headroom any single dimension carries is S5's 18.0 (0.30 x 60), so no single dimension moved to 100 crosses the line; symmetrically, reaching Genuine requires -17.65 and the largest single-dimension floor room is again S5's 12.0, so no single dimension moved to 0 crosses it either. Two dimensions must move together, in concert, to change the band. That is the property that makes this reading reportable rather than fragile.
 
 ## Double-standard audit
 

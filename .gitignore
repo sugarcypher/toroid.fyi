@@ -60,10 +60,15 @@ Icon?
 *.swo
 *~
 
-# Local node_modules / build caches if any sneak in
+# Local node_modules / build caches if any sneak in.
+# ANCHORED to repo root on purpose: unanchored `build/` and `dist/` match any
+# nested dir of that name, which silently ate sabbot/build/ (sync.mjs, tracked
+# before the pattern existed, so it survived) and sabbot/register/build/. Since
+# the deploy is `git archive HEAD`-based, untracked means not deployed. Same
+# class of bug as the 2026-05-31 originals-folder fix. Keep the leading slash.
 node_modules/
-dist/
-build/
+/dist/
+/build/
 .cache/
 .parcel-cache/
 .next/

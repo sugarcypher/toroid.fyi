@@ -2,6 +2,15 @@
 
 Every file in this bundle was drafted by Claude (Opus 5) on 2026-09-12, in session with B. Greenway, and is **Claude-generated and unverified** except where noted below. Nothing here has acquired the analyst's signature by being fluent in his register.
 
+## Revision 1.5 — 2026-09-21, validation pass
+
+A pre-publication validation of the T2 entry found two defects and they are corrected here rather than quietly:
+
+1. **A withdrawn claim had returned.** `PRE-REGISTRATION.md`, the T2 worksheet, and the register page each asserted a "twelve-point observed cross-analyst range." No cross-analyst study has ever been run — as those same pages state two paragraphs away — and the figure was withdrawn from the book in July 2026 as a drafting artifact with no test behind it. It is withdrawn again in all three places, and the withdrawal is recorded in `PRE-REGISTRATION.md` rather than deleted. Band robustness for T2 is now argued from the weight arithmetic, which is checkable and stronger: reaching High requires +22.35 weighted points and the largest headroom any single dimension carries is S5's 18.0, so no single dimension moved to its maximum crosses a band line, and none moved to zero reaches Genuine.
+2. **The published T2 result was not visible.** On `/sabbot/`, the comparison table's renderer rewrites its tbody from the seven seed architectures on load, destroying the static T2 row beneath it; the `adversarial` record was never emitted to the page. The one number inside the live domain that answers Part VIII's ceiling-slamming charge rendered only for readers with JavaScript disabled. The record now flows through the single-source build and is rendered.
+
+Standing liability 2 was also stale — it still read that both adversarial tests were unrun — and now states T2's result together with the four things that limit what it establishes.
+
 ## Transcribed from the analyst's own work — his material, not Claude's
 
 - `register/architectures.json` — the 2026-Q1 per-dimension scores for the seven seed architectures, the 2025-Q1 composites, and the three reform-lineage composites (14 / 19 / 20) are transcribed verbatim from *Named and Counted* v8, Part VII. Epochs where only a composite was published carry `composite_only` with its source and are marked un-auditable. **No dimension score was reconstructed to fit a published composite**; back-fitting dimensions would be fabrication.

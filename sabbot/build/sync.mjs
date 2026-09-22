@@ -33,6 +33,7 @@ const block = [
   `const SEED_EPOCHS = ${JSON.stringify(d.epochs || {})};`,
   `const EPOCH_LABELS = ${JSON.stringify(d.epochLabels || [])};`,
   `const BASELINES = ${JSON.stringify(d.baselines || [])};`,
+  `const ADVERSARIAL = ${JSON.stringify(d.adversarial || [])};`,
   END
 ].join('\n');
 
@@ -68,4 +69,4 @@ md += `- Need order (high→low): ${d.s6.needOrder.join(' · ')}\n`;
 md += `- Funding order (most→least): ${d.s6.allocOrder.join(' · ')}\n`;
 writeFileSync(genMdPath, md);
 
-console.log(`sync ok — version ${d.version}; ${d.dims.length} dims, ${d.anchors.length} anchors, ${d.controls.length} controls; wrote index.html + data/RESOURCE_OPS.generated.md`);
+console.log(`sync ok — version ${d.version}; ${d.dims.length} dims, ${d.anchors.length} anchors, ${d.controls.length} controls, ${(d.adversarial || []).length} adversarial; wrote index.html + data/RESOURCE_OPS.generated.md`);

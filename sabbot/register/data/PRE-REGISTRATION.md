@@ -69,8 +69,8 @@ Each carries falsification conditions for the *test*, not only for the case: a d
 
 ## 7. Standing liabilities, carried forward from Part VIII
 
-1. Scoring is largely one analyst's. Cross-analyst agreement runs to about twelve points on the hundred-point scale, which crosses band lines. Every claim is a rank-order claim about bands, never a point-score claim.
-2. The two adversarial tests are unrun. Until one of them rules against the analyst somewhere a reader can watch, a reader is right to suspect the instrument has only ever agreed with its maker.
+1. Scoring is largely one analyst's, and cross-analyst agreement is **unmeasured** — no replication study has been run, so no inter-rater range is available to quote and none is quoted. (An earlier draft of this file carried a twelve-point figure; it had no study behind it and is withdrawn, as the same claim was withdrawn from the book.) Every claim is a rank-order claim about bands, never a point-score claim, and band robustness is argued from the weight arithmetic instead.
+2. **T2 was run on 2026-09-13** and returned 48 / Mixed against a prediction of Mixed-or-lower locked before scoring — the first live-domain case the instrument declined to convict. It is one data point; its predicted band spanned 70 percent of the scale; its case was selected for a profile expected to score low; and its scoring was neither blind (the locked prediction sat in the worksheet header) nor independent (Claude-scored, Claude-reviewed, ratification delegated). **T1 remains unrun**, and until a test rules against the analyst on a case he is disposed to convict, a reader is still right to suspect the instrument has mostly agreed with its maker.
 3. The synchrony layer currently reports nothing, because fewer than six matched baseline transitions have been scored. Scoring six is the entire cost of making the coordination reading capable of disconfirmation.
 4. The machine-extraction alteration rate is published alongside the statistics. A rate near zero on a large batch is more likely to mean ratification without reading than a reliable extractor, and is treated as a warning rather than a result.
 

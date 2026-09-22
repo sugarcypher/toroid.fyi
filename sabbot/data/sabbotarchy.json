@@ -1,5 +1,5 @@
 {
-  "version": "v0.9.1",
+  "version": "v0.9.2",
   "dims": [
     [
       "S3",
@@ -462,7 +462,7 @@
       "note": "Public quarterly scorecards; in-house won ~87–91% of A-76 competitions; GAO-validated; recorded own slippage."
     }
   ],
-  "_revision_note": "v0.9 (2026-09-12): anchor text for the $1.776B fund and the maritime strikes updated to the record as of 2026-09-12; instance-register layer added at /sabbot/register/. Edits drafted with Claude from cited sources; see /sabbot/register/data/evidence-annex.json AX-001..AX-004 and AX-010 for sources and tags. v0.9.1 (2026-09-13): adversarial test T2 (tariff regime) scored 48 / Mixed against a prediction of Mixed-or-lower locked before scoring; row added to the comparison table; scores Claude-proposed, ratification delegated by the analyst; see /sabbot/register/.",
+  "_revision_note": "v0.9 (2026-09-12): anchor text for the $1.776B fund and the maritime strikes updated to the record as of 2026-09-12; instance-register layer added at /sabbot/register/. Edits drafted with Claude from cited sources; see /sabbot/register/data/evidence-annex.json AX-001..AX-004 and AX-010 for sources and tags. v0.9.1 (2026-09-13): adversarial test T2 (tariff regime) scored 48 / Mixed against a prediction of Mixed-or-lower locked before scoring; row added to the comparison table; scores Claude-proposed, ratification delegated by the analyst; see /sabbot/register/. v0.9.2 (2026-09-21): validation pass — the T2 row was present only as static fallback markup and was destroyed by renderComparison()'s tbody rewrite, so the published adversarial result was invisible to any visitor with JS enabled; the adversarial record is now emitted through the SSOT block and rendered. The 'twelve-point observed cross-analyst range' claim was withdrawn in three places: no cross-analyst study has been run, as the same pages state, and band robustness is asserted from weight arithmetic instead.",
   "adversarial": [
     {
       "id": "t2_tariff",
@@ -486,7 +486,11 @@
       "match": true,
       "scored_by": "Claude (Fable 5.1); ratification delegated by the analyst 2026-09-13 to Claude's review; not independently scored by the analyst",
       "worksheet": "/sabbot/register/data/adversarial/T2-scoring-worksheet-2026-09-13.md",
-      "note": "First live-domain architecture the instrument declined to convict. One data point; T1 unrun; cross-analyst replication outstanding."
+      "note": "First live-domain architecture the instrument declined to convict. One data point; T1 unrun; cross-analyst replication outstanding.",
+      "subname": "acquit-an-enemy test · 2025-Q1 → present",
+      "worksheetHref": "/sabbot/register/#t2",
+      "summary": "First live-domain case the instrument declined to convict; S3 came in high (the cheap fixes — a House vote, the Court's ruling, refunds — resisted like expensive ones) and S5 low (external incoherence traced to documented internal disagreement, not a plan behind fog). Band robustness is arithmetic, not inter-rater: no single dimension, even moved to 100, reaches the High band (largest single-dimension headroom is S5 at 18.0 weighted points against the 22.35 needed), and none moved to 0 reaches Genuine. Provenance stated plainly: scores Claude-proposed and Claude-reviewed, ratification delegated by the analyst rather than performed by him. One data point. T1 unrun. Cross-analyst replication outstanding — no replication study has been run, so no inter-rater range is claimed.",
+      "epochNote": "Scored at 2026-Q3; the seven seeds were last scored at 2026-Q1. Not a slate-wide checkpoint."
     }
   ]
 }
