@@ -112,6 +112,32 @@ Not established: that the instrument is unbiased. One acquittal is one data poin
 
 Not scored: the resource-operations layer (S6–S8). The $12 billion farm payment and the tariff revenue as a political vehicle (the $2,000 dividend, then the $5,000 promise) are candidate S6 material and are held outside the composite per Part V.
 
+## Amendment, 2026-09-21 — S2's stated ground is contradicted; score unchanged pending the analyst
+
+Per §8 of `PRE-REGISTRATION.md`, a dated amendment with a stated reason. **Affects a locked
+prediction: no** — T2's prediction is closed and its band is unaffected. **Changes a score: no.**
+
+The second evidence pass this worksheet asked for ("second-rater attention still belongs here first")
+was run on 2026-09-21. It found the comparator this worksheet said it lacked. Commerce stopped
+processing Section 232 exclusion requests effective 2025-02-10, revoked all General Approved Exclusions
+and country-level arrangements effective 2025-03-12, and replaced the mechanism in April 2025 with an
+*inclusions* process that only lets applicants add products to tariff coverage. Quotations are from the
+administering agency's own page.
+
+That is an existing public-facing relief function **terminated outright** — a stronger form of the
+signature than the IRS seed, where the function was degraded rather than abolished — beside a
+collection function this worksheet records as flawless. **The ground on which S2 was held at 58 (that
+no existing-function comparator was available, only the court-created refund operation) does not
+survive it.**
+
+S2 is left at 58 here because scores are the analyst's and this worksheet is a dated record, not a
+live document. The band is unaffected at any value of S2: weight 0.20 moves the composite at most 8.4
+points against the 22.35 needed for High-Asymmetry, so S2 at 70 gives 50, at 85 gives 53, at 100 gives
+56 — Mixed throughout. The double-standard audit row reading *"resolved: this is a new function created
+by court order"* should be reopened.
+
+Detail and anchors: `T2-evidence-addendum-2026-09-21.md` (machine-proposed, `ratified: false`).
+
 ## Sources
 
 New York Fed Liberty Street Economics, 2026-02-12 · Yale Budget Lab one-year retrospective, 2026-04-02 · Holland & Knight, IEEPA refund appeal, 2026-06 · Cato, refunds update, 2026-07-09 · EPI on S.J.Res.37, 2025-04-02 · CFR on the House vote, 2026-02-11 · Justia, *Learning Resources v. Trump* · Blakes US–Canada tariff timeline · NPR, mixed messages, 2025-04-08 · Yahoo/Politico, trade reshuffle, 2026 · USDA, Farmer Bridge Assistance, 2025-12-08 · Fortune/CNBC/NPR, electronics exemptions, 2025-04-12 · Econbrowser on the Mandate for Leadership trade chapter. Full URLs in `annex/evidence-annex.json` (AX-007, AX-008) and `register/architectures.json` (T2-TARIFF anchors).

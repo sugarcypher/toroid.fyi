@@ -23,8 +23,8 @@ import sys
 import zipfile
 from pathlib import Path
 
-PREV = "v1.5"
-VERSION = "v1.6"
+PREV = "v1.6"
+VERSION = "v1.7"
 
 here = Path(__file__).resolve().parent
 root = here.parent                      # sabbot/register
@@ -50,6 +50,10 @@ SOURCES = {
     "oir/adversarial/T2-acquit-an-enemy.md": data / "adversarial/T2-acquit-an-enemy.md",
     "oir/adversarial/T1-prediction-elicitation.md":
         data / "adversarial/T1-prediction-elicitation.md",
+    "oir/adversarial/T1-evidence-pack-2026-09-21.md":
+        data / "adversarial/T1-evidence-pack-2026-09-21.md",
+    "oir/adversarial/T2-evidence-addendum-2026-09-21.md":
+        data / "adversarial/T2-evidence-addendum-2026-09-21.md",
     "oir/adversarial/T2-scoring-worksheet-2026-09-13.md":
         data / "adversarial/T2-scoring-worksheet-2026-09-13.md",
     "oir/adversarial/scoring-worksheet.template.md":
