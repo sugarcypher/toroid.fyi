@@ -52,12 +52,12 @@
       "locked_on_local": "2026-09-13 15:39 PDT",
       "locked_by": "Briar Greenway",
       "how": "Reply 'lock' to the drafted prediction text, in session; the text below is what was locked",
-      "prediction_text": "T2 \u2014 tariff regime, 2025-Q1 to present. Predicted band: Mixed or lower. S1 low (no clean realized-beneficiary divergence; incidence falls on the administration's own constituencies). S5 mid (announcement volatility fires only if a coordinated internal plan sits behind incoherent external messaging; genuine internal reversal scores low). S3 is the open one: the re-imposition under \u00a7338 after the IEEPA ruling, then the August escalation, is a candidate anti-remediation anchor \u2014 the cheapest fix was accepting the ruling, refused twice \u2014 and it pulls the composite up. Locked with that in view.",
-      "falsification": "A composite in the high band (\u226570) means the instrument failed to discriminate where discrimination was available; per Part VIII the analyst reports that failure. A composite below 70 reached only by scoring a dimension below what its anchors support is a manufactured acquittal and is worth less than an honest high score."
+      "prediction_text": "T2 — tariff regime, 2025-Q1 to present. Predicted band: Mixed or lower. S1 low (no clean realized-beneficiary divergence; incidence falls on the administration's own constituencies). S5 mid (announcement volatility fires only if a coordinated internal plan sits behind incoherent external messaging; genuine internal reversal scores low). S3 is the open one: the re-imposition under §338 after the IEEPA ruling, then the August escalation, is a candidate anti-remediation anchor — the cheapest fix was accepting the ruling, refused twice — and it pulls the composite up. Locked with that in view.",
+      "falsification": "A composite in the high band (≥70) means the instrument failed to discriminate where discrimination was available; per Part VIII the analyst reports that failure. A composite below 70 reached only by scoring a dimension below what its anchors support is a manufactured acquittal and is worth less than an honest high score."
     },
     "PRED-2026-09-22-PRESS-ACCESS": {
       "kind": "forecast_with_dated_triggers",
-      "subject": "Press-access architecture: Pentagon credential pledge (2025-10-15), AP v. Budowich (2025-02 \u2192), White House ban of CNN / MS NOW / Politico (2026-09-18/19) and the five-network TV-pool suspension (2026-09-21); media consolidation as a coupled condition",
+      "subject": "Press-access architecture: Pentagon credential pledge (2025-10-15), AP v. Budowich (2025-02 →), White House ban of CNN / MS NOW / Politico (2026-09-18/19) and the five-network TV-pool suspension (2026-09-21); media consolidation as a coupled condition",
       "locked_on": "2026-09-22T04:54:53Z",
       "locked_on_local": "2026-09-21 21:54 PDT",
       "locked_by": "Briar Greenway",
@@ -86,8 +86,8 @@
       },
       "explicitly_not_locked": "The phrase 'never letting anything but lies be broadcast' is an absolute and is not scored. Its measurable residue is P3.",
       "baseline_measurements_needed_now": [
-        "Independent TV-pool share of presidential-event footage in the fortnight before 2026-09-18 (the P2/P3 baseline); not yet measured.",
-        "Composition and charter of the CNN and CBS editorial boards at merger close (expected by 2026-09-30); not yet recorded."
+        "RECORDED 2026-09-22 (unratified): independent TV-pool share of presidential-event footage, 4–17 Sept 2026 — see BASELINE-2026-09-22-pool-footage-share.md. B1 five-network presence at covered items 34/34; B2 covered items per fortnight 34, pool-only 24; B3 secondary-TV-as-sole-source 0/34; B4 closed-realized 29/63.",
+        "STILL OWED: composition and charter of the CNN and CBS editorial boards at merger close (expected by 2026-09-30)."
       ],
       "band_prediction_for_slate": "NOT STATED AT LOCK. Dimension-level only: high S3, high S5, low S1. PRESS-ACCESS therefore enters the slate as a candidate and stays OUTSIDE the breadth denominator until the analyst locks a band.",
       "prior_instances_forming_the_base_rate": [

@@ -472,6 +472,34 @@
         "https://au.variety.com/2026/biz/global/david-ellison-cnn-independent-paramount-buys-warner-bros-discovery-33880",
         "https://factually.co/fact-checks/business/ellison-media-properties-owned-and-pending-deals-e8cb84"
       ]
+    },
+    {
+      "annex_id": "AX-021",
+      "title": "A White-House-selected second TV slot sat in every daily pool before the ban",
+      "event_dates": {
+        "rotations": "2026-08-30, 2026-09-07, 2026-09-13 (announcements for 31 Aug–20 Sept)"
+      },
+      "what_is_established": "The White House's own weekly press-rotation announcements, republished in the pool-report archive, list two TV slots per day: a primary slot rotating among ABC, CBS, CNN, FOX and NBC, and a 'Secondary TV' slot filled by the White House from a different set. For 4–17 September the secondary assignments were RAV, RSBN, OAN, Univision, Lindell TV, Scripps, Newsmax, FOX 5 DC, Sinclair, Bloomberg TV, NewsNation, CBN, GB News and Univision. A 'New Media' slot is likewise filled daily (NOTUS, Spot On, Zero Hedge, The Federalist, Gateway Pundit, Heartlander News, Frontlines, Human Events, UnHerd, Townhall, National Review, NTD, Center Square, Semafor). When the five networks suspended pool coverage on 21 September, the secondary slot became the only TV in the pool.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Which secondary-slot outlets are 'administration-aligned' is a characterization, not a fact in the rotation. The list is recorded so the classification is argued, not assumed. Two are anchored elsewhere: OAN signed the Pentagon pledge (AX-016); RAV was alone in the traveling pool after 21 Sept (AX-019).",
+          "source": "https://pool.pp.tools/reports/9007"
+        }
+      ],
+      "why_it_matters": "P3 predicts substitution rather than vacuum. This item shows the substitute was seated in advance: the structure that fills the gap did not have to be built after the ban.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S5",
+        "P3 baseline B3"
+      ],
+      "sources": [
+        "https://pool.pp.tools/reports/8825",
+        "https://pool.pp.tools/reports/8912",
+        "https://pool.pp.tools/reports/9007",
+        "https://pressfreedomtracker.us/all-incidents/white-house-wrests-control-of-presidential-press-pool-from-correspondents/"
+      ]
     }
   ],
   "locus_summary": {
@@ -490,5 +518,5 @@
     "LOCUS-PRESS-ACCESS": "One locus, collapsed per the coarser-is-conservative rule: Pentagon (Department of Defense, 2025-10), AP (Executive Office, 2025-02 →) and the CNN / MS NOW / Politico ban (Executive Office, 2026-09) are one executive press-access policy with three dated instances. Splitting Defense from the Executive Office is arguable and would add a locus; not taken. The East Room injunction is a partial counter item inside the locus.",
     "LOCUS-MEDIA-CONSOLIDATION": "One locus. Private transaction, state settlement, federal clearance; independent of the press-access decision chain though coupled to it in P3."
   },
-  "revision": "1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
+  "revision": "1.4 — 2026-09-22. AX-021 added (the secondary TV slot), from the baseline enumeration. 1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
 }
