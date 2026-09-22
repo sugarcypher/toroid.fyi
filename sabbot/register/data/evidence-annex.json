@@ -622,6 +622,42 @@
         "https://lynnwoodtimes.com/2026/09/21/trump-tv/",
         "https://heathercoxrichardson.substack.com/p/september-21-2026"
       ]
+    },
+    {
+      "annex_id": "AX-026",
+      "title": "The substitution channels predate the ban; the vacancy is what is new",
+      "event_dates": {
+        "white_house_wire": "2025-05-01",
+        "media_bias_portal": "2025-12",
+        "white_house_app": "2026-03-27",
+        "app_mandated_on_federal_devices": "2026-05",
+        "secondary_tv_slot_in_baseline_window": "2026-09-04 → 09-17",
+        "trump_tv": "2026-09-21"
+      },
+      "what_is_established": "White House Wire, a link-aggregation site, launched 2025-05-01 ('a place for supporters of the president's agenda to get the real news', a White House official to Axios). A 'Media Bias' portal followed in December 2025. The White House app launched 2026-03-27 with livestreams, alerts and 'unfiltered, real-time updates straight from the source'; in May 2026 the federal chief information officer directed agency CIOs to auto-install it on government-issued iPhones and iPads, which the FAA's notice described as 'mandated by the White House'. A White-House-selected secondary TV slot sat in every daily pool through the baseline window (AX-021). 'Trump TV: The Essentials Station' launched 2026-09-21 at 19:00 EDT, seven hours after the five-network suspension (AX-025). Of these, only Trump TV postdates the ban.",
+      "evidence_tag": "occurred",
+      "inclusion_rule": "A substitution channel is one that originates or carries presidential-event footage a pool camera would otherwise have produced. Counted: the secondary TV slot (originates; the only substitute with a camera in the room), Trump TV (originates), the White House app (carries; the one compelled distribution channel). Excluded by the rule and recorded as adjacent structure: White House Wire (aggregates links, originates nothing) and the Media Bias portal (complaints intake, no footage). The rule was fixed before the count and is not chosen by reference to what was vacated. What was vacated is one rotating pool-camera slot and three outlets' credentials, one of them print; the two sides share no unit except footage share by origin, which is the unit P3 is scored in.",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether the app 'carries' pool-equivalent footage or merely relays administration-produced video is the line between carrier and originator; both are administration-origin for P3 purposes, so the distinction does not move the share. The Axios quotation is as reported by Wikipedia's summary of Axios and was not read at source.",
+          "source": "https://en.wikipedia.org/wiki/White_House_Wire"
+        }
+      ],
+      "why_it_matters": "S3 reads the sequence, and the sequence here is build, distribute, seat, then remove. The channels that fill the gap were launched between four and seventeen months before the gap existed and one of them was placed on federal devices by mandate; the removal therefore cannot be scored as a reaction to the networks' withdrawal, whatever the public register says. Same shape as the fund and the audit bar: the beneficiary structure exists before the act that routes to it. For P3, 'administration feed' now has a launch history rather than a single day, and the T+365 re-count applies the inclusion rule above without revisiting it.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S3",
+        "S5",
+        "P3 inclusion rule"
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/White_House_Wire",
+        "https://www.whitehouse.gov/releases/2026/03/new-white-house-app-delivers-unparalleled-access-to-the-trump-administration/",
+        "https://www.govexec.com/management/2026/05/white-house-ordering-agencies-place-its-new-app-all-employees-government-phones/413738/",
+        "https://www.cnbc.com/2026/03/27/white-house-app-trump-iran-war-oil-gas-ice.html",
+        "https://pool.pp.tools/reports/9007"
+      ]
     }
   ],
   "locus_summary": {
@@ -635,10 +671,10 @@
     "LOCUS-DIVIDEND": "One locus.",
     "LOCUS-HEALTH-COVERAGE": "One locus.",
     "effective_n_if_treated_as_a_sample": 12,
-    "reading": "Twenty-five verified items collapse to twelve independent loci, one running counter-directional and one carrying a partial counter item. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. The press-access chain added one locus despite nine items, because the codebook collapses arguable boundaries to the coarser unit.",
+    "reading": "Twenty-six verified items collapse to twelve independent loci, one running counter-directional and one carrying a partial counter item. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. The press-access chain added one locus despite ten items, because the codebook collapses arguable boundaries to the coarser unit.",
     "LOCUS-FOOD-SAFETY": "One locus. Administrative, not judicial. Independent of the removal line.",
     "LOCUS-PRESS-ACCESS": "One locus, collapsed per the coarser-is-conservative rule: Pentagon (Department of Defense, 2025-10), AP (Executive Office, 2025-02 →) and the CNN / MS NOW / Politico ban (Executive Office, 2026-09) are one executive press-access policy with three dated instances. Splitting Defense from the Executive Office is arguable and would add a locus; not taken, and AX-022 (the Department's same-day endorsement citing its own pledge) is the corroboration the collapse rested on. The East Room injunction is a partial counter item inside the locus.",
     "LOCUS-MEDIA-CONSOLIDATION": "One locus. Private transaction, state settlement, federal clearance; independent of the press-access decision chain though coupled to it in P3."
   },
-  "revision": "1.5 — 2026-09-22. AX-022 to AX-025 added (Department of War endorsement; the suit, Judge Kelly and the pre-vowed appeal; intent restated in writing; day one without the pool and the Trump TV launch); AX-018 gains the 2023 hard-pass comparison as a contestation entry. All four sit in LOCUS-PRESS-ACCESS; the locus count is unchanged at twelve. 1.4 — 2026-09-22. AX-021 added (the secondary TV slot), from the baseline enumeration. 1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
+  "revision": "1.6 — 2026-09-22. AX-026 added: the substitution channels predate the ban, with the P3 inclusion rule fixed (originates or carries pool-equivalent footage) and two adjacent structures excluded by it and recorded. Locus count unchanged at twelve. 1.5 — 2026-09-22. AX-022 to AX-025 added (Department of War endorsement; the suit, Judge Kelly and the pre-vowed appeal; intent restated in writing; day one without the pool and the Trump TV launch); AX-018 gains the 2023 hard-pass comparison as a contestation entry. All four sit in LOCUS-PRESS-ACCESS; the locus count is unchanged at twelve. 1.4 — 2026-09-22. AX-021 added (the secondary TV slot), from the baseline enumeration. 1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
 }

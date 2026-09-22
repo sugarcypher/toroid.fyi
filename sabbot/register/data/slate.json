@@ -114,7 +114,8 @@
           "tag": "projected"
         }
       ],
-      "record_note": "observations_after_lock added at register v1.12 (2026-09-22) from verified reporting; drafted with Claude; none changes P1–P3 or their triggers."
+      "record_note": "observations_after_lock added at register v1.12 (2026-09-22) from verified reporting; drafted with Claude; none changes P1–P3 or their triggers.",
+      "P3_inclusion_rule_fixed_2026-09-22": "A substitution channel originates or carries presidential-event footage a pool camera would otherwise have produced. Counted: secondary TV slot, Trump TV, White House app. Excluded: White House Wire, Media Bias portal. Fixed before any re-count; not chosen by reference to the vacancy (AX-026). Drafted with Claude; ratified by the analyst 2026-09-22 ('ship')."
     }
   }
 }
