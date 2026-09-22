@@ -8,7 +8,7 @@ Static site. GitHub → Cloudflare Pages → custom domain.
 ## 1 · Initialize the repo (one-time)
 
 ```bash
-cd ~/Documents/toroid-fyi
+cd ~/Developer/toroid-fyi
 git init -b main
 git add -A
 git status   # sanity-check the file list — originals are .gitignored

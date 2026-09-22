@@ -1,7 +1,7 @@
 # COLLAB.md — multi-agent coordination contract
 
 Two AI agents are working this repo **through the shared filesystem** at
-`~/Documents/toroid-fyi`. There is no direct agent-to-agent API; this file IS
+`~/Developer/toroid-fyi`. There is no direct agent-to-agent API; this file IS
 the shared memory and message bus. Both agents MUST read it before editing and
 update it after.
 
@@ -83,7 +83,7 @@ a stale build. Don't trust a tab you didn't just hard-refresh (Cmd+Shift+R).
 To get a TRUE screenshot of the file on disk (CLAUDE uses this every iteration):
 
 ```bash
-cd ~/Documents/toroid-fyi/play
+cd ~/Developer/toroid-fyi/play
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless=new --disable-gpu --enable-unsafe-swiftshader --hide-scrollbars \
   --window-size=1600,1000 --screenshot=_render.png \

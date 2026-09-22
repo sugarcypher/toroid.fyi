@@ -133,5 +133,6 @@ toroid-fyi/
 ---
 
 *This package was prepared May 22, 2026 on the consolidated `~/Documents/toroid-fyi/`
-working folder. Originals preserved unchanged in `Strat-Dom-3d/`,
+working folder (relocated to `~/Developer/toroid-fyi/` on 2026-09-22, out of iCloud Drive's
+Desktop & Documents sync, which had been writing ` 2` conflict copies into the tree). Originals preserved unchanged in `Strat-Dom-3d/`,
 `Polymorphic Matrix/`, `sabbotarchy/`, and `opmanifold/`.*
