@@ -346,6 +346,132 @@
         "https://www.food-safety.com/articles/10158-fda-moves-to-rehire-some-human-foods-staffers-who-were-previously-fired",
         "https://www.food-safety.com/articles/11004-a-2025-timeline-of-us-federal-food-safety-changes-under-the-trump-admin"
       ]
+    },
+    {
+      "annex_id": "AX-016",
+      "title": "Pentagon press-credential pledge; press corps turns in badges",
+      "event_dates": {
+        "badges_confiscated": "2025-10-15"
+      },
+      "what_is_established": "On 2025-10-15 nearly every major outlet — Axios, Fox News, NBC, ABC, CNN, NPR, AP, the Washington Post, the New York Times — turned in Pentagon access badges rather than sign a new reporting pledge they said would criminalize national-security reporting and expose signatories to prosecution; the Pentagon confiscated the badges. One America News indicated it would sign. Roughly fifteen reporters remained. Pentagon spokesperson Sean Parnell: the policy is 'what's best for our troops and the national security of this country.' The Pentagon Press Association called it 'a dark day for press freedom.'",
+      "evidence_tag": "occurred",
+      "explicit_non_claim": "'Willingly' is only technically accurate: the choice offered was sign or leave. Coding this as a voluntary departure would misstate the mechanism.",
+      "base_rate_role": "Control case for the forecast PRED-2026-09-22: at eleven months the policy stands and access has not been restored.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S3",
+        "S5"
+      ],
+      "sources": [
+        "https://www.axios.com/2025/10/15/pentagon-press-reporting-policy-defense-reporters-badges",
+        "https://www.yahoo.com/news/articles/only-15-reporters-remain-pentagon-165143345.html",
+        "https://deadline.com/2025/10/pentagon-reporters-press-freedom-trump-1236587676/"
+      ]
+    },
+    {
+      "annex_id": "AX-017",
+      "title": "Associated Press v. Budowich: injunction, non-compliance, appellate narrowing, no decision at nineteen months",
+      "event_dates": {
+        "tro_denied": "2025-02-24",
+        "injunction": "2025-04-08",
+        "enforcement_motion": "2025-04-16",
+        "dc_circuit_partial_stay": "2025-06-06",
+        "en_banc_denied": "2025-07-22",
+        "argued": "2025-11-24",
+        "status_as_of": "2026-09-22"
+      },
+      "what_is_established": "Judge McFadden granted a preliminary injunction on 2025-04-08 holding the government 'cannot exclude journalists purely based on their viewpoints' (780 F.Supp.3d 32). AP moved to enforce on 2025-04-16 alleging non-compliance, including being barred from an Oval Office event despite the order; enforcement was denied. On 2025-06-06 the D.C. Circuit stayed the injunction except as to the East Room, Judge Rao reasoning that the Oval Office and Air Force One are 'not public' and the president may discriminate by viewpoint there. En banc rehearing denied 2025-07-22. Argued 2025-11-24. No decision as of 2026-09-22.",
+      "evidence_tag": "occurred",
+      "counter_directional_component": "The East Room injunction survived appeal. Within this locus that is a partial counter item and is recorded as such.",
+      "base_rate_role": "Pilot for the forecast: the cheap fix was ordered, disobeyed, narrowed, and left undecided. Nineteen months from filing.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S3",
+        "S5"
+      ],
+      "sources": [
+        "https://clearinghouse.net/case/46152/",
+        "https://firstamendment.mtsu.edu/post/despite-a-court-order-white-house-bars-ap-from-oval-office-event/",
+        "https://www.rcfp.org/briefs-comments/associated-press-v-budowich/"
+      ]
+    },
+    {
+      "annex_id": "AX-018",
+      "title": "White House bans CNN, MS NOW and Politico; credentials disabled without notice",
+      "event_dates": {
+        "announced": "2026-09-18",
+        "credentials_disabled": "2026-09-19",
+        "suit_filed": "2026-09-21"
+      },
+      "what_is_established": "On Friday 2026-09-18 the President announced by Truth Social that he was banning 'Fake News CNN, MSNOW... and Politico... from the White House as a result of their constant \"reporting\" fake news.' Reporters found their badges disabled at the entrance over the weekend, without notice or process. The White House Correspondents' Association reported the President describing the action in the Oval Office as 'a ban on the free press.' The three outlets sued on Monday 2026-09-21: 'Without notice or process, the White House revoked our journalists' credentials because it objected to our reporting.' Theodore Boutrous: the ban 'is, on its face, unconstitutional.'",
+      "evidence_tag": "occurred",
+      "intent_on_the_record": "Per the book's two-registers rule: the actor's own characterization — 'a ban on the free press' — is quoted, not inferred. It is reported by the WHCA as the President's words in the Oval Office; the public framing the same day was 'fake news'. That pairing is the S5 internal/external mismatch stated by the actor.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S3",
+        "S5"
+      ],
+      "sources": [
+        "https://whca.press/2026/09/18/statement-on-white-house-position-on-cnn-msnow-and-politico/",
+        "https://www.npr.org/2026/09/19/nx-s1-5974854/trump-cnn-msnow-politico-ban",
+        "https://time.com/article/2026/09/21/cnn-ms-now-politico-to-sue-trump-administration-over-white-house-ban/",
+        "https://www.cnn.com/2026/09/18/media/trump-claims-ban-cnn-msnow-politico-white-house"
+      ]
+    },
+    {
+      "annex_id": "AX-019",
+      "title": "Five-network TV pool suspends coverage of presidential events",
+      "event_dates": {
+        "suspension_effective": "2026-09-21"
+      },
+      "what_is_established": "On Monday 2026-09-21 Fox News pool chair Bryan Boughton notified pool subscribers that the TV pool would halt coverage of 'events designated as pool coverage of the President,' with 'no replacement pool put in place. All other pool coverage will continue as normal, including Congress, VIPs, and selected events.' ABC, CBS, NBC, Fox and CNN issued a joint statement: 'No administration should restrict a news organization because it objects to its reporting.' Real America's Voice was reported as the only station in the out-of-town traveling pool.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether the suspension is a 'win' is a contested reading. For: unprecedented cross-network solidarity including Fox; courts backed the press in 2018 (Acosta) and 2025 (AP, East Room). Against: the boycott delivers, at the press corps's own cost, the outcome the ban sought — no independent video of the president — and the Pentagon control case shows a walkout unremedied at eleven months. Salon's time-shape point: legal victory is probable and months out, past the midterm window.",
+          "source": "https://www.salon.com/2026/09/21/trump-didnt-break-the-press-they-did-that-to-themselves/"
+        }
+      ],
+      "explicit_non_claim": "This is a press-side action responding to the ban, not an administration decision; it does not constitute its own decision locus. Print and wire pool participation is not established in the sources located.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S5"
+      ],
+      "sources": [
+        "https://www.axios.com/2026/09/21/trump-media-ban-tv-networks-cnn-ms-now-politico",
+        "https://newrepublic.com/post/215641/trump-ban-cnn-backfires-tv-press-pool-wont-cover",
+        "https://www.mediaite.com/media/news/extraordinary-show-of-solidarity-media-world-floored-by-rival-networks-banding-together-to-fight-trump-ban/"
+      ]
+    },
+    {
+      "annex_id": "AX-020",
+      "title": "Paramount Skydance–Warner Bros. Discovery: state settlement clears a Trump-cleared sale of CNN to the Ellisons within days of the ban",
+      "event_dates": {
+        "state_settlement": "2026-09-21",
+        "closing_deadline_to_avoid_penalty": "2026-09-30"
+      },
+      "what_is_established": "Twelve state attorneys general and the Writers Guild of America settled their suit against the $110 billion Paramount Skydance (Larry Ellison) acquisition of Warner Bros. Discovery on 2026-09-21. Terms reported: independent editorial boards for CNN and CBS; headcount requirements for journalists at both; a $30 million penalty tied to film output; worker protections. The administration had already cleared the deal. Closing by 2026-09-30 avoids a $7 million per day penalty to Warner shareholders. David Ellison: CNN will operate independently, 'we want to be in the truth business.' Seth Stern, Freedom of the Press Foundation: 'An independent editorial board for CNN and CBS is a weak half-measure.' The Ellisons already control Paramount and CBS News.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether the editorial boards protect independence is disputed; their duration and enforcement mechanism are not specified in the sources located. This is the condition P3 measures at T+365.",
+          "source": "https://www.aljazeera.com/economy/2026/9/21/paramount-settles-with-us-states-in-step-towards-merger-with-warner-bros"
+        }
+      ],
+      "structural_note": "The entity that revoked CNN's credentials on 2026-09-18/19 is the entity that cleared CNN's sale. That is the S3 → S1 chain shape in Part VII, recorded here as documented sequence, not as an inference about motive.",
+      "locus_id": "LOCUS-MEDIA-CONSOLIDATION",
+      "anchors": [
+        "S1",
+        "S5"
+      ],
+      "sources": [
+        "https://www.aljazeera.com/economy/2026/9/21/paramount-settles-with-us-states-in-step-towards-merger-with-warner-bros",
+        "https://www.ms.now/news/states-settle-suit-over-paramount-warner-merger-clearing-key-hurdle-for-81-billion-deal",
+        "https://au.variety.com/2026/biz/global/david-ellison-cnn-independent-paramount-buys-warner-bros-discovery-33880",
+        "https://factually.co/fact-checks/business/ellison-media-properties-owned-and-pending-deals-e8cb84"
+      ]
     }
   ],
   "locus_summary": {
@@ -358,9 +484,11 @@
     "LOCUS-ELECTIONS-EO": "One locus.",
     "LOCUS-DIVIDEND": "One locus.",
     "LOCUS-HEALTH-COVERAGE": "One locus.",
-    "effective_n_if_treated_as_a_sample": 10,
-    "reading": "Fifteen verified items collapse to ten independent loci, and one of the ten runs counter-directional. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. Note that separating the food-safety chain from the judicial line ADDED a locus, which is the only way the annex gains power: by finding genuinely independent decision points, never by adding items to loci already represented.",
-    "LOCUS-FOOD-SAFETY": "One locus. Administrative, not judicial. Independent of the removal line."
+    "effective_n_if_treated_as_a_sample": 12,
+    "reading": "Twenty verified items collapse to twelve independent loci, one running counter-directional and one carrying a partial counter item. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. The press-access chain added one locus despite four items, because the codebook collapses arguable boundaries to the coarser unit.",
+    "LOCUS-FOOD-SAFETY": "One locus. Administrative, not judicial. Independent of the removal line.",
+    "LOCUS-PRESS-ACCESS": "One locus, collapsed per the coarser-is-conservative rule: Pentagon (Department of Defense, 2025-10), AP (Executive Office, 2025-02 →) and the CNN / MS NOW / Politico ban (Executive Office, 2026-09) are one executive press-access policy with three dated instances. Splitting Defense from the Executive Office is arguable and would add a locus; not taken. The East Room injunction is a partial counter item inside the locus.",
+    "LOCUS-MEDIA-CONSOLIDATION": "One locus. Private transaction, state settlement, federal clearance; independent of the press-access decision chain though coupled to it in P3."
   },
-  "revision": "1.2 \u2014 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order: no money was ever transferred, and the audit bar was narrowed to retroactive-only. AX-006 scope clarified, AX-008 dates corrected, AX-015 added."
+  "revision": "1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
 }

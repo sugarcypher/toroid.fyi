@@ -23,8 +23,8 @@ import sys
 import zipfile
 from pathlib import Path
 
-PREV = "v1.8"
-VERSION = "v1.9"
+PREV = "v1.9"
+VERSION = "v1.10"
 
 here = Path(__file__).resolve().parent
 root = here.parent                      # sabbot/register
@@ -39,6 +39,7 @@ SOURCES = {
     "oir/PRE-REGISTRATION.md": data / "PRE-REGISTRATION.md",
     "oir/AMENDMENT-2026-09-21-locus-and-s5.md": data / "AMENDMENT-2026-09-21-locus-and-s5.md",
     "oir/SYMMETRY-TEST-2026-09-21-faction-rule.md": data / "SYMMETRY-TEST-2026-09-21-faction-rule.md",
+    "oir/AMENDMENT-2026-09-22-press-access-forecast.md": data / "AMENDMENT-2026-09-22-press-access-forecast.md",
     "oir/PROVENANCE.md": data / "PROVENANCE.md",
     "oir/schema/codebook.md": data / "codebook.md",
     "oir/schema/frame.schema.json": data / "frame.schema.json",

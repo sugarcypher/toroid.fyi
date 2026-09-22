@@ -21,7 +21,8 @@
     "ROUTINE-FLOOR",
     "OPPOSITE-VALENCE",
     "T1-PUBHEALTH-INFO",
-    "T2-TARIFF"
+    "T2-TARIFF",
+    "PRESS-ACCESS"
   ],
   "member_roles": {
     "IRS": "seed",
@@ -39,7 +40,8 @@
     "ROUTINE-FLOOR": "negative_control",
     "OPPOSITE-VALENCE": "opposite_valence",
     "T1-PUBHEALTH-INFO": "adversarial_test",
-    "T2-TARIFF": "adversarial_test"
+    "T2-TARIFF": "adversarial_test",
+    "PRESS-ACCESS": "seed_candidate"
   },
   "unscored_members_remain_in_denominator": true,
   "denominator_rule": "Removing an unscored member from the denominator inflates breadth. Members leave the slate only by dated amendment with a stated reason, never because they are inconvenient.",
@@ -52,6 +54,46 @@
       "how": "Reply 'lock' to the drafted prediction text, in session; the text below is what was locked",
       "prediction_text": "T2 \u2014 tariff regime, 2025-Q1 to present. Predicted band: Mixed or lower. S1 low (no clean realized-beneficiary divergence; incidence falls on the administration's own constituencies). S5 mid (announcement volatility fires only if a coordinated internal plan sits behind incoherent external messaging; genuine internal reversal scores low). S3 is the open one: the re-imposition under \u00a7338 after the IEEPA ruling, then the August escalation, is a candidate anti-remediation anchor \u2014 the cheapest fix was accepting the ruling, refused twice \u2014 and it pulls the composite up. Locked with that in view.",
       "falsification": "A composite in the high band (\u226570) means the instrument failed to discriminate where discrimination was available; per Part VIII the analyst reports that failure. A composite below 70 reached only by scoring a dimension below what its anchors support is a manufactured acquittal and is worth less than an honest high score."
+    },
+    "PRED-2026-09-22-PRESS-ACCESS": {
+      "kind": "forecast_with_dated_triggers",
+      "subject": "Press-access architecture: Pentagon credential pledge (2025-10-15), AP v. Budowich (2025-02 \u2192), White House ban of CNN / MS NOW / Politico (2026-09-18/19) and the five-network TV-pool suspension (2026-09-21); media consolidation as a coupled condition",
+      "locked_on": "2026-09-22T04:54:53Z",
+      "locked_on_local": "2026-09-21 21:54 PDT",
+      "locked_by": "Briar Greenway",
+      "how": "Reply 'lock' to the drafted prediction text, in session; the text below is what was locked, verbatim",
+      "analyst_statement_verbatim": "my prediction for this is that it will also not be fixed cheaply. and it most likely won't be fixed at all. leaving the space required for a purer propagandist state media to replace it. that combined with the media take over and mergers by the tech oligarchs could really distort any truth by never letting anything but lies be broadcast.",
+      "operative_form_drafted_by_claude_and_locked_by_analyst": {
+        "P1": {
+          "claim": "Not fixed cheaply. No credential restored by voluntary act before a court order.",
+          "falsified_if": "Any of the three outlets' credentials are restored without a court compelling it.",
+          "check_on": "2026-12-21",
+          "horizon": "T+90 (past the 2026-11-03 midterms)"
+        },
+        "P2": {
+          "claim": "Not fixed in fact. By T+365 either no final appellate ruling restores access, or a ruling exists and independent TV-pool coverage of presidential events is still below its 2026-09-18 baseline.",
+          "falsified_if": "The five-network pool is back to its 2026-09-18 baseline under a complied-with court order.",
+          "check_on": "2027-09-22",
+          "horizon": "T+365"
+        },
+        "P3": {
+          "claim": "Substitution, not vacuum. By T+365 the share of presidential-event footage originating from administration feeds or single-outlet friendly pools (Real America's Voice, OAN class) exceeds the share from the five-network pool, AND at least one of the state-imposed editorial boards at CNN or CBS has been altered, overridden, or allowed to lapse.",
+          "falsified_if": "The pool share recovers to majority, OR both editorial boards are intact and demonstrably exercised at T+365.",
+          "check_on": "2027-09-22",
+          "horizon": "T+365",
+          "note": "The tech-oligarch consolidation claim is carried by the CNN/CBS board condition, the only part measurable on a one-year horizon. The rest stays in the annex as documented structure, not a scored claim."
+        }
+      },
+      "explicitly_not_locked": "The phrase 'never letting anything but lies be broadcast' is an absolute and is not scored. Its measurable residue is P3.",
+      "baseline_measurements_needed_now": [
+        "Independent TV-pool share of presidential-event footage in the fortnight before 2026-09-18 (the P2/P3 baseline); not yet measured.",
+        "Composition and charter of the CNN and CBS editorial boards at merger close (expected by 2026-09-30); not yet recorded."
+      ],
+      "band_prediction_for_slate": "NOT STATED AT LOCK. Dimension-level only: high S3, high S5, low S1. PRESS-ACCESS therefore enters the slate as a candidate and stays OUTSIDE the breadth denominator until the analyst locks a band.",
+      "prior_instances_forming_the_base_rate": [
+        "Pentagon walkout 2025-10-15: policy unchanged at 11 months; ~15 reporters remain; OAN signed.",
+        "AP v. Budowich: injunction 2025-04-08; White House barred AP anyway and enforcement was denied; D.C. Circuit stay 2025-06-06 confined relief to the East Room; en banc denied 2025-07-22; argued 2025-11-24; undecided at 19 months."
+      ]
     }
   }
 }
