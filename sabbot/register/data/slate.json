@@ -93,7 +93,28 @@
       "prior_instances_forming_the_base_rate": [
         "Pentagon walkout 2025-10-15: policy unchanged at 11 months; ~15 reporters remain; OAN signed.",
         "AP v. Budowich: injunction 2025-04-08; White House barred AP anyway and enforcement was denied; D.C. Circuit stay 2025-06-06 confined relief to the East Room; en banc denied 2025-07-22; argued 2025-11-24; undecided at 19 months."
-      ]
+      ],
+      "observations_after_lock": [
+        {
+          "date": "2026-09-21",
+          "bears_on": "P1",
+          "observation": "Appeal vowed by the President at 15:39 EDT, before the government's response was due and two days before the first hearing (AX-023). Recorded as the cheap fix declined in advance; not a P1 result — P1 is checked 2026-12-21.",
+          "tag": "occurred"
+        },
+        {
+          "date": "2026-09-21",
+          "bears_on": "P3",
+          "observation": "First day without the five-network pool: helipad event with no usable audio; 'Trump TV: The Essentials Station' launched at 19:00 EDT; White House app promoted (AX-025). One day, not a share. The T+365 re-count keeps administration feeds and the secondary-TV slot (AX-021) as separate substitution channels.",
+          "tag": "occurred"
+        },
+        {
+          "date": "2026-09-23",
+          "bears_on": "P1",
+          "observation": "CHECKPOINT, not yet observed: TRO hearing before Judge Kelly, 15:30 EDT. Whatever is ordered, P1 turns on whether restoration follows by compulsion or by voluntary act.",
+          "tag": "projected"
+        }
+      ],
+      "record_note": "observations_after_lock added at register v1.12 (2026-09-22) from verified reporting; drafted with Claude; none changes P1–P3 or their triggers."
     }
   }
 }

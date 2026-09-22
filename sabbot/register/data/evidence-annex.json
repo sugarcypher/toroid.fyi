@@ -415,7 +415,15 @@
         "https://whca.press/2026/09/18/statement-on-white-house-position-on-cnn-msnow-and-politico/",
         "https://www.npr.org/2026/09/19/nx-s1-5974854/trump-cnn-msnow-politico-ban",
         "https://time.com/article/2026/09/21/cnn-ms-now-politico-to-sue-trump-administration-over-white-house-ban/",
-        "https://www.cnn.com/2026/09/18/media/trump-claims-ban-cnn-msnow-politico-white-house"
+        "https://www.cnn.com/2026/09/18/media/trump-claims-ban-cnn-msnow-politico-white-house",
+        "https://www.snopes.com/fact-check/biden-press-passes-trump-ban/"
+      ],
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Administration defenders compare the ban to the 2023 hard-pass rule change, under which the count fell from 1,417 to 975 (442 fewer) over three months. The 2023 change was a reapplication under published eligibility criteria (full-time employment, D.C. residence, regular coverage, gallery accreditation, Secret Service check) applied to every holder; the 2026 action names three outlets by their coverage. The number is recorded so the comparison is argued on its mechanism, not dismissed. Fact-checks distinguishing the two are on record; the register does not adopt their rating.",
+          "source": "https://washingtonstand.com/news/white-house-purges-442-reporters-using-new-press-credential-rules"
+        }
       ]
     },
     {
@@ -500,6 +508,120 @@
         "https://pool.pp.tools/reports/9007",
         "https://pressfreedomtracker.us/all-incidents/white-house-wrests-control-of-presidential-press-pool-from-correspondents/"
       ]
+    },
+    {
+      "annex_id": "AX-022",
+      "title": "Department of War endorses the White House ban the day it is announced",
+      "event_dates": {
+        "statement": "2026-09-18"
+      },
+      "what_is_established": "On 2026-09-18 the Secretary of War posted from @SecWar on X that the Department 'fully supports President Trump's decision to kick CNN, MSNBCNOW and Politico to the curb', that the outlets had 'self-deported' from the Pentagon rather than accept its credential rules (AX-016), and that they had 'endangered our troops with false stories, leaks, and trafficked in fiction and lies about the President, our Warriors, and their mission.' No example of a false story or a leak was given in the statement.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "The endangerment and leak claims are the actor's assertions and are unsubstantiated in the statement itself; they are recorded as statements, not as established facts about the outlets.",
+          "source": "https://www.newsbreak.com/combat-rated-361333999/4896123453495-hegseth-says-pentagon-fully-supports-trump-s-decision-to-kick-cnn-ms-now-and-politico-to-the-curb"
+        }
+      ],
+      "why_it_matters": "The locus rule counts decisions, not headlines. The Pentagon pledge (2025-10) and the White House ban (2026-09) were entered as one locus on the ground that credential access is decided at one place. A same-day endorsement of the second by the author of the first, citing the first, is the corroboration that reading needed. It does not raise the count; it confirms that the count should not be raised.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S5",
+        "locus rule"
+      ],
+      "sources": [
+        "https://www.newsbreak.com/combat-rated-361333999/4896123453495-hegseth-says-pentagon-fully-supports-trump-s-decision-to-kick-cnn-ms-now-and-politico-to-the-curb",
+        "https://www.cnbc.com/2026/09/18/trump-white-house-ban-msnow-cnn-politico.html",
+        "https://heathercoxrichardson.substack.com/p/september-21-2026"
+      ]
+    },
+    {
+      "annex_id": "AX-023",
+      "title": "The suit: Judge Kelly assigned, hearing set for 23 Sept, appeal vowed before any ruling",
+      "event_dates": {
+        "badges_deactivated": "2026-09-19",
+        "suit_filed": "2026-09-21",
+        "government_response_due": "2026-09-22",
+        "tro_hearing": "2026-09-23T15:30-04:00",
+        "appeal_vowed": "2026-09-21T15:39-04:00"
+      },
+      "what_is_established": "On Saturday 2026-09-19 Secret Service and White House security officers deactivated and in some cases confiscated the hard passes of Akayla Gardner (MS NOW), Betsy Klein (CNN) and Cheyenne Haslett (Politico) at the gate. On Monday 2026-09-21 CNN, MS NOW and Politico, represented by Gibson Dunn, filed in the U.S. District Court for D.C. seeking a temporary restraining order restoring access; the case was assigned to Judge Timothy J. Kelly, a 2017 Trump appointee who in November 2018 ordered Jim Acosta's credential restored on due-process grounds. The government's response was due 2026-09-22; the TRO hearing was set for Wednesday 2026-09-23 at 3:30 p.m. by videoconference. At 3:39 p.m. on 21 Sept the President posted that the plaintiffs 'have drawn a great Judge, for them, a man who ruled in favor of Jim Acosta ... sadly, appointed by \"TRUMP\"', and that 'almost without question and, as usual, we'll go for appeal', asking 'Why should I have to give \"access\" to such people?'",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "Whether an appeal follows a ruling is a future event; the vow is recorded as a statement made before any ruling existed. The docket number reported by one secondary source could not be confirmed and is omitted.",
+          "source": "https://www.lawdork.com/p/ousted-outlets-sue-cameras-pull-back"
+        }
+      ],
+      "why_it_matters": "P1 says the credentials will not be restored by voluntary act before a court compels it. An appeal announced two days before the first hearing is the cheap fix declined in advance, in the actor's words. It is the first dated observation on P1, and it is consistent with the base-rate case (AP v. Budowich: ordered, disobeyed, narrowed). The 23 Sept hearing is P1's first checkpoint.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S3",
+        "P1 checkpoint 2026-09-23"
+      ],
+      "sources": [
+        "https://www.lawdork.com/p/ousted-outlets-sue-cameras-pull-back",
+        "https://aurn.com/judge-hearing-cnn-ms-now-politico-white-house-access/",
+        "https://gephardtdaily.com/top-stories/white-house-confiscates-press-badges-of-cnn-ms-now-politico-reporters/",
+        "https://www.trumpstruth.org/statuses/41836",
+        "https://en.wikipedia.org/wiki/CNN_v._Trump"
+      ]
+    },
+    {
+      "annex_id": "AX-024",
+      "title": "Intent restated in the actor's words: 'not an assault on the Free Press ... an assault on the FAKE NEWS'",
+      "event_dates": {
+        "post": "2026-09-21T07:53-04:00"
+      },
+      "what_is_established": "At 7:53 a.m. on 2026-09-21 the President posted: 'The White House is not instituting an assault on the Free Press, something which I cherish. It is instituting an assault on the FAKE NEWS ... It is a threat to our National Security, and must be stopped, NOW!' Three days earlier the WHCA had reported his description of the same action in the Oval Office as 'a ban on the free press' (AX-018).",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "The Oval Office phrase is reported by the WHCA, not recorded on tape in any source located; the Truth Social text is verbatim from the platform mirror. The two registers are therefore not of equal provenance, and the item says so.",
+          "source": "https://whca.press/2026/09/18/statement-on-white-house-position-on-cnn-msnow-and-politico/"
+        }
+      ],
+      "why_it_matters": "S5 reads the distance between internal and external accounts of the same act. Here the external account is supplied by the actor in writing, the internal one by the press corps' report of his spoken words. The written register also supplies the 'National Security' ground that the appeal vow (AX-023) repeats, which is the ground a court would be asked to defer to.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S5"
+      ],
+      "sources": [
+        "https://www.trumpstruth.org/statuses/41826",
+        "https://whca.press/2026/09/18/statement-on-white-house-position-on-cnn-msnow-and-politico/"
+      ]
+    },
+    {
+      "annex_id": "AX-025",
+      "title": "Day one without the pool: an inaudible event, then 'Trump TV: The Essentials Station'",
+      "event_dates": {
+        "helipad_event": "2026-09-21",
+        "trump_tv_launch": "2026-09-21T19:00-04:00"
+      },
+      "what_is_established": "On the first day of the five-network suspension (AX-019), the President's helipad ribbon-cutting at the White House produced footage with no usable audio: clips circulated from attendees' phones, and a Newsmax anchor said on air that there was no microphone because the pool cameras were not there. At 7 p.m. the same day the White House launched a round-the-clock livestream, 'Trump TV: The Essentials Station', described by deputy assistant Kaelan Dorr as 'a livestream of the Administration's greatest hits, unfiltered', alongside promotion of the White House app for events 'streamed DIRECTLY to your phone'.",
+      "evidence_tag": "occurred",
+      "contestation": [
+        {
+          "class": "high_quality",
+          "summary": "That the channel's comment feature is turned off is stated by one source (Richardson, 21 Sept) and was not independently confirmed; it is recorded as single-source. The audio failure is one event; its cause (pool absence versus Marine One noise) is asserted by observers, not established.",
+          "source": "https://heathercoxrichardson.substack.com/p/september-21-2026"
+        }
+      ],
+      "why_it_matters": "P3 predicts substitution rather than vacuum. This is the vacuum and the substitute on the same calendar day: an event without independent sound, and an administration-produced feed announced within hours. It is one day and is not a share; the B-series counts (BASELINE-2026-09-22) are what P3 is scored against at T+365. The pre-seated secondary TV slot (AX-021) and this feed are the two substitution channels the re-count must keep separate.",
+      "locus_id": "LOCUS-PRESS-ACCESS",
+      "anchors": [
+        "S5",
+        "P3 mechanism, day one"
+      ],
+      "sources": [
+        "https://www.thewrap.com/media-platforms/journalism/trump-press-pool-ban-boycott-muted-white-house-event-video/",
+        "https://www.newsweek.com/white-house-launches-trump-tv-amid-media-ban-what-we-know-12470372",
+        "https://lynnwoodtimes.com/2026/09/21/trump-tv/",
+        "https://heathercoxrichardson.substack.com/p/september-21-2026"
+      ]
     }
   ],
   "locus_summary": {
@@ -513,10 +635,10 @@
     "LOCUS-DIVIDEND": "One locus.",
     "LOCUS-HEALTH-COVERAGE": "One locus.",
     "effective_n_if_treated_as_a_sample": 12,
-    "reading": "Twenty verified items collapse to twelve independent loci, one running counter-directional and one carrying a partial counter item. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. The press-access chain added one locus despite four items, because the codebook collapses arguable boundaries to the coarser unit.",
+    "reading": "Twenty-five verified items collapse to twelve independent loci, one running counter-directional and one carrying a partial counter item. A sign test on that is worthless, which is why this annex is anchor-only and the frames carry the statistic. The press-access chain added one locus despite nine items, because the codebook collapses arguable boundaries to the coarser unit.",
     "LOCUS-FOOD-SAFETY": "One locus. Administrative, not judicial. Independent of the removal line.",
-    "LOCUS-PRESS-ACCESS": "One locus, collapsed per the coarser-is-conservative rule: Pentagon (Department of Defense, 2025-10), AP (Executive Office, 2025-02 →) and the CNN / MS NOW / Politico ban (Executive Office, 2026-09) are one executive press-access policy with three dated instances. Splitting Defense from the Executive Office is arguable and would add a locus; not taken. The East Room injunction is a partial counter item inside the locus.",
+    "LOCUS-PRESS-ACCESS": "One locus, collapsed per the coarser-is-conservative rule: Pentagon (Department of Defense, 2025-10), AP (Executive Office, 2025-02 →) and the CNN / MS NOW / Politico ban (Executive Office, 2026-09) are one executive press-access policy with three dated instances. Splitting Defense from the Executive Office is arguable and would add a locus; not taken, and AX-022 (the Department's same-day endorsement citing its own pledge) is the corroboration the collapse rested on. The East Room injunction is a partial counter item inside the locus.",
     "LOCUS-MEDIA-CONSOLIDATION": "One locus. Private transaction, state settlement, federal clearance; independent of the press-access decision chain though coupled to it in P3."
   },
-  "revision": "1.4 — 2026-09-22. AX-021 added (the secondary TV slot), from the baseline enumeration. 1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
+  "revision": "1.5 — 2026-09-22. AX-022 to AX-025 added (Department of War endorsement; the suit, Judge Kelly and the pre-vowed appeal; intent restated in writing; day one without the pool and the Trump TV launch); AX-018 gains the 2023 hard-pass comparison as a contestation entry. All four sit in LOCUS-PRESS-ACCESS; the locus count is unchanged at twelve. 1.4 — 2026-09-22. AX-021 added (the secondary TV slot), from the baseline enumeration. 1.3 — 2026-09-22. AX-016 to AX-020 added (press-access chain and media consolidation), two loci added, in support of the locked forecast PRED-2026-09-22-PRESS-ACCESS. Prior: 1.2 — 2026-09-12. AX-002 and AX-004 corrected with the 2026-08-03 rescission order; AX-006 scope clarified; AX-008 dates corrected; AX-015 added."
 }
