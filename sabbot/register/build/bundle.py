@@ -23,8 +23,8 @@ import sys
 import zipfile
 from pathlib import Path
 
-PREV = "v1.12"
-VERSION = "v1.13"
+PREV = "v1.13"
+VERSION = "v1.14"
 
 here = Path(__file__).resolve().parent
 root = here.parent                      # sabbot/register
