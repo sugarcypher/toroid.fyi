@@ -22,7 +22,10 @@ const actors = P.actorClusters.flatMap(c => c.actors.map(a => ({ ...a, cluster: 
 const targets = P.targetGroups.flatMap(g => g.targets.map(t => ({ ...t, group: g.name })));
 const aid = new Set(actors.map(a => a.id)), tid = new Set(targets.map(t => t.id));
 const inCells = new Set(P.cells.map(c => c.actor));
-const dropped = arr => arr.filter(l => !inCells.has(l.a) || !inCells.has(l.b));
+const inEdges = new Set([...P.actorLinks, ...P.wormholes, ...P.polarities].flatMap(l => [l.a, l.b]));
+const rendered = new Set([...inCells, ...inEdges]);   // the render rule since 2026-10-02: any edge of any layer
+const dropped = arr => arr.filter(l => !rendered.has(l.a) || !rendered.has(l.b));
+const droppedOld = arr => arr.filter(l => !inCells.has(l.a) || !inCells.has(l.b));
 
 console.log('== Catalysis Toroid (poly/index.html)');
 console.log(`actors ${actors.length} · targets ${targets.length} · 7.x cells ${P.cells.length} · R ${P.actorLinks.length} · B ${P.wormholes.length} · P ${P.polarities.length} · vortices ${P.vortexTypes.length}`);
@@ -30,8 +33,9 @@ console.log('channels', count(P.cells.map(c => c.channel)), 'tiers', count(P.cel
 console.log('complexes', count(P.cells.flatMap(c => c.complexes || [])));
 const modes = count(P.cells.flatMap(c => c.modes || []));
 console.log(`modes in use ${Object.keys(modes).length}:`, Object.entries(modes).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(', '));
-console.log('actors with no 7.x cell (not rendered):', actors.filter(a => !inCells.has(a.id)).map(a => a.id).join(', '));
-console.log(`edges not rendered because an endpoint has no cell: R ${dropped(P.actorLinks).length}/${P.actorLinks.length} · B ${dropped(P.wormholes).length}/${P.wormholes.length} · P ${dropped(P.polarities).length}/${P.polarities.length}`);
+console.log('actors with no 7.x cell (rendered only because they carry R/B/P edges):', actors.filter(a => !inCells.has(a.id)).map(a => a.id).join(', '));
+console.log(`actors rendered ${actors.filter(a => rendered.has(a.id)).length}/${actors.length} · edges with an unrendered endpoint: R ${dropped(P.actorLinks).length}/${P.actorLinks.length} · B ${dropped(P.wormholes).length}/${P.wormholes.length} · P ${dropped(P.polarities).length}/${P.polarities.length}`);
+console.log(`(under the pre-2026-10-02 rule, cells only: R ${droppedOld(P.actorLinks).length} · B ${droppedOld(P.wormholes).length} · P ${droppedOld(P.polarities).length} were silently dropped)`);
 console.log('ids used as both actor and target:', actors.map(a => a.id).filter(x => tid.has(x)).join(', '));
 console.log('actors missing from actorFlow:', actors.filter(a => !P.actorFlow[a.id]).map(a => a.id).join(', ') || 'none');
 const dangling = [];
