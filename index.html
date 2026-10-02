@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TOROID — a system of forms</title>
-<meta name="description" content="Eight instruments for seeing how a system's load-bearing layer is attacked and its value extracted. © ThinkWell Labs." />
+<meta name="description" content="Nine forms for seeing how a system's load-bearing layer is attacked and its value extracted — and how the seeing is attacked in turn. © ThinkWell Labs." />
 <meta property="og:title" content="TOROID — a system of forms · toroid.fyi" />
-<meta property="og:description" content="Eight instruments for seeing one thing: how a system's load-bearing layer is attacked, and its value quietly extracted." />
+<meta property="og:description" content="Nine forms for seeing one thing: how a system's load-bearing layer is attacked, its value quietly extracted, and the means of seeing cut." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://toroid.fyi/" />
 <meta name="theme-color" content="#111214" />
@@ -89,7 +89,7 @@
 <div class="overlay" id="overlay">
   <div class="title">TOROID</div>
   <div class="subtitle">A System of Forms</div>
-  <p class="intro">Eight instruments for seeing one thing: how a system's <b>load-bearing layer</b> — the people and functions a society runs on — is attacked, and its value quietly extracted. Each form is a measurement you can enter. <b>Why it matters:</b> the damage is real and ongoing; here it is documented from public sources and measured — interpretation offered as such, not allegation.</p>
+  <p class="intro">Nine forms for seeing one thing: how a system's <b>load-bearing layer</b> — the people and functions a society runs on — is attacked, and its value quietly extracted. Each form is a measurement you can enter; the ring runs in the order the work is done — <b>observe, name, measure, predict, check, correct</b>. <b>Why it matters:</b> the damage is real and ongoing; here it is documented from public sources and measured — interpretation offered as such, not allegation.</p>
   <div class="hint" id="hint">click to enter the instrument ring</div>
 </div>
 
@@ -97,13 +97,14 @@
 <nav id="instruments" class="sr-nav" aria-label="The instruments">
   <h2>The instruments</h2>
   <ol>
-    <li><a href="/poly/">Polymorphic Catalysis — the Catalysis Toroid</a> (evidence layer: actors, targets, back-channels)</li>
-    <li><a href="/sabbot/">Obfuscratic Sabbotarchy — the Deception Arcane</a> (measurement layer: the engineered-incompetence index)</li>
-    <li><a href="/removal/">The Removal Economy — Extraction Toroid</a></li>
-    <li><a href="/book/">Named and Counted, Not Blamed nor Accounted</a> (the companion volume, in full)</li>
-    <li><a href="/substrate-attack/">The Substrate Attack — the live condition</a></li>
-    <li><a href="/play/">Sches — playable commitment substrate</a></li>
-    <li><a href="/matrix/">Polymorphic Matrix — precursor · archive</a></li>
+    <li><a href="/poly/">Polymorphic Catalysis — the Catalysis Toroid</a> (observe: actors, targets, back-channels)</li>
+    <li><a href="/matrix/">Polymorphic Matrix — precursor · archive</a> (name: the first map of the circulation)</li>
+    <li><a href="/book/">Named and Counted, Not Blamed nor Accounted</a> (name: the companion volume, in full)</li>
+    <li><a href="/substrate-attack/">The Substrate Attack — the live condition</a> (name: the cut beneath every loop)</li>
+    <li><a href="/removal/">The Removal Economy — Extraction Toroid</a> (observe and measure: one loop, six stations)</li>
+    <li><a href="/sabbot/">Obfuscratic Sabbotarchy — the Deception Arcane</a> (measure: the engineered-incompetence index)</li>
+    <li><a href="/play/">Sches — playable commitment substrate</a> (predict: the generator, as play)</li>
+    <li><a href="/cycles/">The Two Cycles — meta-instrument</a> (correct: how the forms fit, and where the gaps are)</li>
     <li><a href="/system/">The System — papers · terminology · method · legal</a></li>
   </ol>
   <p>Also: <a href="/predicates/">terminology — the coined predicates</a> · <a href="/research/">research</a> · <a href="/legal/">terms &amp; legal</a></p>
@@ -134,14 +135,17 @@
 'use strict';
 
 // The gates. Each is a door to the page it fronts — the words AND the form are clickable.
+// Ordered as the measurement cycle runs — observe, name, measure, predict, check, correct —
+// so the ring reads as the method, not as a menu (see /cycles/).
 const RING = [
-  { name:'Polymorphic Catalysis', sub:'Catalysis Toroid',     href:'/poly/',            color:0x9adfe0 },
-  { name:'Obfuscratic Sabbotarchy',sub:'Deception Arcane',     href:'/sabbot/',          color:0xc6b2ff },
-  { name:'The Removal Economy',    sub:'Extraction Toroid',     href:'/removal/',         color:0xf2766b },
-  { name:'Named and Counted',      sub:'Not blamed nor accounted', href:'/book/',         color:0xe8dcc0 },
-  { name:'The Substrate Attack',   sub:'The live condition',    href:'/substrate-attack/',color:0xf4a8d8 },
-  { name:'Sches',                  sub:'Playable commitment substrate', href:'/play/',   color:0xf4c485 },
-  { name:'Polymorphic Matrix',     sub:'Precursor · archive',   href:'/matrix/',          color:0x9adf86 },
+  { name:'Polymorphic Catalysis', sub:'Catalysis Toroid · observe',        href:'/poly/',            color:0x9adfe0 },
+  { name:'Polymorphic Matrix',     sub:'Precursor · the first naming',      href:'/matrix/',          color:0x9adf86 },
+  { name:'Named and Counted',      sub:'Companion volume · name',   href:'/book/',            color:0xe8dcc0 },
+  { name:'The Substrate Attack',   sub:'The live condition · name',         href:'/substrate-attack/',color:0xf4a8d8 },
+  { name:'The Removal Economy',    sub:'Extraction Toroid · measure one loop', href:'/removal/',    color:0xf2766b },
+  { name:'Obfuscratic Sabbotarchy',sub:'Deception Arcane · measure',        href:'/sabbot/',          color:0xc6b2ff },
+  { name:'Sches',                  sub:'Commitment substrate · predict', href:'/play/',      color:0xf4c485 },
+  { name:'The Two Cycles',         sub:'Meta-instrument · how the forms fit', href:'/cycles/',        color:0xffe66d },
 ];
 const CENTER = { name:'The System', sub:'Papers · terminology · method · legal', href:'/system/', color:0xcfd3d7 };
 const ALL = [...RING, CENTER];
@@ -174,7 +178,8 @@ mainTorus.userData.cfg = CENTER;
 torusGroup.add(mainTorus);
 
 const toroids = [];
-const RING_RADIUS=2.5, RING_SCALE=0.50, CENTER_SCALE=0.74;
+const RING_RADIUS=2.65, RING_SCALE=0.48, CENTER_SCALE=0.74;
+let ringLine=null;   // the faint closed line through the gates — the ring read as a cycle
 
 let state='idle', rotationSpeed=0.30, progress=0, pauseTimer=0;
 let leaving=false, tosOpen=false;
@@ -215,16 +220,21 @@ function makeClones(){
     m.scale.setScalar(RING_SCALE); torusGroup.add(m); toroids.push(m);
   }
   mainTorus.userData.tint=new THREE.Color(0xcfd3d7);
+  // connective ring: a thin circle through the gate centres, grown with the emanation
+  const pts=[]; for (let i=0;i<=180;i++){ const a=(i/180)*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a),Math.sin(a),0)); }
+  ringLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color:0xcfd3d7, transparent:true, opacity:0.0 }));
+  ringLine.scale.setScalar(0.001); torusGroup.add(ringLine);
 }
-function ringPos(i,radius){ const a=(-Math.PI/2)+(i/N)*Math.PI*2; return new THREE.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0); }
+// i=0 at the top, then clockwise — reading order, so the ring runs the way the method runs
+function ringPos(i,radius){ const a=(Math.PI/2)-(i/N)*Math.PI*2; return new THREE.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0); }
 const easeInOut=t=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 
 // Returning visitors skip the emanation — the ring is already familiar; first visits keep the full sequence.
 const returning = (()=>{ try { return localStorage.getItem('twl-visited')==='1'; } catch(e){ return false; } })();
 if (reduceMotion || (returning && agreed)){
   overlay.style.display='none';
-  camera.position.z=7.9; torusGroup.rotation.set(-0.28,0,0);
-  makeClones();
+  camera.position.z=8.3; torusGroup.rotation.set(-0.28,0,0);
+  makeClones(); ringLine.scale.setScalar(RING_RADIUS); ringLine.material.opacity=0.16;
   toroids.forEach((m,i)=>{ m.position.copy(ringPos(i,RING_RADIUS)); m.material.color.copy(m.userData.tint); });
   mainTorus.scale.setScalar(CENTER_SCALE); mainTorus.material.color.copy(mainTorus.userData.tint);
   state='expanded'; labelHost.classList.add('show');
@@ -315,7 +325,8 @@ function animate(){
   } else if (state==='expanding'){
     progress+=delta*0.5; const e=easeInOut(Math.min(progress,1));
     toroids.forEach((m,i)=>m.position.copy(ringPos(i,RING_RADIUS*e)));
-    mainTorus.scale.setScalar(1+(CENTER_SCALE-1)*e); camera.position.z=6.4+e*1.5;
+    if (ringLine){ ringLine.scale.setScalar(Math.max(0.001,RING_RADIUS*e)); ringLine.material.opacity=0.16*e; }
+    mainTorus.scale.setScalar(1+(CENTER_SCALE-1)*e); camera.position.z=6.4+e*1.9;
     toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.06));
     if (progress>=1){ state='expanded'; labelHost.classList.add('show'); try { localStorage.setItem('twl-visited','1'); } catch(_){} }
   } else if (state==='expanded'){

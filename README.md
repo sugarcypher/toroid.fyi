@@ -15,6 +15,8 @@ toroid-fyi/
 ├── poly/         ← Polymorphic Catalysis Toroid v0.33 (relational instrument)
 ├── sabbot/       ← Obfuscratic Sabbotarchy — Deception Arcane v0.1 (signature instrument)
 ├── play/         ← Strata-Dom-3D research game (ludic substrate)
+├── cycles/       ← The Two Cycles — meta-instrument (Oct 2026): extraction cycle × measurement
+│                  cycle on one torus; coverage map of the instruments; cross-instrument audit script
 ├── matrix/       ← Polymorphic Matrix v1 (precursor, March 2026)
 │                  └ + circulatory_pressure_architectures.{docx,summary.pdf}
 ├── papers/       ← consolidated methodology documents
@@ -28,7 +30,7 @@ toroid-fyi/
 The Catalysis Toroid and the Deception Arcane are companion instruments.
 
 - **Layer 1 — Evidence.** `poly/` documents operating-coalition architecture:
-  136 actors, 118 targets, 349 operational cells, 130 actor-actor relationship
+  137 actors, 118 targets, 349 operational cells, 130 actor-actor relationship
   cells, 50 wormhole backchannels, 17 polarity-tension cells, six consolidation
   vortices. Nested tire-and-inner-tube geometry, four parallel edge layers, six
   intent channels (STRUCT / CONV / COORD / OPP / INACT / UNK), 42-mode

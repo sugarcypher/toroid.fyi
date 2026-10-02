@@ -380,6 +380,7 @@
     <div>Actors: <span id="stat-actors">0</span> across 8 cluster tiers</div>
     <div>Targets: <span id="stat-targets">0</span> institutions under pressure</div>
     <div>Cell edges: <span id="stat-edges">0</span> documented connections</div>
+    <div>Relationships: <span id="stat-rel">0</span></div>
   </div>
 
   <div>Outer surface (spheres): actor coalitions, color-coded by cluster tier. Inner surface (octahedra): target institutions, color-coded by group. <strong>Central yellow icosahedron: Polymorphic Convergence</strong> — the structural attractor that all cell-flows route through. Lines: documented cell connections, color- and pattern-coded by intent channel.</div>
@@ -890,7 +891,8 @@ const actorFlow = {
   'wexner_arch':       'upper',
   'maxwell_arch':      'upper',
   'nxivm':             'upper',
-  'global_trafficking': 'upper'
+  'global_trafficking': 'upper',
+  'scotus':            'boundary'   // dual-role (also a target); boundary keeps the A-ref numbering stable
 };
 
 const targetFlow = {
@@ -3702,8 +3704,13 @@ cells.forEach(c => {
 });
 const sortedModes = [...allModes].sort((a, b) => modeCounts[b] - modeCounts[a]);
 
-// Filter actors and targets to those that participate in at least one cell
-const visibleActors = actors.filter(a => connectedActorIds.has(a.id));
+// Render every actor that carries at least one edge of ANY layer. Filtering on 7.x cells alone
+// (v0.33) silently dropped 51 of 130 R-cells, 9 of 50 B-wormholes and 4 of 17 P-cells, because
+// 30 actors appear only in the relationship layers — among them federalist_soc, whose R038 the
+// Deception Arcane cites by id. Audit: cycles/build/audit.mjs (2026-10-02).
+const edgeActorIds = new Set();
+[...actorLinks, ...wormholes, ...polarities].forEach(l => { edgeActorIds.add(l.a); edgeActorIds.add(l.b); });
+const visibleActors = actors.filter(a => connectedActorIds.has(a.id) || edgeActorIds.has(a.id));
 const visibleTargets = targets.filter(t => connectedTargetIds.has(t.id));
 
 // ===========================================================================
@@ -4434,7 +4441,7 @@ const vortexTypes = [
   { id: 'power',         name: 'Power consolidation',         centerActor: 'us_exec',           color: 0x7C3AED,
     sources: ['us_exec', 'doj', 'dod', 'odni', 'ice_dhs', 'fbi_lead', 'treasury', 'heritage', 'federalist_soc', 'america_first_legal'] },
   { id: 'capital',       name: 'Capital consolidation',       centerActor: 'asset_managers',    color: 0xCA8A04,
-    sources: ['asset_managers', 'private_equity', 'hedge_funds', 'sovereign_wealth', 'family_offices', 'thiel_network', 'big_banks'] },
+    sources: ['asset_managers', 'private_equity', 'hedge_funds', 'saudi', 'uae', 'family_offices', 'thiel_network', 'big_banks'] },   // 'sovereign_wealth' never existed as an actor; the sovereign-wealth actors are saudi / uae (fixed 2026-10-02)
   { id: 'money',         name: 'Money / finance consolidation', centerActor: 'big_banks',       color: 0x16A34A,
     sources: ['big_banks', 'sec', 'treasury', 'asset_managers', 'crypto_industry', 'rating_agencies', 'big4_accounting', 'insurance'] },
   { id: 'attention',     name: 'Attention consolidation',     centerActor: 'big_tech',          color: 0x06B6D4,
@@ -4802,7 +4809,7 @@ function initializeLabels() {
     label.element.style.color = actor.color;
     label.element.style.display = 'none';
     mesh.add(label);
-    nodeLabels[actor.id] = label;
+    nodeLabels['a:' + actor.id] = label;   // keyed by role: 13 ids are both an actor and a target
   });
   Object.values(targetMeshes).forEach(({ mesh }) => {
     const target = mesh.userData.data;
@@ -4811,7 +4818,7 @@ function initializeLabels() {
     label.element.style.color = target.color;
     label.element.style.display = 'none';
     mesh.add(label);
-    nodeLabels[target.id] = label;
+    nodeLabels['t:' + target.id] = label;
   });
 }
 
@@ -4819,12 +4826,12 @@ function initializeLabels() {
 function refreshLabelText() {
   Object.values(actorMeshes).forEach(({ mesh }) => {
     const actor = mesh.userData.data;
-    const label = nodeLabels[actor.id];
+    const label = nodeLabels['a:' + actor.id];
     if (label) label.element.textContent = makeLabelText(actor, true);
   });
   Object.values(targetMeshes).forEach(({ mesh }) => {
     const target = mesh.userData.data;
-    const label = nodeLabels[target.id];
+    const label = nodeLabels['t:' + target.id];
     if (label) label.element.textContent = makeLabelText(target, false);
   });
 }
@@ -5232,7 +5239,7 @@ function updateNodeVisuals() {
     const id = mesh.userData.data.id;
     const isInSelection = isSelected(id, 'actor');
     const isConnected = connectedActorIds.has(id);
-    const label = nodeLabels[id];
+    const label = nodeLabels['a:' + id];
 
     if (!hasSelection) {
       mesh.material.opacity = 1.0;
@@ -5257,7 +5264,7 @@ function updateNodeVisuals() {
     const id = mesh.userData.data.id;
     const isInSelection = isSelected(id, 'target');
     const isConnected = connectedTargetIds.has(id);
-    const label = nodeLabels[id];
+    const label = nodeLabels['t:' + id];
     const isInternational = internationalTargetIds.has(id);
     // International targets respect GLOBAL toggle
     const allowLabel = !isInternational || showGlobal;
@@ -5631,6 +5638,7 @@ updateInternationalVisibility();
 rebuildAll();
 document.getElementById('stat-actors').textContent = visibleActors.length + ' (of ' + actors.length + ' documented)';
 document.getElementById('stat-targets').textContent = visibleTargets.length + ' (of ' + targets.length + ' documented)';
+document.getElementById('stat-rel').textContent = actorLinks.length + ' R · ' + wormholes.length + ' B · ' + polarities.length + ' P — all endpoints rendered';
 
 // ===========================================================================
 // HOVER & CLICK INTERACTION
@@ -6037,7 +6045,7 @@ const TIPS = [
   },
   {
     title: 'Targets populate the inner torus',
-    body: `<strong>Octahedra</strong> appear on the inner surface — these are targets (Medicaid, voting architecture, climate stability, Palestinians, Ukraine, and ~118 others). Colors mark target groups: red = populations under pressure, green = environmental, blue = federal agencies.<br><br>The full schema: <strong>136 actors</strong>, <strong>118 targets</strong>, <strong>349 documented operations</strong> between them.`,
+    body: `<strong>Octahedra</strong> appear on the inner surface — these are targets (Medicaid, voting architecture, climate stability, Palestinians, Ukraine, and ~118 others). Colors mark target groups: red = populations under pressure, green = environmental, blue = federal agencies.<br><br>The full schema: <strong>137 actors</strong>, <strong>118 targets</strong>, <strong>349 documented operations</strong> between them.`,
     apply: () => {
       setLayerVis({
         outerWire: true, innerWire: true, innerSolid: true,
@@ -6252,6 +6260,45 @@ try {
   // No localStorage access; default to showing tips
   showTipPanel();
 }
+
+// Deep links (2026-10-02) — so the Deception Arcane's anchors, the Removal footnotes and
+// /cycles/ can land on the exact evidence instead of the front door:
+//   /poly/?node=<actor or target id>      e.g. ?node=ice_dhs
+//   /poly/?cell=<7.x | R### | B### | P###> e.g. ?cell=B040 · ?cell=7.297 · ?cell=R038
+// A cell link selects the cell's originating actor at 1° and switches on the layer the
+// cell lives in; the tour is skipped and the state is otherwise the operational default.
+(function deepLink() {
+  let q; try { q = new URLSearchParams(location.search); } catch (e) { return; }
+  const node = q.get('node'), cell = q.get('cell');
+  if (!node && !cell) return;
+  let id = node, layer = null, channel = null;
+  if (cell) {
+    const c = cells.find(x => x.id === cell);
+    if (c) { id = c.actor; channel = c.channel; }
+    else {
+      const r = actorLinks.find(x => x.id === cell), b = wormholes.find(x => x.id === cell), pp = polarities.find(x => x.id === cell);
+      const hit = r || b || pp;
+      if (hit) { id = hit.a; layer = r ? 'links' : (b ? 'worm' : 'pole'); }
+    }
+  }
+  if (!id || !(actorMeshes[id] || targetMeshes[id])) return;
+  document.getElementById('tip-panel').classList.add('hidden');
+  document.getElementById('tip-reopen').classList.add('visible');
+  setOperationalDefault();
+  if (channel) {   // a 7.x cell: switch on its intent channel so the edge itself draws
+    activeChannels.add(channel);
+    document.querySelectorAll('#controls input[data-channel]').forEach(cb => { if (cb.dataset.channel === channel) cb.checked = true; });
+  }
+  if (layer === 'links') { showActorLinks = true; setToggleActive('toggle-links', true); }
+  if (layer === 'worm')  { showWormholes = true;  setToggleActive('toggle-worm', true); }
+  if (layer === 'pole')  { showPolarities = true; setToggleActive('toggle-pole', true); }
+  selection = { type: 'node', value: id };
+  selectedDegree = 1;
+  updateNodeVisuals();
+  rebuildAll();
+  updateSelectionBanner();
+  updateLegendActiveStates();
+})();
 </script>
 <script src="/assets/tos.js"></script>
 </body>
