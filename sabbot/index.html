@@ -681,7 +681,7 @@
     @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
-<body translate="yes">
+<body translate="yes" class="dark-mode">
 <div class="container">
 
 <nav class="bread" aria-label="Breadcrumb"><a href="/">surface</a><span class="sep">/</span><a href="/system/">the system</a><span class="sep">/</span>sabbot · the deception arcane</nav>
@@ -1717,8 +1717,8 @@ document.querySelectorAll('.arch-btn').forEach(btn => {
   });
 });
 
-// Theme toggle
-let darkMode = false;
+// Theme toggle — dark by default since 2026-10-02 (descent continuity with the surface)
+let darkMode = true;
 document.getElementById('theme-toggle').addEventListener('click', () => {
   darkMode = !darkMode;
   document.body.classList.toggle('dark-mode', darkMode);

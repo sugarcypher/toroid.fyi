@@ -4,3 +4,18 @@
 # links and the /sabbot/ companion-volume link never break.
 /research/named-and-counted     /book/   301
 /research/named-and-counted/    /book/   301
+
+# Papers have one home. The copies that lived inside the instrument folders were
+# byte-identical to /papers/ and are gone (2026-10-02); old links keep working.
+/poly/node_reference.md                     /papers/polymorphic_catalysis_toroid_node_reference.md    301
+/poly/node_reference.html                   /papers/polymorphic_catalysis_toroid_node_reference.html  301
+/poly/governance_modes_methodology_paper.md   /papers/governance_modes_methodology.md    301
+/poly/governance_modes_methodology_paper.html /papers/governance_modes_methodology.html  301
+/sabbot/sabbotarchy_methodology_paper.md    /papers/obfuscratic_sabbotarchy_methodology.md    301
+/sabbot/sabbotarchy_methodology_paper.html  /papers/obfuscratic_sabbotarchy_methodology.html  301
+/sabbot/sabbotarchy_scoring_rubric.md       /papers/obfuscratic_sabbotarchy_scoring_rubric.md    301
+/sabbot/sabbotarchy_scoring_rubric.html     /papers/obfuscratic_sabbotarchy_scoring_rubric.html  301
+
+# The pre-launch landing mirror is retired; the root is the landing.
+/landing/           /   301
+/landing/index.html /   301

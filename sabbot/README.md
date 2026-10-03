@@ -29,9 +29,9 @@ The instrument scores six government-services-redirection architectures (DOGE fe
 
 ### Methodology documentation
 
-**`sabbotarchy_methodology_paper.md`** — formal methodology paper documenting the framework's analytical foundations, the bipartite naming structure, the five signature dimensions, the composite index, the hybrid scoring methodology, initial findings across the six seed architectures, methodological limitations, integration with the Polymorphic Catalysis Toroid, and future directions. Establishes the framework formally and traces its development from the originating insight (Obfuscratic Sabbotarchy as linguistic-autopsy neologism by B. Greenway) through the discriminative-vocabulary apparatus (Multimalocracy 42-mode taxonomy) to the measurement instrument. ~32KB.
+**`/papers/obfuscratic_sabbotarchy_methodology.md`** (moved from this folder 2026-10-02) — formal methodology paper documenting the framework's analytical foundations, the bipartite naming structure, the five signature dimensions, the composite index, the hybrid scoring methodology, initial findings across the six seed architectures, methodological limitations, integration with the Polymorphic Catalysis Toroid, and future directions. Establishes the framework formally and traces its development from the originating insight (Obfuscratic Sabbotarchy as linguistic-autopsy neologism by B. Greenway) through the discriminative-vocabulary apparatus (Multimalocracy 42-mode taxonomy) to the measurement instrument. ~32KB.
 
-**`sabbotarchy_scoring_rubric.md`** — operational scoring rubric specifying the per-dimension scoring criteria, evidence requirements, scoring bands, and a worked example (IRS dismantling architecture). Provides the methodological precision required for analyst-extended scoring of additional architectures using the same framework. ~21KB.
+**`/papers/obfuscratic_sabbotarchy_scoring_rubric.md`** (moved from this folder 2026-10-02) — operational scoring rubric specifying the per-dimension scoring criteria, evidence requirements, scoring bands, and a worked example (IRS dismantling architecture). Provides the methodological precision required for analyst-extended scoring of additional architectures using the same framework. ~21KB.
 
 ## The five signature dimensions
 

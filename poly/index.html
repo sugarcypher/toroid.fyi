@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Polymorphic Catalysis Toroid</title>
 <style>
-  /* THEME — light is default; dark via body.dark-mode */
+  /* THEME — dark is default (descent continuity with the surface, 2026-10-02); light via the THEME toggle removing body.dark-mode */
   :root {
     --bg: #f5f3ec;
     --text: #1c1c1c;
@@ -327,7 +327,7 @@
   @media (max-width:700px){ #info { max-width:72vw; max-height:34vh; font-size:11.5px; } #controls { max-height:40vh; } }
 </style>
 </head>
-<body translate="yes">
+<body translate="yes" class="dark-mode">
 <canvas id="canvas"></canvas>
 
 <div id="ui-toggle-bar">
@@ -1593,7 +1593,7 @@ const cells = [
   { id: '7.52', actor: 'nar', target: 'judiciary', channel: 'COORD', tier: 'D',
     name: 'NAR / Seven Mountains judicial-capture strategy',
     desc: 'New Apostolic Reformation explicit "Seven Mountains" mandate targeting government, judiciary, media, education for religious-political capture. Distinct operational coalition within broader Christian Nationalism.',
-    modes: ['Faithocracy','Propheticocracy','Theocracy','Imperocracy'],
+    modes: ['Faithocracy','Propheticocracy','Imperocracy'],   // 'Theocracy' (no slot, used once) folded into Faithocracy 2026-10-02
     complexes: ['GovMilitary'] },
   { id: '7.53', actor: 'us_exec', target: 'climate_stability', channel: 'COORD', tier: 'D',
     name: 'Climate stability rollback (sub-topology 7.24 expansion)',
@@ -3760,7 +3760,7 @@ function torusNormal(phi, theta) {
 // SCENE SETUP — LIGHT THEME
 // ===========================================================================
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xf5f3ec);
+scene.background = new THREE.Color(0x0a0a0f);   // dark default; the THEME toggle flips it
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 // Lower, more oblique 3/4 view — drops the camera nearer the equatorial plane so the
@@ -5527,9 +5527,10 @@ document.getElementById('toggle-global').addEventListener('click', () => {
   rebuildAll();
 });
 
-// Dark / light mode toggle. Default: light. Toggling adds .dark-mode class to body
-// which switches all CSS variables. Three.js scene background is also updated.
-let darkMode = false;
+// Dark / light mode toggle. Default: dark (the surface is dark; arriving in a light page broke
+// the descent). Toggling removes/adds .dark-mode on body, which switches all CSS variables.
+let darkMode = true;
+setToggleActive('toggle-theme', true);
 document.getElementById('toggle-theme').addEventListener('click', () => {
   darkMode = !darkMode;
   document.body.classList.toggle('dark-mode', darkMode);

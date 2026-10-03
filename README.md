@@ -11,7 +11,7 @@ re-enters its own origin.
 
 ```
 toroid-fyi/
-├── index.html    ← public root landing (mirrored in landing/index.html)
+├── index.html    ← public root: the opening ring (the old landing/ mirror was retired 2026-10-02)
 ├── poly/         ← Polymorphic Catalysis Toroid v0.33 (relational instrument)
 ├── sabbot/       ← Obfuscratic Sabbotarchy — Deception Arcane v0.1 (signature instrument)
 ├── play/         ← Strata-Dom-3D research game (ludic substrate)
@@ -70,6 +70,10 @@ nothing to obfuscate.
 
 ## Deployment
 
+> Historical (May 2026). The live procedure is `DEPLOY.md`: push to `main` → GitHub Action →
+> Cloudflare Pages direct upload, repo root as output. Papers live only under `/papers/`;
+> documents render to sibling `.html` via `tools/render-md.mjs`.
+
 This is a static site. The `landing/` directory is the public root;
 all artifact subdirectories are self-contained HTML.
 
@@ -124,7 +128,7 @@ toroid-fyi/
 - `play/` — **live research preview**, single-file prototype, play tokens only.
 - `matrix/` — **archive**, v1 (March 2026), precursor to the Catalysis Toroid;
   Circulatory Pressure Architectures paper (docx + summary PDF) lives here.
-- `index.html` / `landing/` — v0.1, awaiting Cloudflare deploy.
+- `index.html` — live; the ring of nine forms. `landing/` retired 2026-10-02 (301 → `/`).
 
 ## Citation
 
