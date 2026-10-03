@@ -39,6 +39,8 @@
     .xref { margin-top:56px; padding-top:24px; border-top:1px solid rgba(198,178,255,0.15); font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.16em; line-height:1.9; }
     .xref a { color:var(--accent); text-decoration:none; margin-right:14px; display:inline-block; }
     footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+      /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
 <body>

@@ -27,6 +27,8 @@
     .xref { margin-top:48px; padding-top:24px; border-top:1px solid rgba(154,223,134,0.16); font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted); letter-spacing:0.12em; }
     .xref a { color:var(--accent); text-decoration:none; margin-right:16px; }
     footer { position:fixed; left:0; right:0; bottom:0; padding:36px 6vw 18px; text-align:center; pointer-events:none; background:linear-gradient(to top, var(--bg) 0%, var(--bg) 58%, transparent 100%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; z-index:10; }
+      /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
 <body>
@@ -50,7 +52,7 @@
 
     <a class="doc" href="/book/">
       <div class="t">Named and Counted, Not Blamed nor Accounted &mdash; v7</div>
-      <div class="d">&ldquo;A metrological instrument for measuring directional dysfunction: naming what had no name.&rdquo; The companion volume. Its readings &mdash; the bands, the seven scored architectures, the reform-lineage controls, the velocity &mdash; are published at <a href="/book/">/book/</a>. The manuscript is published in Kindle and paperback editions: <a href="https://a.co/d/0aviWEmv" target="_blank" rel="noopener">amazon</a>.</div>
+      <div class="d">&ldquo;A metrological instrument for measuring directional dysfunction: naming what had no name.&rdquo; The companion volume. Its readings &mdash; the bands, the seven scored architectures, the reform-lineage controls, the velocity &mdash; are published at /book/, which also carries the Kindle and paperback editions.</div>
       <div class="f">toroid.fyi/book</div>
     </a>
     <a class="doc" href="/papers/removal_economy_methodology.html">

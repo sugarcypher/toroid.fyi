@@ -91,6 +91,8 @@
 
     @media (max-width:640px){ .bread{ left:18px; top:16px; } main{ padding:104px 22px 120px; } }
     @media print { body::after,.bread{ display:none; } html,body{ background:#fff; color:#111; } p,td,li{ color:#111; } }
+      /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
 <body>

@@ -28,7 +28,9 @@ function titleOf(md, file) {
 }
 function crumbs(rel) {
   const parts = rel.split('/').slice(0, -1);
-  return `<a href="/">surface</a>` + parts.map((p, i) => ` <span class="sep">/</span> <a href="/${parts.slice(0, i + 1).join('/')}/">${esc(p)}</a>`).join('');
+  // only segments that have a page of their own become links; data folders stay plain text
+  return `<a href="/">surface</a>` + parts.map((p, i) => { const dir = parts.slice(0, i + 1).join('/'); const has = fs.existsSync(path.join(ROOT, dir, 'index.html'));
+    return ` <span class="sep">/</span> ` + (has ? `<a href="/${dir}/">${esc(p)}</a>` : `<span>${esc(p)}</span>`); }).join('');
 }
 function page(rel, md) {
   const title = titleOf(md, rel);

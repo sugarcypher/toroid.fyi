@@ -51,6 +51,8 @@
     .footnote a { color:var(--accent); text-decoration:none; }
 
     footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+      /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
 <body>

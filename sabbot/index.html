@@ -677,7 +677,9 @@
       display:block; overflow-x:auto; -webkit-overflow-scrolling:touch;
     }
   }
-</style>
+    /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
+  </style>
 </head>
 <body translate="yes">
 <div class="container">

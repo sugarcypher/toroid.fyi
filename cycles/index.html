@@ -75,7 +75,8 @@
   #panel .gap { font-family:var(--mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:#f2766b; }
 
   /* ---- the unrolled domain ---- */
-  .domain { overflow-x:auto; margin:14px 0 6px; }
+  .domain { overflow-x:auto; margin:14px 0 6px; max-width:100%; -webkit-overflow-scrolling:touch; }
+  main { overflow-x:hidden; }
   table.grid { border-collapse:separate; border-spacing:3px; min-width:720px; width:100%; table-layout:fixed; }
   table.grid th { font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:400; padding:6px 4px; text-align:center; }
   table.grid th.major { color:var(--accent); } table.grid th.minor { color:#9ad1ff; text-align:right; padding-right:10px; white-space:nowrap; }
@@ -112,7 +113,9 @@
 
   .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
   @media (max-width:700px){ #stage { height:78vw; } .lbl.minor { display:none; } .lbl { font-size:9px; letter-spacing:0.16em; } .hud { gap:4px; } .key { display:none; } .hint { display:none; } #panel { position:static; width:auto; margin:8px; } }
-</style>
+    /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
+  </style>
 </head>
 <body>
 <a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>

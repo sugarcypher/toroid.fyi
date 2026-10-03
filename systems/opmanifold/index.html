@@ -19,6 +19,8 @@
     .image-frame .glyph { font-size:96px; color:rgba(182,164,255,0.45); font-family:ui-monospace,Menlo,monospace; font-weight:200; }
     p { line-height:1.75; color:#bdb7d5; font-size:16px; font-weight:300; margin:0 0 18px; }
     footer { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; color:var(--muted); letter-spacing:0.32em; text-transform:uppercase; }
+      /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
   </style>
 </head>
 <body>

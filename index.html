@@ -179,6 +179,17 @@ torusGroup.add(mainTorus);
 
 const toroids = [];
 const RING_RADIUS=2.65, RING_SCALE=0.48, CENTER_SCALE=0.74;
+// Camera distance that keeps the whole ring on screen. Landscape fits at 8.3; portrait (phones,
+// tablets held upright) is width-limited, so the distance grows until the ring's full width fits.
+// On portrait screens the ring becomes a tall ellipse (K.x < 1 < K.y) so nine gates use the height
+// instead of crowding the width.
+function ringK(){ return camera.aspect<0.8 ? {x:0.62,y:1.4} : {x:1,y:1}; }
+const portrait=()=>camera.aspect<0.8;
+// portrait also shrinks the forms so nine of them clear each other and the centre
+function gateScale(){ return portrait()?0.40:RING_SCALE; }
+function centreScale(){ return portrait()?0.55:CENTER_SCALE; }
+function fitZ(){ const K=ringK(); const t=Math.tan(THREE.MathUtils.degToRad(camera.fov)/2);
+  const zW=(RING_RADIUS*K.x+0.95)/(t*camera.aspect), zH=(RING_RADIUS*K.y+0.9)/t; return Math.max(8.3, zW, zH); }
 let ringLine=null;   // the faint closed line through the gates — the ring read as a cycle
 
 let state='idle', rotationSpeed=0.30, progress=0, pauseTimer=0;
@@ -217,7 +228,7 @@ function makeClones(){
   for (let i=0;i<N;i++){
     const m=mainTorus.clone(); m.material=baseMat.clone(); m.userData.cfg=RING[i];
     m.userData.tint=new THREE.Color(0xbfc3c7).lerp(new THREE.Color(RING[i].color),0.55);
-    m.scale.setScalar(RING_SCALE); torusGroup.add(m); toroids.push(m);
+    m.scale.setScalar(gateScale()); torusGroup.add(m); toroids.push(m);
   }
   mainTorus.userData.tint=new THREE.Color(0xcfd3d7);
   // connective ring: a thin circle through the gate centres, grown with the emanation
@@ -226,17 +237,17 @@ function makeClones(){
   ringLine.scale.setScalar(0.001); torusGroup.add(ringLine);
 }
 // i=0 at the top, then clockwise — reading order, so the ring runs the way the method runs
-function ringPos(i,radius){ const a=(Math.PI/2)-(i/N)*Math.PI*2; return new THREE.Vector3(Math.cos(a)*radius,Math.sin(a)*radius,0); }
+function ringPos(i,radius){ const a=(Math.PI/2)-(i/N)*Math.PI*2; const K=ringK(); return new THREE.Vector3(Math.cos(a)*radius*K.x,Math.sin(a)*radius*K.y,0); }
 const easeInOut=t=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
 
 // Returning visitors skip the emanation — the ring is already familiar; first visits keep the full sequence.
 const returning = (()=>{ try { return localStorage.getItem('twl-visited')==='1'; } catch(e){ return false; } })();
 if (reduceMotion || (returning && agreed)){
   overlay.style.display='none';
-  camera.position.z=8.3; torusGroup.rotation.set(-0.28,0,0);
-  makeClones(); ringLine.scale.setScalar(RING_RADIUS); ringLine.material.opacity=0.16;
+  camera.position.z=fitZ(); torusGroup.rotation.set(-0.28,0,0);
+  makeClones(); { const K=ringK(); ringLine.scale.set(RING_RADIUS*K.x,RING_RADIUS*K.y,1); } ringLine.material.opacity=0.16;
   toroids.forEach((m,i)=>{ m.position.copy(ringPos(i,RING_RADIUS)); m.material.color.copy(m.userData.tint); });
-  mainTorus.scale.setScalar(CENTER_SCALE); mainTorus.material.color.copy(mainTorus.userData.tint);
+  mainTorus.scale.setScalar(centreScale()); mainTorus.material.color.copy(mainTorus.userData.tint);
   state='expanded'; labelHost.classList.add('show');
 }
 
@@ -267,12 +278,14 @@ addEventListener('pageshow',(e)=>{
 const _v=new THREE.Vector3();
 function project(obj,outward){
   obj.getWorldPosition(_v);
-  if (outward){ const len=Math.hypot(_v.x,_v.y)||1; _v.x+=(_v.x/len)*0.6; _v.y+=(_v.y/len)*0.6; }
+  if (outward){
+    if (innerWidth<520){ _v.y-=0.78; }   // phones: the name sits under its form, never beside it
+    else { const len=Math.hypot(_v.x,_v.y)||1; _v.x+=(_v.x/len)*0.6; _v.y+=(_v.y/len)*0.6; } }
   _v.project(camera);
   return { x:(_v.x*0.5+0.5)*innerWidth, y:(-_v.y*0.5+0.5)*innerHeight, z:_v.z };
 }
-const LBL_MX=110, LBL_MY=46;   // keep labels fully on-screen
-function clampX(x){ return Math.max(LBL_MX, Math.min(innerWidth-LBL_MX, x)); }
+const LBL_MY=46;   // keep labels fully on-screen
+function clampX(x){ const MX=innerWidth<700?78:110; return Math.max(MX, Math.min(innerWidth-MX, x)); }
 function clampY(y){ return Math.max(LBL_MY, Math.min(innerHeight-LBL_MY, y)); }
 function placeLabels(){
   toroids.forEach((m,i)=>{ const a=labelMap.get(RING[i]); if(!a)return;
@@ -289,7 +302,7 @@ function handleHover(delta){
   renderer.domElement.style.cursor = hoverLock?'pointer':'default';
   meshes.forEach(m=>{
     const active=m===hoverLock;
-    const base=(m===mainTorus)?CENTER_SCALE:RING_SCALE;
+    const base=(m===mainTorus)?centreScale():gateScale();
     const ts=base*(active?1.10:1.0);
     m.scale.x+=(ts-m.scale.x)*6*delta; m.scale.y+=(ts-m.scale.y)*6*delta; m.scale.z+=(ts-m.scale.z)*6*delta;
     const tz=active?0.45:0; m.position.z+=(tz-m.position.z)*6*delta;
@@ -309,7 +322,7 @@ renderer.domElement.addEventListener('click',()=>{
   }
 });
 addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&!tosOpen) begin(); });
-addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); });
+addEventListener('resize',()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); if (state==='expanded'){ camera.position.z=fitZ(); const K=ringK(); toroids.forEach((m,i)=>m.position.copy(ringPos(i,RING_RADIUS))); if (ringLine) ringLine.scale.set(RING_RADIUS*K.x,RING_RADIUS*K.y,1); } });
 
 function animate(){
   requestAnimationFrame(animate);
@@ -325,8 +338,8 @@ function animate(){
   } else if (state==='expanding'){
     progress+=delta*0.5; const e=easeInOut(Math.min(progress,1));
     toroids.forEach((m,i)=>m.position.copy(ringPos(i,RING_RADIUS*e)));
-    if (ringLine){ ringLine.scale.setScalar(Math.max(0.001,RING_RADIUS*e)); ringLine.material.opacity=0.16*e; }
-    mainTorus.scale.setScalar(1+(CENTER_SCALE-1)*e); camera.position.z=6.4+e*1.9;
+    if (ringLine){ const K=ringK(); const rr=Math.max(0.001,RING_RADIUS*e); ringLine.scale.set(rr*K.x,rr*K.y,1); ringLine.material.opacity=0.16*e; }
+    mainTorus.scale.setScalar(1+(centreScale()-1)*e); camera.position.z=6.4+e*(fitZ()-6.4);
     toroids.forEach(m=>m.material.color.lerp(m.userData.tint,0.06));
     if (progress>=1){ state='expanded'; labelHost.classList.add('show'); try { localStorage.setItem('twl-visited','1'); } catch(_){} }
   } else if (state==='expanded'){

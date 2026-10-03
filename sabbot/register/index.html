@@ -88,7 +88,9 @@ a{color:var(--accent);}
 .dl{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.84rem;}
 .dl a{text-decoration:none;border-bottom:1px dotted var(--accent);}
 @media (max-width:560px){.wrap{padding-block:24px 56px;gap:40px;}.rhead,.rbody{padding:14px 15px;}}
-</style>
+    /* bread-narrow: on phones the crumb trail yields to the back pill */
+    @media (max-width:600px){ .bread { max-width:54vw; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; } }
+  </style>
 </head>
 <body>
 <div class="wrap">
