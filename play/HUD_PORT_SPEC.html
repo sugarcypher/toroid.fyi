@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HUD Port — Green Frame → Node-Constellation: Functional-Parity Diff &amp; Spec · toroid.fyi</title>
+<meta name="description" content="HUD Port — Green Frame → Node-Constellation: Functional-Parity Diff &amp; Spec — ThinkWell Labs Metrology. Rendered from the source document HUD_PORT_SPEC.md." />
+<meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
+<link href="/assets/reader.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+<script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
+<div class="bread"><a href="/">surface</a> <span class="sep">/</span> <a href="/play/">play</a> <span class="sep">/</span> <span class="here">HUD_PORT_SPEC</span></div>
+<main class="reader">
+<article>
+<h1 id="hud-port-green-frame-node-constellation-functional-parity-diff-amp-spec">HUD Port — Green Frame → Node-Constellation: Functional-Parity Diff &amp; Spec</h1>
+<p>Comparison of <strong><code>play/index.html</code></strong> (the live game, &quot;green frame,&quot; ~10,954 lines, fully
+functional) vs <strong><code>play/hud-concept.html</code></strong> (the node-cluster prototype, ~30 KB, visual only).
+Goal: replace the painted frame with the constellation <strong>without losing any functionality</strong>.</p>
+<hr>
+<h2 id="tl-dr-why-past-attempts-kept-missing-functionality">TL;DR — why past attempts kept missing functionality</h2>
+<p>The prototype&#39;s tile <strong>labels already mirror the green control set almost 1:1</strong> (DASH, LOG,
+CHAT, RULES, GALLERY, PROFILE, START/GO, PLAY/ROTATE, UNROLL, LABELS, CLEAR, ROT arrows, ZOOM,
+the plot tiles SUGGEST/AUTO/MANUAL/LOCK/CONFIRM/UNDO/DRAW/EXCH/OFF/DEF, the weapon compass,
+anomaly CHANNEL/EXTINCT/REGENESIS/CLAIM). The designer <strong>anticipated</strong> the controls — but:</p>
+<ul>
+<li><strong>There is no per-control dispatch at all.</strong> Every one of ~50 tiles flows through a single
+generic <code>pointerup</code> handler that only sets <code>selected</code>, flips a local <code>r.on</code> boolean, and
+pulses lighting. No tile opens a panel, moves the camera, or calls any game logic.</li>
+<li><strong>All data is hardcoded.</strong> Telemetry (PHASE/ROUND/TURN/POT…), both token bays
+(SELECTED Possibility H4 / TARGET Moon C9), and both info strips are literals — not bound
+to game state.</li>
+<li><strong>The marquee &quot;triangle data-fields&quot; are never rendered</strong> (<code>infoField</code>/<code>ellipseField</code> and the
+node-designation system are built but uncalled — vestigial).</li>
+</ul>
+<p>So the prototype is <strong>chrome, not a game.</strong> The recurring failure mode is treating it as a
+from-scratch rebuild and re-implementing the game inside it. <strong>Don&#39;t.</strong> The fix is a transplant.</p>
+<hr>
+<h2 id="recommended-architecture-transplant-not-rewrite">Recommended architecture — TRANSPLANT, not rewrite</h2>
+<p>Green&#39;s controls are <strong>already independent of the painted art</strong> (Agent A confirmed: &quot;the painted
+<code>#frame</code> div is empty chrome… every function is independent of the <code>#frame</code>/<code>gameframe</code> art&quot;).
+So:</p>
+<ol>
+<li><strong>Keep green&#39;s entire functional layer intact</strong> — all HTML panels, modals, render functions
+(<code>renderHUD</code>, <code>renderDashboard</code>, <code>renderSelPortraits</code>, the 8 mini-games, anomaly, profile),
+the <code>G</code> state, the board raycast/selection pipeline, and localStorage persistence.</li>
+<li><strong>Remove only</strong>: the painted <code>#frame</code> + <code>gameframe.PNG</code>, the <code>.ring-btn</code> set, and the dead
+legacy UI (see §5).</li>
+<li><strong>Bring in the prototype&#39;s THREE.js constellation</strong> as the new shell around the board &quot;screen.&quot;</li>
+<li><strong>Add the dispatch the prototype lacks</strong>: a <code>tileName → existing green handler/id</code> map. Each
+node click calls the <strong>same</strong> function the matching ring button already calls — we REUSE
+green&#39;s handlers, we don&#39;t reimplement them. That&#39;s what guarantees parity.</li>
+<li><strong>Bind the prototype&#39;s fake readouts to live data</strong> (telemetry ← <code>refreshTicker</code>; token bays
+← <code>renderSelPortraits</code>; strips/triangle-fields ← dashboard/log).</li>
+<li><strong>Host the heavy panels/modals as DOM overlays</strong> inside the new HUD&#39;s screen region (they are
+already DOM and already work). Nodes just toggle them, exactly as the rings did. Do <strong>not</strong>
+try to cram modals/mini-games into 3D.</li>
+</ol>
+<p>This shrinks the job from &quot;build the whole game in a new HUD&quot; to &quot;swap the chrome + wire a
+dispatch map onto proven handlers.&quot;</p>
+<hr>
+<h2 id="1-controls-present-in-both-label-match-but-unwired-in-prototype-just-need-dispatch">1. Controls present in BOTH (label match) but UNWIRED in prototype → just need dispatch</h2>
+<table>
+<thead>
+<tr>
+<th>Green control</th>
+<th>id / handler</th>
+<th>Prototype tile</th>
+<th>Port action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PLAY ↔ ROTATE</td>
+<td><code>lock-toggle</code> → <code>toggleCameraLock</code></td>
+<td>PLAY/ROTATE hero (color-swap only)</td>
+<td>node → <code>toggleCameraLock()</code></td>
+</tr>
+<tr>
+<td>GO / START</td>
+<td><code>btn-go-big</code> / <code>rb-start</code>→<code>btn-start</code>‖<code>btn-go-big</code>.click</td>
+<td>GO hero (does nothing)</td>
+<td>node → same proxy + <code>updateRingLabels</code></td>
+</tr>
+<tr>
+<td>STATS (dashboard)</td>
+<td><code>rb-dash</code> toggles <code>#hud-dashboard</code></td>
+<td>DASH toggle</td>
+<td>node → toggle dashboard panel</td>
+</tr>
+<tr>
+<td>LOG</td>
+<td><code>rb-log</code> toggles <code>#log</code></td>
+<td>LOG toggle</td>
+<td>node → toggle log</td>
+</tr>
+<tr>
+<td>CHAT</td>
+<td><code>rb-chat</code> toggles <code>#chat-panel</code></td>
+<td>CHAT toggle</td>
+<td>node → toggle chat</td>
+</tr>
+<tr>
+<td>Rules</td>
+<td><code>btn-rules</code> → <code>openRulesModal</code></td>
+<td>RULES btn</td>
+<td>node → <code>openRulesModal()</code></td>
+</tr>
+<tr>
+<td>Gallery</td>
+<td><code>btn-gallery</code> → <code>openGalleryModal</code></td>
+<td>GALLERY btn</td>
+<td>node → <code>openGalleryModal()</code></td>
+</tr>
+<tr>
+<td>Profile</td>
+<td><code>btn-profile</code> → <code>openProfileModal</code></td>
+<td>PROFILE btn</td>
+<td>node → <code>openProfileModal()</code></td>
+</tr>
+<tr>
+<td>Labels on/off</td>
+<td><code>btn-labels</code> → <code>setLabelsVisible</code></td>
+<td>LABELS toggle</td>
+<td>node → <code>setLabelsVisible(!G.showLabels)</code></td>
+</tr>
+<tr>
+<td>Unroll/flatten</td>
+<td><code>btn-flat</code> → <code>setFlatView</code></td>
+<td>UNROLL toggle</td>
+<td>node → <code>setFlatView(!G.flatView)</code></td>
+</tr>
+<tr>
+<td>Clear/restore board</td>
+<td><code>btn-clear-board</code> → <code>clearBoard</code></td>
+<td>CLEAR toggle</td>
+<td>node → <code>clearBoard()</code></td>
+</tr>
+<tr>
+<td>Camera nudges</td>
+<td>arrow keys / drag (camera live)</td>
+<td>ROT ◀▶▲▼, ZOOM ± (camera STATIC)</td>
+<td>nodes → camera yaw/pitch/zoom fns</td>
+</tr>
+<tr>
+<td><strong>plot dock</strong></td>
+<td><code>btn-suggest-commit</code>,<code>btn-autoplay</code>,<code>btn-lock-auto</code>,<code>btn-manual</code>,<code>btn-confirm-card</code>,<code>btn-undo</code>,<code>btn-draw</code>,<code>btn-exchange</code>, GO <code>btn-go-big</code>, OFF/DEF dirs</td>
+<td>SUGGEST/AUTO/MANUAL/LOCK/CONFIRM/UNDO/DRAW/EXCH/OFF/DEF</td>
+<td>map each tile → its <code>btn-*</code> handler</td>
+</tr>
+<tr>
+<td><strong>setup</strong></td>
+<td>mode <code>data-mode</code>, count <code>btn-1p…6p</code>, <code>btn-start</code>→<code>startGame</code></td>
+<td>SANDBOX/SOLO/MULTI/◀▶/START</td>
+<td>map → mode/count/start handlers</td>
+</tr>
+<tr>
+<td><strong>weapon-commit</strong></td>
+<td><code>data-weapon</code>+<code>data-dir</code>→<code>commitWeapon</code>, section <code>data-aim</code></td>
+<td>8 compass tris + ☀FLARE/☾BEAM</td>
+<td>map → <code>commitWeapon</code>; keep on-torus compass too</td>
+</tr>
+<tr>
+<td><strong>anomaly</strong></td>
+<td><code>btn-anomaly-extinct</code>/<code>-revive</code>/<code>-recall</code>→<code>stageBehemoth</code>/<code>unstageBehemoth</code>; contest <code>an-claim</code></td>
+<td>CHANNEL/EXTINCT/REGENESIS/CLAIM</td>
+<td>map → stage/unstage + claim</td>
+</tr>
+</tbody></table>
+<h2 id="2-readouts-present-in-both-but-hardcoded-in-prototype-need-live-binding">2. Readouts present in BOTH but HARDCODED in prototype → need live binding</h2>
+<table>
+<thead>
+<tr>
+<th>Green readout</th>
+<th>source</th>
+<th>Prototype</th>
+<th>Port action</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Phase/Round/Turn/Pot/☀next/☾next/Barrier pills</td>
+<td><code>refreshTicker</code> (10657)</td>
+<td>TL telemetry trapezoids (literals)</td>
+<td>bind tile <code>val</code> ← ticker values each <code>refreshTicker</code></td>
+</tr>
+<tr>
+<td>Per-colour composition dials <code>#top-pies</code></td>
+<td><code>renderTopPies</code>/<code>buildCompositionPie</code></td>
+<td>(none — see §3)</td>
+<td>host as overlay or map onto a cluster</td>
+</tr>
+<tr>
+<td>Token bays (You / Target)</td>
+<td><code>renderSelPortraits</code> ← <code>G.selectedPieceId</code>/<code>selHoverTargetId</code>, HP pips, % left</td>
+<td>bottom holograms (literal H4/C9)</td>
+<td>drive bays from real selection; reuse proto <code>moveCells</code> 7×7 map</td>
+</tr>
+<tr>
+<td>Dashboard standings + ⚰ graveyard + House rake</td>
+<td><code>renderDashboard</code> (8026)</td>
+<td>bottom strip (literals)</td>
+<td>keep panel; optionally surface summary in a triangle field</td>
+</tr>
+<tr>
+<td>Rotation readout θ/φ + compass</td>
+<td><code>updateReadout</code> (8478)</td>
+<td>(none)</td>
+<td>host as overlay</td>
+</tr>
+</tbody></table>
+<h2 id="3-components-entirely-absent-from-prototype-must-host-as-dom-overlays">3. Components ENTIRELY ABSENT from prototype → must host as DOM overlays</h2>
+<p>These have <strong>no tile and no equivalent</strong> in the prototype. They stay as green&#39;s existing DOM,
+re-positioned inside the new HUD; nodes toggle/trigger them.</p>
+<ul>
+<li><strong>8 battle mini-games</strong> + shared <code>#c4-modal</code>: Connect-Four, Precision Aim, Cup Shuffle, Memory
+Match, Sequence Echo, Polarity Grid, Blockus (auto-triggered on same-type clashes).</li>
+<li><strong>Anomaly skill-contest</strong> UI (<code>an-*</code> ids) — the who-wins-the-power mini-game sequence.</li>
+<li><strong>Profile/account/wallet modal</strong> — login/create/logout, seats, daily bonus, deposit/withdraw,
+payment methods, SHA-256 profiles in localStorage.</li>
+<li><strong>Gallery modal</strong>, <strong>Rules modal</strong> (content), <strong>Privacy gate</strong> (hot-seat look-away),
+<strong>Combo reward panel</strong>, <strong>Piece tooltip</strong> (raycast hover), <strong>Hand strip</strong> (cards),
+<strong>Round summary</strong> toast (+ replay), <strong>mode chip / toast layer / achievement toast</strong>.</li>
+<li><strong>Board raycast pipeline</strong> (plot-move commit, node-place, compass click, node isolation):
+canvas-level, frame-independent → <strong>stays as-is</strong>, no porting needed.</li>
+</ul>
+<h2 id="4-mechanisms-the-prototype-lacks-reconcile">4. Mechanisms the prototype lacks → reconcile</h2>
+<ul>
+<li><strong>Per-control dispatch</strong> — does not exist; this is the core thing to add (§1).</li>
+<li><strong>Two visibility systems</strong> to unify: <code>setPanelState</code>/localStorage (<code>COLLAPSE_STATE_KEY</code>,
+<code>LAYOUT_VERSION=&#39;v10-trackers&#39;</code>, <code>firstLoadDefaults</code>) for the docks <strong>vs</strong> the cockpit
+<code>bindToggle</code> raw <code>display</code> for <code>rb-dash/rb-log/rb-chat</code>. They can desync today — pick one.</li>
+<li><strong>Phase-driven regeneration</strong> — green&#39;s <code>renderHUD</code> rebuilds <code>#phase-controls</code> per <code>G.phase</code>;
+the prototype rebuilds its tile field per phase but with empty/fake content. Wire the
+prototype&#39;s per-phase rebuild to the real <code>renderHUD</code> phase branches.</li>
+<li><strong>AI seat toggles</strong> (<code>data-ai-toggle</code>→<code>setSeatAI</code>), <strong>wallet pill</strong> monkey-patch on <code>renderHUD</code>.</li>
+</ul>
+<h2 id="5-dead-legacy-green-ui-to-delete-during-the-port-agent-a-flagged">5. Dead / legacy green UI to DELETE during the port (Agent A flagged)</h2>
+<p><code>#suggest-panel</code> (Accept/Override never wired, force-hidden 7895), <code>#orbital-spine</code>,
+<code>#instructions-zone</code>, <code>#top-cluster</code> (hidden legacy + null-safe no-op bindings),
+<code>setupDrawers</code> (returns 9323), <code>refreshRestoreRail</code> (no-op 9378), <code>bindTopCluster</code>.
+Plus the painted <code>#frame</code> + <code>gameframe.PNG</code> and the <code>.ring-btn</code> set.</p>
+<h2 id="6-reusable-prototype-assets-keep">6. Reusable prototype assets (keep)</h2>
+<p>Raycast pick/hover + tap-vs-drag input layer (381–399), phase-switch rebuild pipeline
+(<code>build</code>/<code>setPhase</code>/<code>layoutCorner</code>, keys 1–5), per-tile animation state machine (408–421),
+<code>moveCells</code> 7×7 move-map renderer (299–316), PMREM reflections + lighting rig.</p>
+<hr>
+<h2 id="suggested-build-phases-incremental-headless-verify-each">Suggested build phases (incremental, headless-verify each)</h2>
+<ol>
+<li><strong>Shell up</strong>: mount the constellation in <code>play/index.html</code> alongside the board; board still
+renders in the centre &quot;screen.&quot; Frame still present. Verify it renders headlessly.</li>
+<li><strong>Dispatch map</strong>: wire §1 nodes → existing green handlers/ids (no new logic). Verify each
+control fires its green action.</li>
+<li><strong>Live binding</strong>: §2 — telemetry, token bays, strips from real state.</li>
+<li><strong>Strip the frame</strong>: remove <code>#frame</code>/<code>gameframe.PNG</code> + <code>.ring-btn</code> + §5 dead UI; reposition
+the §3 overlays inside the new HUD screen region. Unify the §4 visibility systems.</li>
+<li><strong>Phase wiring + parity pass</strong>: per-phase tiles ↔ <code>renderHUD</code>; walk every control in §1–§4
+against a live match; confirm mini-games, anomaly, profile all reachable.</li>
+<li><strong>Polish</strong>: tile proportions/count/shape variety against the real board; HUD-law pass
+(frame IS the instrument, dual token bays, onboarding teaches the HUD). Sync to sches repo.</li>
+</ol>
+
+</article>
+<footer class="reader-foot">
+  <span>Rendered from <a href="/play/HUD_PORT_SPEC.md">HUD_PORT_SPEC.md</a> (source, plain text)</span>
+  <span>© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></span>
+</footer>
+</main>
+<script src="/assets/tos.js"></script>
+</body>
+</html>

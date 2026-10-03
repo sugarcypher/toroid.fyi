@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>T1 — prediction elicitation sheet · toroid.fyi</title>
+<meta name="description" content="T1 — prediction elicitation sheet — ThinkWell Labs Metrology. Rendered from the source document T1-prediction-elicitation.md." />
+<meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
+<link href="/assets/reader.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+<script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
+<div class="bread"><a href="/">surface</a> <span class="sep">/</span> <a href="/sabbot/">sabbot</a> <span class="sep">/</span> <a href="/sabbot/register/">register</a> <span class="sep">/</span> <a href="/sabbot/register/data/">data</a> <span class="sep">/</span> <a href="/sabbot/register/data/adversarial/">adversarial</a> <span class="sep">/</span> <span class="here">T1-prediction-elicitation</span></div>
+<main class="reader">
+<article>
+<h1 id="t1-prediction-elicitation-sheet">T1 — prediction elicitation sheet</h1>
+<p><strong>For:</strong> Briar Greenway. <strong>Prepared:</strong> 2026-09-21, by Claude, after the T2 validation pass.
+<strong>Status:</strong> awaiting the analyst. Nothing here is a prediction, and nothing here contains evidence.</p>
+<p>T1 is blocked on exactly one input: your locked prediction. This sheet exists to make locking it a
+ten-minute job instead of an afternoon, and to stop T1 repeating two defects the T2 validation found.</p>
+<p><strong>No anchors, figures, or case material appear in this sheet on purpose.</strong> Reading it cannot move your
+prior about the case, only about the format your prediction has to take. The evidence hunt is specified
+in <code>T1-convict-a-friend.md</code> by document class and has not been run.</p>
+<hr>
+<h2 id="why-the-format-is-changing-two-defects-carried-from-t2">Why the format is changing — two defects carried from T2</h2>
+<h3 id="defect-1-the-predicted-band-was-too-wide-to-be-worth-much">Defect 1: the predicted band was too wide to be worth much</h3>
+<p>T2&#39;s locked prediction was <strong>&quot;Mixed or lower&quot;</strong> — composite 0–70 on a 0–100 scale. That is 70% of the
+range. Scoring the outcome against a width-proportional baseline, the match carried about <strong>0.5 bits</strong>.
+The case had also been selected, in writing, because its profile was expected to score low.</p>
+<p>None of that makes the T2 result worthless — it is still a live-domain architecture the instrument
+declined to convict, which is what Part VIII needed. But &quot;prediction matched&quot; is doing less work than
+the phrase implies, and a critic will find that in about a minute.</p>
+<p>T1&#39;s drafted composite prediction has the same shape: <em>&quot;high_asymmetry is live; mixed is also
+admissible&quot;</em> spans 30–85, or 55% of the range. <strong>A prediction that admits most outcomes cannot
+embarrass you, and T1 is worth running only to the extent it can.</strong></p>
+<h3 id="defect-2-the-scorer-was-not-blind">Defect 2: the scorer was not blind</h3>
+<p>T2&#39;s locked prediction sat in the worksheet header, read by the scorer before scoring. Pre-registration
+is supposed to constrain the scorer; it cannot do that when the scorer&#39;s interest runs toward a match.
+This is procedural and avoidable, and §3 below avoids it.</p>
+<hr>
+<h2 id="1-lock-a-distribution-not-a-band">§1 — Lock a distribution, not a band</h2>
+<p>For the composite, put a probability on each band. They must sum to 1. Rough numbers are fine; the
+point is that they commit you.</p>
+<table>
+<thead>
+<tr>
+<th>Band</th>
+<th>Range</th>
+<th>Your probability</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Genuine</td>
+<td>0–30</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Mixed</td>
+<td>30–70</td>
+<td>____</td>
+</tr>
+<tr>
+<td>High-Asymmetry</td>
+<td>70–85</td>
+<td>____</td>
+</tr>
+<tr>
+<td>Extreme-Asymmetry</td>
+<td>85–100</td>
+<td>____</td>
+</tr>
+</tbody></table>
+<p>This buys three things a band statement cannot:</p>
+<ul>
+<li><strong>It is scoreable.</strong> Information gain against a width-proportional baseline (0.30 / 0.40 / 0.15 / 0.15)
+turns &quot;matched / didn&#39;t match&quot; into a number. A confident correct call earns real credit; a hedge
+earns almost none; a confident wrong call costs you. That is what makes it a prediction.</li>
+<li><strong>It cannot be wide by accident.</strong> Spreading mass to stay safe is visible as spreading mass.</li>
+<li><strong>It survives a near miss.</strong> If T1 returns 68 against a High-band call, a point-and-distribution
+prediction records a near miss honestly; a band statement records a flat failure and invites
+re-litigating the threshold afterwards.</li>
+</ul>
+<h2 id="2-lock-a-point-estimate-per-dimension">§2 — Lock a point estimate per dimension</h2>
+<p>The operative claim in Part VIII is about <strong>S5 specifically</strong>, not the composite. Give each dimension a
+point estimate; the ±10 band is implied and does not need stating.</p>
+<table>
+<thead>
+<tr>
+<th>Dim</th>
+<th>Weight</th>
+<th>Your point estimate</th>
+<th>Would a result 20 points away change your mind about the instrument?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S1 outcome distribution</td>
+<td>0.25</td>
+<td>____</td>
+<td></td>
+</tr>
+<tr>
+<td>S2 domain-selective competence</td>
+<td>0.20</td>
+<td>____</td>
+<td></td>
+</tr>
+<tr>
+<td>S3 anti-remediation</td>
+<td>0.15</td>
+<td>____</td>
+<td></td>
+</tr>
+<tr>
+<td>S4 personnel selection</td>
+<td>0.10</td>
+<td>____</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>S5 information architecture</strong></td>
+<td><strong>0.30</strong></td>
+<td>____</td>
+<td><strong>operative — answer this one</strong></td>
+</tr>
+</tbody></table>
+<p>Note the weights: S5 alone carries 0.30, more than any other dimension, and S1+S5 together carry 0.55.
+A prediction about S5 is most of a prediction about the composite.</p>
+<h2 id="3-the-blind-scoring-condition">§3 — The blind-scoring condition</h2>
+<p><strong>Whoever scores T1 must not see §1 or §2 until every dimension is scored and written up.</strong></p>
+<p>The mechanics, whoever does the scoring:</p>
+<ol>
+<li>You lock §1/§2 and put them somewhere the scorer cannot read — a separate file, committed, hash
+recorded in <code>slate.json</code>.</li>
+<li>The scorer works from the evidence pack and the rubric only. The worksheet header carries the
+case, the rubric version and the epoch — <strong>not the prediction.</strong></li>
+<li>Scores are written and frozen.</li>
+<li>Only then is the prediction opened and the comparison recorded.</li>
+</ol>
+<p>If I do the scoring, blinding is enforceable the same way: I score in a session that has never been
+shown §1/§2. This fixes non-blindness. <strong>It does not fix non-independence</strong> — a Claude-scored T1 is
+still Claude-scored, still the register&#39;s weakest provenance class, and still no substitute for a
+second human rater. Say so on the page if it comes to that.</p>
+<h2 id="4-what-you-are-committing-to-publish">§4 — What you are committing to publish</h2>
+<p>Already committed in <code>T1-convict-a-friend.md</code>, restated because this is the moment it binds:</p>
+<blockquote>
+<p>Whatever this returns is published at <code>/sabbot</code> in the same table as the seeds, with the same rubric
+version, and with the prediction and its lock date shown beside the result.</p>
+</blockquote>
+<p>And the two falsification conditions for the <em>framework</em> — the double-standard condition, and the S5
+evasion condition (scoring S5 low because the incoherence was <em>honest</em> requires extending that same
+allowance to every seed, and rescoring them). The S5 evasion condition is the one that will actually
+be tempting. It is named in advance for that reason.</p>
+<h2 id="5-one-thing-to-decide-before-locking">§5 — One thing to decide before locking</h2>
+<p>The drafted prediction says S5 lands <strong>high</strong>. If that is genuinely your expectation, T1 is not a
+&quot;convict a friend&quot; test at all — it is another confirming case, and it is worth much less than Part VIII
+claims. The test earns its name only if you expect the instrument to return something <strong>you would rather
+it didn&#39;t</strong>.</p>
+<p>So, before filling in §2: <strong>do you expect this case to score high, or do you expect it to score low and
+fear that the instrument will score it high anyway?</strong> Those are different tests. The first is
+confirmation. The second is the one that retires the mirror prior. Write which it is in the lock note —
+it changes how the result should be read, and a reader cannot infer it from the numbers.</p>
+<hr>
+<h2 id="to-lock">To lock</h2>
+<p>Fill in §1 and §2, add date and signature, and record the lock in <code>slate.json</code> under
+<code>locked_predictions.T1-PUBHEALTH-INFO</code> with the text verbatim. Per §8 of <code>PRE-REGISTRATION.md</code>,
+any later change is a dated amendment with a stated reason and a flag for whether it affects a
+locked prediction.</p>
+<p><strong>Amendment note, 2026-09-21:</strong> this sheet changes the <em>format</em> required of the T1 prediction (a band
+statement becomes a distribution plus per-dimension point estimates) and adds a blind-scoring condition.
+It does not affect any locked prediction — T1&#39;s has never been locked, and T2&#39;s is closed. Reason: the
+T2 validation pass found its locked prediction spanned 70% of the scale and its scorer was unblinded.</p>
+
+</article>
+<footer class="reader-foot">
+  <span>Rendered from <a href="/sabbot/register/data/adversarial/T1-prediction-elicitation.md">T1-prediction-elicitation.md</a> (source, plain text)</span>
+  <span>© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></span>
+</footer>
+</main>
+<script src="/assets/tos.js"></script>
+</body>
+</html>

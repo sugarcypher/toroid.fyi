@@ -115,15 +115,7 @@ The vortex layer makes the consolidation dynamic visible across the schema's arc
 
 The schema includes an intent channel for inaction itself: the INACT channel documents actor failure-to-act producing consequence at target. Inaction is structurally distinct from active operations; it is held in place by the same structural attractor that produces action, but encodes the operating-coalition's choice to NOT act where action would prevent harm.
 
-The methodological necessity: the Obfuscratic Sabbotarchy framework you originated operates partly through inaction-under-incompetence-framing — the obfuscratic operational signature requires the inaction to read as accidental rather than chosen. Without making inaction analytically legible, the framework cannot do its work. The INACT channel makes the deliberate-choice character of inaction visually explicit.
-
-INACT cells render with a desaturated gray color (#6B7280) and a sparse-dot pattern — the visual encoding of "absence" or "interrupted" rather than presence. The pattern visually communicates that something *should be there* but isn't.
-
----
-
-The schema includes an intent channel for inaction itself: the INACT channel documents actor failure-to-act producing consequence at target. Inaction is structurally distinct from active operations; it is held in place by the same structural attractor that produces action, but encodes the operating-coalition's choice to NOT act where action would prevent harm.
-
-The methodological necessity: the Obfuscratic Sabbotarchy framework you originated operates partly through inaction-under-incompetence-framing — the obfuscratic operational signature requires the inaction to read as accidental rather than chosen. Without making inaction analytically legible, the framework cannot do its work. The INACT channel makes the deliberate-choice character of inaction visually explicit.
+The methodological necessity: the Obfuscratic Sabbotarchy framework operates partly through inaction-under-incompetence-framing — the obfuscratic operational signature requires the inaction to read as accidental rather than chosen. Without making inaction analytically legible, the framework cannot do its work. The INACT channel makes the deliberate-choice character of inaction visually explicit.
 
 INACT cells render with a desaturated gray color (#6B7280) and a sparse-dot pattern — the visual encoding of "absence" or "interrupted" rather than presence. The pattern visually communicates that something *should be there* but isn't.
 

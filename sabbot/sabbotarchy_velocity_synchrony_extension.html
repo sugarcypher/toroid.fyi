@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Velocity &amp; Synchrony Extension · toroid.fyi</title>
+<meta name="description" content="The Velocity &amp; Synchrony Extension — ThinkWell Labs Metrology. Rendered from the source document sabbotarchy_velocity_synchrony_extension.md." />
+<meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
+<link href="/assets/reader.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+<script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
+<div class="bread"><a href="/">surface</a> <span class="sep">/</span> <a href="/sabbot/">sabbot</a> <span class="sep">/</span> <span class="here">sabbotarchy_velocity_synchrony_extension</span></div>
+<main class="reader">
+<article>
+<h1 id="the-velocity-amp-synchrony-extension">The Velocity &amp; Synchrony Extension</h1>
+<p><strong>A temporal-dynamics layer for the Obfuscratic Sabbotarchy signature framework</strong></p>
+<p><em>B. Greenway · ThinkWell Labs Metrology · methodology increment v0.2 · June 2026</em></p>
+<p><em>Extends the Obfuscratic Sabbotarchy — Deception Arcane signature instrument (v0.1) and the methodology paper (v1.1) with a temporal-dynamics construct: per-dimension velocity, system-level breadth-velocity, and an onset-synchrony coordination index.</em></p>
+<hr>
+<h2 id="11-why-the-static-instrument-is-incomplete">11. Why the static instrument is incomplete</h2>
+<p>The v0.1 instrument scores each architecture synchronically — a single composite index at a single observation point. The methodology paper&#39;s Limitation #4 concedes this directly: &quot;engineered incompetence is typically a developmental phenomenon — architectures move toward or away from engineered states over time.&quot; The five signature dimensions measure regime <em>state</em>; they do not measure regime <em>rate</em>. They compute a position, not a derivative.</p>
+<p>This is not a cosmetic gap. Two architectures with identical static composites are not analytically equivalent if one reached that composite across fifteen years (an entrenched, slow equilibrium) and the other across fifteen months (an active capture in progress). The static index cannot distinguish them. Yet the distinction is the entire content of the claim that something is <em>being destroyed</em> — destruction is a rate, not a state. An instrument that cannot represent rate cannot represent the phenomenon its users are most often pointing at.</p>
+<p>The velocity extension computes the missing derivatives. It introduces three constructs, ordered from local to global: signature velocity (per-dimension, per-architecture rate of change), breadth-velocity (system-level rate at which architectures cross into the engineered band), and the synchrony index (the temporal concentration of those crossings, which is the falsifiable form of the coordination claim the static instrument could only assert).</p>
+<p>A design commitment governs the whole extension: velocity is treated as a <em>distinct object</em> from the static signature, not as a sixth peer-weighted dimension folded into the composite. The composite index answers &quot;is this engineered?&quot; The velocity layer answers &quot;how fast, accelerating or decelerating, and in concert with what else?&quot; Collapsing the two would destroy information; the framework keeps them orthogonal and reports them as a pair.</p>
+<h2 id="11-1-signature-velocity-per-dimension-per-architecture">11.1 Signature velocity (per-dimension, per-architecture)</h2>
+<p>For architecture <em>A</em> and signature dimension <em>i</em> ∈ {S1…S5}, scored at observation times <em>t₀, t₁, … tₙ</em>, the first-order signature velocity over an interval is the discrete time-derivative of the dimension score:</p>
+<blockquote>
+<p><strong>Vᵢ(A) = ΔSᵢ / Δt</strong>, expressed in signature-points per quarter (the recommended epoch unit).</p>
+</blockquote>
+<p>The composite velocity uses the same weights <em>wᵢ</em> as the static index, so it is dimensionally commensurate with the composite (index-points per quarter):</p>
+<blockquote>
+<p><strong>V(A) = Σ wᵢ · (dSᵢ/dt) = 0.25·V₁ + 0.20·V₂ + 0.15·V₃ + 0.10·V₄ + 0.30·V₅</strong></p>
+</blockquote>
+<p>Sign carries meaning. Positive V indicates an intensifying engineered signature; negative V indicates remediation or reversion toward the genuine band. A near-zero V on a high static composite is the signature of an <em>entrenched</em> engineered equilibrium; a large positive V on a still-moderate composite is the signature of an <em>active, accelerating</em> capture — operationally the more urgent object, and the one the static instrument systematically under-weights.</p>
+<h3 id="11-1-1-acceleration-second-order">11.1.1 Acceleration (second order)</h3>
+<p>The phenomenology the framework&#39;s users most often report — &quot;the <em>speed</em> at which power is being destroyed&quot; — is frequently a second-order claim: not merely that the signature is rising, but that the rate of rise is itself increasing. The second-order construct captures it:</p>
+<blockquote>
+<p><strong>Aᵢ(A) = d²Sᵢ/dt²</strong>, requiring ≥3 observation epochs.</p>
+</blockquote>
+<p>Acceleration is the most literal operationalization of the &quot;destruction is speeding up&quot; intuition. It is also the noisiest construct in the extension and must be reported with the widest confidence band (see 11.4).</p>
+<h2 id="11-2-breadth-velocity-system-level">11.2 Breadth-velocity (system-level)</h2>
+<p>Signature velocity is per-architecture. The user-reported phenomenon of breadth — &quot;power, of all kinds, on all levels, being destroyed&quot; — is a <em>system-level</em> rate that no per-architecture metric captures. Breadth-velocity measures how fast the <em>population</em> of engineered architectures is growing.</p>
+<p>Over a pre-defined population of candidate architectures (the fixed frame — see the non-negotiable denominator condition below), let:</p>
+<ul>
+<li><strong>N₇₀(t)</strong> = count of architectures with composite ≥ 70 (engineered threshold) at epoch <em>t</em></li>
+<li><strong>N₈₅(t)</strong> = count with composite ≥ 85 (extreme threshold) at epoch <em>t</em></li>
+</ul>
+<p>Then breadth-velocity is the discrete derivative of the engineered count:</p>
+<blockquote>
+<p><strong>B(t) = ΔN₇₀ / Δt</strong>, in architectures-per-quarter.</p>
+</blockquote>
+<p>B(t) is the formal version of &quot;all levels at once.&quot; A high B(t) means new architectures are crossing into the engineered band in rapid succession — the legible signature of a coordinated, broad-front program rather than isolated agency drift.</p>
+<h3 id="11-2-1-the-non-negotiable-denominator-condition">11.2.1 The non-negotiable denominator condition</h3>
+<p>Breadth-velocity is <strong>only valid against a fixed, pre-defined denominator</strong> — the full population of candidate architectures, scored over time, including the architectures that <em>stay low</em>. If the frame is allowed to grow by adding architectures selected because they already score high, N₇₀(t) rises as a pure artifact of sampling, and B(t) measures the analyst&#39;s attention, not the world. This is the same selection-on-the-dependent-variable failure the negative-control set exists to prevent, now in temporal form. The two extensions are therefore coupled: <strong>breadth-velocity cannot be computed honestly without the negative-control architectures in the denominator.</strong> The controls are not an optional robustness check; they are a precondition for the breadth metric to mean anything.</p>
+<h2 id="11-3-the-synchrony-coordination-index">11.3 The synchrony / coordination index</h2>
+<p>This is the analytically load-bearing construct of the extension. The static instrument&#39;s coordination claim rests on <em>spatial</em> clustering — many architectures scoring high simultaneously. But spatial clustering is weakly diagnostic: a single common cause (one administration with one ideological program) produces it without requiring &quot;coordination&quot; in any stronger sense. The static clustering argument cannot distinguish coordinated engineering from ordinary common-cause policy alignment, and it cannot fail — which is precisely why it is epistemically weak.</p>
+<p><em>Temporal</em> clustering is stronger. If multiple, structurally independent architectures cross the engineered threshold within a tight time-window, coincidence becomes a poorer explanation as the window narrows. Define, for each architecture <em>A</em>, its <strong>onset time τ_A</strong> = the first epoch at which its composite reaches ≥ 70. The set {τ_A} across all architectures in the frame has a dispersion σ_τ (standard deviation of onset times).</p>
+<blockquote>
+<p><strong>Synchrony Index Σ = 1 − (σ_τ / σ_null)</strong></p>
+</blockquote>
+<p>where σ_null is the onset dispersion expected under an explicit <strong>independent-onset null model</strong> — architectures crossing threshold at random times, uniformly distributed across the observation window. Σ → 1 means onsets are far more bunched than chance allows; Σ → 0 means onset timing is indistinguishable from independent drift.</p>
+<p>The decisive property: <strong>Σ is falsifiable.</strong> Under the null hypothesis of uncoordinated, independently-evolving agencies, onsets spread out and Σ approaches 0. A high Σ is the rigorous form of the coordination claim the static instrument could only assert. And — unlike the static clustering argument — it <em>can come out the other way</em>: if the onset data are temporally dispersed, the coordination claim is disconfirmed by the framework&#39;s own instrument. This is the single most important upgrade the extension provides: it converts an unfalsifiable assertion into a measurable, defeasible quantity.</p>
+<h3 id="11-3-1-the-common-cause-confound-and-the-transition-baseline">11.3.1 The common-cause confound and the transition baseline</h3>
+<p>Synchrony is necessary but not sufficient for the strong coordination claim, and the framework must say so plainly. A single common driver — an administration taking office on a fixed date and changing many policies at once — produces high Σ <em>without</em> requiring covert coordination. High Σ concentrated exactly at an administration transition is therefore <em>expected even under the null-adjacent &quot;ordinary fast regime change&quot; hypothesis</em>, and cannot by itself carry the engineered-coordination diagnosis.</p>
+<p>Two discriminators separate sustained engineering from ordinary transition:</p>
+<ol>
+<li><strong>Post-transition persistence.</strong> Do onsets cluster only at the transition (consistent with ordinary regime change), or do they continue rolling at an elevated rate well after, in a sequenced pattern (more consistent with a sustained program executed in stages)? A rolling, sequenced onset distribution is the harder pattern to explain by transition alone.</li>
+<li><strong>Transition-baseline benchmarking.</strong> Did <em>prior</em> administration transitions of comparable ideological scope produce similar Σ? This requires scoring prior-administration architectures — which is exactly what negative-control C2 supplies. If prior transitions produced equally high Σ, then high Σ is the baseline rate of regime change and is not diagnostic of engineering; if the current Σ markedly exceeds the historical transition baseline, the excess is the diagnostic quantity.</li>
+</ol>
+<p>The synchrony index, in other words, is only interpretable <em>differentially</em> — against a historical baseline the negative-control set is built to provide. Reported as a raw number it overclaims; reported as an excess over transition-baseline it is defensible.</p>
+<h2 id="11-4-measurement-noise-discipline">11.4 Measurement-noise discipline</h2>
+<p>Velocity inherits and compounds the static instrument&#39;s interpretive uncertainty. The methodology paper acknowledges that static scores are interpretive and may vary across analysts; call the cross-analyst noise band on a single score ±ε (provisionally ε ≈ 5–10 points until a formal replication study fixes it). A velocity computed from two such scores has an error term of roughly √2·ε / Δt — the differencing of two noisy quantities amplifies noise. Three consequences are binding:</p>
+<ol>
+<li><strong>A velocity is only meaningful when |ΔS| exceeds the noise band.</strong> If a dimension moves 4 points between epochs and ε ≈ 7, the reported velocity is noise. Either widen Δt until signal exceeds noise, or suppress the velocity as not-yet-resolvable.</li>
+<li><strong>Acceleration requires the widest band and the most epochs.</strong> Second-order quantities should not be reported at all until at least three well-separated epochs with multi-analyst scoring exist.</li>
+<li><strong>Multi-analyst scoring per epoch is the principal noise-reduction lever.</strong> Averaging <em>k</em> independent analysts per epoch reduces the per-score band by ~√k and is the cheapest route to resolvable velocities. This makes the open cross-analyst replication program (paper §9, fifth extension) a prerequisite for the velocity layer, not a parallel nicety.</li>
+</ol>
+<p>The discipline is deliberately conservative: the extension would rather report &quot;not yet resolvable&quot; than manufacture a precise-looking rate from noise. A fortress does not mistake a flapping banner for a breach.</p>
+<h2 id="11-5-longitudinal-scoring-protocol">11.5 Longitudinal scoring protocol</h2>
+<p>The velocity layer requires the static instrument to be run as a time series. Three protocol requirements follow:</p>
+<ol>
+<li><strong>Defined epochs.</strong> Score the full architecture frame at fixed intervals (recommended: quarterly). For retrospective construction, the seed architectures should be back-scored at a minimum of three epochs — e.g., 2025-Q1 (administration onset), 2025-Q3, 2026-Q1 — to establish initial velocity and onset-time estimates.</li>
+<li><strong>Dated evidence anchors.</strong> Every evidence anchor must carry a date, so that any architecture&#39;s score can be reconstructed <em>as of</em> any past epoch using only evidence available at that time. This is also required by the evidence-anchor audit for an independent reason (preventing projection-as-realized contamination), so the two extensions reinforce a single discipline: <strong>every anchor gets a date and a status tag.</strong></li>
+<li><strong>As-of-epoch blinding.</strong> When back-scoring epoch <em>t</em>, the analyst must score using only evidence dated ≤ <em>t</em>, not with hindsight knowledge of later outcomes. Hindsight inflates early-epoch scores and artificially flattens velocity.</li>
+</ol>
+<h2 id="11-6-reporting-objects">11.6 Reporting objects</h2>
+<p>The extension outputs three reporting objects layered on the static instrument:</p>
+<ul>
+<li><strong>Per-architecture velocity vector</strong> — {V₁…V₅, composite V, and where resolvable, composite A}, each with its confidence band, alongside the static composite.</li>
+<li><strong>System breadth curve</strong> — N₇₀(t) and N₈₅(t) plotted over epochs, with B(t) as the slope.</li>
+<li><strong>Onset-synchrony report</strong> — Σ with its null model stated, reported as excess over the historical transition baseline, never as a raw bare number.</li>
+</ul>
+<h2 id="11-7-what-this-extension-does-and-does-not-establish">11.7 What this extension does and does not establish</h2>
+<p>It does not strengthen any individual architecture&#39;s static diagnosis; a velocity says nothing about whether a score of 86 is correct. It adds three things the static instrument structurally could not provide: a rate (is the signature intensifying, and how fast), a system-level breadth rate (how quickly the engineered population is growing against a fixed frame), and a <em>falsifiable</em> coordination quantity (onset synchrony benchmarked against historical transition baselines). The third is the most important, because it replaces the static instrument&#39;s one genuinely unfalsifiable move — reading spatial clustering as proof of coordination — with a quantity that can, and on honest data sometimes will, disconfirm the coordination claim. That replacement is what lets the framework keep calling itself a measurement instrument rather than an accusation with mathematics attached.</p>
+<hr>
+<p><em>Increment v0.2 · June 2026 · couples to the negative-control set (shared denominator and transition-baseline requirements) and to the evidence-anchor audit (shared anchor-dating discipline).</em></p>
+
+</article>
+<footer class="reader-foot">
+  <span>Rendered from <a href="/sabbot/sabbotarchy_velocity_synchrony_extension.md">sabbotarchy_velocity_synchrony_extension.md</a> (source, plain text)</span>
+  <span>© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></span>
+</footer>
+</main>
+<script src="/assets/tos.js"></script>
+</body>
+</html>

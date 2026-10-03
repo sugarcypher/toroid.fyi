@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Provenance · toroid.fyi</title>
+<meta name="description" content="Provenance — ThinkWell Labs Metrology. Rendered from the source document PROVENANCE.md." />
+<meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
+<link href="/assets/reader.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+<script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
+<div class="bread"><a href="/">surface</a> <span class="sep">/</span> <a href="/sabbot/">sabbot</a> <span class="sep">/</span> <a href="/sabbot/register/">register</a> <span class="sep">/</span> <a href="/sabbot/register/data/">data</a> <span class="sep">/</span> <span class="here">PROVENANCE</span></div>
+<main class="reader">
+<article>
+<h1 id="provenance">Provenance</h1>
+<p>Every file in this bundle was drafted by Claude (Opus 5) on 2026-09-12, in session with B. Greenway, and is <strong>Claude-generated and unverified</strong> except where noted below. Nothing here has acquired the analyst&#39;s signature by being fluent in his register.</p>
+<h2 id="revision-1-5-2026-09-21-validation-pass">Revision 1.5 — 2026-09-21, validation pass</h2>
+<p>A pre-publication validation of the T2 entry found two defects and they are corrected here rather than quietly:</p>
+<ol>
+<li><strong>A withdrawn claim had returned.</strong> <code>PRE-REGISTRATION.md</code>, the T2 worksheet, and the register page each asserted a &quot;twelve-point observed cross-analyst range.&quot; No cross-analyst study has ever been run — as those same pages state two paragraphs away — and the figure was withdrawn from the book in July 2026 as a drafting artifact with no test behind it. It is withdrawn again in all three places, and the withdrawal is recorded in <code>PRE-REGISTRATION.md</code> rather than deleted. Band robustness for T2 is now argued from the weight arithmetic, which is checkable and stronger: reaching High requires +22.35 weighted points and the largest headroom any single dimension carries is S5&#39;s 18.0, so no single dimension moved to its maximum crosses a band line, and none moved to zero reaches Genuine.</li>
+<li><strong>The published T2 result was not visible.</strong> On <code>/sabbot/</code>, the comparison table&#39;s renderer rewrites its tbody from the seven seed architectures on load, destroying the static T2 row beneath it; the <code>adversarial</code> record was never emitted to the page. The one number inside the live domain that answers Part VIII&#39;s ceiling-slamming charge rendered only for readers with JavaScript disabled. The record now flows through the single-source build and is rendered.</li>
+</ol>
+<p>Standing liability 2 was also stale — it still read that both adversarial tests were unrun — and now states T2&#39;s result together with the four things that limit what it establishes.</p>
+<h2 id="transcribed-from-the-analyst-39-s-own-work-his-material-not-claude-39-s">Transcribed from the analyst&#39;s own work — his material, not Claude&#39;s</h2>
+<ul>
+<li><code>register/architectures.json</code> — the 2026-Q1 per-dimension scores for the seven seed architectures, the 2025-Q1 composites, and the three reform-lineage composites (14 / 19 / 20) are transcribed verbatim from <em>Named and Counted</em> v8, Part VII. Epochs where only a composite was published carry <code>composite_only</code> with its source and are marked un-auditable. <strong>No dimension score was reconstructed to fit a published composite</strong>; back-fitting dimensions would be fabrication.</li>
+<li><code>register/slate.json</code> — slate membership is transcribed from the cases the book names: the seven seeds and reform lineage from Part VII, the dimension controls and opposite-valence slot from Part VI, the two adversarial tests from Part VIII. Four members carry <code>predicted_band: null</code> because the book names them without publishing a band prediction; those four must be predicted and locked by the analyst.</li>
+<li><code>register/onsets.json</code> — derived mechanically from the two epochs present in the register. The 2025-Q3 checkpoint published at <code>/sabbot</code> is <strong>absent</strong>, because its per-dimension scores were not available to this bundle. Its absence materially changes the persistence reading; see the caveat in that file.</li>
+<li>Weights, bands, thresholds, the five signature definitions, the four evidence tags, the contestation-quality filter, and the resource-layer rules are the analyst&#39;s, from the book.</li>
+</ul>
+<h2 id="claude-generated-unverified-requiring-the-analyst-39-s-judgment-before-use">Claude-generated, unverified, requiring the analyst&#39;s judgment before use</h2>
+<ul>
+<li><code>schema/*.json</code>, <code>schema/codebook.md</code> — the instance-layer data model, the closed beneficiary-class vocabulary, the locus rule, and the direction scale. The vocabulary in particular is a first draft; classes that do not fit real items are codebook amendments, and several will be needed.</li>
+<li><code>frames/*.json</code> — five candidate frames. The enumeration rules were originally stated from general knowledge and have now been <strong>executed where possible</strong>; each frame&#39;s <code>enumeration_verified</code> block records what happened. The oversight.gov path in the first draft was wrong and 404s, which is recorded as a dated amendment rather than silently fixed. <code>FRM-SCOTUS-EMERGENCY-2025-2026</code> was drafted this session and has not been enumerated.</li>
+<li><code>pipeline/*.py</code> — the statistics. Calibration is demonstrated rather than asserted: <code>nullcheck.py</code> runs four synthetic scenarios over 400 replications and reports rejection rates. Read that output before trusting any number the pipeline produces on real data.</li>
+<li><code>adversarial/T1-*.md</code>, <code>adversarial/T2-*.md</code> — the predicted ranges and per-dimension reasoning are <strong>Claude&#39;s proposals</strong>, drafted from what the book says about each case. They are not the analyst&#39;s predictions and carry none of the evidentiary weight a locked prediction has. The analyst confirms, revises, or replaces each row, then locks with a date. <strong>Running either test against a Claude-drafted prediction would forfeit the entire point of the exercise.</strong></li>
+<li><code>PRE-REGISTRATION.md</code> — the frame ordering recommendation, the null statement, and the reportability table.</li>
+<li><code>render/*</code> — the page and its payload.</li>
+</ul>
+<h2 id="verified-in-this-session-with-sources-attached">Verified in this session, with sources attached</h2>
+<ul>
+<li><code>annex/evidence-annex.json</code> — 15 items checked against published reporting on 2026-09-12. Each carries its sources, an evidence tag, and where relevant an <code>explicit_non_claim</code> or <code>could_not_verify</code> field stating what is <strong>not</strong> established. Four corrections to the received account are recorded there: product safety rather than food safety; the fund rescinded in writing on 2026-08-03 with the audit bar narrowed to retroactive-only; compelled civil discovery rather than a judicial investigation; and the Supreme Court ruling <strong>against</strong> IEEPA tariff authority.</li>
+<li><code>frames/*.json</code> — enumeration attempts executed. One frame returned a population count from an open API. Three did not, and each records the specific blocker and the step that closes it, rather than a plausible rule left standing.</li>
+<li>One received figure was dropped rather than softened: the claim that the maritime-strike munitions cost roughly one million dollars each. No procurement or defence source was located for it.</li>
+</ul>
+<h2 id="no-evidence-anchors-were-invented">No evidence anchors were invented</h2>
+<p>Not one factual claim about any event, agency, document, figure, or outcome was added to this bundle by Claude. The adversarial packets specify the <em>class</em> of document each dimension requires and stop there. The synthetic demo records that shipped in v1.0 have been deleted. <code>register/instances.jsonl</code> is empty. <code>pipeline/nullcheck.py</code> generates corpora in memory as a self-test of the estimator; that is a unit test of the arithmetic, not data about the world, and its output no longer appears on the page.</p>
+<p>This is deliberate. A plausible-looking anchor in the analyst&#39;s register is the exact failure the provenance rule exists to prevent: fluency in his register is how unsourced material acquires his signature unnoticed.</p>
+<h2 id="the-machine-proposal-boundary-enforced-in-code">The machine-proposal boundary, enforced in code</h2>
+<p><code>pipeline/ingest.py</code> refuses to let a machine populate <code>direction</code>, <code>direction_rationale</code>, <code>locus_id</code>, <code>locus_rationale</code>, <code>payoff_conjunction</code>, or any coder field. A machine-proposed record carries its agent identifier for life, stays <code>ratified: false</code> until a human confirms every field against the primary source, and records which fields the human changed. Unratified records are excluded from every statistic and every rendered figure, with no flag the renderer can be told to ignore.</p>
+
+</article>
+<footer class="reader-foot">
+  <span>Rendered from <a href="/sabbot/register/data/PROVENANCE.md">PROVENANCE.md</a> (source, plain text)</span>
+  <span>© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></span>
+</footer>
+</main>
+<script src="/assets/tos.js"></script>
+</body>
+</html>

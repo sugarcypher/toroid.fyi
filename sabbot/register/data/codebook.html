@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Obfuscratic Instance Register — Coding Manual · toroid.fyi</title>
+<meta name="description" content="Obfuscratic Instance Register — Coding Manual — ThinkWell Labs Metrology. Rendered from the source document codebook.md." />
+<meta name="theme-color" content="#111214" />
+<meta name="copyright" content="© ThinkWell Labs. All rights reserved." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23bfc3c7' stroke-width='2'/><circle cx='16' cy='16' r='5' fill='none' stroke='%23bfc3c7' stroke-width='1.5'/></svg>" />
+<link href="/assets/fonts/space-grotesk.css" rel="stylesheet">
+<link href="/assets/reader.css" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="tsys-back" id="tsys-back" aria-label="Toroidal System — go back">↩ <b>Toroidal&nbsp;System</b> · back</a>
+<script>(function(){var b=document.getElementById('tsys-back');if(!b)return;b.addEventListener('click',function(e){var s=false;try{s=document.referrer&&new URL(document.referrer).origin===location.origin;}catch(_){}if(history.length>1&&s){e.preventDefault();history.back();}});})();</script>
+<div class="bread"><a href="/">surface</a> <span class="sep">/</span> <a href="/sabbot/">sabbot</a> <span class="sep">/</span> <a href="/sabbot/register/">register</a> <span class="sep">/</span> <a href="/sabbot/register/data/">data</a> <span class="sep">/</span> <span class="here">codebook</span></div>
+<main class="reader">
+<article>
+<h1 id="obfuscratic-instance-register-coding-manual">Obfuscratic Instance Register — Coding Manual</h1>
+<p>Version 1.0. Locked 2026-09-12. Amendments are dated additions; nothing in this file is silently edited.</p>
+<p>This manual governs the <strong>instance layer</strong>, which is a different object from the architecture register. An instance is a single dated event drawn from a pre-registered frame. It carries a direction sign and nothing resembling a composite score. The instance layer answers one question: <strong>does the residue of ordinary failure keep a direction?</strong> The architecture register answers a different question and keeps its own rubric.</p>
+<hr>
+<h2 id="1-why-the-instance-layer-exists-and-what-it-is-not">1. Why the instance layer exists, and what it is not</h2>
+<p>The concession at the front of <em>Named and Counted</em> is that ordinary failure is symmetric, slow, and uncoordinated. That concession supplies the null hypothesis for this layer, and it is a strong one:</p>
+<blockquote>
+<p><strong>Null:</strong> Under honest failure, the direction of divergence between stated beneficiary and realized incidence is symmetric. Across independent decision loci, direction is as likely to run one way as the other.</p>
+</blockquote>
+<p>That null is exactly what a corpus of ordinary incompetence should produce. Fatigue keeps no direction. So a corpus of <em>incompetencies</em> is the null&#39;s home ground, and testing there is the strongest available form of the argument: if the register is drawn by an enumeration rule that could return counter-directional items, and the observed direction departs from symmetry across independent loci, the departure is the residue the book names.</p>
+<p>The instance layer is <strong>not</strong> a way to score more architectures. It is <strong>not</strong> a place to put items because they are salient. It does <strong>not</strong> produce bands. Five things are forbidden outright:</p>
+<ol>
+<li>Coding an item that was not enumerated by a locked frame.</li>
+<li>Coding an item whose frame position is unknown.</li>
+<li>Entering an unratified machine-proposed record into any statistic or figure.</li>
+<li>Adding an item to a frame after coding has begun, except as a dated amendment that states whether it affects the locked prediction.</li>
+<li>Reporting a per-instance p-value as though instances were independent. See section 5.</li>
+</ol>
+<hr>
+<h2 id="2-frames">2. Frames</h2>
+<p>A frame is a rule, published before coding, that enumerates a population of events independently of their content. Federal Register final rules in a quarter. GAO reports issued in a window. Inspector General findings. Agency reduction-in-force notices. Court filings in a docket class.</p>
+<p>A source qualifies as a frame only if all four hold:</p>
+<ul>
+<li><strong>Enumerable.</strong> The full item list can be produced mechanically by a third party from the stated rule.</li>
+<li><strong>Content-blind.</strong> The rule refers to document type, issuing body, and date, never to subject matter, severity, or expected outcome.</li>
+<li><strong>Counter-directionally reachable.</strong> At least two item types that would code negative are named in the frame record before coding begins.</li>
+<li><strong>Archivable.</strong> Every item has a permanent identifier or an archive snapshot.</li>
+</ul>
+<p>&quot;Headlines I noticed&quot; fails the first three. It is not a frame and no statistic may be computed over it. High-salience non-frame events belong in a separate illustrative annex, rendered as illustration and never entering a test.</p>
+<hr>
+<h2 id="3-the-locus-rule-the-most-consequential-decision-a-coder-makes">3. The locus rule — the most consequential decision a coder makes</h2>
+<p><strong><code>locus_id</code> is the unit of statistical independence.</strong> It is not the agency, not the topic, and not the news story. It is the smallest unit within which outcomes were decided together.</p>
+<p>Two items share a locus when a single decision, a single authorizing instrument, or a single decision-maker acting on one occasion produced both. They differ when the decisions could have gone differently from one another.</p>
+<ul>
+<li>Forty final rules implementing one statute: <strong>one locus.</strong> The statute decided them.</li>
+<li>Forty final rules from forty agencies under separate authorities: <strong>forty loci.</strong></li>
+<li>Three hundred news items about one reconciliation bill: <strong>one locus, and one instance.</strong> Reporting volume is not evidence volume.</li>
+<li>One agency issuing independent enforcement decisions across unrelated programs in different quarters: <strong>multiple loci</strong>, if and only if the decisions were not made together. State why in <code>locus_rationale</code>.</li>
+</ul>
+<p><strong>Consequence to internalise.</strong> A register of 3,000 items spanning 40 loci has the statistical power of 40, not 3,000. Corpus value is measured in independent loci, not item count. Coding effort should be spent widening the locus span, not deepening coverage of loci already represented. The register reports its locus count more prominently than its item count for this reason.</p>
+<p>The temptation the rule exists to block: splitting one decision into many loci inflates significance without adding information. Where a locus boundary is arguable, <strong>collapse to the coarser unit.</strong> Coarser is conservative; it can only reduce the claim.</p>
+<hr>
+<h2 id="4-direction-coding">4. Direction coding</h2>
+<p>Direction is the signed divergence between the <strong>stated</strong> beneficiary class and the <strong>realized</strong> incidence class.</p>
+<p>Procedure, in this order, and the order matters:</p>
+<ol>
+<li>Read the authorizing document. Record the purpose language <strong>verbatim</strong> in <code>stated_beneficiary_quote</code>. Assign <code>stated_beneficiary_class</code> from the closed vocabulary. Paraphrase is not permitted at this step; the stated purpose is the document&#39;s, not the coder&#39;s.</li>
+<li>Establish realized first-order incidence from <code>incidence_basis</code>. If nothing in the permitted basis list establishes it, <code>incidence_basis</code> is <code>not_yet_established</code>, direction is <strong>0</strong>, and the instance is registered but excluded from the test. Registering it is not optional; excluding it is not discretionary.</li>
+<li>Only then assign direction.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>+2</strong></td>
+<td>Incidence fell on a class with an identifiable payoff while the stated class bore net loss, and the divergence is large relative to the operation&#39;s scale.</td>
+</tr>
+<tr>
+<td><strong>+1</strong></td>
+<td>Incidence diverged from the stated class toward an unstated class.</td>
+</tr>
+<tr>
+<td><strong>0</strong></td>
+<td>Incidence fell roughly where stated, or divergence is symmetric across classes, or incidence is not yet established, or the event is indeterminate.</td>
+</tr>
+<tr>
+<td><strong>−1</strong></td>
+<td>Incidence fell <strong>more</strong> on the stated beneficiary class than the document promised, or fell on a class that would be expected to benefit under the directional reading and instead bore the loss.</td>
+</tr>
+<tr>
+<td><strong>−2</strong></td>
+<td>As −1, and large: the operation&#39;s failure ran hard against the class the directional reading predicts it would protect.</td>
+</tr>
+</tbody></table>
+<p><strong>Negative values must be reachable or the test is void.</strong> A frame that returns no negative items over hundreds of coded instances is either measuring a genuinely one-directional world or was not content-blind. The register cannot tell those apart from the inside, which is why the frame record names negative-coding item types in advance and the coding rate against them is published.</p>
+<p>Worked examples of items that <strong>must</strong> code negative when they appear:</p>
+<ul>
+<li>A deregulatory action whose realized incidence falls on <code>large_incumbent_firms</code> — the rollback cost the incumbents it would be predicted to favour.</li>
+<li>An enforcement teardown followed by enforcement actually landing on <code>detention_or_enforcement_contractors</code> or <code>political_alignment_network</code>.</li>
+<li>A funding cut whose incidence fell on <code>high_income_households</code> or <code>financial_asset_holders</code> rather than on the enrolled population.</li>
+<li>A procurement action awarded against the interest of a <code>specific_contractor_or_vendor</code> with an established channel.</li>
+<li>A delivery failure that fell symmetrically on the public-facing and extractive functions alike — which codes <strong>0</strong> and is the single most common honest result in a frame drawn from ordinary administrative output.</li>
+</ul>
+<p>A coder who cannot produce a negative or zero coding across a substantial frame run should stop and have a second coder re-run a random subset blind. That instruction is part of the method, not a caution attached to it.</p>
+<p><strong><code>payoff_conjunction</code> is recorded separately from direction.</strong> Part V&#39;s rule is that directional coding without a shared payoff on the resourced side is noise rather than signature. Keeping the two fields apart lets the whole register be re-run under the stricter reading, where only payoff-conjoined items count. Publish both numbers.</p>
+<hr>
+<h2 id="5-statistics-what-may-and-may-not-be-reported">5. Statistics — what may and may not be reported</h2>
+<p><strong>Never report a per-instance binomial p-value.</strong> Instances within a locus are dependent by construction, and the per-instance test treats them as independent. On a real register the per-instance p is inflated by orders of magnitude. The pipeline computes it anyway, and prints it beside the valid figure, labelled as the invalid one. It is shown precisely so the inflation is visible rather than available.</p>
+<p><strong>The valid test is a cluster-level sign-flip permutation test.</strong> Collapse each locus to its mean direction. Under the null, flip the sign of whole loci independently with probability one half; arbitrary dependence inside a locus is thereby permitted, which is what makes the test conservative and correct. Report:</p>
+<ul>
+<li>number of loci with nonzero mean (<code>effective_n</code>)</li>
+<li>observed mean of locus means</li>
+<li>two-sided permutation p</li>
+<li>the per-instance p, labelled invalid, for contrast</li>
+</ul>
+<p><strong>Report the effect, not only the sign.</strong> A locus-level mean of +0.15 across 200 loci and a mean of +1.6 across 12 loci are different claims. The first is a faint, wide residue; the second is a strong, narrow one. State which.</p>
+<p><strong>Synchrony is reported only as an excess over matched baseline transitions.</strong> Its bare form overclaims and Part IV forbids it. The rank-based p against <em>B</em> matched baselines cannot fall below 1/(B+1). With three baseline transitions the floor is 0.25, which means <strong>the synchrony claim cannot reach conventional significance at the current baseline count, however bunched the observed onsets are.</strong> The pipeline refuses to report a synchrony p with fewer than six matched transitions and says why.</p>
+<p><strong>Breadth velocity requires a fixed denominator.</strong> The pipeline compares the slate at each epoch against the pre-registered slate and returns a frame violation, not a number, if the slate grew. Adding architectures because they score high makes the count rise as an artifact of attention.</p>
+<hr>
+<h2 id="6-provenance">6. Provenance</h2>
+<p>Machine extraction may propose a candidate record. It may not code one.</p>
+<ul>
+<li>A machine-proposed record carries <code>proposed_by: machine_extraction</code> and its agent identifier for the life of the record, whether or not a human later changed every field.</li>
+<li><code>ratified: false</code> until a human has opened the primary source and confirmed every field against it. Unratified records are excluded from every statistic and every rendered figure, without exception and without a flag the renderer can be told to ignore.</li>
+<li>Fields the human changed at ratification are listed in <code>machine_fields_altered_at_ratification</code>. The running alteration rate is the register&#39;s measured machine error rate and is published alongside the statistics.</li>
+</ul>
+<p>A machine-proposed field that a human ratified without opening the source is unsourced material wearing a human signature. The alteration-rate column exists so that failure mode leaves a trace.</p>
+<hr>
+<h2 id="7-double-coding">7. Double coding</h2>
+<p>Double-code a random 10% of every closed frame, blind, by a second human. Publish the direction agreement rate and the locus-assignment agreement rate separately; they fail differently. Locus disagreement changes effective <em>n</em> and therefore the p-value, so it is the more serious of the two and is reported first.</p>
+
+</article>
+<footer class="reader-foot">
+  <span>Rendered from <a href="/sabbot/register/data/codebook.md">codebook.md</a> (source, plain text)</span>
+  <span>© ThinkWell Labs · <a href="/legal/">Terms &amp; Legal</a></span>
+</footer>
+</main>
+<script src="/assets/tos.js"></script>
+</body>
+</html>
