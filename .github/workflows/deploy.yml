@@ -24,8 +24,10 @@ jobs:
 
       # The repo carries a Worker wrangler.jsonc (unused). Remove it from the
       # checkout so `pages deploy` doesn't try to read it as Pages config.
-      - name: Remove unused Worker config from the upload
-        run: rm -f wrangler.jsonc
+      # The repo's working notes (README, DEPLOY, COLLAB) and the build tools
+      # stay in the repo and off the public site.
+      - name: Keep repo-only files out of the upload
+        run: rm -rf wrangler.jsonc README.md DEPLOY.md COLLAB.md tools
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
